@@ -6089,18 +6089,11 @@ EL=9.0;
 proxy_threshold=0.930;
 AG=512;
 }
-if(N>=30000&&N<=40000){
-DZ=0.044*d;
-EK=0.0132*d;
-EL=10.0;
-proxy_threshold=0.923;
-AG=512;
-}
-else if(N>40000&&N<60000){
-DZ=0.046*d;
-EK=0.0138*d;
-EL=10.4;
-proxy_threshold=0.930;
+if(N>=30000&&N<60000){
+DZ=0.043*d;
+EK=0.0129*d;
+EL=9.6;
+proxy_threshold=0.925;
 AG=512;
 }
 if(Z>0.120||AH>0.050){
@@ -6132,7 +6125,7 @@ bool QK=false;
 if(QN>0&&QX::build(originalP,AR,QV,QF)&&(int)QV.size()<QN&&((int)QV.size()*100<=QN*88)){
 if(AF(QV,QF)&&elapsed_seconds()<16.7){
 double QP=visual_proxy_score(512);
-QK=QP>=(N>=30000&&N<=40000?0.925:0.935);
+QK=QP>=0.935;
 }
 }
 if(!QK)restore_state(QS);
@@ -6142,14 +6135,12 @@ AP FM=AD();
 const int DN=count_output_vertices_estimate();
 vector<Vec3>CH;
 vector<Face>EP;
-const bool W4C4=AS&&N>=30000&&N<=40000&&BG<=0.010&&AL>=0.760&&AH<=0.090;
-const bool W4C5=AS&&N>40000&&N<60000&&BG<=0.010&&AL>=0.760&&AH<=0.090;
-const double heap_budget=(N<30000?4.2:(W4C4?5.9:(W4C5?5.7:(N<60000?5.6:5.2))));
+const double heap_budget=(N<30000?4.2:(N<60000?5.6:5.2));
 const bool W1=AS&&BG<=0.004&&AL>=0.995&&AH<=0.006;
 bool EH=false;
 if(DN>0&&N>=30000){
 const double IK[]={
-0.020,0.025,0.030,0.040,0.055,0.070,0.085,0.105,0.115,0.135,-1.0}
+0.020,0.025,0.030,0.040,0.055,0.070,0.085,0.105,-1.0}
 ;
 for(double ratio:IK){
 if(ratio<0.025&&ratio>0.0&&!W1)continue;
@@ -6168,7 +6159,7 @@ built=DC::EV(originalP,AR,CL,CH,EP,heap_budget,ratio);
 if(!built||(int)CH.size()>=DN||elapsed_seconds()>=17.2)continue;
 if(!AF(CH,EP)||elapsed_seconds()>=17.4)continue;
 const double proxy=visual_proxy_score(1024);
-const double proxy_threshold=(ratio<0.0?0.902:(ratio<0.025?0.940:((N<60000&&ratio>=0.115)?0.935:((N<60000&&ratio>=0.085)?0.925:0.920))));
+const double proxy_threshold=(ratio<0.0?0.902:(ratio<0.025?0.940:((N<60000&&ratio>=0.085)?0.925:0.920)));
 if(proxy>=proxy_threshold){
 EH=true;
 break;
@@ -6199,35 +6190,6 @@ break;
 }
 }
 if(!EH)restore_state(FM);
-}
-if(N>=30000&&N<60000&&AS&&BG<=0.012&&AL>=0.760&&AH<=0.120&&elapsed_seconds()<13.6){
-AP W4H=AD();
-const int W4HN=count_output_vertices_estimate();
-vector<Vec3>W4HV;
-vector<Face>W4HF;
-const double W4HR[]={
-0.110,0.135,0.160,0.200,0.250}
-;
-bool W4HK=false;
-for(double ratio:W4HR){
-if(elapsed_seconds()>=16.8)break;
-if(N<=40000&&ratio>0.160)continue;
-if(N>40000&&ratio<0.160)continue;
-W4HV.clear();
-W4HF.clear();
-restore_state(W4H);
-if(!DC::EV(originalP,AR,CL,W4HV,W4HF,4.8,ratio))continue;
-if(W4HN<=0||(int)W4HV.size()>=W4HN||elapsed_seconds()>=17.0)continue;
-if((int)W4HV.size()*100>W4HN*94)continue;
-if(!AF(W4HV,W4HF)||elapsed_seconds()>=17.2)continue;
-const double W4HP=visual_proxy_score(1024);
-const double W4HT=(N<=40000?(ratio<=0.110?0.935:0.945):(ratio<=0.160?0.948:(ratio<=0.200?0.955:0.965)));
-if(W4HP>=W4HT){
-W4HK=true;
-break;
-}
-}
-if(!W4HK)restore_state(W4H);
 }
 if(N>=300&&N<=70000&&elapsed_seconds()<12.9){
 AP FI=AD();
@@ -6334,25 +6296,15 @@ AQ.push_back({
 );
 }
 else if(N<60000){
-if(N<=40000){
 AQ.push_back({
-0.0485*d,0.0260*d,20.0,3,512,0.923,98.8,true,false}
+0.047*d,0.0230*d,17.5,3,512,0.925,99.0,true,false}
 );
 AQ.push_back({
-0.050*d,0.0370*d,30.0,4,512,FB?0.920:0.932,97.5,true,true}
-);
-}
-else{
-AQ.push_back({
-0.047*d,0.0230*d,17.5,3,512,0.928,99.0,true,false}
+0.049*d,0.0350*d,28.0,4,512,FB?0.914:0.940,98.0,true,true}
 );
 AQ.push_back({
-0.049*d,0.0350*d,28.0,4,512,FB?0.920:0.940,98.0,true,true}
+0.050*d,0.0380*d,30.0,5,512,0.932,97.0,true,true}
 );
-AQ.push_back({
-0.050*d,0.0400*d,32.0,5,512,0.935,97.0,true,true}
-);
-}
 }
 else if(N<200000){
 AQ.push_back({
