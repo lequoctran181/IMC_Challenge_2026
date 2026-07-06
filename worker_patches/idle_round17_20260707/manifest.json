@@ -1,0 +1,114 @@
+[
+  {
+    "tab": 3,
+    "block": 0,
+    "path": "worker_patches/idle_round17_20260707/tab3_block_0.txt",
+    "ext": "txt",
+    "sha256": "4f89778d166eae616edc6b0de96562f7f7022e9b11e3db5091c1492ea204aac2",
+    "bytes": 374
+  },
+  {
+    "tab": 3,
+    "block": 1,
+    "path": "worker_patches/idle_round17_20260707/tab3_block_1.txt",
+    "ext": "txt",
+    "sha256": "02918238d1649cc9e4b7084b44e4ccf184a9c3d18eda39e580e8d04157704618",
+    "bytes": 172
+  },
+  {
+    "tab": 3,
+    "block": 2,
+    "path": "worker_patches/idle_round17_20260707/tab3_block_2.cpp",
+    "ext": "cpp",
+    "sha256": "904ad35eb1f4a8106de02dc4db70b17efa774885d49e6d500d9dfd973c6a44eb",
+    "bytes": 14023
+  },
+  {
+    "tab": 3,
+    "block": 3,
+    "path": "worker_patches/idle_round17_20260707/tab3_block_3.cpp",
+    "ext": "cpp",
+    "sha256": "e68897a121dd76c5af6da107d3b04e6c6dfee194b9640828a906e87296f2ed31",
+    "bytes": 11159
+  },
+  {
+    "tab": 3,
+    "block": 4,
+    "path": "worker_patches/idle_round17_20260707/tab3_block_4.cpp",
+    "ext": "cpp",
+    "sha256": "d1cdb474fe27051bc0d4b89353f9a0852e1613b10423aa8def6e31afc94b7542",
+    "bytes": 13532
+  },
+  {
+    "tab": 3,
+    "block": 5,
+    "path": "worker_patches/idle_round17_20260707/tab3_block_5.cpp",
+    "ext": "cpp",
+    "sha256": "b358a58665a58ccb66cf51064ada91bfb8f7b85a701f0f7ad35a65239c4f93f7",
+    "bytes": 14546
+  },
+  {
+    "tab": 3,
+    "block": 6,
+    "path": "worker_patches/idle_round17_20260707/tab3_block_6.txt",
+    "ext": "txt",
+    "sha256": "4296a34c01cb949f7ab0f15dead597d671aaa22591b523893545f88939d07225",
+    "bytes": 57
+  },
+  {
+    "tab": 10,
+    "block": 0,
+    "path": "worker_patches/idle_round17_20260707/tab10_block_0.cpp",
+    "ext": "cpp",
+    "sha256": "173e27a5f0dc3a1b1e3a5eb156d8ad254fb5545d01651a1a6d0f7a5c859f1984",
+    "bytes": 14731
+  },
+  {
+    "tab": 10,
+    "block": 1,
+    "path": "worker_patches/idle_round17_20260707/tab10_block_1.txt",
+    "ext": "txt",
+    "sha256": "04eee400fcf31955bb5bf8763682b1df19e176c0721a3755b9e9b14b7a666be3",
+    "bytes": 289
+  },
+  {
+    "tab": 10,
+    "block": 2,
+    "path": "worker_patches/idle_round17_20260707/tab10_block_2.txt",
+    "ext": "txt",
+    "sha256": "203d237093f3f4cda4e4be75b945508c236bc10bc06fdc0ccf3a7caadca88571",
+    "bytes": 516
+  },
+  {
+    "tab": 10,
+    "block": 3,
+    "path": "worker_patches/idle_round17_20260707/tab10_block_3.txt",
+    "ext": "txt",
+    "sha256": "d8bcc09dc3b449a813f744dbf4868288b04586ae3db35a60456bf3e0d1fd3b7a",
+    "bytes": 526
+  },
+  {
+    "tab": 10,
+    "block": 4,
+    "path": "worker_patches/idle_round17_20260707/tab10_block_4.txt",
+    "ext": "txt",
+    "sha256": "dbeb8f733010d1d9b4f0fbe2acd7c54083e1cd70753dc897400c1e268267eef9",
+    "bytes": 459
+  },
+  {
+    "tab": 10,
+    "block": 5,
+    "path": "worker_patches/idle_round17_20260707/tab10_block_5.txt",
+    "ext": "txt",
+    "sha256": "43a4f67ffacfe16a7652d6d264b7150ef30feda3020a903b983411eefc275933",
+    "bytes": 190
+  },
+  {
+    "tab": 10,
+    "block": 6,
+    "path": "worker_patches/idle_round17_20260707/tab10_block_6.txt",
+    "ext": "txt",
+    "sha256": "594500c1c18caec3e15e00a6beeb095ebf3ca03249f6482ef9be5f2896da3ad9",
+    "bytes": 65
+  }
+]
