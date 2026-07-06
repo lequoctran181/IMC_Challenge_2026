@@ -1,0 +1,13 @@
+worker_outputs/retarget_19903544_20260706/vhx_on_19903544.cpp:38:71077: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]
+worker_outputs/retarget_19903544_20260706/vhx_on_19903544.cpp:38:72786: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]
+worker_outputs/retarget_19903544_20260706/vhx_on_19903544.cpp:38:72894: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]
+3 warnings generated.
+base=fetched_sources/kattis_19903544_81.938904.cpp
+base_bytes=130845
+output=worker_outputs/retarget_19903544_20260706/vhx_on_19903544.cpp
+output_bytes=114650
+source_limit=131072
+sha256=11eec6e904fd3ab1f3719121cbf1acc98841bd927a9d19f5290fbd0fd38db671
+compile=clang++ -std=c++17 -O2 -pipe worker_outputs/retarget_19903544_20260706/vhx_on_19903544.cpp -o worker_outputs/retarget_19903544_20260706/vhx_on_19903544
+compile_ok=worker_outputs/retarget_19903544_20260706/vhx_on_19903544
+sample_first_line=8 12
