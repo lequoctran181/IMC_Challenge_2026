@@ -1,0 +1,72 @@
+[
+  {
+    "tab": 10,
+    "block": 0,
+    "file": "worker_patches/idle_round7_20260707/tab10_block_0.cpp",
+    "ext": "cpp",
+    "bytes": 14731,
+    "sha256": "173e27a5f0dc3a1b1e3a5eb156d8ad254fb5545d01651a1a6d0f7a5c859f1984",
+    "title": "IMC Challenge Optimization",
+    "url": "https://chatgpt.com/c/6a4bda51-2a78-83ec-b9d3-58dbe7e742f9"
+  },
+  {
+    "tab": 10,
+    "block": 1,
+    "file": "worker_patches/idle_round7_20260707/tab10_block_1.txt",
+    "ext": "txt",
+    "bytes": 289,
+    "sha256": "04eee400fcf31955bb5bf8763682b1df19e176c0721a3755b9e9b14b7a666be3",
+    "title": "IMC Challenge Optimization",
+    "url": "https://chatgpt.com/c/6a4bda51-2a78-83ec-b9d3-58dbe7e742f9"
+  },
+  {
+    "tab": 10,
+    "block": 2,
+    "file": "worker_patches/idle_round7_20260707/tab10_block_2.txt",
+    "ext": "txt",
+    "bytes": 516,
+    "sha256": "203d237093f3f4cda4e4be75b945508c236bc10bc06fdc0ccf3a7caadca88571",
+    "title": "IMC Challenge Optimization",
+    "url": "https://chatgpt.com/c/6a4bda51-2a78-83ec-b9d3-58dbe7e742f9"
+  },
+  {
+    "tab": 10,
+    "block": 3,
+    "file": "worker_patches/idle_round7_20260707/tab10_block_3.txt",
+    "ext": "txt",
+    "bytes": 526,
+    "sha256": "d8bcc09dc3b449a813f744dbf4868288b04586ae3db35a60456bf3e0d1fd3b7a",
+    "title": "IMC Challenge Optimization",
+    "url": "https://chatgpt.com/c/6a4bda51-2a78-83ec-b9d3-58dbe7e742f9"
+  },
+  {
+    "tab": 11,
+    "block": 0,
+    "file": "worker_patches/idle_round7_20260707/tab11_block_0.cpp",
+    "ext": "cpp",
+    "bytes": 26143,
+    "sha256": "579eb162aa3d025c343d7b68116856406330312362441b55dab7ce8378e69d51",
+    "title": "IMC Challenge C++17 Solution",
+    "url": "https://chatgpt.com/c/6a4bda52-f568-83ec-ace5-624165def54a"
+  },
+  {
+    "tab": 11,
+    "block": 1,
+    "file": "worker_patches/idle_round7_20260707/tab11_block_1.txt",
+    "ext": "txt",
+    "bytes": 289,
+    "sha256": "04eee400fcf31955bb5bf8763682b1df19e176c0721a3755b9e9b14b7a666be3",
+    "title": "IMC Challenge C++17 Solution",
+    "url": "https://chatgpt.com/c/6a4bda52-f568-83ec-ace5-624165def54a"
+  },
+  {
+    "tab": 11,
+    "block": 2,
+    "file": "worker_patches/idle_round7_20260707/tab11_block_2.txt",
+    "ext": "txt",
+    "bytes": 490,
+    "sha256": "c13d1e762dbe3a5f7d4b73c93b0f4a96928e4d99c91010cda62f79ca6cf42ba7",
+    "title": "IMC Challenge C++17 Solution",
+    "url": "https://chatgpt.com/c/6a4bda52-f568-83ec-ace5-624165def54a"
+  }
+]
