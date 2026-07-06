@@ -1,0 +1,5 @@
+worker_outputs/highN_ms2_20260706/kattis_19901232_ms2.cpp:38:75206: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]
+worker_outputs/highN_ms2_20260706/kattis_19901232_ms2.cpp:38:77275: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]
+worker_outputs/highN_ms2_20260706/kattis_19901232_ms2.cpp:38:77425: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]
+worker_outputs/highN_ms2_20260706/kattis_19901232_ms2.cpp:38:113752: error: use of undeclared identifier 'B16'
+3 warnings and 1 error generated.
