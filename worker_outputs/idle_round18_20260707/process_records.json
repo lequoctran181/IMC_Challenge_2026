@@ -1,0 +1,30 @@
+[
+  {
+    "path": "worker_patches/idle_round18_20260707/tab2_block_2.cpp",
+    "sha256": "0efb76f5659d425ec7b615c9b720aaa853493ae7d74ba84b59b5728e3847b0a7",
+    "bytes": 12569,
+    "status": "duplicate_skipped",
+    "reason": "duplicate_process_record:worker_outputs/idle_round5_20260707/process_records.json;worker_outputs/idle_after_push_20260707/process_records.json;worker_outputs/idle_round13_20260707/process_records.json"
+  },
+  {
+    "path": "worker_patches/idle_round18_20260707/tab2_block_3.cpp",
+    "sha256": "02ece9018dd0b3d4f1c08d25c50f5e1d9f21fc99e3c650b67035b5f798cefbde",
+    "bytes": 14294,
+    "status": "duplicate_skipped",
+    "reason": "duplicate_process_record:worker_outputs/idle_round5_20260707/process_records.json;worker_outputs/idle_round13_20260707/process_records.json"
+  },
+  {
+    "path": "worker_patches/idle_round18_20260707/tab2_block_5.cpp",
+    "sha256": "833d40012761b187ac2fef1d8af037b1719f68caf774b397190d411cf5a67697",
+    "bytes": 14305,
+    "status": "duplicate_skipped",
+    "reason": "duplicate_process_record:worker_outputs/idle_round5_20260707/process_records.json;worker_outputs/idle_round13_20260707/process_records.json"
+  },
+  {
+    "path": "worker_patches/idle_round18_20260707/tab2_block_7.cpp",
+    "sha256": "9e098b4ee50f3d8ba75fb47a065f02b34966fa62fdcfacb8b62b3ec6e71aed1f",
+    "bytes": 13506,
+    "status": "duplicate_skipped",
+    "reason": "duplicate_process_record:worker_outputs/idle_round5_20260707/process_records.json;worker_outputs/idle_round13_20260707/process_records.json"
+  }
+]
