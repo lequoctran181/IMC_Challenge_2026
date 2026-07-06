@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import sys,re,collections,string,os
+import sys,re,collections,string
 
 LIM=131072
 if len(sys.argv)<3:
@@ -14,7 +14,7 @@ HN=r'''namespace HNWX{struct T{double a,b,u,p,c;int g,r;};static int V(vector<Ve
 old_main='int main(){JC();GN();if(!W2G::run())W2C::run();W5::post_patch_pass();VIMP::run();MIDEC::run();WK::run();B16::R(39000,60000,220,-7,192,.96,18.05);if(0&&"B16P515A"){}B16::R(39000,60000,76,-10,192,.96,18.35);for(int i=2;i--&&N>47500&N<6e4&&es()<18.6;)WK::run();if(N<50625&&es()<18.9)WK::run();JD();}'
 new_main='int main(){JC();GN();if(!HNWX::run()){if(!W2G::run())W2C::run();W5::post_patch_pass();VIMP::run();MIDEC::run();WK::run();for(int i=2;i--&&N>47500&N<6e4&&es()<18.6;)WK::run();if(N<50625&&es()<18.9)WK::run();}JD();}'
 
-src,n=re.subn(r'namespace B16\{.*?\}\}(?=int main\(\))','',src,count=1,flags=re.S)
+src,n=re.subn(r'namespace B16\{.*?\}\}(?=int main\(\))','',src,1,flags=re.S)
 if n!=1:
     raise SystemExit("B16 namespace anchor not found exactly once; aborting")
 
@@ -27,15 +27,9 @@ if anchor not in src:
     raise SystemExit("CA anchor not found; aborting")
 src=src.replace(anchor,HN+anchor,1)
 
-pre=set()
-for line in src.splitlines():
-    if line.lstrip().startswith('#'):
-        pre.update(re.findall(r'[A-Za-z_]\w*',line))
-member=set(re.findall(r'(?:\.|->|::)\s*([A-Za-z_]\w*)',src))
-
 kw=set('alignas alignof and and_eq asm auto bitand bitor bool break case catch char char16_t char32_t class compl const constexpr const_cast continue decltype default delete do double dynamic_cast else enum explicit export extern false float for friend goto if inline int long mutable namespace new noexcept not not_eq nullptr operator or or_eq private protected public register reinterpret_cast return short signed sizeof static static_assert struct switch template this thread_local throw true try typedef typeid typename union unsigned using virtual void volatile wchar_t while xor xor_eq'.split())
-std=set('algorithm array chrono utility cstdint queue cmath cstdio cstdlib cstring string vector std size_t uint64_t uint32_t int64_t int32_t FILE stdin stdout stderr sort min max swap fill unique adjacent_find lower_bound find ceil floor sqrt cos sin acos fabs abs labs llabs hypot pow isfinite strtod strtol fread fwrite printf snprintf setvbuf memset reserve resize assign push_back insert erase end begin data clear empty size front back top pop push shrink_to_fit priority_queue less greater move pair make_pair steady_clock time_point duration count now remove_cv remove_reference type _IOFBF'.split())
-protect=kw|std|pre|member|{'main'}
+std=set('algorithm array chrono utility cstdint queue cmath cstdio cstdlib cstring string vector std size_t uint64_t uint32_t int64_t int32_t FILE stdin stdout stderr sort min max swap fill unique adjacent_find lower_bound find abs ceil floor sqrt cos sin acos fabs hypot pow isfinite strtod strtol fread fwrite printf snprintf setvbuf memset reserve resize assign push_back insert erase end begin data clear empty size front back top pop push shrink_to_fit priority_queue less greater move pair make_pair steady_clock time_point duration count now remove_cv remove_reference type _IOFBF'.split())
+protect=kw|std|{'main','include','define','first','second','append'}
 
 tok=re.compile(r'"(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\'|(?<![A-Za-z0-9_])[A-Za-z_]\w*',re.S)
 ids=[]
@@ -47,7 +41,7 @@ cnt=collections.Counter(ids)
 used=set(ids)|protect
 
 alphabet=string.ascii_letters
-tail=string.ascii_letters
+tail=string.ascii_letters+string.digits
 def names():
     for a in alphabet:
         yield a
@@ -75,11 +69,6 @@ for x in cands:
     if len(y)<len(x):
         mp[x]=y
         used.add(y)
-
-if os.environ.get("DUMP_MAP"):
-    for k,v in sorted(mp.items()):
-        if v==os.environ["DUMP_MAP"] or k==os.environ["DUMP_MAP"]:
-            print(f"MAP {k}->{v}",file=sys.stderr)
 
 def repl(m):
     s=m.group(0)
