@@ -1,0 +1,1 @@
+cpp code block containing the full final ready-to-submit source. No explanations before the code, no partial snippets, no generator-only answer. Think deeply and aim directly at 91.80+.
