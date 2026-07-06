@@ -1,0 +1,210 @@
+[
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round20_20260707/tab10_block_00_173e27a5f0dc.py",
+    "sha256": "173e27a5f0dc3a1b1e3a5eb156d8ad254fb5545d01651a1a6d0f7a5c859f1984",
+    "sha12": "173e27a5f0dc",
+    "ext": "py",
+    "bytes": 14732,
+    "status": "duplicate_skipped"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round20_20260707/tab10_block_01_04eee400fcf3.txt",
+    "sha256": "04eee400fcf31955bb5bf8763682b1df19e176c0721a3755b9e9b14b7a666be3",
+    "sha12": "04eee400fcf3",
+    "ext": "txt",
+    "bytes": 290,
+    "status": "duplicate_skipped"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round20_20260707/tab10_block_02_203d237093f3.txt",
+    "sha256": "203d237093f3f4cda4e4be75b945508c236bc10bc06fdc0ccf3a7caadca88571",
+    "sha12": "203d237093f3",
+    "ext": "txt",
+    "bytes": 517,
+    "status": "noncpp_skipped"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round20_20260707/tab10_block_03_d8bcc09dc3b4.txt",
+    "sha256": "d8bcc09dc3b449a813f744dbf4868288b04586ae3db35a60456bf3e0d1fd3b7a",
+    "sha12": "d8bcc09dc3b4",
+    "ext": "txt",
+    "bytes": 527,
+    "status": "noncpp_skipped"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round20_20260707/tab10_block_04_dbeb8f733010.txt",
+    "sha256": "dbeb8f733010d1d9b4f0fbe2acd7c54083e1cd70753dc897400c1e268267eef9",
+    "sha12": "dbeb8f733010",
+    "ext": "txt",
+    "bytes": 460,
+    "status": "noncpp_skipped"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round20_20260707/tab10_block_05_43a4f67ffacf.txt",
+    "sha256": "43a4f67ffacfe16a7652d6d264b7150ef30feda3020a903b983411eefc275933",
+    "sha12": "43a4f67ffacf",
+    "ext": "txt",
+    "bytes": 191,
+    "status": "duplicate_skipped"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round20_20260707/tab10_block_06_594500c1c18c.txt",
+    "sha256": "594500c1c18caec3e15e00a6beeb095ebf3ca03249f6482ef9be5f2896da3ad9",
+    "sha12": "594500c1c18c",
+    "ext": "txt",
+    "bytes": 66,
+    "status": "duplicate_skipped"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round20_20260707/tab10_block_07_f302a2130f5a.txt",
+    "sha256": "f302a2130f5a96c6937970969593f143a17014ee1e7974bcb3eaf94394a408ac",
+    "sha12": "f302a2130f5a",
+    "ext": "txt",
+    "bytes": 72,
+    "status": "noncpp_skipped"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round20_20260707/tab11_block_00_579eb162aa3d.cpp",
+    "sha256": "579eb162aa3d025c343d7b68116856406330312362441b55dab7ce8378e69d51",
+    "sha12": "579eb162aa3d",
+    "ext": "cpp",
+    "bytes": 26144,
+    "status": "duplicate_skipped"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round20_20260707/tab11_block_01_04eee400fcf3.txt",
+    "sha256": "04eee400fcf31955bb5bf8763682b1df19e176c0721a3755b9e9b14b7a666be3",
+    "sha12": "04eee400fcf3",
+    "ext": "txt",
+    "bytes": 290,
+    "status": "duplicate_skipped"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round20_20260707/tab11_block_02_c13d1e762dbe.txt",
+    "sha256": "c13d1e762dbe3a5f7d4b73c93b0f4a96928e4d99c91010cda62f79ca6cf42ba7",
+    "sha12": "c13d1e762dbe",
+    "ext": "txt",
+    "bytes": 491,
+    "status": "duplicate_skipped"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round20_20260707/tab11_block_03_dbeb8f733010.txt",
+    "sha256": "dbeb8f733010d1d9b4f0fbe2acd7c54083e1cd70753dc897400c1e268267eef9",
+    "sha12": "dbeb8f733010",
+    "ext": "txt",
+    "bytes": 460,
+    "status": "noncpp_skipped"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round20_20260707/tab11_block_04_f71cc8a6e506.txt",
+    "sha256": "f71cc8a6e50625e776105850724d8d76359f190c18b005f390e90f437d3e6ce1",
+    "sha12": "f71cc8a6e506",
+    "ext": "txt",
+    "bytes": 404,
+    "status": "duplicate_skipped"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round20_20260707/tab11_block_05_43a4f67ffacf.txt",
+    "sha256": "43a4f67ffacfe16a7652d6d264b7150ef30feda3020a903b983411eefc275933",
+    "sha12": "43a4f67ffacf",
+    "ext": "txt",
+    "bytes": 191,
+    "status": "duplicate_skipped"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round20_20260707/tab11_block_06_22156f9274bf.txt",
+    "sha256": "22156f9274bffdaa11eab8afbaa7f876932d1e10e7e3f16ab1e0887bad42c05d",
+    "sha12": "22156f9274bf",
+    "ext": "txt",
+    "bytes": 92,
+    "status": "duplicate_skipped"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round20_20260707/tab8_block_00_c2ed8693f12b.py",
+    "sha256": "c2ed8693f12b9f5b5b7a75b0e2ed26caa74697d285899144da4515a96b65feec",
+    "sha12": "c2ed8693f12b",
+    "ext": "py",
+    "bytes": 11609,
+    "status": "duplicate_skipped"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round20_20260707/tab8_block_01_b59182a59e96.py",
+    "sha256": "b59182a59e96fbcbb47304346196f6c530499edebf8f9b59ad8613a1897a5476",
+    "sha12": "b59182a59e96",
+    "ext": "py",
+    "bytes": 11932,
+    "status": "duplicate_skipped"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round20_20260707/tab8_block_02_b4922b5bc799.py",
+    "sha256": "b4922b5bc799eb4add1f76c9ca76a79fd8f772725febef544cb0e6f528f0cb10",
+    "sha12": "b4922b5bc799",
+    "ext": "py",
+    "bytes": 11187,
+    "status": "duplicate_skipped"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round20_20260707/tab8_block_03_04eee400fcf3.txt",
+    "sha256": "04eee400fcf31955bb5bf8763682b1df19e176c0721a3755b9e9b14b7a666be3",
+    "sha12": "04eee400fcf3",
+    "ext": "txt",
+    "bytes": 290,
+    "status": "duplicate_skipped"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round20_20260707/tab8_block_04_42c5784e3996.txt",
+    "sha256": "42c5784e39961943ef39220721abda61fd7643fde8bdec93e7d6a3c867822bc8",
+    "sha12": "42c5784e3996",
+    "ext": "txt",
+    "bytes": 638,
+    "status": "duplicate_skipped"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round20_20260707/tab8_block_05_4725f4d0f4b8.txt",
+    "sha256": "4725f4d0f4b80f8b1ef565995b48a0ea1657e07145a03d82c6f8fd4ec219e8c2",
+    "sha12": "4725f4d0f4b8",
+    "ext": "txt",
+    "bytes": 374,
+    "status": "duplicate_skipped"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round20_20260707/tab8_block_06_bef530f778a4.txt",
+    "sha256": "bef530f778a43f35e8bbafcf1daf2600e6ebe8f5e9642b764be2e189748d471e",
+    "sha12": "bef530f778a4",
+    "ext": "txt",
+    "bytes": 378,
+    "status": "duplicate_skipped"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round20_20260707/tab8_block_07_70223643d657.txt",
+    "sha256": "70223643d657ecc6c0a1fc5f6c3d867a866fb620c68948959eba2b0b5b676772",
+    "sha12": "70223643d657",
+    "ext": "txt",
+    "bytes": 332,
+    "status": "duplicate_skipped"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round20_20260707/tab8_block_08_43a4f67ffacf.txt",
+    "sha256": "43a4f67ffacfe16a7652d6d264b7150ef30feda3020a903b983411eefc275933",
+    "sha12": "43a4f67ffacf",
+    "ext": "txt",
+    "bytes": 191,
+    "status": "duplicate_skipped"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round20_20260707/tab8_block_09_594500c1c18c.txt",
+    "sha256": "594500c1c18caec3e15e00a6beeb095ebf3ca03249f6482ef9be5f2896da3ad9",
+    "sha12": "594500c1c18c",
+    "ext": "txt",
+    "bytes": 66,
+    "status": "duplicate_skipped"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round20_20260707/tab8_block_10_9efa2dc8a6e5.txt",
+    "sha256": "9efa2dc8a6e57b59200a908eb634fd64eaa051f733caf9760fb0b19c2934f941",
+    "sha12": "9efa2dc8a6e5",
+    "ext": "txt",
+    "bytes": 452,
+    "status": "noncpp_skipped"
+  }
+]

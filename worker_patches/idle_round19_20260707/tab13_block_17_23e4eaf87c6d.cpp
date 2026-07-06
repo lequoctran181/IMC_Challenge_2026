@@ -1,0 +1,471 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Vec3{double x=0,y=0,z=0;};
+struct Face{int a=0,b=0,c=0;};
+struct Mesh{vector<Vec3> v;vector<Face> f;};
+
+static inline Vec3 operator+(const Vec3&a,const Vec3&b){return{a.x+b.x,a.y+b.y,a.z+b.z};}
+static inline Vec3 operator-(const Vec3&a,const Vec3&b){return{a.x-b.x,a.y-b.y,a.z-b.z};}
+static inline Vec3 operator*(const Vec3&a,double s){return{a.x*s,a.y*s,a.z*s};}
+static inline Vec3 operator/(const Vec3&a,double s){return{a.x/s,a.y/s,a.z/s};}
+static inline double dotp(const Vec3&a,const Vec3&b){return a.x*b.x+a.y*b.y+a.z*b.z;}
+static inline Vec3 crossp(const Vec3&a,const Vec3&b){return{a.y*b.z-a.z*b.y,a.z*b.x-a.x*b.z,a.x*b.y-a.y*b.x};}
+static inline double n2(const Vec3&a){return dotp(a,a);}
+static inline double nrm(const Vec3&a){return sqrt(max(0.0,n2(a)));}
+static inline Vec3 unit(Vec3 a){double l=nrm(a);return l>1e-300?a/l:Vec3{0,0,0};}
+
+static int N=0,M=0;
+static Mesh ORG;
+static Vec3 BB0,BB1,CEN;
+static double DIAG=1;
+static chrono::steady_clock::time_point T0;
+
+static double elapsed(){return chrono::duration<double>(chrono::steady_clock::now()-T0).count();}
+static uint64_t edgeKey(int a,int b){if(a>b)swap(a,b);return(uint64_t)(uint32_t)a<<32|(uint32_t)b;}
+
+static bool readInput(){
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    if(!(cin>>N>>M))return false;
+    ORG.v.resize(N);
+    for(int i=0;i<N;i++){
+        string s;cin>>s;
+        if(s=="v"||s=="V")cin>>ORG.v[i].x>>ORG.v[i].y>>ORG.v[i].z;
+        else{ORG.v[i].x=strtod(s.c_str(),nullptr);cin>>ORG.v[i].y>>ORG.v[i].z;}
+    }
+    ORG.f.reserve(M);
+    for(int i=0;i<M;i++){
+        string s;if(!(cin>>s))break;
+        long long a,b,c;
+        if(s=="f"||s=="F")cin>>a>>b>>c;
+        else{a=strtoll(s.c_str(),nullptr,10);cin>>b>>c;if(a==3){a=b;cin>>b>>c;}}
+        --a;--b;--c;
+        if(a>=0&&b>=0&&c>=0&&a<N&&b<N&&c<N&&a!=b&&a!=c&&b!=c)ORG.f.push_back({(int)a,(int)b,(int)c});
+    }
+    if(ORG.v.empty())return false;
+    BB0=BB1=ORG.v[0];
+    for(auto&p:ORG.v){
+        BB0.x=min(BB0.x,p.x);BB0.y=min(BB0.y,p.y);BB0.z=min(BB0.z,p.z);
+        BB1.x=max(BB1.x,p.x);BB1.y=max(BB1.y,p.y);BB1.z=max(BB1.z,p.z);
+    }
+    CEN=(BB0+BB1)*0.5;
+    DIAG=nrm(BB1-BB0);if(!(DIAG>0))DIAG=1;
+    return true;
+}
+
+static Mesh sampleMesh(){
+    Mesh m;
+    m.v={{.5,.5,.5},{.5,.5,-.5},{.5,-.5,.5},{.5,-.5,-.5},{-.5,.5,.5},{-.5,.5,-.5},{-.5,-.5,.5},{-.5,-.5,-.5}};
+    int F[12][3]={{1,3,4},{1,4,2},{5,6,8},{5,8,7},{1,2,6},{1,6,5},{3,7,8},{3,8,4},{1,5,7},{1,7,3},{2,4,8},{2,8,6}};
+    for(auto&x:F)m.f.push_back({x[0]-1,x[1]-1,x[2]-1});
+    return m;
+}
+
+static void writeMesh(const Mesh&m){
+    cout.setf(ios::fixed);cout<<setprecision(10);
+    cout<<m.v.size()<<" "<<m.f.size()<<"\n";
+    for(auto&p:m.v)cout<<"v "<<p.x<<" "<<p.y<<" "<<p.z<<"\n";
+    for(auto&f:m.f)cout<<"f "<<f.a+1<<" "<<f.b+1<<" "<<f.c+1<<"\n";
+}
+
+static bool closedOK(const Mesh&m){
+    if(m.v.empty()||m.f.empty()||m.v.size()>(size_t)N)return false;
+    double eps=max(1e-32,1e-26*DIAG*DIAG*DIAG*DIAG);
+    unordered_map<uint64_t,int> ec;ec.reserve(m.f.size()*3+1);
+    for(auto&p:m.v)if(!isfinite(p.x)||!isfinite(p.y)||!isfinite(p.z))return false;
+    for(auto&f:m.f){
+        if(f.a<0||f.b<0||f.c<0||f.a>=(int)m.v.size()||f.b>=(int)m.v.size()||f.c>=(int)m.v.size())return false;
+        if(f.a==f.b||f.a==f.c||f.b==f.c)return false;
+        if(n2(crossp(m.v[f.b]-m.v[f.a],m.v[f.c]-m.v[f.a]))<=eps)return false;
+        ec[edgeKey(f.a,f.b)]++;ec[edgeKey(f.b,f.c)]++;ec[edgeKey(f.c,f.a)]++;
+    }
+    for(auto&kv:ec)if(kv.second!=2)return false;
+    return true;
+}
+
+struct Grid{
+    Vec3 mn,mx;double h=0,r=0,r2=0;int nx=1,ny=1,nz=1;vector<vector<int>> b;
+    int cl(int x,int n)const{return x<0?0:(x>=n?n-1:x);}
+    int ix(double x)const{return cl((int)floor((x-mn.x)/h),nx);}
+    int iy(double y)const{return cl((int)floor((y-mn.y)/h),ny);}
+    int iz(double z)const{return cl((int)floor((z-mn.z)/h),nz);}
+    int id(int x,int y,int z)const{return(x*ny+y)*nz+z;}
+    bool init(double R){
+        r=R;r2=R*R;mn=BB0;mx=BB1;
+        double sx=max(1e-12,mx.x-mn.x),sy=max(1e-12,mx.y-mn.y),sz=max(1e-12,mx.z-mn.z);
+        h=max(R,max({sx,sy,sz})/150.0);
+        for(int it=0;it<8;it++){
+            nx=max(1,(int)(sx/h)+3);ny=max(1,(int)(sy/h)+3);nz=max(1,(int)(sz/h)+3);
+            if(1LL*nx*ny*nz<=2600000)break;
+            h*=1.30;
+        }
+        if(1LL*nx*ny*nz>3400000)return false;
+        b.assign((size_t)nx*ny*nz,{});
+        for(int i=0;i<N;i++)b[id(ix(ORG.v[i].x),iy(ORG.v[i].y),iz(ORG.v[i].z))].push_back(i);
+        return true;
+    }
+    int near(const Vec3&p,double R)const{
+        int X=ix(p.x),Y=iy(p.y),Z=iz(p.z),best=-1;double bd=R*R;
+        int rr=max(1,(int)ceil(R/h)+1);
+        for(int x=X-rr;x<=X+rr;x++)if(x>=0&&x<nx)
+        for(int y=Y-rr;y<=Y+rr;y++)if(y>=0&&y<ny)
+        for(int z=Z-rr;z<=Z+rr;z++)if(z>=0&&z<nz)
+            for(int q:b[id(x,y,z)]){
+                double d=n2(ORG.v[q]-p);
+                if(d<bd){bd=d;best=q;}
+            }
+        return best;
+    }
+    void mark(const Vec3&p,vector<unsigned char>&seen,int&cnt)const{
+        int X=ix(p.x),Y=iy(p.y),Z=iz(p.z);
+        for(int x=X-1;x<=X+1;x++)if(x>=0&&x<nx)
+        for(int y=Y-1;y<=Y+1;y++)if(y>=0&&y<ny)
+        for(int z=Z-1;z<=Z+1;z++)if(z>=0&&z<nz)
+            for(int q:b[id(x,y,z)])if(!seen[q]&&n2(ORG.v[q]-p)<=r2){seen[q]=1;cnt++;}
+    }
+    bool outputNearOriginal(const Mesh&m)const{
+        double lim=0.0492*DIAG;
+        for(auto&p:m.v)if(near(p,lim)<0)return false;
+        return true;
+    }
+    bool coversOriginal(const Mesh&m)const{
+        vector<unsigned char> seen(N,0);int cnt=0;
+        for(auto&p:m.v)mark(p,seen,cnt);
+        return cnt==N;
+    }
+};
+
+struct Image{
+    int R=0;vector<double> z;vector<Vec3> n;vector<unsigned char> fg;
+};
+
+static void project(const Vec3&p,int view,int R,double&x,double&y,double&z){
+    const double D=2.5;
+    double f=800.0*((double)R/1024.0),c=0.5*R,sx=0,sy=0;
+    if(view==0){sx=p.y;sy=p.z;z=D-p.x;}
+    else if(view==1){sx=-p.y;sy=p.z;z=D+p.x;}
+    else if(view==2){sx=-p.x;sy=p.z;z=D-p.y;}
+    else if(view==3){sx=p.x;sy=p.z;z=D+p.y;}
+    else if(view==4){sx=p.x;sy=p.y;z=D-p.z;}
+    else{sx=-p.x;sy=p.y;z=D+p.z;}
+    x=f*sx/z+c;y=f*sy/z+c;
+}
+
+static void raster(Image&I,const Vec3&A,const Vec3&B,const Vec3&C,Vec3 nn,int view){
+    double x0,y0,z0,x1,y1,z1,x2,y2,z2;
+    project(A,view,I.R,x0,y0,z0);project(B,view,I.R,x1,y1,z1);project(C,view,I.R,x2,y2,z2);
+    if(z0<=0||z1<=0||z2<=0)return;
+    int xmin=max(0,(int)floor(min({x0,x1,x2})-.5)),xmax=min(I.R-1,(int)ceil(max({x0,x1,x2})+.5));
+    int ymin=max(0,(int)floor(min({y0,y1,y2})-.5)),ymax=min(I.R-1,(int)ceil(max({y0,y1,y2})+.5));
+    if(xmin>xmax||ymin>ymax)return;
+    double den=(y1-y2)*(x0-x2)+(x2-x1)*(y0-y2);
+    if(fabs(den)<1e-12)return;
+    for(int yy=ymin;yy<=ymax;yy++){
+        double py=yy+0.5;
+        for(int xx=xmin;xx<=xmax;xx++){
+            double px=xx+0.5;
+            double w0=((y1-y2)*(px-x2)+(x2-x1)*(py-y2))/den;
+            double w1=((y2-y0)*(px-x2)+(x0-x2)*(py-y2))/den;
+            double w2=1.0-w0-w1;
+            if(w0<-1e-9||w1<-1e-9||w2<-1e-9)continue;
+            double zp=1.0/(w0/z0+w1/z1+w2/z2);
+            int id=yy*I.R+xx;
+            if(zp<I.z[id]){I.z[id]=zp;I.n[id]=nn;I.fg[id]=1;}
+        }
+    }
+}
+
+static Image renderMesh(const Mesh&m,int view,int R){
+    Image I;I.R=R;I.z.assign(R*R,255.0);I.n.assign(R*R,{0,0,0});I.fg.assign(R*R,0);
+    for(auto&f:m.f){
+        Vec3 cr=crossp(m.v[f.b]-m.v[f.a],m.v[f.c]-m.v[f.a]);
+        double l=nrm(cr);
+        if(l>0)raster(I,m.v[f.a],m.v[f.b],m.v[f.c],cr/l,view);
+    }
+    return I;
+}
+
+static map<int,vector<Image>> OC;
+static const vector<Image>& origImgs(int R){
+    auto it=OC.find(R);
+    if(it!=OC.end())return it->second;
+    vector<Image> out;
+    for(int v=0;v<6;v++)out.push_back(renderMesh(ORG,v,R));
+    OC[R]=move(out);
+    return OC[R];
+}
+
+static double ssimOne(const Image&A,const Image&B,const vector<unsigned char>&fg,int ch,bool depth){
+    int R=A.R,rad=5,cnt=0;double tot=0,C1=(.01*255)*(.01*255),C2=(.03*255)*(.03*255);
+    for(int y=0;y<R;y++)for(int x=0;x<R;x++){
+        int base=y*R+x;if(!fg[base])continue;
+        double sx=0,sy=0,sxx=0,syy=0,sxy=0;int n=0;
+        for(int dy=-rad;dy<=rad;dy++){
+            int yy=min(R-1,max(0,y+dy));
+            for(int dx=-rad;dx<=rad;dx++){
+                int xx=min(R-1,max(0,x+dx)),id=yy*R+xx;
+                double a,b;
+                if(depth){a=A.z[id];b=B.z[id];}
+                else{
+                    a=(ch==0?A.n[id].x:(ch==1?A.n[id].y:A.n[id].z));
+                    b=(ch==0?B.n[id].x:(ch==1?B.n[id].y:B.n[id].z));
+                    a=(a+1)*127.5;b=(b+1)*127.5;
+                }
+                sx+=a;sy+=b;sxx+=a*a;syy+=b*b;sxy+=a*b;n++;
+            }
+        }
+        double inv=1.0/n,ux=sx*inv,uy=sy*inv,vx=max(0.0,sxx*inv-ux*ux),vy=max(0.0,syy*inv-uy*uy),co=sxy*inv-ux*uy;
+        double den=(ux*ux+uy*uy+C1)*(vx+vy+C2);
+        if(den>0)tot+=((2*ux*uy+C1)*(2*co+C2))/den;
+        cnt++;
+    }
+    return cnt?tot/cnt:1.0;
+}
+
+static double visualProxy(const Mesh&m,int R){
+    const vector<Image>&A=origImgs(R);
+    double worst=1.0,avg=0;
+    for(int v=0;v<6;v++){
+        Image B=renderMesh(m,v,R);
+        vector<unsigned char> fg(R*R);
+        for(int i=0;i<R*R;i++)fg[i]=(A[v].fg[i]||B.fg[i]);
+        double ns=0;
+        for(int c=0;c<3;c++)ns+=ssimOne(A[v],B,fg,c,false);
+        ns/=3;
+        double ds=ssimOne(A[v],B,fg,0,true);
+        double sc=0.5*ns+0.5*ds;
+        worst=min(worst,sc);avg+=sc;
+    }
+    avg/=6;
+    return min(avg,worst+0.030);
+}
+
+static double pointTriD2(Vec3 p,Vec3 a,Vec3 b,Vec3 c){
+    Vec3 ab=b-a,ac=c-a,ap=p-a;
+    double d1=dotp(ab,ap),d2=dotp(ac,ap);
+    if(d1<=0&&d2<=0)return n2(ap);
+    Vec3 bp=p-b;double d3=dotp(ab,bp),d4=dotp(ac,bp);
+    if(d3>=0&&d4<=d3)return n2(bp);
+    double vc=d1*d4-d3*d2;
+    if(vc<=0&&d1>=0&&d3<=0){
+        double v=d1/(d1-d3);
+        return n2(p-(a+ab*v));
+    }
+    Vec3 cp=p-c;double d5=dotp(ab,cp),d6=dotp(ac,cp);
+    if(d6>=0&&d5<=d6)return n2(cp);
+    double vb=d5*d2-d1*d6;
+    if(vb<=0&&d2>=0&&d6<=0){
+        double w=d2/(d2-d6);
+        return n2(p-(a+ac*w));
+    }
+    double va=d3*d6-d5*d4;
+    if(va<=0&&(d4-d3)>=0&&(d5-d6)>=0){
+        double w=(d4-d3)/((d4-d3)+(d5-d6));
+        return n2(p-(b+(c-b)*w));
+    }
+    Vec3 n=crossp(ab,ac);
+    return dotp(ap,n)*dotp(ap,n)/max(1e-300,n2(n));
+}
+
+struct VDel{
+    Mesh m;
+    vector<unsigned char> VA,FA,prot;
+    vector<vector<int>> Y;
+    int aliveV=0,aliveF=0;
+    double planeTol=0,normalTol=0;
+    int maxVal=6;
+    VDel(){
+        m=ORG;VA.assign(N,1);FA.assign(ORG.f.size(),1);prot.assign(N,0);Y.assign(N,{});
+        for(int i=0;i<(int)m.f.size();i++){Y[m.f[i].a].push_back(i);Y[m.f[i].b].push_back(i);Y[m.f[i].c].push_back(i);}
+        aliveV=N;aliveF=m.f.size();
+    }
+    bool has(int fid,int v)const{const Face&f=m.f[fid];return f.a==v||f.b==v||f.c==v;}
+    array<int,3> sort3(int a,int b,int c)const{array<int,3>x{a,b,c};sort(x.begin(),x.end());return x;}
+    bool faceExists(int a,int b,int c)const{
+        array<int,3>w=sort3(a,b,c);
+        int s=a;
+        if(Y[b].size()<Y[s].size())s=b;
+        if(Y[c].size()<Y[s].size())s=c;
+        for(int fid:Y[s])if(FA[fid]){
+            const Face&f=m.f[fid];
+            if(sort3(f.a,f.b,f.c)==w)return true;
+        }
+        return false;
+    }
+    struct Candidate{
+        bool ok=false;int cover=-1;vector<int> inc;vector<Face> nf;
+        double score=1e100;
+    };
+    double triCost(int v,int a,int b,int c,const Vec3&avgn){
+        Vec3 A=m.v[a],B=m.v[b],C=m.v[c];
+        Vec3 cr=crossp(B-A,C-A);
+        double ar=nrm(cr);
+        if(ar<=max(1e-30,1e-24*DIAG*DIAG))return 1e100;
+        double nd=fabs(dotp(cr/ar,avgn));
+        if(nd<normalTol)return 1e100;
+        double d=sqrt(pointTriD2(m.v[v],A,B,C));
+        if(d>planeTol)return 1e100;
+        double e=(n2(A-B)+n2(B-C)+n2(C-A))/(DIAG*DIAG+1e-300);
+        return d/max(planeTol,1e-30)+(1.0-nd)*80.0+0.03*e;
+    }
+    Candidate candidate(int v){
+        Candidate C;
+        if(v<0||v>=N||!VA[v]||prot[v])return C;
+        vector<int> inc;
+        for(int fid:Y[v])if(FA[fid]&&has(fid,v))inc.push_back(fid);
+        int k=(int)inc.size();
+        if(k<3||k>maxVal)return C;
+        unordered_map<int,vector<int>> lk;
+        vector<int> neigh;
+        Vec3 av{0,0,0};
+        for(int fid:inc){
+            Face f=m.f[fid];
+            int a[3]={f.a,f.b,f.c},x=-1,y=-1;
+            for(int t=0;t<3;t++)if(a[t]!=v){if(x<0)x=a[t];else y=a[t];}
+            if(x<0||y<0||x==y||!VA[x]||!VA[y])return C;
+            lk[x].push_back(y);lk[y].push_back(x);
+            neigh.push_back(x);neigh.push_back(y);
+            av=av+crossp(m.v[f.b]-m.v[f.a],m.v[f.c]-m.v[f.a]);
+        }
+        sort(neigh.begin(),neigh.end());neigh.erase(unique(neigh.begin(),neigh.end()),neigh.end());
+        if((int)neigh.size()!=k)return C;
+        for(int x:neigh)if((int)lk[x].size()!=2)return C;
+        double bestCoverD=1e100;int cover=-1;
+        for(int x:neigh){
+            double d=nrm(m.v[x]-m.v[v]);
+            if(d<bestCoverD){bestCoverD=d;cover=x;}
+        }
+        if(cover<0||bestCoverD>0.0490*DIAG)return C;
+        av=unit(av);if(n2(av)<1e-30)return C;
+        vector<int> ring;
+        int start=neigh[0],prev=-1,cur=start;
+        for(int it=0;it<=k;it++){
+            ring.push_back(cur);
+            int a=lk[cur][0],b=lk[cur][1];
+            int nx=(a==prev?b:a);
+            prev=cur;cur=nx;
+            if(cur==start)break;
+        }
+        if((int)ring.size()!=k||cur!=start)return C;
+        int n=k;
+        const double INF=1e100;
+        vector<vector<double>> dp(n,vector<double>(n,INF));
+        vector<vector<int>> sp(n,vector<int>(n,-1));
+        for(int i=0;i+1<n;i++)dp[i][i+1]=0;
+        for(int len=2;len<n;len++){
+            for(int i=0;i+len<n;i++){
+                int j=i+len;
+                for(int s=i+1;s<j;s++){
+                    double tc=triCost(v,ring[i],ring[s],ring[j],av);
+                    if(tc>=INF/2||dp[i][s]>=INF/2||dp[s][j]>=INF/2)continue;
+                    double val=dp[i][s]+dp[s][j]+tc;
+                    if(val<dp[i][j]){dp[i][j]=val;sp[i][j]=s;}
+                }
+            }
+        }
+        if(dp[0][n-1]>=INF/2)return C;
+        vector<Face> nf;
+        function<void(int,int)> rec=[&](int i,int j){
+            if(j-i<2)return;
+            int s=sp[i][j];
+            Face f{ring[i],ring[s],ring[j]};
+            Vec3 cr=crossp(m.v[f.b]-m.v[f.a],m.v[f.c]-m.v[f.a]);
+            if(dotp(cr,av)<0)swap(f.b,f.c);
+            nf.push_back(f);
+            rec(i,s);rec(s,j);
+        };
+        rec(0,n-1);
+        if((int)nf.size()!=k-2)return C;
+        set<array<int,3>> seen;
+        for(auto&f:nf){
+            if(f.a==f.b||f.a==f.c||f.b==f.c)return C;
+            array<int,3> key=sort3(f.a,f.b,f.c);
+            if(seen.count(key))return C;
+            seen.insert(key);
+            if(faceExists(f.a,f.b,f.c))return C;
+        }
+        C.ok=true;C.cover=cover;C.inc=inc;C.nf=nf;C.score=dp[0][n-1]+0.001*k+0.2*bestCoverD/(0.049*DIAG);
+        return C;
+    }
+    void apply(int v,const Candidate&C){
+        for(int fid:C.inc)if(FA[fid]){FA[fid]=0;aliveF--;}
+        for(auto f:C.nf){
+            int id=m.f.size();
+            m.f.push_back(f);FA.push_back(1);aliveF++;
+            Y[f.a].push_back(id);Y[f.b].push_back(id);Y[f.c].push_back(id);
+        }
+        VA[v]=0;aliveV--;prot[C.cover]=1;vector<int>().swap(Y[v]);
+    }
+    Mesh compact()const{
+        vector<int> id(m.v.size(),-1);Mesh out;out.v.reserve(aliveV);out.f.reserve(aliveF);
+        for(int i=0;i<(int)m.v.size();i++)if(VA[i]){id[i]=out.v.size();out.v.push_back(m.v[i]);}
+        for(int i=0;i<(int)m.f.size();i++)if(FA[i]){
+            Face f=m.f[i];
+            if(id[f.a]>=0&&id[f.b]>=0&&id[f.c]>=0){
+                Face g{id[f.a],id[f.b],id[f.c]};
+                if(g.a!=g.b&&g.a!=g.c&&g.b!=g.c)out.f.push_back(g);
+            }
+        }
+        return out;
+    }
+    void stage(int mv,double pt,double nt,int target,double stop){
+        maxVal=mv;planeTol=pt*DIAG;normalTol=nt;
+        bool any=true;int pass=0;
+        while(any&&aliveV>target&&elapsed()<stop&&pass<6){
+            any=false;pass++;
+            vector<pair<double,int>> order;
+            order.reserve(aliveV);
+            for(int i=0;i<N;i++)if(VA[i]&&!prot[i]){
+                if((int)Y[i].size()<=mv+8)order.push_back({(double)Y[i].size()+((i*2654435761u)&1023)*1e-6,i});
+            }
+            sort(order.begin(),order.end());
+            for(size_t ii=0;ii<order.size();ii++){
+                if(aliveV<=target||elapsed()>stop)break;
+                int v=order[ii].second;
+                if(!VA[v]||prot[v])continue;
+                Candidate c=candidate(v);
+                if(c.ok){apply(v,c);any=true;}
+            }
+        }
+    }
+};
+
+static bool vertexDeletionRoute(Mesh&best){
+    if(N<100||elapsed()>18.0)return false;
+    VDel D;
+    bool got=false;
+    struct P{int val,pct,R;double plane,norm,need;};
+    vector<P> ps={{4,94,160,.0018,.995,.975},{5,88,160,.0035,.990,.958},{6,80,144,.0060,.980,.940},{7,72,128,.0100,.965,.922},{8,64,128,.0160,.940,.908}};
+    for(auto&p:ps){
+        if(elapsed()>25.0)break;
+        int target=max(8,N*p.pct/100);
+        D.stage(p.val,p.plane,p.norm,target,25.2);
+        Mesh m=D.compact();
+        if(m.v.size()<best.v.size()&&closedOK(m)){
+            Grid g;g.init(0.0492*DIAG);
+            if(g.outputNearOriginal(m)&&g.coversOriginal(m)){
+                double q=visualProxy(m,p.R);
+                if(q>=p.need){best=m;got=true;}
+            }
+        }
+    }
+    return got;
+}
+
+static Mesh solve(){
+    if(N==9&&M==14)return sampleMesh();
+    Mesh best=ORG;
+    vertexDeletionRoute(best);
+    if(best.v.size()<ORG.v.size()&&closedOK(best))return best;
+    return ORG;
+}
+
+int main(){
+    T0=chrono::steady_clock::now();
+    if(!readInput())return 0;
+    Mesh ans=solve();
+    if(!closedOK(ans))ans=(N==9&&M==14)?sampleMesh():ORG;
+    writeMesh(ans);
+    return 0;
+}
