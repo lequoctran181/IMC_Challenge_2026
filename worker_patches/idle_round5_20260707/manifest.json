@@ -1,0 +1,132 @@
+[
+  {
+    "tab": 2,
+    "block": 0,
+    "file": "worker_patches/idle_round5_20260707/tab2_block_0.txt",
+    "ext": "txt",
+    "bytes": 177,
+    "sha256": "19bceafb3d5f5d7a7c47c3b49cc22dc7fab901838198f14bafa8c8233b13b999",
+    "title": "C++17 Artifact Request",
+    "url": "https://chatgpt.com/c/6a4bc5d5-9fd8-83ec-aaac-006bedc31d5a"
+  },
+  {
+    "tab": 2,
+    "block": 1,
+    "file": "worker_patches/idle_round5_20260707/tab2_block_1.txt",
+    "ext": "txt",
+    "bytes": 172,
+    "sha256": "02918238d1649cc9e4b7084b44e4ccf184a9c3d18eda39e580e8d04157704618",
+    "title": "C++17 Artifact Request",
+    "url": "https://chatgpt.com/c/6a4bc5d5-9fd8-83ec-aaac-006bedc31d5a"
+  },
+  {
+    "tab": 2,
+    "block": 2,
+    "file": "worker_patches/idle_round5_20260707/tab2_block_2.cpp",
+    "ext": "cpp",
+    "bytes": 12569,
+    "sha256": "0efb76f5659d425ec7b615c9b720aaa853493ae7d74ba84b59b5728e3847b0a7",
+    "title": "C++17 Artifact Request",
+    "url": "https://chatgpt.com/c/6a4bc5d5-9fd8-83ec-aaac-006bedc31d5a"
+  },
+  {
+    "tab": 2,
+    "block": 3,
+    "file": "worker_patches/idle_round5_20260707/tab2_block_3.cpp",
+    "ext": "cpp",
+    "bytes": 14294,
+    "sha256": "02ece9018dd0b3d4f1c08d25c50f5e1d9f21fc99e3c650b67035b5f798cefbde",
+    "title": "C++17 Artifact Request",
+    "url": "https://chatgpt.com/c/6a4bc5d5-9fd8-83ec-aaac-006bedc31d5a"
+  },
+  {
+    "tab": 2,
+    "block": 4,
+    "file": "worker_patches/idle_round5_20260707/tab2_block_4.txt",
+    "ext": "txt",
+    "bytes": 140,
+    "sha256": "a61ac8caf52cad704842648a917ce5d4e2c612222d4ef37265d0609618cbf9aa",
+    "title": "C++17 Artifact Request",
+    "url": "https://chatgpt.com/c/6a4bc5d5-9fd8-83ec-aaac-006bedc31d5a"
+  },
+  {
+    "tab": 2,
+    "block": 5,
+    "file": "worker_patches/idle_round5_20260707/tab2_block_5.cpp",
+    "ext": "cpp",
+    "bytes": 14305,
+    "sha256": "833d40012761b187ac2fef1d8af037b1719f68caf774b397190d411cf5a67697",
+    "title": "C++17 Artifact Request",
+    "url": "https://chatgpt.com/c/6a4bc5d5-9fd8-83ec-aaac-006bedc31d5a"
+  },
+  {
+    "tab": 2,
+    "block": 6,
+    "file": "worker_patches/idle_round5_20260707/tab2_block_6.txt",
+    "ext": "txt",
+    "bytes": 156,
+    "sha256": "7a03fbf6ac9013051cc002f7190ca674c2d33b3017ebfb3800daea85cf5e019b",
+    "title": "C++17 Artifact Request",
+    "url": "https://chatgpt.com/c/6a4bc5d5-9fd8-83ec-aaac-006bedc31d5a"
+  },
+  {
+    "tab": 2,
+    "block": 7,
+    "file": "worker_patches/idle_round5_20260707/tab2_block_7.cpp",
+    "ext": "cpp",
+    "bytes": 13506,
+    "sha256": "9e098b4ee50f3d8ba75fb47a065f02b34966fa62fdcfacb8b62b3ec6e71aed1f",
+    "title": "C++17 Artifact Request",
+    "url": "https://chatgpt.com/c/6a4bc5d5-9fd8-83ec-aaac-006bedc31d5a"
+  },
+  {
+    "tab": 2,
+    "block": 8,
+    "file": "worker_patches/idle_round5_20260707/tab2_block_8.txt",
+    "ext": "txt",
+    "bytes": 156,
+    "sha256": "1530a8314e80fd67419e423f850b5c841b4ee30c925625aff0a47581ac8f0f14",
+    "title": "C++17 Artifact Request",
+    "url": "https://chatgpt.com/c/6a4bc5d5-9fd8-83ec-aaac-006bedc31d5a"
+  },
+  {
+    "tab": 10,
+    "block": 0,
+    "file": "worker_patches/idle_round5_20260707/tab10_block_0.cpp",
+    "ext": "cpp",
+    "bytes": 10341,
+    "sha256": "6c06d79f20cc69465ca7cd26a63233e392323417f4902224354e207f89109de9",
+    "title": "IMC Challenge Optimization",
+    "url": "https://chatgpt.com/c/6a4bda51-2a78-83ec-b9d3-58dbe7e742f9"
+  },
+  {
+    "tab": 10,
+    "block": 1,
+    "file": "worker_patches/idle_round5_20260707/tab10_block_1.cpp",
+    "ext": "cpp",
+    "bytes": 14731,
+    "sha256": "173e27a5f0dc3a1b1e3a5eb156d8ad254fb5545d01651a1a6d0f7a5c859f1984",
+    "title": "IMC Challenge Optimization",
+    "url": "https://chatgpt.com/c/6a4bda51-2a78-83ec-b9d3-58dbe7e742f9"
+  },
+  {
+    "tab": 10,
+    "block": 2,
+    "file": "worker_patches/idle_round5_20260707/tab10_block_2.txt",
+    "ext": "txt",
+    "bytes": 289,
+    "sha256": "04eee400fcf31955bb5bf8763682b1df19e176c0721a3755b9e9b14b7a666be3",
+    "title": "IMC Challenge Optimization",
+    "url": "https://chatgpt.com/c/6a4bda51-2a78-83ec-b9d3-58dbe7e742f9"
+  },
+  {
+    "tab": 10,
+    "block": 3,
+    "file": "worker_patches/idle_round5_20260707/tab10_block_3.txt",
+    "ext": "txt",
+    "bytes": 516,
+    "sha256": "203d237093f3f4cda4e4be75b945508c236bc10bc06fdc0ccf3a7caadca88571",
+    "title": "IMC Challenge Optimization",
+    "url": "https://chatgpt.com/c/6a4bda51-2a78-83ec-b9d3-58dbe7e742f9"
+  }
+]
