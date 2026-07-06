@@ -1,0 +1,4 @@
+worker_outputs/workerL_svi_20260706/kattis_19901232_svi.cpp:28:80024: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]
+worker_outputs/workerL_svi_20260706/kattis_19901232_svi.cpp:28:82134: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]
+worker_outputs/workerL_svi_20260706/kattis_19901232_svi.cpp:28:82286: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]
+3 warnings generated.
