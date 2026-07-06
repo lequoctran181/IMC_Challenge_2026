@@ -1,0 +1,32 @@
+[
+  {
+    "tab": 10,
+    "block": 0,
+    "file": "worker_patches/idle_tab10_20260707/tab10_block_0.cpp",
+    "ext": "cpp",
+    "bytes": 10341,
+    "sha256": "6c06d79f20cc69465ca7cd26a63233e392323417f4902224354e207f89109de9",
+    "title": "IMC Challenge Optimization",
+    "url": "https://chatgpt.com/c/6a4bda51-2a78-83ec-b9d3-58dbe7e742f9"
+  },
+  {
+    "tab": 10,
+    "block": 1,
+    "file": "worker_patches/idle_tab10_20260707/tab10_block_1.cpp",
+    "ext": "cpp",
+    "bytes": 14731,
+    "sha256": "173e27a5f0dc3a1b1e3a5eb156d8ad254fb5545d01651a1a6d0f7a5c859f1984",
+    "title": "IMC Challenge Optimization",
+    "url": "https://chatgpt.com/c/6a4bda51-2a78-83ec-b9d3-58dbe7e742f9"
+  },
+  {
+    "tab": 10,
+    "block": 2,
+    "file": "worker_patches/idle_tab10_20260707/tab10_block_2.txt",
+    "ext": "txt",
+    "bytes": 289,
+    "sha256": "04eee400fcf31955bb5bf8763682b1df19e176c0721a3755b9e9b14b7a666be3",
+    "title": "IMC Challenge Optimization",
+    "url": "https://chatgpt.com/c/6a4bda51-2a78-83ec-b9d3-58dbe7e742f9"
+  }
+]
