@@ -1,0 +1,1 @@
+cpp block, compileable, sample first line exactly `8 12`.
