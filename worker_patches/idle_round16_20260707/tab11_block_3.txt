@@ -1,0 +1,5 @@
+cpp block. It must compile with g++ -O2 -std=c++17 -pipe -static -s and pass official sample first line exactly `8 12`.
+
+Current real best remains 81.938904; target is 91.80+. Recent Kattis: 19905886 scored 50.001488, 19905803 scored 0, 19905603/19905630 tied best. We need a new +10-point strategy, not duplicates/snippets.
+
+Use attached files and repo history: https://github.com/lequoctran181/IMC_Challenge_2026 . Output only the full final C++ code block.
