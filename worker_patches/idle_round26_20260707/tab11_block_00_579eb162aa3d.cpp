@@ -1,0 +1,711 @@
+#include <bits/stdc++.h>
+// compile: g++ -O2 -std=c++17 -pipe -static -s main.cpp -o main
+// sample gate: an 8-vertex cube, including OFF/count-prefixed faces, emits first line 8 12.
+using namespace std;
+
+struct Vec3{
+double x,y,z;
+Vec3(double X=0,double Y=0,double Z=0):x(X),y(Y),z(Z){}
+Vec3 operator+(const Vec3&o)const{return {x+o.x,y+o.y,z+o.z};}
+Vec3 operator-(const Vec3&o)const{return {x-o.x,y-o.y,z-o.z};}
+Vec3 operator*(double s)const{return {x*s,y*s,z*s};}
+Vec3 operator/(double s)const{return {x/s,y/s,z/s};}
+Vec3&operator+=(const Vec3&o){x+=o.x;y+=o.y;z+=o.z;return *this;}
+};
+
+static inline double dotv(const Vec3&a,const Vec3&b){return a.x*b.x+a.y*b.y+a.z*b.z;}
+static inline Vec3 crossv(const Vec3&a,const Vec3&b){return {a.y*b.z-a.z*b.y,a.z*b.x-a.x*b.z,a.x*b.y-a.y*b.x};}
+static inline double n2(const Vec3&a){return dotv(a,a);}
+static inline double nv(const Vec3&a){return sqrt(max(0.0,n2(a)));}
+static inline Vec3 normed(const Vec3&a){double n=nv(a);return n>0?a/n:Vec3();}
+static inline double clp(double x,double a,double b){return x<a?a:(x>b?b:x);}
+static inline bool finitev(const Vec3&p){return isfinite(p.x)&&isfinite(p.y)&&isfinite(p.z);}
+
+struct Mesh{
+vector<Vec3>v;
+vector<array<int,3>>f;
+int base=0;
+};
+
+static string trimcomment(string s){size_t p=s.find('#');if(p!=string::npos)s.resize(p);return s;}
+static vector<double> numsD(const string&s){
+vector<double>a;char*e;const char*p=s.c_str();
+while(*p){
+while(*p&&!(isdigit((unsigned char)*p)||*p=='-'||*p=='+'||*p=='.'))p++;
+if(!*p)break;
+double x=strtod(p,&e);
+if(e==p){p++;continue;}
+a.push_back(x);p=e;
+}
+return a;
+}
+static vector<long long> numsI(const string&s){
+vector<long long>a;char*e;const char*p=s.c_str();
+while(*p){
+while(*p&&!(isdigit((unsigned char)*p)||*p=='-'||*p=='+'))p++;
+if(!*p)break;
+long long x=strtoll(p,&e,10);
+if(e==p){p++;continue;}
+a.push_back(x);p=e;
+}
+return a;
+}
+static string lowerstr(string s){for(char&c:s)c=tolower((unsigned char)c);return s;}
+static vector<string> splitLines(const string&s){vector<string>r;stringstream ss(s);string l;while(getline(ss,l))r.push_back(l);return r;}
+static void addPoly(vector<vector<long long>>&polys,const vector<long long>&raw){if(raw.size()>=3)polys.push_back(raw);}
+
+static Mesh finalizeMesh(vector<Vec3>verts,vector<vector<long long>>polys,int outBase,int forcedBase=-999){
+long long mn=LLONG_MAX,mx=LLONG_MIN;
+for(auto&p:polys)for(long long x:p){mn=min(mn,x);mx=max(mx,x);}
+int ib=0;
+if(forcedBase!=-999)ib=forcedBase;
+else{
+int n=(int)verts.size();
+if(mn==0)ib=0;
+else if(mx==n&&mn>=1)ib=1;
+else ib=0;
+}
+vector<array<int,3>>tri;tri.reserve(polys.size()*2);
+int n=(int)verts.size();
+for(auto&p:polys){
+vector<int>q;
+for(long long x:p){long long y=x-ib;if(0<=y&&y<n)q.push_back((int)y);}
+if(q.size()<3)continue;
+for(size_t i=1;i+1<q.size();++i)
+if(q[0]!=q[i]&&q[i]!=q[i+1]&&q[i+1]!=q[0])tri.push_back({q[0],q[i],q[i+1]});
+}
+return {move(verts),move(tri),outBase};
+}
+
+static Mesh parseOFF(const vector<string>&L){
+vector<string>tok;
+for(auto l:L){l=trimcomment(l);stringstream ss(l);string t;while(ss>>t)tok.push_back(t);}
+int at=0;
+if(at<(int)tok.size()&&(tok[at]=="OFF"||tok[at]=="COFF"||tok[at]=="NOFF"))at++;
+int n=0,m=0;
+if(at+1<(int)tok.size()){n=stoi(tok[at++]);m=stoi(tok[at++]);if(at<(int)tok.size())at++;}
+vector<Vec3>v;v.reserve(max(0,n));
+for(int i=0;i<n&&at+2<(int)tok.size();++i){
+double x=stod(tok[at++]),y=stod(tok[at++]),z=stod(tok[at++]);
+v.push_back({x,y,z});
+if(!tok.empty()&&tok[0]=="COFF"){for(int k=0;k<4&&at<(int)tok.size();++k)at++;}
+else if(!tok.empty()&&tok[0]=="NOFF"){for(int k=0;k<3&&at<(int)tok.size();++k)at++;}
+}
+vector<vector<long long>>polys;
+for(int i=0;i<m&&at<(int)tok.size();++i){
+int k=stoi(tok[at++]);vector<long long>p;
+for(int j=0;j<k&&at<(int)tok.size();++j)p.push_back(stoll(tok[at++]));
+addPoly(polys,p);
+}
+return finalizeMesh(move(v),move(polys),0,0);
+}
+
+static Mesh parsePLY(const vector<string>&L){
+int n=0,m=0,i=0;bool ascii=true;
+for(;i<(int)L.size();++i){
+string s=lowerstr(L[i]);stringstream ss(s);string a,b;ss>>a;
+if(a=="format"){ss>>b;if(b!="ascii")ascii=false;}
+else if(a=="element"){ss>>b;if(b=="vertex")ss>>n;else if(b=="face")ss>>m;}
+else if(a=="end_header"){i++;break;}
+}
+vector<Vec3>v;vector<vector<long long>>polys;
+if(!ascii)return {v,{},0};
+v.reserve(n);
+for(int k=0;k<n&&i<(int)L.size();++k,++i){auto a=numsD(L[i]);if(a.size()>=3)v.push_back({a[0],a[1],a[2]});}
+for(int k=0;k<m&&i<(int)L.size();++k,++i){
+auto a=numsI(L[i]);if(a.empty())continue;
+int cnt=(int)a[0];vector<long long>p;
+if(cnt>=3&&(int)a.size()>=cnt+1){for(int j=1;j<=cnt;j++)p.push_back(a[j]);}
+else for(long long x:a)p.push_back(x);
+addPoly(polys,p);
+}
+return finalizeMesh(move(v),move(polys),0,0);
+}
+
+static Mesh parseOBJ(const vector<string>&L){
+vector<Vec3>v;vector<vector<long long>>polys;
+for(auto line:L){
+if(line.size()<2)continue;
+if(line[0]=='v'&&isspace((unsigned char)line[1])){
+stringstream ss(line);string t;double x,y,z;ss>>t>>x>>y>>z;v.push_back({x,y,z});
+}else if(line[0]=='f'&&isspace((unsigned char)line[1])){
+stringstream ss(line);string t,u;ss>>t;vector<long long>p;
+while(ss>>u){
+size_t q=u.find('/');if(q!=string::npos)u=u.substr(0,q);
+if(u.empty())continue;
+long long id=stoll(u);if(id<0)id=(long long)v.size()+id+1;
+p.push_back(id);
+}
+addPoly(polys,p);
+}
+}
+return finalizeMesh(move(v),move(polys),0,1);
+}
+
+static Mesh parseCompact(const vector<string>&L){
+int i=0;
+while(i<(int)L.size()&&numsD(trimcomment(L[i])).empty())i++;
+if(i==(int)L.size())return {};
+auto first=numsI(trimcomment(L[i++]));
+if(first.empty())return {};
+long long n=first[0],m=-1;
+if(first.size()>=2)m=first[1];
+else{
+int j=i;
+while(j<(int)L.size()&&numsD(trimcomment(L[j])).empty())j++;
+if(j<(int)L.size()){
+auto maybe=numsI(trimcomment(L[j]));
+auto maybeD=numsD(trimcomment(L[j]));
+int k=j+1;
+while(k<(int)L.size()&&numsD(trimcomment(L[k])).empty())k++;
+auto nxt=(k<(int)L.size()?numsD(trimcomment(L[k])):vector<double>());
+if(maybe.size()==1&&maybeD.size()==1&&nxt.size()>=3){m=maybe[0];i=j+1;}
+}
+}
+vector<Vec3>v;v.reserve(max(0LL,n));
+for(long long k=0;k<n&&i<(int)L.size();){
+auto a=numsD(trimcomment(L[i++]));
+if(a.size()<3)continue;
+v.push_back({a[0],a[1],a[2]});k++;
+}
+if(m<0){
+while(i<(int)L.size()&&numsI(trimcomment(L[i])).empty())i++;
+if(i<(int)L.size()){auto a=numsI(trimcomment(L[i++]));if(!a.empty())m=a[0];}
+}
+vector<vector<long long>>polys;
+if(m<0)m=LLONG_MAX/4;
+for(long long k=0;k<m&&i<(int)L.size();){
+string line=trimcomment(L[i++]);auto a=numsI(line);
+if(a.empty())continue;
+vector<long long>p;
+if(a.size()>=4&&a[0]>=3&&a[0]+1<=(long long)a.size()){for(int j=1;j<=a[0];++j)p.push_back(a[j]);}
+else if(a.size()>=3){for(long long x:a)p.push_back(x);}
+addPoly(polys,p);k++;
+}
+long long mn=LLONG_MAX,mx=LLONG_MIN;
+for(auto&p:polys)for(auto x:p){mn=min(mn,x);mx=max(mx,x);}
+int b=(mn==0?0:((mx==(long long)v.size()&&mn>=1)?1:0));
+return finalizeMesh(move(v),move(polys),b,b);
+}
+
+static Mesh readMesh(){
+ostringstream ss;ss<<cin.rdbuf();string data=ss.str();auto L=splitLines(data);
+size_t p=0;while(p<data.size()&&isspace((unsigned char)data[p]))p++;
+string head;for(size_t q=p;q<data.size()&&!isspace((unsigned char)data[q])&&q<p+16;q++)head.push_back(data[q]);
+string h=lowerstr(head);
+if(h=="off"||h=="coff"||h=="noff")return parseOFF(L);
+if(h=="ply")return parsePLY(L);
+if(p<data.size()&&(h=="v"||data[p]=='v'))return parseOBJ(L);
+return parseCompact(L);
+}
+
+static void bboxOf(const vector<Vec3>&v,Vec3&mn,Vec3&mx){
+if(v.empty()){mn={0,0,0};mx={1,1,1};return;}
+mn=mx=v[0];
+for(auto&p:v){
+mn.x=min(mn.x,p.x);mn.y=min(mn.y,p.y);mn.z=min(mn.z,p.z);
+mx.x=max(mx.x,p.x);mx.y=max(mx.y,p.y);mx.z=max(mx.z,p.z);
+}
+}
+
+static void outputMesh(const vector<Vec3>&v,const vector<array<int,3>>&f,int base){
+cout.setf(ios::fixed);cout<<setprecision(9);
+cout<<v.size()<<' '<<f.size()<<'\n';
+for(auto&p:v)cout<<p.x<<' '<<p.y<<' '<<p.z<<'\n';
+for(auto&t:f)cout<<t[0]+base<<' '<<t[1]+base<<' '<<t[2]+base<<'\n';
+}
+
+static bool manifoldOK(const vector<Vec3>&v,const vector<array<int,3>>&f){
+if(v.size()<4||f.size()<4)return false;
+struct E{int a,b;};
+vector<E>e;e.reserve(f.size()*3);
+double eps=1e-30;
+for(auto&t:f){
+int a=t[0],b=t[1],c=t[2];
+if(a<0||b<0||c<0||a>=(int)v.size()||b>=(int)v.size()||c>=(int)v.size()||a==b||b==c||c==a)return false;
+if(n2(crossv(v[b]-v[a],v[c]-v[a]))<=eps)return false;
+int x[3]={a,b,c};
+for(int k=0;k<3;k++){int u=x[k],w=x[(k+1)%3];if(u>w)swap(u,w);e.push_back({u,w});}
+}
+sort(e.begin(),e.end(),[](const E&a,const E&b){return a.a==b.a?a.b<b.b:a.a<b.a;});
+for(size_t i=0;i<e.size();){
+size_t j=i+1;while(j<e.size()&&e[j].a==e[i].a&&e[j].b==e[i].b)j++;
+if(j-i!=2)return false;i=j;
+}
+return true;
+}
+
+struct KD{
+struct N{int id,l=-1,r=-1,ax;};
+vector<Vec3>p;vector<int>ord;vector<N>tr;
+KD(){}KD(const vector<Vec3>&P){build(P);}
+int rec(int l,int r){
+if(l>=r)return-1;
+Vec3 mn,mx;mn=mx=p[ord[l]];
+for(int i=l+1;i<r;i++){
+auto&q=p[ord[i]];
+mn.x=min(mn.x,q.x);mn.y=min(mn.y,q.y);mn.z=min(mn.z,q.z);
+mx.x=max(mx.x,q.x);mx.y=max(mx.y,q.y);mx.z=max(mx.z,q.z);
+}
+Vec3 d=mx-mn;
+int ax=(d.y>d.x&&d.y>=d.z)?1:(d.z>d.x&&d.z>=d.y)?2:0;
+int m=(l+r)/2;
+nth_element(ord.begin()+l,ord.begin()+m,ord.begin()+r,[&](int a,int b){return ax==0?p[a].x<p[b].x:ax==1?p[a].y<p[b].y:p[a].z<p[b].z;});
+int id=tr.size();tr.push_back({ord[m],-1,-1,ax});
+tr[id].l=rec(l,m);tr[id].r=rec(m+1,r);return id;
+}
+void build(const vector<Vec3>&P){p=P;ord.resize(p.size());iota(ord.begin(),ord.end(),0);tr.reserve(p.size());rec(0,p.size());}
+void qry(int u,const Vec3&q,double&best)const{
+if(u<0)return;
+const N&n=tr[u];
+double d=n2(q-p[n.id]);if(d<best)best=d;
+double diff=n.ax==0?q.x-p[n.id].x:n.ax==1?q.y-p[n.id].y:q.z-p[n.id].z;
+int a=diff<0?n.l:n.r,b=diff<0?n.r:n.l;
+qry(a,q,best);
+if(diff*diff<best)qry(b,q,best);
+}
+double nearest2(const Vec3&q)const{if(tr.empty())return 1e300;double b=1e300;qry(0,q,b);return b;}
+};
+
+struct AABB{
+Vec3 mn,mx;
+AABB(){mn={1e300,1e300,1e300};mx={-1e300,-1e300,-1e300};}
+void add(const Vec3&p){mn.x=min(mn.x,p.x);mn.y=min(mn.y,p.y);mn.z=min(mn.z,p.z);mx.x=max(mx.x,p.x);mx.y=max(mx.y,p.y);mx.z=max(mx.z,p.z);}
+void add(const AABB&b){add(b.mn);add(b.mx);}
+};
+
+struct BVH{
+struct Tri{Vec3 a,b,c,cen;AABB box;};
+struct Node{AABB box;int l=-1,r=-1,s=0,c=0;};
+vector<Vec3>V;vector<array<int,3>>F;vector<Tri>T;vector<int>ord;vector<Node>N;double eps=1e-12;
+BVH(const vector<Vec3>&v,const vector<array<int,3>>&f){
+V=v;F=f;T.reserve(f.size());
+for(auto&t:f){
+Tri q;q.a=v[t[0]];q.b=v[t[1]];q.c=v[t[2]];q.cen=(q.a+q.b+q.c)/3.0;
+q.box.add(q.a);q.box.add(q.b);q.box.add(q.c);T.push_back(q);
+}
+ord.resize(T.size());iota(ord.begin(),ord.end(),0);N.reserve(T.size()*2+1);if(!T.empty())build(0,T.size());
+}
+int build(int l,int r){
+int id=N.size();N.push_back({});
+AABB box,cb;
+for(int i=l;i<r;i++){box.add(T[ord[i]].box);cb.add(T[ord[i]].cen);}
+N[id].box=box;
+if(r-l<=8){N[id].s=l;N[id].c=r-l;return id;}
+Vec3 d=cb.mx-cb.mn;
+int ax=(d.y>d.x&&d.y>=d.z)?1:(d.z>d.x&&d.z>=d.y)?2:0;
+int m=(l+r)/2;
+nth_element(ord.begin()+l,ord.begin()+m,ord.begin()+r,[&](int a,int b){return ax==0?T[a].cen.x<T[b].cen.x:ax==1?T[a].cen.y<T[b].cen.y:T[a].cen.z<T[b].cen.z;});
+N[id].l=build(l,m);N[id].r=build(m,r);return id;
+}
+bool hitBox(const AABB&b,const Vec3&o,const Vec3&d,double best)const{
+double t0=0,t1=best;
+for(int ax=0;ax<3;ax++){
+double O=ax==0?o.x:ax==1?o.y:o.z,D=ax==0?d.x:ax==1?d.y:d.z,lo=ax==0?b.mn.x:ax==1?b.mn.y:b.mn.z,hi=ax==0?b.mx.x:ax==1?b.mx.y:b.mx.z;
+if(fabs(D)<1e-15){if(O<lo||O>hi)return false;}
+else{
+double inv=1.0/D,a=(lo-O)*inv,c=(hi-O)*inv;if(a>c)swap(a,c);
+t0=max(t0,a);t1=min(t1,c);if(t0>t1)return false;
+}
+}
+return true;
+}
+bool hitTri(const Tri&t,const Vec3&o,const Vec3&d,double&best)const{
+Vec3 e1=t.b-t.a,e2=t.c-t.a,p=crossv(d,e2);
+double det=dotv(e1,p);if(fabs(det)<1e-14)return false;
+double inv=1.0/det;Vec3 s=o-t.a;
+double u=dotv(s,p)*inv;if(u<-1e-10||u>1+1e-10)return false;
+Vec3 q=crossv(s,e1);double v=dotv(d,q)*inv;if(v<-1e-10||u+v>1+1e-10)return false;
+double tt=dotv(e2,q)*inv;
+if(tt>eps&&tt<best){best=tt;return true;}
+return false;
+}
+void rayNode(int id,const Vec3&o,const Vec3&d,double&best)const{
+if(id<0||!hitBox(N[id].box,o,d,best))return;
+if(N[id].c){for(int i=0;i<N[id].c;i++)hitTri(T[ord[N[id].s+i]],o,d,best);}
+else{rayNode(N[id].l,o,d,best);rayNode(N[id].r,o,d,best);}
+}
+bool ray(const Vec3&o,const Vec3&d,double&best)const{
+best=1e300;if(N.empty())return false;rayNode(0,o,d,best);return best<1e290;
+}
+};
+
+static int cubeUnique(int R){return 6*R*R-12*R+8;}
+
+static bool buildCubeMap(const Mesh&in,Mesh&out){
+int n=in.v.size();if(n<64||in.f.empty())return false;
+Vec3 mn,mx;bboxOf(in.v,mn,mx);
+double diag=max(1e-12,nv(mx-mn));
+double want=0.0818*n;
+int R=2;while(cubeUnique(R+1)<=want)R++;
+if(R<4)return false;
+R=min(R,260);
+int U=cubeUnique(R);
+if(U>max(16.0,0.0835*n))return false;
+Vec3 cen;for(auto&p:in.v)cen+=p;cen=cen/(double)n;
+BVH bvh(in.v,in.f);
+int N=R-1,B=2*N+1;
+unordered_map<long long,int>mp;mp.reserve(U*2+10);
+vector<array<int,3>>keys;vector<Vec3>dirs,pts;vector<int>grid(6*R*R);
+auto pack=[&](int x,int y,int z){return ((long long)(x+N)*B+(y+N))*B+(z+N);};
+auto get=[&](int x,int y,int z){
+long long k=pack(x,y,z);auto it=mp.find(k);if(it!=mp.end())return it->second;
+int id=mp.size();mp[k]=id;keys.push_back({x,y,z});dirs.push_back(normed(Vec3(x,y,z)));return id;
+};
+auto raw=[&](int f,int i,int j){
+int a=-N+2*i,b=-N+2*j;
+switch(f){
+case 0:return array<int,3>{N,a,b};
+case 1:return array<int,3>{-N,a,b};
+case 2:return array<int,3>{a,N,b};
+case 3:return array<int,3>{a,-N,b};
+case 4:return array<int,3>{a,b,N};
+default:return array<int,3>{a,b,-N};
+}
+};
+for(int f=0;f<6;f++)for(int i=0;i<R;i++)for(int j=0;j<R;j++){
+auto k=raw(f,i,j);grid[(f*R+i)*R+j]=get(k[0],k[1],k[2]);
+}
+pts.resize(dirs.size());
+int miss=0;
+for(size_t i=0;i<dirs.size();i++){
+double t;
+if(!bvh.ray(cen,dirs[i],t)){miss++;pts[i]=cen+dirs[i]*(diag*0.5);}
+else pts[i]=cen+dirs[i]*t;
+}
+if(miss>0)return false;
+vector<array<int,3>>F;F.reserve(12*(R-1)*(R-1));
+auto fid=[&](int f,int i,int j){return grid[(f*R+i)*R+j];};
+auto addTri=[&](int a,int b,int c,const Vec3&od)->bool{
+Vec3 cr=crossv(pts[b]-pts[a],pts[c]-pts[a]);
+if(n2(cr)<diag*diag*diag*diag*1e-24)return false;
+if(dotv(cr,od)<0)swap(b,c);
+F.push_back({a,b,c});return true;
+};
+int bad=0;
+for(int f=0;f<6;f++)for(int i=0;i<R-1;i++)for(int j=0;j<R-1;j++){
+int a=fid(f,i,j),b=fid(f,i+1,j),c=fid(f,i+1,j+1),d=fid(f,i,j+1);
+auto rc=raw(f,i,j);Vec3 od=normed(Vec3(rc[0],rc[1],rc[2]));
+if(!addTri(a,b,c,od))bad++;
+if(!addTri(a,c,d,od))bad++;
+}
+if(bad>0)return false;
+if(!manifoldOK(pts,F))return false;
+KD kin(in.v),kout(pts);
+double cell=diag/max(2,R-1);
+double outTol=max(diag*0.020,cell*1.9),inTol=max(diag*0.035,cell*3.1);
+double maxO=0;vector<double>vin;vin.reserve(min(n,60000));
+for(auto&p:pts){double d=sqrt(kin.nearest2(p));maxO=max(maxO,d);}
+int step=max(1,n/60000);
+for(int i=0;i<n;i+=step)vin.push_back(sqrt(kout.nearest2(in.v[i])));
+sort(vin.begin(),vin.end());
+double p99=vin.empty()?0:vin[(size_t)(vin.size()*0.99)];
+double mxv=vin.empty()?0:vin.back();
+if(maxO>outTol||p99>inTol||mxv>max(diag*0.12,cell*5.2))return false;
+out={move(pts),move(F),in.base};
+return true;
+}
+
+struct Quad{
+double q[10];
+Quad(){memset(q,0,sizeof q);}
+void add(double a,double b,double c,double d,double w){
+double p[4]={a,b,c,d};int k=0;
+for(int i=0;i<4;i++)for(int j=i;j<4;j++)q[k++]+=w*p[i]*p[j];
+}
+Quad&operator+=(const Quad&o){for(int i=0;i<10;i++)q[i]+=o.q[i];return *this;}
+friend Quad operator+(Quad a,const Quad&b){a+=b;return a;}
+double ev(const Vec3&p)const{
+double x=p.x,y=p.y,z=p.z;
+return q[0]*x*x+2*q[1]*x*y+2*q[2]*x*z+2*q[3]*x+q[4]*y*y+2*q[5]*y*z+2*q[6]*y+q[7]*z*z+2*q[8]*z+q[9];
+}
+bool opt(Vec3&o)const{
+double a00=q[0],a01=q[1],a02=q[2],a11=q[4],a12=q[5],a22=q[7],b0=q[3],b1=q[6],b2=q[8];
+double det=a00*(a11*a22-a12*a12)-a01*(a01*a22-a12*a02)+a02*(a01*a12-a11*a02);
+double sc=fabs(a00)+fabs(a11)+fabs(a22)+2*(fabs(a01)+fabs(a02)+fabs(a12));
+if(fabs(det)<1e-12*max(1.0,sc*sc*sc))return false;
+double i00=(a11*a22-a12*a12)/det,i01=(a02*a12-a01*a22)/det,i02=(a01*a12-a02*a11)/det,i11=(a00*a22-a02*a02)/det,i12=(a01*a02-a00*a12)/det,i22=(a00*a11-a01*a01)/det;
+o.x=-(i00*b0+i01*b1+i02*b2);
+o.y=-(i01*b0+i11*b1+i12*b2);
+o.z=-(i02*b0+i12*b1+i22*b2);
+return finitev(o);
+}
+};
+
+struct QEMS{
+struct T{int v[3];bool ok=1;};
+struct V{Vec3 p;Quad Q;vector<int>inc;bool ok=1;unsigned ver=1;double sal=1;int vis=0;};
+struct C{double c;int a,b;unsigned va,vb;Vec3 p;bool operator<(const C&o)const{return c>o.c;}};
+vector<V>Vv;vector<T>F;vector<Vec3>fn;vector<double>fa;
+Vec3 bb0,bb1;double diag=1,diag2=1,epsA=1e-30;
+int aliveV,aliveF,n0;vector<int>mark;int stamp=1;priority_queue<C>pq;
+QEMS(const Mesh&m){
+n0=m.v.size();Vv.resize(n0);
+for(int i=0;i<n0;i++)Vv[i].p=m.v[i];
+F.reserve(m.f.size());
+for(auto&t:m.f)if(t[0]!=t[1]&&t[1]!=t[2]&&t[2]!=t[0]){
+T x;x.v[0]=t[0];x.v[1]=t[1];x.v[2]=t[2];F.push_back(x);
+}
+fn.resize(F.size());fa.resize(F.size());
+bboxOf(m.v,bb0,bb1);diag2=max(1e-24,n2(bb1-bb0));diag=sqrt(diag2);epsA=diag2*diag2*1e-28;
+mark.assign(max(1,n0),0);buildInc();quadrics();
+}
+void buildInc(){
+for(auto&v:Vv)v.inc.clear();
+aliveF=0;
+for(int i=0;i<(int)F.size();i++)if(F[i].ok){aliveF++;for(int k=0;k<3;k++)Vv[F[i].v[k]].inc.push_back(i);}
+aliveV=0;for(auto&v:Vv)if(v.ok)aliveV++;
+}
+bool has(int f,int a)const{return F[f].v[0]==a||F[f].v[1]==a||F[f].v[2]==a;}
+Vec3 rawN(int f)const{return crossv(Vv[F[f].v[1]].p-Vv[F[f].v[0]].p,Vv[F[f].v[2]].p-Vv[F[f].v[0]].p);}
+int opp(int f,int a,int b)const{for(int k=0;k<3;k++){int x=F[f].v[k];if(x!=a&&x!=b)return x;}return-1;}
+void vis(){
+int N=Vv.size();int R=N>800000?256:N>250000?320:384,S=R*R;
+vector<float>mnx(S,1e30),mxx(S,-1e30),mny(S,1e30),mxy(S,-1e30),mnz(S,1e30),mxz(S,-1e30);
+auto bin=[&](double u,double v,int ax){
+double u0,u1,v0,v1;
+if(ax==0){u0=bb0.y;u1=bb1.y;v0=bb0.z;v1=bb1.z;}
+else if(ax==1){u0=bb0.x;u1=bb1.x;v0=bb0.z;v1=bb1.z;}
+else{u0=bb0.x;u1=bb1.x;v0=bb0.y;v1=bb1.y;}
+int i=(int)((u-u0)/max(1e-30,u1-u0)*R),j=(int)((v-v0)/max(1e-30,v1-v0)*R);
+if(i<0)i=0;if(i>=R)i=R-1;if(j<0)j=0;if(j>=R)j=R-1;
+return i*R+j;
+};
+for(auto&v:Vv)if(v.ok){
+auto&p=v.p;int b=bin(p.y,p.z,0);mnx[b]=min(mnx[b],(float)p.x);mxx[b]=max(mxx[b],(float)p.x);
+b=bin(p.x,p.z,1);mny[b]=min(mny[b],(float)p.y);mxy[b]=max(mxy[b],(float)p.y);
+b=bin(p.x,p.y,2);mnz[b]=min(mnz[b],(float)p.z);mxz[b]=max(mxz[b],(float)p.z);
+}
+double tx=(bb1.x-bb0.x)*.012+diag*.0025,ty=(bb1.y-bb0.y)*.012+diag*.0025,tz=(bb1.z-bb0.z)*.012+diag*.0025;
+for(auto&v:Vv)if(v.ok){
+auto&p=v.p;int c=0,b=bin(p.y,p.z,0);
+if(p.x<=mnx[b]+tx)c++;if(p.x>=mxx[b]-tx)c++;
+b=bin(p.x,p.z,1);if(p.y<=mny[b]+ty)c++;if(p.y>=mxy[b]-ty)c++;
+b=bin(p.x,p.y,2);if(p.z<=mnz[b]+tz)c++;if(p.z>=mxz[b]-tz)c++;
+v.vis=c;
+}
+}
+void quadrics(){
+for(auto&v:Vv){v.Q=Quad();v.sal=1;v.vis=0;}
+vector<double>cur(Vv.size(),0),sil(Vv.size(),0);
+for(int i=0;i<(int)F.size();i++)if(F[i].ok){
+Vec3 cr=rawN(i);double a2=n2(cr);
+if(a2<=epsA){F[i].ok=0;continue;}
+double ar=.5*sqrt(a2);fn[i]=cr/(2*ar);fa[i]=ar;
+double d=-dotv(fn[i],Vv[F[i].v[0]].p),w=max(1e-18,ar/diag2);
+for(int k=0;k<3;k++)Vv[F[i].v[k]].Q.add(fn[i].x,fn[i].y,fn[i].z,d,w);
+}
+vis();
+struct E{int a,b,f;};
+vector<E>e;e.reserve(F.size()*3);
+for(int i=0;i<(int)F.size();i++)if(F[i].ok){
+int a[3]={F[i].v[0],F[i].v[1],F[i].v[2]};
+for(int k=0;k<3;k++){int u=a[k],v=a[(k+1)%3];if(u>v)swap(u,v);e.push_back({u,v,i});}
+}
+sort(e.begin(),e.end(),[](auto&a,auto&b){return a.a==b.a?a.b<b.b:a.a<b.a;});
+for(size_t i=0;i<e.size();){
+size_t j=i+1;while(j<e.size()&&e[j].a==e[i].a&&e[j].b==e[i].b)j++;
+if(j==i+2){
+double co=clp(dotv(fn[e[i].f],fn[e[i+1].f]),-1,1),ang=acos(co),sh=max(0.0,ang-.10);
+int s=0;Vec3 ax[3]={{1,0,0},{0,1,0},{0,0,1}};
+for(int k=0;k<3;k++)if(dotv(fn[e[i].f],ax[k])*dotv(fn[e[i+1].f],ax[k])<-.015)s++;
+cur[e[i].a]=max(cur[e[i].a],sh);cur[e[i].b]=max(cur[e[i].b],sh);
+sil[e[i].a]=max(sil[e[i].a],(double)s);sil[e[i].b]=max(sil[e[i].b],(double)s);
+}else{cur[e[i].a]=cur[e[i].b]=2;sil[e[i].a]=sil[e[i].b]=3;}
+i=j;
+}
+for(int i=0;i<(int)Vv.size();i++)if(Vv[i].ok){
+double vf=Vv[i].vis/6.0,c=cur[i];Vv[i].sal=1+7*vf+58*c*c+5*sil[i]+28*c*vf;
+}
+}
+vector<int>neigh(int a){
+vector<int>r;
+if(++stamp==INT_MAX){fill(mark.begin(),mark.end(),0);stamp=1;}
+for(int f:Vv[a].inc)if(F[f].ok&&has(f,a))for(int k=0;k<3;k++){
+int u=F[f].v[k];
+if(u!=a&&mark[u]!=stamp){mark[u]=stamp;r.push_back(u);}
+}
+return r;
+}
+bool efaces(int a,int b,int&f0,int&f1,int&o0,int&o1){
+f0=f1=o0=o1=-1;int c=0;
+auto&L=Vv[a].inc.size()<Vv[b].inc.size()?Vv[a].inc:Vv[b].inc;
+for(int f:L)if(F[f].ok&&has(f,a)&&has(f,b)){
+int o=opp(f,a,b);
+if(c==0){f0=f;o0=o;}else if(c==1){f1=f;o1=o;}
+c++;if(c>2)return false;
+}
+return c==2&&o0>=0&&o1>=0&&o0!=o1;
+}
+bool link(int a,int b,int f0,int f1,int o0,int o1){
+if(++stamp==INT_MAX){fill(mark.begin(),mark.end(),0);stamp=1;}
+for(int f:Vv[a].inc)if(F[f].ok&&has(f,a))for(int k=0;k<3;k++){int u=F[f].v[k];if(u!=a&&u!=b)mark[u]=stamp;}
+int c=0;bool A=0,B=0;
+for(int f:Vv[b].inc)if(F[f].ok&&has(f,b))for(int k=0;k<3;k++){
+int u=F[f].v[k];
+if(u!=a&&u!=b&&mark[u]==stamp){c++;mark[u]=stamp+1;if(u==o0)A=1;if(u==o1)B=1;}
+}
+return c==2&&A&&B;
+}
+Vec3 nrep(int f,int a,int b,const Vec3&p)const{
+Vec3 P[3];
+for(int k=0;k<3;k++){int id=F[f].v[k];P[k]=(id==a||id==b)?p:Vv[id].p;}
+return crossv(P[1]-P[0],P[2]-P[0]);
+}
+bool local(int a,int b,const Vec3&p,int f0,int f1)const{
+auto chk=[&](const vector<int>&L){
+for(int f:L)if(F[f].ok&&f!=f0&&f!=f1&&(has(f,a)||has(f,b))){
+Vec3 nr=nrep(f,a,b,p);double a2=n2(nr);
+if(a2<=epsA)return false;
+double d=dotv(nr,fn[f])/sqrt(max(1e-300,a2*n2(fn[f])));
+if(d<-.025)return false;
+}
+return true;
+};
+return chk(Vv[a].inc)&&chk(Vv[b].inc);
+}
+Vec3 choose(int a,int b,const Quad&Q,int f0,int f1){
+Vec3 A=Vv[a].p,B=Vv[b].p;
+vector<Vec3>c={A,B,(A+B)*.5,A*.75+B*.25,A*.25+B*.75};
+Vec3 o;
+if(Q.opt(o)){
+Vec3 lo{min(A.x,B.x),min(A.y,B.y),min(A.z,B.z)},hi{max(A.x,B.x),max(A.y,B.y),max(A.z,B.z)};
+double pad=0.25*nv(B-A)+diag*1e-5;
+if(o.x>=lo.x-pad&&o.x<=hi.x+pad&&o.y>=lo.y-pad&&o.y<=hi.y+pad&&o.z>=lo.z-pad&&o.z<=hi.z+pad)c.push_back(o);
+}
+double be=1e300;Vec3 bp=A;
+for(auto&p:c)if(finitev(p)&&local(a,b,p,f0,f1)){
+double e=Q.ev(p);Vec3 ab=B-A;
+double t=clp(dotv(p-A,ab)/max(1e-300,n2(ab)),0,1);
+e+=1e-5*n2(p-(A+ab*t))/diag2;
+if(e<be){be=e;bp=p;}
+}
+return bp;
+}
+bool cand(int a,int b,Vec3*op,double*oc){
+if(a==b||!Vv[a].ok||!Vv[b].ok)return false;
+int f0,f1,o0,o1;
+if(!efaces(a,b,f0,f1,o0,o1)||!link(a,b,f0,f1,o0,o1))return false;
+Quad Q=Vv[a].Q+Vv[b].Q;
+Vec3 p=choose(a,b,Q,f0,f1);
+if(!local(a,b,p,f0,f1))return false;
+double ang=acos(clp(dotv(fn[f0],fn[f1]),-1,1)),sh=max(0.0,ang-.08),q=max(0.0,Q.ev(p))/diag2,len=n2(Vv[a].p-Vv[b].p)/diag2,vis=(Vv[a].vis+Vv[b].vis)/12.0,sal=sqrt(max(.05,Vv[a].sal)*max(.05,Vv[b].sal));
+double cost=(q+2e-7*len+1e-15)*(1+.10*sal+18*sh*sh+1.3*vis);
+if(op)*op=p;if(oc)*oc=cost;
+return true;
+}
+void push(int a,int b){
+if(a>b)swap(a,b);
+if(a<0||b<0||a>=n0||b>=n0||!Vv[a].ok||!Vv[b].ok||a==b)return;
+Vec3 p;double c;
+if(cand(a,b,&p,&c))pq.push({c,a,b,Vv[a].ver,Vv[b].ver,p});
+}
+void initQ(){
+struct E{int a,b;};
+vector<E>e;e.reserve(F.size()*3);
+for(auto&t:F)if(t.ok){
+int a[3]={t.v[0],t.v[1],t.v[2]};
+for(int k=0;k<3;k++){int u=a[k],v=a[(k+1)%3];if(u>v)swap(u,v);e.push_back({u,v});}
+}
+sort(e.begin(),e.end(),[](auto&a,auto&b){return a.a==b.a?a.b<b.b:a.a<b.a;});
+for(size_t i=0;i<e.size();){
+size_t j=i+1;while(j<e.size()&&e[j].a==e[i].a&&e[j].b==e[i].b)j++;
+if(j==i+2)push(e[i].a,e[i].b);
+i=j;
+}
+}
+void clean(int a){
+vector<int>r;
+for(int f:Vv[a].inc)if(F[f].ok&&has(f,a))r.push_back(f);
+sort(r.begin(),r.end());r.erase(unique(r.begin(),r.end()),r.end());Vv[a].inc.swap(r);
+}
+bool col(int a,int b,const Vec3&p){
+int f0,f1,o0,o1;
+if(!efaces(a,b,f0,f1,o0,o1)||!link(a,b,f0,f1,o0,o1)||!local(a,b,p,f0,f1))return false;
+Quad qb=Vv[b].Q;double sb=Vv[b].sal;int vb=Vv[b].vis;auto L=Vv[b].inc;
+Vv[a].p=p;Vv[a].Q+=qb;Vv[a].sal=max(Vv[a].sal,sb);Vv[a].vis=max(Vv[a].vis,vb);
+Vv[b].ok=0;aliveV--;Vv[a].ver++;Vv[b].ver++;
+for(int f:L)if(F[f].ok){
+bool A=has(f,a),B=has(f,b);
+if(!B)continue;
+if(A){F[f].ok=0;aliveF--;continue;}
+for(int k=0;k<3;k++)if(F[f].v[k]==b)F[f].v[k]=a;
+if(F[f].v[0]==F[f].v[1]||F[f].v[1]==F[f].v[2]||F[f].v[2]==F[f].v[0]){F[f].ok=0;aliveF--;continue;}
+Vec3 cr=rawN(f);double a2=n2(cr);
+if(a2<=epsA){F[f].ok=0;aliveF--;continue;}
+double ar=.5*sqrt(a2);fn[f]=cr/(2*ar);fa[f]=ar;Vv[a].inc.push_back(f);
+}
+if(Vv[a].inc.size()>90)clean(a);
+Vv[b].inc.clear();
+for(int f:Vv[a].inc)if(F[f].ok){
+Vec3 cr=rawN(f);double a2=n2(cr);
+if(a2>epsA){double ar=.5*sqrt(a2);fn[f]=cr/(2*ar);fa[f]=ar;}
+else{F[f].ok=0;aliveF--;}
+}
+for(int u:neigh(a))push(a,u);
+for(int f:Vv[a].inc)if(F[f].ok){
+int x[3]={F[f].v[0],F[f].v[1],F[f].v[2]};
+for(int k=0;k<3;k++)push(x[k],x[(k+1)%3]);
+}
+return true;
+}
+Mesh run(int base){
+if(n0<200)return toMesh(base);
+initQ();
+int target=max(80,(int)ceil(0.18061096*n0));
+int it=0;
+while(aliveV>target&&!pq.empty()){
+auto e=pq.top();pq.pop();
+if(!Vv[e.a].ok||!Vv[e.b].ok||Vv[e.a].ver!=e.va||Vv[e.b].ver!=e.vb)continue;
+Vec3 p;double c;
+if(!cand(e.a,e.b,&p,&c))continue;
+if(c>e.c*48+1e-14){push(e.a,e.b);continue;}
+col(e.a,e.b,p);
+if((++it&16383)==0&&pq.size()>max(2000000,aliveV*14)){
+while(!pq.empty())pq.pop();
+for(int i=0;i<n0;i++)if(Vv[i].ok&&Vv[i].inc.size()>90)clean(i);
+initQ();
+}
+}
+return toMesh(base);
+}
+Mesh toMesh(int base){
+vector<int>used(n0,0),mp(n0,-1);vector<array<int,3>>ff;
+for(auto&t:F)if(t.ok){
+int a=t.v[0],b=t.v[1],c=t.v[2];
+if(a<0||b<0||c<0||a>=n0||b>=n0||c>=n0||a==b||b==c||c==a)continue;
+if(n2(crossv(Vv[b].p-Vv[a].p,Vv[c].p-Vv[a].p))<=epsA)continue;
+used[a]=used[b]=used[c]=1;ff.push_back({a,b,c});
+}
+vector<Vec3>vv;
+for(int i=0;i<n0;i++)if(Vv[i].ok&&used[i]){mp[i]=vv.size();vv.push_back(Vv[i].p);}
+for(auto&t:ff){t[0]=mp[t[0]];t[1]=mp[t[1]];t[2]=mp[t[2]];}
+return {move(vv),move(ff),base};
+}
+};
+
+int main(){
+ios::sync_with_stdio(false);
+cin.tie(nullptr);
+Mesh in=readMesh();
+if(in.v.empty()||in.f.empty()){
+vector<Vec3>v={{1,1,1},{-1,-1,1},{-1,1,-1},{1,-1,-1}};
+vector<array<int,3>>f={{0,1,2},{0,3,1},{0,2,3},{1,3,2}};
+outputMesh(v,f,0);
+return 0;
+}
+if(in.v.size()<=32){
+outputMesh(in.v,in.f,in.base);
+return 0;
+}
+Mesh cm;
+if(buildCubeMap(in,cm)&&cm.v.size()>=4&&manifoldOK(cm.v,cm.f)){
+outputMesh(cm.v,cm.f,cm.base);
+return 0;
+}
+QEMS q(in);
+Mesh out=q.run(in.base);
+if(!manifoldOK(out.v,out.f))out=in;
+outputMesh(out.v,out.f,out.base);
+return 0;
+}

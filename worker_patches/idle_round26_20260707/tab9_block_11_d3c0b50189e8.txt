@@ -1,0 +1,1 @@
+cpp block. No Python/generator-only/snippets/prose. Compile -O2 -std=c++17 and sample first line `8 12`. Hard pivot to a genuinely new structural strategy.
