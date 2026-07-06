@@ -1,0 +1,1 @@
+cpp block, compileable and passing the official sample first line `8 12`, with a genuinely different strategy that can escape the 81.938904 plateau.
