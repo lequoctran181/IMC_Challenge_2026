@@ -1,0 +1,1 @@
+cpp block. No Python, no generator-only answer, no patch-only answer, no prose-only answer. It must compile with -std=c++17 -O2 and pass official sample with first line exactly `8 12`. Make it materially new.
