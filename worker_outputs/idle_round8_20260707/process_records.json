@@ -1,0 +1,14 @@
+[
+  {
+    "src": "worker_patches/idle_round8_20260707/tab12_block_0.cpp",
+    "sha256_prefix": "158e0fd4da61",
+    "duplicate_of": "idle_round6/round4 tab12 fragment",
+    "skipped": "duplicate previously failed compile"
+  },
+  {
+    "src": "worker_patches/idle_round8_20260707/tab12_block_1.cpp",
+    "sha256_prefix": "ef96f7954fad",
+    "duplicate_of": "idle_round6/round4 tab12 fragment",
+    "skipped": "duplicate previously failed compile"
+  }
+]
