@@ -1,0 +1,90 @@
+[
+  {
+    "tab": 11,
+    "block": 0,
+    "path": "worker_patches/idle_round10_20260707/tab11_block_0.cpp",
+    "ext": "cpp",
+    "sha256": "579eb162aa3d025c343d7b68116856406330312362441b55dab7ce8378e69d51",
+    "bytes": 26143
+  },
+  {
+    "tab": 11,
+    "block": 1,
+    "path": "worker_patches/idle_round10_20260707/tab11_block_1.txt",
+    "ext": "txt",
+    "sha256": "04eee400fcf31955bb5bf8763682b1df19e176c0721a3755b9e9b14b7a666be3",
+    "bytes": 289
+  },
+  {
+    "tab": 11,
+    "block": 2,
+    "path": "worker_patches/idle_round10_20260707/tab11_block_2.txt",
+    "ext": "txt",
+    "sha256": "c13d1e762dbe3a5f7d4b73c93b0f4a96928e4d99c91010cda62f79ca6cf42ba7",
+    "bytes": 490
+  },
+  {
+    "tab": 11,
+    "block": 3,
+    "path": "worker_patches/idle_round10_20260707/tab11_block_3.txt",
+    "ext": "txt",
+    "sha256": "dbeb8f733010d1d9b4f0fbe2acd7c54083e1cd70753dc897400c1e268267eef9",
+    "bytes": 459
+  },
+  {
+    "tab": 12,
+    "block": 0,
+    "path": "worker_patches/idle_round10_20260707/tab12_block_0.cpp",
+    "ext": "cpp",
+    "sha256": "158e0fd4da61d80f510054031c833dfcd700cc63e8d3cb9cd88766e786d903c5",
+    "bytes": 20577
+  },
+  {
+    "tab": 12,
+    "block": 1,
+    "path": "worker_patches/idle_round10_20260707/tab12_block_1.cpp",
+    "ext": "cpp",
+    "sha256": "ef96f7954faddc19e184d701de8c2d2166bd505bf1aa64d40c88e4783b0d4f70",
+    "bytes": 15320
+  },
+  {
+    "tab": 12,
+    "block": 2,
+    "path": "worker_patches/idle_round10_20260707/tab12_block_2.txt",
+    "ext": "txt",
+    "sha256": "23431b86d5c3fb8946fbf3bde975b06a17e16ea49a06350f1a987080eb5e1406",
+    "bytes": 205
+  },
+  {
+    "tab": 12,
+    "block": 3,
+    "path": "worker_patches/idle_round10_20260707/tab12_block_3.txt",
+    "ext": "txt",
+    "sha256": "f4e77778586c01911ccb447f59eb68d6d2efdcccf905e58e11963753668bd78c",
+    "bytes": 185
+  },
+  {
+    "tab": 12,
+    "block": 4,
+    "path": "worker_patches/idle_round10_20260707/tab12_block_4.txt",
+    "ext": "txt",
+    "sha256": "c13d1e762dbe3a5f7d4b73c93b0f4a96928e4d99c91010cda62f79ca6cf42ba7",
+    "bytes": 490
+  },
+  {
+    "tab": 12,
+    "block": 5,
+    "path": "worker_patches/idle_round10_20260707/tab12_block_5.txt",
+    "ext": "txt",
+    "sha256": "4725f4d0f4b80f8b1ef565995b48a0ea1657e07145a03d82c6f8fd4ec219e8c2",
+    "bytes": 373
+  },
+  {
+    "tab": 12,
+    "block": 6,
+    "path": "worker_patches/idle_round10_20260707/tab12_block_6.txt",
+    "ext": "txt",
+    "sha256": "8e460c9f79f97b19b71f1b206da6989e277d20e52bfc200ad00c6944ef34379e",
+    "bytes": 392
+  }
+]

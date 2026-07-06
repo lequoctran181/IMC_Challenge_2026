@@ -1,0 +1,23 @@
+[
+  {
+    "path": "worker_patches/idle_round10_20260707/tab11_block_0.cpp",
+    "sha256": "579eb162aa3d025c343d7b68116856406330312362441b55dab7ce8378e69d51",
+    "bytes": 26143,
+    "status": "duplicate_skipped",
+    "reason": "duplicate_process_record:worker_outputs/idle_after_push_20260707/process_records.json;worker_outputs/idle_post_submit_20260707/process_records.json"
+  },
+  {
+    "path": "worker_patches/idle_round10_20260707/tab12_block_0.cpp",
+    "sha256": "158e0fd4da61d80f510054031c833dfcd700cc63e8d3cb9cd88766e786d903c5",
+    "bytes": 20577,
+    "status": "duplicate_skipped",
+    "reason": "duplicate_process_record:worker_outputs/idle_round2_20260707/process_records.json;worker_outputs/idle_round6_20260707/process_records.json"
+  },
+  {
+    "path": "worker_patches/idle_round10_20260707/tab12_block_1.cpp",
+    "sha256": "ef96f7954faddc19e184d701de8c2d2166bd505bf1aa64d40c88e4783b0d4f70",
+    "bytes": 15320,
+    "status": "duplicate_skipped",
+    "reason": "duplicate_process_record:worker_outputs/idle_round2_20260707/process_records.json;worker_outputs/idle_after_push_20260707/process_records.json;worker_outputs/idle_round6_20260707/process_records.json"
+  }
+]
