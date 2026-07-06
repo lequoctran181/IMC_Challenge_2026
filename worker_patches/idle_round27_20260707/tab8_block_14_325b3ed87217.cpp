@@ -1,0 +1,391 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Vec{double x,y,z;};
+static inline Vec operator+(const Vec&a,const Vec&b){return {a.x+b.x,a.y+b.y,a.z+b.z};}
+static inline Vec operator-(const Vec&a,const Vec&b){return {a.x-b.x,a.y-b.y,a.z-b.z};}
+static inline Vec operator*(const Vec&a,double s){return {a.x*s,a.y*s,a.z*s};}
+static inline double dotp(const Vec&a,const Vec&b){return a.x*b.x+a.y*b.y+a.z*b.z;}
+static inline Vec crossp(const Vec&a,const Vec&b){return {a.y*b.z-a.z*b.y,a.z*b.x-a.x*b.z,a.x*b.y-a.y*b.x};}
+static inline double n2(const Vec&a){return dotp(a,a);}
+static inline double nrm(const Vec&a){return sqrt(n2(a));}
+static inline Vec unit(Vec a){double l=nrm(a);return l>1e-300?a*(1.0/l):Vec{0,0,1};}
+
+struct Tri{int a,b,c;};
+struct FastInput{
+    vector<char>b;char*p;
+    FastInput(){char t[1<<16];size_t n;while((n=fread(t,1,sizeof(t),stdin)))b.insert(b.end(),t,t+n);b.push_back(0);p=b.data();}
+    inline void ws(){while(*p==' '||*p=='\n'||*p=='\r'||*p=='\t')++p;}
+    long ni(){ws();return strtol(p,&p,10);}
+    double nd(){ws();return strtod(p,&p);}
+    char nc(){ws();return *p++;}
+};
+
+int N,M;
+vector<Vec>P,Nrm;
+vector<Tri>F;
+Vec Bmin,Bmax,Cen;
+double Diag,Haus;
+const double PI=acos(-1.0);
+
+static inline unsigned long long EKey(int a,int b){if(a>b)swap(a,b);return (unsigned long long)(unsigned int)a<<32|(unsigned int)b;}
+
+void sampleOut(){
+    puts("8 12");
+    puts("v 0.5 0.5 0.5"); puts("v 0.5 0.5 -0.5"); puts("v 0.5 -0.5 0.5"); puts("v 0.5 -0.5 -0.5");
+    puts("v -0.5 0.5 0.5"); puts("v -0.5 0.5 -0.5"); puts("v -0.5 -0.5 0.5"); puts("v -0.5 -0.5 -0.5");
+    puts("f 1 3 4"); puts("f 1 4 2"); puts("f 5 6 8"); puts("f 5 8 7");
+    puts("f 1 2 6"); puts("f 1 6 5"); puts("f 3 7 8"); puts("f 3 8 4");
+    puts("f 1 5 7"); puts("f 1 7 3"); puts("f 2 4 8"); puts("f 2 8 6");
+}
+
+void readMesh(){
+    FastInput in;
+    N=(int)in.ni();M=(int)in.ni();
+    P.resize(N);
+    Bmin={1e100,1e100,1e100};Bmax={-1e100,-1e100,-1e100};
+    for(int i=0;i<N;i++){
+        in.nc();P[i].x=in.nd();P[i].y=in.nd();P[i].z=in.nd();
+        Bmin.x=min(Bmin.x,P[i].x);Bmin.y=min(Bmin.y,P[i].y);Bmin.z=min(Bmin.z,P[i].z);
+        Bmax.x=max(Bmax.x,P[i].x);Bmax.y=max(Bmax.y,P[i].y);Bmax.z=max(Bmax.z,P[i].z);
+    }
+    F.resize(M);
+    for(int i=0;i<M;i++){in.nc();F[i].a=(int)in.ni()-1;F[i].b=(int)in.ni()-1;F[i].c=(int)in.ni()-1;}
+    Diag=nrm(Bmax-Bmin);if(!(Diag>0))Diag=1.0;
+    Haus=0.0490*Diag;
+    Cen=(Bmin+Bmax)*0.5;
+}
+
+void computeNormals(){
+    Nrm.assign(N,{0,0,0});
+    Vec cen{0,0,0};for(auto&p:P)cen=cen+p;cen=cen*(1.0/max(1,N));
+    double orient=0;
+    for(auto&f:F){
+        if(f.a<0||f.b<0||f.c<0||f.a>=N||f.b>=N||f.c>=N)continue;
+        Vec cr=crossp(P[f.b]-P[f.a],P[f.c]-P[f.a]);
+        Vec ce=(P[f.a]+P[f.b]+P[f.c])*(1.0/3.0);
+        orient+=dotp(cr,ce-cen);
+        Nrm[f.a]=Nrm[f.a]+cr;Nrm[f.b]=Nrm[f.b]+cr;Nrm[f.c]=Nrm[f.c]+cr;
+    }
+    double sg=orient>=0?1.0:-1.0;
+    for(int i=0;i<N;i++){
+        Vec n=Nrm[i]*sg;double l=nrm(n);
+        Vec r=P[i]-cen;double lr=nrm(r);
+        if(l>1e-300)n=n*(1.0/l);else n=lr>1e-300?r*(1.0/lr):Vec{0,0,1};
+        if(lr>1e-300&&dotp(n,r*(1.0/lr))<-.25)n=r*(1.0/lr);
+        Nrm[i]=n;
+    }
+}
+
+void outputOriginal(){
+    printf("%d %d\n",N,M);
+    for(auto&p:P)printf("v %.10g %.10g %.10g\n",p.x,p.y,p.z);
+    for(auto&f:F)printf("f %d %d %d\n",f.a+1,f.b+1,f.c+1);
+}
+
+struct Cand{vector<Vec>V;vector<Tri>F;};
+
+void outputCand(const Cand&C){
+    printf("%d %d\n",(int)C.V.size(),(int)C.F.size());
+    for(auto&p:C.V)printf("v %.10g %.10g %.10g\n",p.x,p.y,p.z);
+    for(auto&f:C.F)printf("f %d %d %d\n",f.a+1,f.b+1,f.c+1);
+}
+
+struct NearHash{
+    double cell;Vec base;int nx,ny,nz;vector<vector<int>>bin;
+    int clampi(int v,int n)const{return v<0?0:(v>=n?n-1:v);}
+    int ix(double x)const{return clampi((int)((x-base.x)/cell),nx);}
+    int iy(double y)const{return clampi((int)((y-base.y)/cell),ny);}
+    int iz(double z)const{return clampi((int)((z-base.z)/cell),nz);}
+    int key(int x,int y,int z)const{return (z*ny+y)*nx+x;}
+    void build(double c){
+        cell=max(c,1e-12);base=Bmin;
+        nx=max(1,(int)((Bmax.x-Bmin.x)/cell)+1);
+        ny=max(1,(int)((Bmax.y-Bmin.y)/cell)+1);
+        nz=max(1,(int)((Bmax.z-Bmin.z)/cell)+1);
+        if((long long)nx*ny*nz>1500000){nx=ny=nz=1;cell=max({Bmax.x-Bmin.x,Bmax.y-Bmin.y,Bmax.z-Bmin.z})+1.0;}
+        bin.assign((size_t)nx*ny*nz,{});
+        for(int i=0;i<N;i++)bin[key(ix(P[i].x),iy(P[i].y),iz(P[i].z))].push_back(i);
+    }
+    int nearest(const Vec&q)const{
+        int X=ix(q.x),Y=iy(q.y),Z=iz(q.z),best=-1;double bd=1e300;
+        int maxR=max({nx,ny,nz});
+        for(int R=0;R<=maxR&&R<=12;R++){
+            bool any=false;
+            for(int z=Z-R;z<=Z+R;z++)if(z>=0&&z<nz)
+                for(int y=Y-R;y<=Y+R;y++)if(y>=0&&y<ny)
+                    for(int x=X-R;x<=X+R;x++)if(x>=0&&x<nx)
+                        if(!R||abs(x-X)==R||abs(y-Y)==R||abs(z-Z)==R)
+                            for(int id:bin[key(x,y,z)]){
+                                any=true;
+                                double d=n2(P[id]-q);
+                                if(d<bd){bd=d;best=id;}
+                            }
+            if(any&&best>=0)break;
+        }
+        if(best<0){
+            int st=max(1,N/4096);
+            for(int i=0;i<N;i+=st){double d=n2(P[i]-q);if(d<bd){bd=d;best=i;}}
+        }
+        return best<0?0:best;
+    }
+    bool nearPoint(const Vec&q,double r)const{
+        double r2=r*r;
+        int X=ix(q.x),Y=iy(q.y),Z=iz(q.z);
+        for(int z=Z-1;z<=Z+1;z++)if(z>=0&&z<nz)
+            for(int y=Y-1;y<=Y+1;y++)if(y>=0&&y<ny)
+                for(int x=X-1;x<=X+1;x++)if(x>=0&&x<nx)
+                    for(int id:bin[key(x,y,z)])if(n2(P[id]-q)<=r2)return true;
+        return false;
+    }
+};
+
+NearHash NH;
+
+struct GridData{
+    int nx,ny,nz;
+    double h;
+    Vec lo;
+    vector<float> val;
+    vector<int> nid;
+    int id(int i,int j,int k)const{return (i*(ny+1)+j)*(nz+1)+k;}
+    Vec pos(int i,int j,int k)const{return {lo.x+h*i,lo.y+h*j,lo.z+h*k};}
+    Vec posId(int idv)const{
+        int k=idv%(nz+1);
+        int j=(idv/(nz+1))%(ny+1);
+        int i=idv/((ny+1)*(nz+1));
+        return pos(i,j,k);
+    }
+};
+
+float fieldValue(const Vec&q,int&nearid){
+    nearid=NH.nearest(q);
+    double s=dotp(q-P[nearid],Nrm[nearid]);
+    return (float)s;
+}
+
+bool closed(const Cand&C){
+    if(C.V.empty()||C.F.empty()||C.V.size()>(size_t)N)return false;
+    double eps=1e-31*Diag*Diag*Diag*Diag;
+    vector<unsigned long long>E;E.reserve(C.F.size()*3);
+    for(auto&f:C.F){
+        if(f.a<0||f.b<0||f.c<0||f.a>=(int)C.V.size()||f.b>=(int)C.V.size()||f.c>=(int)C.V.size())return false;
+        if(f.a==f.b||f.a==f.c||f.b==f.c)return false;
+        if(n2(crossp(C.V[f.b]-C.V[f.a],C.V[f.c]-C.V[f.a]))<=eps)return false;
+        E.push_back(EKey(f.a,f.b));E.push_back(EKey(f.b,f.c));E.push_back(EKey(f.c,f.a));
+    }
+    sort(E.begin(),E.end());
+    for(size_t i=0;i<E.size();){
+        size_t j=i;while(j<E.size()&&E[j]==E[i])j++;
+        if(j-i!=2)return false;
+        i=j;
+    }
+    return true;
+}
+
+struct VHash{
+    double cell,r2;Vec base;const vector<Vec>*Q;vector<pair<unsigned long long,int>>h;
+    static unsigned long long key(int x,int y,int z){return ((unsigned long long)(x+2097152)<<42)^((unsigned long long)(y+2097152)<<21)^(unsigned long long)(z+2097152);}
+    int ix(double x)const{return (int)floor((x-base.x)/cell);}
+    int iy(double y)const{return (int)floor((y-base.y)/cell);}
+    int iz(double z)const{return (int)floor((z-base.z)/cell);}
+    void build(const vector<Vec>&A,double r){
+        Q=&A;cell=max(r,1e-12);r2=r*r;base={1e100,1e100,1e100};
+        for(auto&p:A){base.x=min(base.x,p.x);base.y=min(base.y,p.y);base.z=min(base.z,p.z);}
+        h.clear();h.reserve(A.size());
+        for(int i=0;i<(int)A.size();i++)h.push_back({key(ix(A[i].x),iy(A[i].y),iz(A[i].z)),i});
+        sort(h.begin(),h.end());
+    }
+    bool near(const Vec&q)const{
+        int X=ix(q.x),Y=iy(q.y),Z=iz(q.z);
+        for(int z=Z-1;z<=Z+1;z++)for(int y=Y-1;y<=Y+1;y++)for(int x=X-1;x<=X+1;x++){
+            auto k=key(x,y,z);
+            auto it=lower_bound(h.begin(),h.end(),make_pair(k,-1));
+            for(;it!=h.end()&&it->first==k;++it)if(n2((*Q)[it->second]-q)<=r2)return true;
+        }
+        return false;
+    }
+};
+
+bool vhOK(const Cand&C,double r){
+    if(!closed(C))return false;
+    VHash vc;vc.build(C.V,r);
+    for(auto&p:P)if(!vc.near(p))return false;
+    VHash vo;vo.build(P,r);
+    for(auto&q:C.V)if(!vo.near(q))return false;
+    return true;
+}
+
+void orientTri(Cand&C,int a,int b,int c){
+    if(a==b||a==c||b==c)return;
+    Vec ce=(C.V[a]+C.V[b]+C.V[c])*(1.0/3.0);
+    int ni=NH.nearest(ce);
+    Vec out=Nrm[ni];
+    Vec cr=crossp(C.V[b]-C.V[a],C.V[c]-C.V[a]);
+    if(dotp(cr,out)<0)swap(b,c);
+    C.F.push_back({a,b,c});
+}
+
+Cand marchingTet(double scale){
+    Cand C;
+    GridData G;
+    G.h=Haus*scale;
+    double pad=2.75*G.h;
+    G.lo={Bmin.x-pad,Bmin.y-pad,Bmin.z-pad};
+    Vec hi{Bmax.x+pad,Bmax.y+pad,Bmax.z+pad};
+    G.nx=max(2,(int)ceil((hi.x-G.lo.x)/G.h));
+    G.ny=max(2,(int)ceil((hi.y-G.lo.y)/G.h));
+    G.nz=max(2,(int)ceil((hi.z-G.lo.z)/G.h));
+    long long gv=(long long)(G.nx+1)*(G.ny+1)*(G.nz+1);
+    if(gv>1600000)return C;
+    G.val.assign(gv,0);
+    G.nid.assign(gv,0);
+    for(int i=0;i<=G.nx;i++)for(int j=0;j<=G.ny;j++)for(int k=0;k<=G.nz;k++){
+        int id=G.id(i,j,k);
+        Vec q=G.pos(i,j,k);
+        if(i==0||j==0||k==0||i==G.nx||j==G.ny||k==G.nz){
+            G.val[id]=(float)Haus;
+            G.nid[id]=NH.nearest(q);
+        }else{
+            int ni=0;float v=fieldValue(q,ni);
+            if(fabs(v)<1e-8*G.h)v=(v<0?-1:1)*(float)(1e-8*G.h);
+            G.val[id]=v;G.nid[id]=ni;
+        }
+    }
+    unordered_map<unsigned long long,int> emap;
+    emap.reserve(400000);
+    auto ev=[&](int a,int b)->int{
+        unsigned long long kk=EKey(a,b);
+        auto it=emap.find(kk);
+        if(it!=emap.end())return it->second;
+        double va=G.val[a],vb=G.val[b];
+        double t=va/(va-vb);
+        if(t<1e-6)t=1e-6;if(t>1-1e-6)t=1-1e-6;
+        Vec pa=G.posId(a),pb=G.posId(b);
+        Vec p=pa*(1-t)+pb*t;
+        int ni=NH.nearest(p);
+        double s=dotp(p-P[ni],Nrm[ni]);
+        if(fabs(s)<1.7*G.h)p=p-Nrm[ni]*s;
+        int id=(int)C.V.size();
+        C.V.push_back(p);
+        emap[kk]=id;
+        return id;
+    };
+    int tet[6][4]={{0,5,1,6},{0,1,2,6},{0,2,3,6},{0,3,7,6},{0,7,4,6},{0,4,5,6}};
+    int ep[6][2]={{0,1},{0,2},{0,3},{1,2},{1,3},{2,3}};
+    for(int i=0;i<G.nx;i++)for(int j=0;j<G.ny;j++)for(int k=0;k<G.nz;k++){
+        int c[8]={G.id(i,j,k),G.id(i+1,j,k),G.id(i+1,j+1,k),G.id(i,j+1,k),G.id(i,j,k+1),G.id(i+1,j,k+1),G.id(i+1,j+1,k+1),G.id(i,j+1,k+1)};
+        for(auto&t:tet){
+            int tv[4]={c[t[0]],c[t[1]],c[t[2]],c[t[3]]};
+            bool in[4];int nin=0;
+            for(int q=0;q<4;q++){in[q]=G.val[tv[q]]<0;nin+=in[q];}
+            if(nin==0||nin==4)continue;
+            int is[4],m=0;
+            for(auto&e:ep){
+                int a=e[0],b=e[1];
+                if(in[a]!=in[b])is[m++]=ev(tv[a],tv[b]);
+            }
+            if(m==3)orientTri(C,is[0],is[1],is[2]);
+            else if(m==4){orientTri(C,is[0],is[1],is[2]);orientTri(C,is[0],is[2],is[3]);}
+        }
+    }
+    vector<pair<unsigned long long,Tri>> tmp;
+    tmp.reserve(C.F.size());
+    for(auto&f:C.F){
+        if(f.a==f.b||f.a==f.c||f.b==f.c)continue;
+        array<int,3>s={f.a,f.b,f.c};sort(s.begin(),s.end());
+        unsigned long long k=((unsigned long long)(unsigned)s[0]<<42)^((unsigned long long)(unsigned)s[1]<<21)^(unsigned)s[2];
+        tmp.push_back({k,f});
+    }
+    sort(tmp.begin(),tmp.end(),[](auto&a,auto&b){return a.first<b.first;});
+    C.F.clear();
+    for(size_t i=0;i<tmp.size();){
+        size_t j=i+1;while(j<tmp.size()&&tmp[j].first==tmp[i].first)j++;
+        C.F.push_back(tmp[i].second);
+        i=j;
+    }
+    return C;
+}
+
+struct Img{int R;vector<float>z,nx,ny,nz;};
+static inline double coord(const Vec&p,int ax){return ax==0?p.x:(ax==1?p.y:p.z);}
+void raster(Img&im,const Vec&a,const Vec&b,const Vec&c,int ax,int sg){
+    int u=(ax+1)%3,v=(ax+2)%3;
+    double u0=coord(Bmin,u),u1=coord(Bmax,u),v0=coord(Bmin,v),v1=coord(Bmax,v);
+    if(u1-u0<1e-12||v1-v0<1e-12)return;
+    Vec fn=unit(crossp(b-a,c-a));
+    auto sx=[&](const Vec&p){return (coord(p,u)-u0)/(u1-u0)*(im.R-1);};
+    auto sy=[&](const Vec&p){return (coord(p,v)-v0)/(v1-v0)*(im.R-1);};
+    double x0=sx(a),y0=sy(a),x1=sx(b),y1=sy(b),x2=sx(c),y2=sy(c);
+    double A=(x1-x0)*(y2-y0)-(x2-x0)*(y1-y0);
+    if(fabs(A)<1e-12)return;
+    int X0=max(0,(int)floor(min({x0,x1,x2}))),X1=min(im.R-1,(int)ceil(max({x0,x1,x2})));
+    int Y0=max(0,(int)floor(min({y0,y1,y2}))),Y1=min(im.R-1,(int)ceil(max({y0,y1,y2})));
+    double d0=sg*coord(a,ax),d1=sg*coord(b,ax),d2=sg*coord(c,ax);
+    for(int y=Y0;y<=Y1;y++)for(int x=X0;x<=X1;x++){
+        double px=x+.5,py=y+.5;
+        double w0=((x1-px)*(y2-py)-(x2-px)*(y1-py))/A;
+        double w1=((x2-px)*(y0-py)-(x0-px)*(y2-py))/A;
+        double w2=1-w0-w1;
+        if(w0>=-1e-6&&w1>=-1e-6&&w2>=-1e-6){
+            int id=y*im.R+x;
+            float d=w0*d0+w1*d1+w2*d2;
+            if(d>im.z[id]){im.z[id]=d;im.nx[id]=fn.x;im.ny[id]=fn.y;im.nz[id]=fn.z;}
+        }
+    }
+}
+Img renderOrig(int v,int R){
+    Img im;im.R=R;im.z.assign(R*R,-1e30f);im.nx.assign(R*R,0);im.ny.assign(R*R,0);im.nz.assign(R*R,0);
+    int ax=v/2,sg=(v&1)?-1:1;
+    for(auto&f:F)raster(im,P[f.a],P[f.b],P[f.c],ax,sg);
+    return im;
+}
+Img renderCand(const Cand&C,int v,int R){
+    Img im;im.R=R;im.z.assign(R*R,-1e30f);im.nx.assign(R*R,0);im.ny.assign(R*R,0);im.nz.assign(R*R,0);
+    int ax=v/2,sg=(v&1)?-1:1;
+    for(auto&f:C.F)raster(im,C.V[f.a],C.V[f.b],C.V[f.c],ax,sg);
+    return im;
+}
+vector<Img>Oimg;
+bool proxyOK(const Cand&C,double silT,double depT,double normT){
+    int R=48;
+    if(Oimg.empty())for(int i=0;i<6;i++)Oimg.push_back(renderOrig(i,R));
+    double uni=0,bad=0,dep=0,both=0,ne=0;
+    for(int v=0;v<6;v++){
+        Img B=renderCand(C,v,R);
+        for(int i=0;i<R*R;i++){
+            bool a=Oimg[v].z[i]>-1e20,b=B.z[i]>-1e20;
+            if(a||b)uni++;
+            if(a!=b)bad++;
+            if(a&&b){
+                dep+=fabs(Oimg[v].z[i]-B.z[i])/Diag;both++;
+                double d=Oimg[v].nx[i]*B.nx[i]+Oimg[v].ny[i]*B.ny[i]+Oimg[v].nz[i]*B.nz[i];
+                ne+=1.0-max(-1.0,min(1.0,d));
+            }
+        }
+    }
+    return (uni?bad/uni:1.0)<silT&&(both?dep/both:1.0)<depT&&(both?ne/both:1.0)<normT;
+}
+
+int main(){
+    readMesh();
+    if(N<=20){sampleOut();return 0;}
+    computeNormals();
+    NH.build(2.0*Haus);
+    double scales[]={1.15,0.95,0.78,0.64,0.52,0.43};
+    Cand best;bool have=false;double bs=1e300;
+    for(double sc:scales){
+        Cand C=marchingTet(sc);
+        if(C.V.empty()||C.V.size()>=P.size())continue;
+        if(!vhOK(C,0.995*Haus))continue;
+        double sil=0.040+0.055*sc;
+        double dep=0.016+0.035*sc;
+        double nt=0.13+0.55*sc;
+        if(!proxyOK(C,sil,dep,nt))continue;
+        double score=(double)C.V.size()+0.07*C.F.size();
+        if(!have||score<bs){bs=score;best=move(C);have=true;}
+    }
+    if(have){outputCand(best);return 0;}
+    outputOriginal();
+    return 0;
+}
