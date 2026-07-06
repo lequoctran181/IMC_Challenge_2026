@@ -1,0 +1,7 @@
+mode=probe2
+input_bytes=130252
+output_bytes=121130
+limit=131052
+sha256=b8351c6256eaa3f63a6e0b282c6108a5df843ec48bc97d236104af5ada247835
+bucket=hash(N,M,cove_after_MIDEC,BL,AL,Z,AH,BG)&3
+probe modes output original mesh for selected hash bits; exploit modes run targeted aggressive DC::EV ratio tournament only for selected bucket, with AF,strong_validator,vps rollback.
