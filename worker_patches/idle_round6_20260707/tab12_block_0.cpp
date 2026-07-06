@@ -1,0 +1,573 @@
+#!/usr/bin/env python3
+# VC7 deterministic generator: guarded spatial-normal vertex-quotient remesh.
+#
+# Usage from repo root:
+#   python3 make_vc7_quotient.py fetched_sources/kattis_19903544_81.938904.cpp -o vc7_quotient_submit.cpp
+#   g++ -std=c++17 -O2 -pipe -static -s vc7_quotient_submit.cpp -o vc7_quotient_submit
+#
+# Sample gate:
+#   ./vc7_quotient_submit < sample.in
+#   expected first line: 8 12
+#
+# This patches only an exact current-best-style source. It refuses to stack on
+# R5/Q35/STX/MVI/VXH/AX6/VHX/X92 lanes so the fallback remains the current-best
+# mesh. The new route is structurally different: a topology-preserving quotient
+# of original faces under spatial cells split by accumulated normal bin, with
+# duplicate-triangle collapse, edge-degree manifold precheck, repository validator,
+# and visual proxy gate before state replacement.
+
+from __future__ import annotations
+import argparse
+import hashlib
+import os
+import re
+import shutil
+import string
+import subprocess
+import sys
+from pathlib import Path
+
+LIMIT = 131072
+
+PREFERRED = [
+    "fetched_sources/kattis_19903544_81.938904.cpp",
+    "fetched_sources/kattis_19903622_81.938904.cpp",
+    "kattis_19903544_81.938904.cpp",
+    "kattis_19903622_81.938904.cpp",
+]
+
+BAD_STACK = [
+    "namespace R5Q", "R5Q::run",
+    "namespace Q35", "Q35::run",
+    "namespace STX", "STX::run",
+    "namespace MVI92", "MVI92::run",
+    "namespace VXH", "VXH::run",
+    "namespace VHX", "VHX::run",
+    "namespace AX6", "AX6::run",
+    "namespace X92", "X92::run",
+    "namespace VC7", "VC7::run",
+]
+
+REQ = [
+    ("state snapshot", ["static AP AD()", " AP AD()"]),
+    ("state restore", ["static void rs(", " void rs(", "rs(const AP"]),
+    ("arbitrary mesh adopter", ["AF("]),
+    ("strong validator", ["W5::strong_validator"]),
+    ("visual proxy", ["vps(", "visual_proxy_score"]),
+    ("vertex count estimator", ["cove", "count_output_vertices_estimate"]),
+    ("original vertices", ["originalP"]),
+    ("original faces", ["AR"]),
+    ("read hook", ["JC();"]),
+    ("write hook", ["JD();"]),
+]
+
+LANE = r'''
+namespace VC7{
+struct It{unsigned long long k;int v;};
+struct Tg{unsigned long long k;int a,b,c;double ar;};
+static Face mf(int a,int b,int c){Face f;f.v[0]=a;f.v[1]=b;f.v[2]=c;return f;}
+static int nb(const Vec3&n){
+    double ax=fabs(n.x),ay=fabs(n.y),az=fabs(n.z);
+    int p=0;if(ay>ax&&ay>=az)p=1;else if(az>ax&&az>ay)p=2;
+    double s=p==0?n.x:(p==1?n.y:n.z);
+    return p*2+(s<0);
+}
+static unsigned long long pk(int x,int y,int z,int b){
+    return ((unsigned long long)(unsigned int)x<<44)|((unsigned long long)(unsigned int)y<<24)|((unsigned long long)(unsigned int)z<<4)|(unsigned long long)(b&15);
+}
+static unsigned long long tk3(int a,int b,int c){
+    if(a>b)swap(a,b);if(b>c)swap(b,c);if(a>b)swap(a,b);
+    return ((unsigned long long)(unsigned int)a<<42)|((unsigned long long)(unsigned int)b<<21)|(unsigned long long)(unsigned int)c;
+}
+static unsigned long long ek(int a,int b){
+    if(a>b)swap(a,b);
+    return ((unsigned long long)(unsigned int)a<<32)|(unsigned int)b;
+}
+static vector<Vec3> vn(){
+    vector<Vec3>n(N,Vec3{0,0,0});
+    for(int i=0;i<M;i++){
+        const Face&f=AR[i];
+        Vec3 cr=cross3(originalP[f.v[1]]-originalP[f.v[0]],originalP[f.v[2]]-originalP[f.v[0]]);
+        n[f.v[0]]=n[f.v[0]]+cr;n[f.v[1]]=n[f.v[1]]+cr;n[f.v[2]]=n[f.v[2]]+cr;
+        if((i&262143)==0&&es()>17.25)break;
+    }
+    return n;
+}
+static bool edge_ok(const vector<Face>&F){
+    if(F.empty()||F.size()>1400000)return 0;
+    vector<unsigned long long>E;E.reserve(F.size()*3);
+    for(const Face&f:F){
+        int a=f.v[0],b=f.v[1],c=f.v[2];
+        if(a==b||a==c||b==c)return 0;
+        E.push_back(ek(a,b));E.push_back(ek(b,c));E.push_back(ek(c,a));
+    }
+    sort(E.begin(),E.end());
+    for(size_t i=0;i<E.size();){
+        size_t j=i+1;while(j<E.size()&&E[j]==E[i])++j;
+        if(j-i!=2)return 0;
+        i=j;
+    }
+    return 1;
+}
+static bool build(double h,double ox,double oy,double oz,const vector<Vec3>&NN,vector<Vec3>&X,vector<Face>&F){
+    if(!(h>1e-12)||N<=0)return 0;
+    Vec3 mn=originalP[0],mx=originalP[0];
+    for(const Vec3&p:originalP){
+        mn.x=min(mn.x,p.x);mn.y=min(mn.y,p.y);mn.z=min(mn.z,p.z);
+        mx.x=max(mx.x,p.x);mx.y=max(mx.y,p.y);mx.z=max(mx.z,p.z);
+    }
+    double R=.04915*CL,R2=R*R,eps=max(1e-30,1e-24*CL*CL);
+    vector<It>A;A.reserve(N);
+    for(int i=0;i<N;i++){
+        const Vec3&p=originalP[i];
+        int x=(int)floor((p.x-mn.x)/h+ox),y=(int)floor((p.y-mn.y)/h+oy),z=(int)floor((p.z-mn.z)/h+oz);
+        if(x<0)x=0;if(y<0)y=0;if(z<0)z=0;
+        A.push_back(It{pk(x,y,z,nb(NN[i])),i});
+        if((i&262143)==0&&es()>17.65)return 0;
+    }
+    sort(A.begin(),A.end(),[](const It&a,const It&b){return a.k<b.k;});
+    vector<int>mp(N,-1);
+    X.clear();X.reserve(N/2);
+    for(int l=0;l<N;){
+        int r=l+1;while(r<N&&A[r].k==A[l].k)++r;
+        Vec3 c{0,0,0};double inv=1.0/(r-l);
+        for(int j=l;j<r;j++)c=c+originalP[A[j].v];
+        c=c*inv;
+        int bi=A[l].v;double bd=norm2(originalP[bi]-c);
+        for(int j=l+1;j<r;j++){
+            double d=norm2(originalP[A[j].v]-c);
+            if(d<bd){bd=d;bi=A[j].v;}
+        }
+        for(int j=l;j<r;j++)if(norm2(originalP[A[j].v]-originalP[bi])>R2)return 0;
+        int id=(int)X.size();
+        X.push_back(originalP[bi]);
+        for(int j=l;j<r;j++)mp[A[j].v]=id;
+        l=r;
+        if((int)X.size()>=N||((int)X.size()&8191)==0&&es()>17.95)return 0;
+    }
+    if((int)X.size()<16)return 0;
+    vector<Tg>T;T.reserve(M);
+    for(int i=0;i<M;i++){
+        const Face&o=AR[i];
+        int a=mp[o.v[0]],b=mp[o.v[1]],c=mp[o.v[2]];
+        if(a<0||b<0||c<0||a==b||a==c||b==c)continue;
+        Vec3 cr=cross3(X[b]-X[a],X[c]-X[a]);
+        double ar=norm2(cr);
+        if(ar>eps)T.push_back(Tg{tk3(a,b,c),a,b,c,ar});
+        if((i&262143)==0&&es()>18.12)return 0;
+    }
+    if(T.size()<4)return 0;
+    sort(T.begin(),T.end(),[](const Tg&a,const Tg&b){if(a.k!=b.k)return a.k<b.k;return a.ar>b.ar;});
+    F.clear();F.reserve(T.size());
+    for(size_t i=0;i<T.size();){
+        size_t j=i+1;while(j<T.size()&&T[j].k==T[i].k)++j;
+        size_t best=i;double ba=T[i].ar;
+        for(size_t q=i+1;q<j;q++)if(T[q].ar>ba){ba=T[q].ar;best=q;}
+        F.push_back(mf(T[best].a,T[best].b,T[best].c));
+        i=j;
+    }
+    vector<unsigned char>U(X.size(),0);
+    for(const Face&f:F){U[f.v[0]]=1;U[f.v[1]]=1;U[f.v[2]]=1;}
+    for(unsigned char u:U)if(!u)return 0;
+    return edge_ok(F);
+}
+static bool check(vector<Vec3>&X,vector<Face>&F,int base,double hh){
+    if((int)X.size()>=base||F.empty()||es()>18.82)return 0;
+    AP S=AD();bool ok=0;
+    if(AF(X,F)&&W5::strong_validator()){
+        int after=cove();
+        if(after>0&&after<base){
+            double drop=(double)(base-after)/(double)base;
+            if(drop>=.085){
+                int R=N>140000?384:512;
+                double need=drop>.55?.926:(drop>.40?.938:(drop>.25?.953:.969));
+                if(hh>.0275)need+=.006;
+                double p=vps(R);
+                ok=p>=need;
+                if(ok&&R<768&&N<180000&&es()<19.42)ok=vps(768)>=need-.006;
+                if(ok&&drop<.18&&p<.985)ok=0;
+            }
+        }
+    }
+    if(ok)return 1;
+    rs(S);return 0;
+}
+static bool run(){
+    if(N<2500||N>260000||M<4||M>6*N||es()>16.85)return 0;
+    int base=cove();
+    if(base<700||base>=N)return 0;
+    vector<Vec3>NN=vn();
+    if(es()>17.55)return 0;
+    double H[]={.030,.027,.024,.021,.018,.015,0};
+    double O[5][3]={{0,0,0},{.37,.11,.23},{.5,.5,.5},{.73,.37,.61},{.19,.67,.41}};
+    for(int hi=0;H[hi]>0&&es()<18.70;hi++){
+        int tries=hi<3?5:3;
+        for(int oi=0;oi<tries&&es()<18.70;oi++){
+            vector<Vec3>X;vector<Face>F;
+            if(build(H[hi]*CL,O[oi][0],O[oi][1],O[oi][2],NN,X,F)){
+                if(check(X,F,base,H[hi]))return 1;
+            }
+        }
+    }
+    return 0;
+}
+}
+'''
+
+KW = set("""alignas alignof and and_eq asm atomic_cancel atomic_commit atomic_noexcept auto bitand bitor bool break case catch char char16_t char32_t class compl concept const consteval constexpr constinit const_cast continue co_await co_return co_yield decltype default delete do double dynamic_cast else enum explicit export extern false float for friend goto if inline int long mutable namespace new noexcept not not_eq nullptr operator or or_eq private protected public reflexpr register reinterpret_cast requires return short signed sizeof static static_assert static_cast struct switch synchronized template this thread_local throw true try typedef typeid typename union unsigned using virtual void volatile wchar_t while xor xor_eq""".split())
+STD = set("""abort abs acos adjacent_find array atan2 back begin cbrt ceil chrono clear cos count data deque duration empty end erase exit fabs fill find floor fprintf fread fwrite greater hypot insert int16_t int32_t int64_t int8_t isfinite less lower_bound make_pair map max memcpy memset min move pair pop pop_back pow priority_queue printf push push_back queue reserve resize reverse set setvbuf shrink_to_fit sin size size_t snprintf sort sqrt stable_sort stderr stdin stdout strtod strtof strtol string swap tuple uint16_t uint32_t uint64_t uint8_t unordered_map unordered_set unique upper_bound vector puts perror getenv system""".split())
+
+def die(msg: str) -> None:
+    raise SystemExit("FAIL_CLOSED: " + msg)
+
+def choose_src(arg: str | None) -> Path:
+    if arg:
+        p = Path(arg)
+        if not p.exists():
+            die("explicit source not found: " + arg)
+        return p
+    for s in PREFERRED:
+        p = Path(s)
+        if p.exists():
+            return p
+    hits: list[Path] = []
+    for pat in ("*19903544*81.938904*.cpp", "*19903622*81.938904*.cpp", "*81.938904*.cpp"):
+        hits.extend(Path(".").rglob(pat))
+    seen: list[Path] = []
+    for p in hits:
+        if p not in seen:
+            seen.append(p)
+    for p in seen:
+        try:
+            x = p.read_text(encoding="utf-8", errors="ignore")
+        except Exception:
+            continue
+        if "W5::strong_validator" in x and "originalP" in x and "AR" in x and "int main" in x:
+            return p
+    die("exact 81.938904 source not found; pass fetched_sources/kattis_19903544_81.938904.cpp")
+
+def require_base(src: str) -> None:
+    for bad in BAD_STACK:
+        if bad in src:
+            die("refusing stacked/non-current-best source containing " + bad)
+    for label, alts in REQ:
+        if not any(a in src for a in alts):
+            die("missing required current-best anchor: " + label)
+    if len(src.encode()) > LIMIT:
+        die("input source already exceeds source limit")
+
+def match_brace(s: str, open_pos: int) -> int:
+    d = 0
+    i = open_pos
+    q = None
+    esc = False
+    while i < len(s):
+        c = s[i]
+        if q:
+            if esc:
+                esc = False
+            elif c == "\\":
+                esc = True
+            elif c == q:
+                q = None
+        else:
+            if c in ("'", '"'):
+                q = c
+            elif c == "/" and i + 1 < len(s) and s[i + 1] == "/":
+                j = s.find("\n", i + 2)
+                i = len(s) if j < 0 else j
+            elif c == "/" and i + 1 < len(s) and s[i + 1] == "*":
+                j = s.find("*/", i + 2)
+                i = len(s) if j < 0 else j + 1
+            elif c == "{":
+                d += 1
+            elif c == "}":
+                d -= 1
+                if d == 0:
+                    return i + 1
+        i += 1
+    return -1
+
+def find_main(src: str) -> tuple[int, int]:
+    m = re.search(r"\bint\s+main\s*\(\s*\)\s*\{", src)
+    if not m:
+        die("int main() not found")
+    o = src.find("{", m.start())
+    e = match_brace(src, o)
+    if e < 0:
+        die("unmatched main brace")
+    return m.start(), e
+
+def inject(src: str) -> str:
+    require_base(src)
+    a, b = find_main(src)
+    main = src[a:b]
+    pos = main.rfind("JD();")
+    if pos < 0:
+        die("final JD(); output hook not found inside main")
+    main = main[:pos] + "VC7::run();" + main[pos:]
+    out = src[:a] + LANE + main + src[b:]
+    if "VC7::run();" not in out:
+        die("VC7 call lost")
+    return out
+
+def tokenize(s: str):
+    tok = []
+    i = 0
+    n = len(s)
+    while i < n:
+        c = s[i]
+        if c.isspace():
+            j = i + 1
+            while j < n and s[j].isspace():
+                j += 1
+            tok.append(("ws", s[i:j]))
+            i = j
+            continue
+        if c == "/" and i + 1 < n and s[i + 1] == "/":
+            j = s.find("\n", i + 2)
+            tok.append(("com", s[i:n if j < 0 else j]))
+            i = n if j < 0 else j
+            continue
+        if c == "/" and i + 1 < n and s[i + 1] == "*":
+            j = s.find("*/", i + 2)
+            if j < 0:
+                die("unterminated block comment")
+            tok.append(("com", s[i:j + 2]))
+            i = j + 2
+            continue
+        if c == "R" and i + 1 < n and s[i + 1] == '"':
+            mm = re.match(r'R"([ -~]{0,16})\(', s[i:])
+            if mm:
+                d = mm.group(1)
+                end = ")" + d + '"'
+                j = s.find(end, i + len(mm.group(0)))
+                if j < 0:
+                    die("unterminated raw string")
+                tok.append(("lit", s[i:j + len(end)]))
+                i = j + len(end)
+                continue
+        if c in ("'", '"'):
+            q = c
+            j = i + 1
+            esc = False
+            while j < n:
+                ch = s[j]
+                if esc:
+                    esc = False
+                elif ch == "\\":
+                    esc = True
+                elif ch == q:
+                    j += 1
+                    break
+                j += 1
+            tok.append(("lit", s[i:j]))
+            i = j
+            continue
+        if c.isalpha() or c == "_":
+            j = i + 1
+            while j < n and (s[j].isalnum() or s[j] == "_"):
+                j += 1
+            tok.append(("id", s[i:j]))
+            i = j
+            continue
+        if c.isdigit() or (c == "." and i + 1 < n and s[i + 1].isdigit()):
+            j = i + 1
+            while j < n and (s[j].isalnum() or s[j] in "._+-"):
+                if s[j] in "+-" and not (j > i and s[j - 1] in "eEpP"):
+                    break
+                j += 1
+            tok.append(("num", s[i:j]))
+            i = j
+            continue
+        if i + 2 < n and s[i:i + 3] in ("<<=", ">>=", "->*", "..."):
+            tok.append(("op", s[i:i + 3]))
+            i += 3
+            continue
+        if i + 1 < n and s[i:i + 2] in ("++", "--", "->", "&&", "||", "<<", ">>", "<=", ">=", "==", "!=", "+=", "-=", "*=", "/=", "%=", "&=", "|=", "^=", "::", "##", ".*"):
+            tok.append(("op", s[i:i + 2]))
+            i += 2
+            continue
+        tok.append(("op", c))
+        i += 1
+    return tok
+
+def minify(src: str) -> str:
+    protect = set(KW) | set(STD) | {"main"}
+    for ln in src.splitlines():
+        if ln.lstrip().startswith("#"):
+            protect.update(re.findall(r"[A-Za-z_]\w*", ln))
+
+    tok = tokenize(src)
+    ids = [v for k, v in tok if k == "id"]
+    idset = set(ids)
+
+    for p, (k, v) in enumerate(tok):
+        if k != "id":
+            continue
+        q = p - 1
+        while q >= 0 and tok[q][0] in ("ws", "com"):
+            q -= 1
+        if q >= 0 and tok[q][1] in (".", "->", "::"):
+            protect.add(v)
+        q = p + 1
+        while q < len(tok) and tok[q][0] in ("ws", "com"):
+            q += 1
+        if q < len(tok) and tok[q][1] == "::":
+            protect.add(v)
+
+    freq: dict[str, int] = {}
+    for x in ids:
+        if x not in protect and len(x) >= 6:
+            freq[x] = freq.get(x, 0) + 1
+
+    abc = string.ascii_letters
+    tail = string.ascii_letters + string.digits + "_"
+
+    def names():
+        k = 0
+        while True:
+            x = k
+            a = abc[x % len(abc)]
+            x //= len(abc)
+            if x == 0:
+                yield "_" + a
+            else:
+                r = ""
+                while x:
+                    r = tail[x % len(tail)] + r
+                    x //= len(tail)
+                yield "_" + a + r
+            k += 1
+
+    items = [((len(x) - 3) * c, x, c) for x, c in freq.items() if c >= 2 and (len(x) >= 8 or c >= 5)]
+    items.sort(reverse=True)
+    used = set(idset) | set(KW)
+    mp: dict[str, str] = {}
+    gen = names()
+    saved = 0
+    for _, x, c in items:
+        if saved >= 14000:
+            break
+        y = next(gen)
+        while y in used or y in protect:
+            y = next(gen)
+        if len(y) < len(x):
+            mp[x] = y
+            used.add(y)
+            saved += (len(x) - len(y)) * c
+
+    for i, (k, v) in enumerate(tok):
+        if k == "id" and v in mp:
+            tok[i] = (k, mp[v])
+
+    def need_space(a: str, b: str) -> bool:
+        if not a or not b:
+            return False
+        ca, cb = a[-1], b[0]
+        if (ca.isalnum() or ca == "_") and (cb.isalnum() or cb == "_"):
+            return True
+        if ca == "." and cb == ".":
+            return True
+        if ca in "+-&|<>=:*/.%^!#" and cb in "+-&|<>=:*/.%^!#":
+            return True
+        return False
+
+    out = []
+    prev = ""
+    j = 0
+    line = True
+    while j < len(tok):
+        k, v = tok[j]
+        if k in ("ws", "com"):
+            if k == "ws" and "\n" in v:
+                line = True
+                prev = "\n"
+            j += 1
+            continue
+        if line and v == "#":
+            pp = [v]
+            j += 1
+            while j < len(tok):
+                kk, vv = tok[j]
+                if kk == "ws" and "\n" in vv:
+                    break
+                if kk != "com":
+                    pp.append(vv)
+                j += 1
+            out.append("".join(pp).rstrip() + "\n")
+            prev = "\n"
+            line = True
+            while j < len(tok) and tok[j][0] == "ws":
+                j += 1
+            continue
+        if need_space(prev, v):
+            out.append(" ")
+        out.append(v)
+        prev = v
+        line = False
+        j += 1
+
+    r = "".join(out)
+    if "VC7::run();" not in r:
+        die("VC7 run call missing after minify")
+    if "namespace VC7" not in r and "namespaceVC7" not in r:
+        die("VC7 namespace missing after minify")
+    return r
+
+def build(src_path: Path, out_path: Path) -> str:
+    raw = src_path.read_text(encoding="utf-8", errors="strict")
+    patched = inject(raw)
+    out = minify(patched)
+    if len(out.encode()) > LIMIT:
+        die(f"generated source too large: {len(out.encode())}>{LIMIT}")
+    out_path.write_text(out, encoding="utf-8", newline="")
+    return out
+
+def compile_and_gate(outp: Path, cxx: str, static: bool, sample: Path | None) -> None:
+    if not shutil.which(cxx):
+        die("compiler not found: " + cxx)
+    exe = outp.with_suffix("")
+    cmd = [cxx, "-std=c++17", "-O2", "-pipe"]
+    if static:
+        cmd += ["-static", "-s"]
+    cmd += [str(outp), "-o", str(exe)]
+    print("compile=" + " ".join(cmd))
+    subprocess.run(cmd, check=True)
+    print("compile_ok=" + str(exe))
+    if sample and sample.exists():
+        with sample.open("rb") as f:
+            r = subprocess.run([str(exe.resolve())], stdin=f, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=20)
+        if r.returncode != 0:
+            sys.stderr.write(r.stderr.decode("utf-8", "replace"))
+            die("sample execution failed")
+        first = r.stdout.splitlines()[0].decode("ascii", "replace") if r.stdout else ""
+        print("sample_first_line=" + first)
+        if first.strip() != "8 12":
+            die("sample first line mismatch; expected 8 12")
+
+def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("src", nargs="?", default=None, help="exact current-best 81.938904 C++ source")
+    ap.add_argument("-o", "--out", default="vc7_quotient_submit.cpp")
+    ap.add_argument("--no-compile", action="store_true")
+    ap.add_argument("--no-static", action="store_true")
+    ap.add_argument("--sample", default="sample.in")
+    ap.add_argument("--cxx", default=os.environ.get("CXX", "g++"))
+    args = ap.parse_args()
+
+    srcp = choose_src(args.src)
+    outp = Path(args.out)
+    out = build(srcp, outp)
+
+    print("base=" + str(srcp))
+    print("output=" + str(outp))
+    print("output_bytes=" + str(len(out.encode())))
+    print("source_limit=" + str(LIMIT))
+    print("sha256=" + hashlib.sha256(out.encode()).hexdigest())
+
+    if not args.no_compile:
+        compile_and_gate(outp, args.cxx, static=not args.no_static, sample=Path(args.sample) if args.sample else None)
+
+if __name__ == "__main__":
+    main()
