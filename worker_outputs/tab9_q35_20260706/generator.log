@@ -1,0 +1,20 @@
+worker_outputs/tab9_q35_20260706/q35_case35_submit.cpp:38:71959: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]
+worker_outputs/tab9_q35_20260706/q35_case35_submit.cpp:38:73742: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]
+worker_outputs/tab9_q35_20260706/q35_case35_submit.cpp:38:73863: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]
+3 warnings generated.
+ld: warning: -s is obsolete
+ld: library 'crt0.o' not found
+clang++: error: linker command failed with exit code 1 (use -v to see invocation)
+input=fetched_sources/kattis_19903326_fetched.cpp output=worker_outputs/tab9_q35_20260706/q35_case35_submit.cpp bytes=117369 sha256=4b9cd72579c5cf5659b2854c71972acd16ef9f63b308bcb1fafbfd1886e41409
+compile=g++ -std=c++17 -O2 -pipe -static -s worker_outputs/tab9_q35_20260706/q35_case35_submit.cpp -o worker_outputs/tab9_q35_20260706/q35_case35_submit
+Traceback (most recent call last):
+  File "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/tab9_q35_20260706/make_q35_case35_generator.py", line 202, in <module>
+    if __name__=='__main__': main()
+                             ~~~~^^
+  File "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/tab9_q35_20260706/make_q35_case35_generator.py", line 200, in main
+    subprocess.run(cmd,check=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['g++', '-std=c++17', '-O2', '-pipe', '-static', '-s', 'worker_outputs/tab9_q35_20260706/q35_case35_submit.cpp', '-o', 'worker_outputs/tab9_q35_20260706/q35_case35_submit']' returned non-zero exit status 1.

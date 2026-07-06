@@ -1,0 +1,4 @@
+worker_outputs/tab7_ax6_20260706/ax6_impostor.cpp:9:78828: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]
+worker_outputs/tab7_ax6_20260706/ax6_impostor.cpp:9:80683: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]
+worker_outputs/tab7_ax6_20260706/ax6_impostor.cpp:9:80794: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]
+3 warnings generated.

@@ -1,0 +1,12 @@
+worker_outputs/tab4_x92_20260706/x92_breakthrough.cpp:71:75042: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]
+worker_outputs/tab4_x92_20260706/x92_breakthrough.cpp:71:77110: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]
+worker_outputs/tab4_x92_20260706/x92_breakthrough.cpp:71:77259: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]
+3 warnings generated.
+base=submission_563_81.93_7.cpp
+base_blob_sha=5d1031432ced9352b06517bd541461a1a8fc9cc5
+wrote=worker_outputs/tab4_x92_20260706/x92_breakthrough.cpp
+output_bytes=124905
+source_limit=131072
+route=X92 guarded case3/case5 indexed-tube remesh plus support-shell fallback; validator/vps rollback; untouched high-N lanes
+compile=g++ -std=c++17 -O2 -pipe worker_outputs/tab4_x92_20260706/x92_breakthrough.cpp -o worker_outputs/tab4_x92_20260706/x92_breakthrough
+compiled=worker_outputs/tab4_x92_20260706/x92_breakthrough
