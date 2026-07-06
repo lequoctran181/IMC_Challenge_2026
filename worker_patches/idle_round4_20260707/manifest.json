@@ -1,0 +1,82 @@
+[
+  {
+    "tab": 11,
+    "block": 0,
+    "file": "worker_patches/idle_round4_20260707/tab11_block_0.cpp",
+    "ext": "cpp",
+    "bytes": 28931,
+    "sha256": "b52bb7b962847040560c9e460b4f2c981496187b1127848591f6e1ac49cd9ee9",
+    "title": "IMC Challenge C++17 Solution",
+    "url": "https://chatgpt.com/c/6a4bda52-f568-83ec-ace5-624165def54a"
+  },
+  {
+    "tab": 11,
+    "block": 1,
+    "file": "worker_patches/idle_round4_20260707/tab11_block_1.cpp",
+    "ext": "cpp",
+    "bytes": 26143,
+    "sha256": "579eb162aa3d025c343d7b68116856406330312362441b55dab7ce8378e69d51",
+    "title": "IMC Challenge C++17 Solution",
+    "url": "https://chatgpt.com/c/6a4bda52-f568-83ec-ace5-624165def54a"
+  },
+  {
+    "tab": 11,
+    "block": 2,
+    "file": "worker_patches/idle_round4_20260707/tab11_block_2.txt",
+    "ext": "txt",
+    "bytes": 289,
+    "sha256": "04eee400fcf31955bb5bf8763682b1df19e176c0721a3755b9e9b14b7a666be3",
+    "title": "IMC Challenge C++17 Solution",
+    "url": "https://chatgpt.com/c/6a4bda52-f568-83ec-ace5-624165def54a"
+  },
+  {
+    "tab": 12,
+    "block": 0,
+    "file": "worker_patches/idle_round4_20260707/tab12_block_0.cpp",
+    "ext": "cpp",
+    "bytes": 23210,
+    "sha256": "8dc30b8631de8ebaa4e9f245a47e9287e3f3ca701d68897abd9ebd5d5c86a7cf",
+    "title": "IMC SimplifyGeometry Optimization",
+    "url": "https://chatgpt.com/c/6a4bda11-87e8-83ec-9c89-6fddb711d9be"
+  },
+  {
+    "tab": 12,
+    "block": 1,
+    "file": "worker_patches/idle_round4_20260707/tab12_block_1.cpp",
+    "ext": "cpp",
+    "bytes": 20577,
+    "sha256": "158e0fd4da61d80f510054031c833dfcd700cc63e8d3cb9cd88766e786d903c5",
+    "title": "IMC SimplifyGeometry Optimization",
+    "url": "https://chatgpt.com/c/6a4bda11-87e8-83ec-9c89-6fddb711d9be"
+  },
+  {
+    "tab": 12,
+    "block": 2,
+    "file": "worker_patches/idle_round4_20260707/tab12_block_2.cpp",
+    "ext": "cpp",
+    "bytes": 15320,
+    "sha256": "ef96f7954faddc19e184d701de8c2d2166bd505bf1aa64d40c88e4783b0d4f70",
+    "title": "IMC SimplifyGeometry Optimization",
+    "url": "https://chatgpt.com/c/6a4bda11-87e8-83ec-9c89-6fddb711d9be"
+  },
+  {
+    "tab": 12,
+    "block": 3,
+    "file": "worker_patches/idle_round4_20260707/tab12_block_3.txt",
+    "ext": "txt",
+    "bytes": 205,
+    "sha256": "23431b86d5c3fb8946fbf3bde975b06a17e16ea49a06350f1a987080eb5e1406",
+    "title": "IMC SimplifyGeometry Optimization",
+    "url": "https://chatgpt.com/c/6a4bda11-87e8-83ec-9c89-6fddb711d9be"
+  },
+  {
+    "tab": 12,
+    "block": 4,
+    "file": "worker_patches/idle_round4_20260707/tab12_block_4.txt",
+    "ext": "txt",
+    "bytes": 185,
+    "sha256": "f4e77778586c01911ccb447f59eb68d6d2efdcccf905e58e11963753668bd78c",
+    "title": "IMC SimplifyGeometry Optimization",
+    "url": "https://chatgpt.com/c/6a4bda11-87e8-83ec-9c89-6fddb711d9be"
+  }
+]

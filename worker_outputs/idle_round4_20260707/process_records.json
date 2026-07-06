@@ -1,0 +1,32 @@
+[
+  {
+    "src": "worker_patches/idle_round4_20260707/tab11_block_0.cpp",
+    "sha256_prefix": "b52bb7b96284",
+    "duplicate_of": "idle_post_submit_20260707/tab11_block_0.cpp",
+    "skipped": "duplicate; compiled before but sample first line 8 7"
+  },
+  {
+    "src": "worker_patches/idle_round4_20260707/tab11_block_1.cpp",
+    "sha256_prefix": "579eb162aa3d",
+    "duplicate_of": "idle_post_submit_20260707/tab11_block_1.cpp",
+    "skipped": "duplicate; compiled before but sample first line 9 14"
+  },
+  {
+    "src": "worker_patches/idle_round4_20260707/tab12_block_0.cpp",
+    "sha256_prefix": "8dc30b8631de",
+    "duplicate_of": "idle_round2_20260707/tab12_block_0.cpp",
+    "skipped": "duplicate; failed compile before"
+  },
+  {
+    "src": "worker_patches/idle_round4_20260707/tab12_block_1.cpp",
+    "sha256_prefix": "158e0fd4da61",
+    "duplicate_of": "idle_round2_20260707/tab12_block_1.cpp",
+    "skipped": "duplicate; failed compile before"
+  },
+  {
+    "src": "worker_patches/idle_round4_20260707/tab12_block_2.cpp",
+    "sha256_prefix": "ef96f7954fad",
+    "duplicate_of": "idle_round2_20260707/tab12_block_2.cpp",
+    "skipped": "duplicate; failed compile before"
+  }
+]
