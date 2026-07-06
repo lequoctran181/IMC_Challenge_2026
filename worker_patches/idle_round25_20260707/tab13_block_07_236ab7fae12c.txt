@@ -1,0 +1,3 @@
+g++ -O2 -std=c++17 -pipe -static -s solution.cpp -o solution
+./solution < sample.in | head -n 1
+# expected: 8 12
