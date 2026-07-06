@@ -1,0 +1,1 @@
+cpp code block. Do not answer with only ideas, snippets, patches, or a generator unless you also include the generated final C++ code. If you cannot guarantee 91.80, still produce the strongest complete C++ attempt and explain briefly why it is materially different from the 81.94 plateau.
