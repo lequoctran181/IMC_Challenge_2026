@@ -1,0 +1,182 @@
+[
+  {
+    "tab": 4,
+    "block": 0,
+    "file": "worker_patches/idle_round2_20260707/tab4_block_0.txt",
+    "ext": "txt",
+    "bytes": 218,
+    "sha256": "fc547e1093385f8aaedd965113ee93471933008697fa1a25de8e343dc7316f2c",
+    "title": "C++17 Artifact Request",
+    "url": "https://chatgpt.com/c/6a4bc75c-6d88-83ec-9e31-e682ba7416a6"
+  },
+  {
+    "tab": 4,
+    "block": 1,
+    "file": "worker_patches/idle_round2_20260707/tab4_block_1.txt",
+    "ext": "txt",
+    "bytes": 96,
+    "sha256": "3a2cb34b2a47d16d3665a0570f46daa36d27985a0bbc7e86804e6ec501acde1c",
+    "title": "C++17 Artifact Request",
+    "url": "https://chatgpt.com/c/6a4bc75c-6d88-83ec-9e31-e682ba7416a6"
+  },
+  {
+    "tab": 4,
+    "block": 2,
+    "file": "worker_patches/idle_round2_20260707/tab4_block_2.txt",
+    "ext": "txt",
+    "bytes": 172,
+    "sha256": "02918238d1649cc9e4b7084b44e4ccf184a9c3d18eda39e580e8d04157704618",
+    "title": "C++17 Artifact Request",
+    "url": "https://chatgpt.com/c/6a4bc75c-6d88-83ec-9e31-e682ba7416a6"
+  },
+  {
+    "tab": 4,
+    "block": 3,
+    "file": "worker_patches/idle_round2_20260707/tab4_block_3.cpp",
+    "ext": "cpp",
+    "bytes": 14534,
+    "sha256": "e5dc3182ea2e8ceb3541f6734939f00fda02eb521a474304ebebf7f2a9022a00",
+    "title": "C++17 Artifact Request",
+    "url": "https://chatgpt.com/c/6a4bc75c-6d88-83ec-9e31-e682ba7416a6"
+  },
+  {
+    "tab": 4,
+    "block": 4,
+    "file": "worker_patches/idle_round2_20260707/tab4_block_4.cpp",
+    "ext": "cpp",
+    "bytes": 21288,
+    "sha256": "d0c10b89b43fd8c46c5acdbb8fd74faf2ce80c1d3185dcac5f4b869cf265448d",
+    "title": "C++17 Artifact Request",
+    "url": "https://chatgpt.com/c/6a4bc75c-6d88-83ec-9e31-e682ba7416a6"
+  },
+  {
+    "tab": 4,
+    "block": 5,
+    "file": "worker_patches/idle_round2_20260707/tab4_block_5.cpp",
+    "ext": "cpp",
+    "bytes": 19983,
+    "sha256": "74da24a9bcb20e033339018c2e75848a365b6f608a5c211370932dad6bb2f812",
+    "title": "C++17 Artifact Request",
+    "url": "https://chatgpt.com/c/6a4bc75c-6d88-83ec-9e31-e682ba7416a6"
+  },
+  {
+    "tab": 4,
+    "block": 6,
+    "file": "worker_patches/idle_round2_20260707/tab4_block_6.cpp",
+    "ext": "cpp",
+    "bytes": 17699,
+    "sha256": "091e95e43387496bb432405b2102b631f23c1b8ca1ce6f4e0a3994fdf402cc0d",
+    "title": "C++17 Artifact Request",
+    "url": "https://chatgpt.com/c/6a4bc75c-6d88-83ec-9e31-e682ba7416a6"
+  },
+  {
+    "tab": 6,
+    "block": 0,
+    "file": "worker_patches/idle_round2_20260707/tab6_block_0.txt",
+    "ext": "txt",
+    "bytes": 298,
+    "sha256": "73ac0e95a38ab40f8ba9489445c8a1dcd0ea7fbc66ad0f6fdb627903e84fbb20",
+    "title": "C++17 Contest Artifact",
+    "url": "https://chatgpt.com/c/6a4bc722-1e58-83ec-9079-279617a07b3e"
+  },
+  {
+    "tab": 6,
+    "block": 1,
+    "file": "worker_patches/idle_round2_20260707/tab6_block_1.cpp",
+    "ext": "cpp",
+    "bytes": 209,
+    "sha256": "c9741a9ca7d4a8fccbea189319499dd91c4e02cf9099609a55aab410849b791c",
+    "title": "C++17 Contest Artifact",
+    "url": "https://chatgpt.com/c/6a4bc722-1e58-83ec-9079-279617a07b3e"
+  },
+  {
+    "tab": 6,
+    "block": 2,
+    "file": "worker_patches/idle_round2_20260707/tab6_block_2.txt",
+    "ext": "txt",
+    "bytes": 172,
+    "sha256": "02918238d1649cc9e4b7084b44e4ccf184a9c3d18eda39e580e8d04157704618",
+    "title": "C++17 Contest Artifact",
+    "url": "https://chatgpt.com/c/6a4bc722-1e58-83ec-9079-279617a07b3e"
+  },
+  {
+    "tab": 6,
+    "block": 3,
+    "file": "worker_patches/idle_round2_20260707/tab6_block_3.cpp",
+    "ext": "cpp",
+    "bytes": 16298,
+    "sha256": "b812f308aada5c0580844bc3ce7cff573f62d34955d79210d5d5f5f2ab70de71",
+    "title": "C++17 Contest Artifact",
+    "url": "https://chatgpt.com/c/6a4bc722-1e58-83ec-9079-279617a07b3e"
+  },
+  {
+    "tab": 6,
+    "block": 4,
+    "file": "worker_patches/idle_round2_20260707/tab6_block_4.cpp",
+    "ext": "cpp",
+    "bytes": 16555,
+    "sha256": "9e691a5e53aad3f699f83db390b927b9ff5323ba5886df8c3de039e02513bae4",
+    "title": "C++17 Contest Artifact",
+    "url": "https://chatgpt.com/c/6a4bc722-1e58-83ec-9079-279617a07b3e"
+  },
+  {
+    "tab": 6,
+    "block": 5,
+    "file": "worker_patches/idle_round2_20260707/tab6_block_5.cpp",
+    "ext": "cpp",
+    "bytes": 22286,
+    "sha256": "2e027361efe6e77e2d758005a2410f30dcafc8873b48c05a2f79d9cb9ae0cf36",
+    "title": "C++17 Contest Artifact",
+    "url": "https://chatgpt.com/c/6a4bc722-1e58-83ec-9079-279617a07b3e"
+  },
+  {
+    "tab": 6,
+    "block": 6,
+    "file": "worker_patches/idle_round2_20260707/tab6_block_6.cpp",
+    "ext": "cpp",
+    "bytes": 16958,
+    "sha256": "8fd8875b924f6e9cba04503e348871fb3aef82215067f5fbbf1687ac71170176",
+    "title": "C++17 Contest Artifact",
+    "url": "https://chatgpt.com/c/6a4bc722-1e58-83ec-9079-279617a07b3e"
+  },
+  {
+    "tab": 12,
+    "block": 0,
+    "file": "worker_patches/idle_round2_20260707/tab12_block_0.cpp",
+    "ext": "cpp",
+    "bytes": 23210,
+    "sha256": "8dc30b8631de8ebaa4e9f245a47e9287e3f3ca701d68897abd9ebd5d5c86a7cf",
+    "title": "IMC SimplifyGeometry Optimization",
+    "url": "https://chatgpt.com/c/6a4bda11-87e8-83ec-9c89-6fddb711d9be"
+  },
+  {
+    "tab": 12,
+    "block": 1,
+    "file": "worker_patches/idle_round2_20260707/tab12_block_1.cpp",
+    "ext": "cpp",
+    "bytes": 20577,
+    "sha256": "158e0fd4da61d80f510054031c833dfcd700cc63e8d3cb9cd88766e786d903c5",
+    "title": "IMC SimplifyGeometry Optimization",
+    "url": "https://chatgpt.com/c/6a4bda11-87e8-83ec-9c89-6fddb711d9be"
+  },
+  {
+    "tab": 12,
+    "block": 2,
+    "file": "worker_patches/idle_round2_20260707/tab12_block_2.cpp",
+    "ext": "cpp",
+    "bytes": 15320,
+    "sha256": "ef96f7954faddc19e184d701de8c2d2166bd505bf1aa64d40c88e4783b0d4f70",
+    "title": "IMC SimplifyGeometry Optimization",
+    "url": "https://chatgpt.com/c/6a4bda11-87e8-83ec-9c89-6fddb711d9be"
+  },
+  {
+    "tab": 12,
+    "block": 3,
+    "file": "worker_patches/idle_round2_20260707/tab12_block_3.txt",
+    "ext": "txt",
+    "bytes": 205,
+    "sha256": "23431b86d5c3fb8946fbf3bde975b06a17e16ea49a06350f1a987080eb5e1406",
+    "title": "IMC SimplifyGeometry Optimization",
+    "url": "https://chatgpt.com/c/6a4bda11-87e8-83ec-9c89-6fddb711d9be"
+  }
+]

@@ -1,0 +1,3 @@
+- exact current-best main/namespace anchors must exist, otherwise FAIL_CLOSED
+- output source must be <= 131072 bytes, otherwise FAIL_CLOSED
+- generated C++17 source is compiled by the generator before success

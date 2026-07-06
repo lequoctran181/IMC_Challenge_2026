@@ -1,0 +1,393 @@
+#!/usr/bin/env python3
+import hashlib
+import re
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+LIMIT = 131072
+BEST_BLOB_SHA1 = "0248732b691263bfe6dc01760bd8b45b1fe05c56"
+
+SAMPLE_INPUT = """9 14
+v 0.5 0.5 0.5
+v 0.5 0.5 -0.5
+v 0.5 -0.5 0.5
+v 0.5 -0.5 -0.5
+v -0.5 0.5 0.5
+v -0.5 0.5 -0.5
+v -0.5 -0.5 0.5
+v -0.5 -0.5 -0.5
+v 0.5 0.49 0.49
+f 1 3 9
+f 1 9 2
+f 9 3 4
+f 9 4 2
+f 5 6 8
+f 5 8 7
+f 1 2 6
+f 1 6 5
+f 3 7 8
+f 3 8 4
+f 1 5 7
+f 1 7 3
+f 2 4 8
+f 2 8 6
+"""
+
+LANE = r'''namespace K3B{static Face F(int a,int b,int c){Face f;f.v[0]=a;f.v[1]=b;f.v[2]=c;return f;}static Vec3 C(){Vec3 m=originalP[0],M=m;for(auto&p:originalP){m.x=min(m.x,p.x);m.y=min(m.y,p.y);m.z=min(m.z,p.z);M.x=max(M.x,p.x);M.y=max(M.y,p.y);M.z=max(M.z,p.z);}return(m+M)*.5;}static void A(vector<Vec3>&V,vector<Face>&Q,int a,int b,int c,const Vec3&o){if(a==b||a==c||b==c)return;Face f=F(a,b,c);Vec3 cr=cross3(V[b]-V[a],V[c]-V[a]);if(norm2(cr)<=max(1e-30,1e-24*CL*CL))return;Vec3 z=(V[a]+V[b]+V[c])*(1./3.);if(dot3(cr,z-o)<0)swap(f.v[1],f.v[2]);Q.pb(f);}static int fc(const Vec3&q,double&u,double&v){double x=fabs(q.x),y=fabs(q.y),z=fabs(q.z);if(x>=y&&x>=z){if(x<=1e-300){u=v=0;return 0;}u=q.y/x;v=q.z/x;return q.x>=0?0:1;}if(y>=z){u=q.x/y;v=q.z/y;return q.y>=0?2:3;}u=q.x/z;v=q.y/z;return q.z>=0?4:5;}static bool sel(const Vec3&o){if(N<180000||es()>16.95)return false;if(AS&&(BG>.018||AL<.62||AH>.24))return false;int r=26,c[6]={};vector<unsigned char>s(6*r*r,0);int st=max(1,N/240000);for(int i=0;i<N;i+=st){double u,v;int f=fc(originalP[i]-o,u,v);int x=min(r-1,max(0,(int)((u+1)*.5*(r-1)+.5))),y=min(r-1,max(0,(int)((v+1)*.5*(r-1)+.5))),id=(f*r+y)*r+x;if(!s[id])s[id]=1,++c[f];}int good=0,sum=0;for(int f=0;f<6;f++){sum+=c[f];if(c[f]>=r*r*38/100)good++;}return good>=5&&sum>=r*r*260/100;}static bool H(const vector<Vec3>&V){if(V.empty())return false;double r=max(1e-9,CL*.0487),r2=r*r,c=r;Vec3 m=originalP[0],M=m;for(auto&p:originalP){m.x=min(m.x,p.x);m.y=min(m.y,p.y);m.z=min(m.z,p.z);M.x=max(M.x,p.x);M.y=max(M.y,p.y);M.z=max(M.z,p.z);}int nx=max(1,(int)((M.x-m.x)/c)+3),ny=max(1,(int)((M.y-m.y)/c)+3),nz=max(1,(int)((M.z-m.z)/c)+3);long long cells=1LL*nx*ny*nz;if(cells>3600000LL)return false;auto ix=[&](double x,int n,double a){int q=(int)((x-a)/c)+1;return q<0?0:(q>=n?n-1:q);};auto key=[&](int x,int y,int z){return(z*ny+y)*nx+x;};vector<vector<int>>B((size_t)cells);for(int i=0;i<(int)V.size();i++)B[key(ix(V[i].x,nx,m.x),ix(V[i].y,ny,m.y),ix(V[i].z,nz,m.z))].pb(i);auto near=[&](const Vec3&p){int X=ix(p.x,nx,m.x),Y=ix(p.y,ny,m.y),Z=ix(p.z,nz,m.z);for(int z=max(0,Z-1);z<=min(nz-1,Z+1);z++)for(int y=max(0,Y-1);y<=min(ny-1,Y+1);y++)for(int x=max(0,X-1);x<=min(nx-1,X+1);x++)for(int j:B[key(x,y,z)])if(norm2(V[j]-p)<=r2)return true;return false;};for(int i=0;i<N;i++){if((i&262143)==0&&es()>18.75)return false;if(!near(originalP[i]))return false;}return true;}static bool build(int R,vector<Vec3>&V,vector<Face>&Q){Vec3 o=C();if(!sel(o))return false;vector<int>B[6];vector<double>S[6];for(int f=0;f<6;f++){B[f].assign(R*R,-1);S[f].assign(R*R,-1e100);}for(int i=0;i<N;i++){if((i&524287)==0&&es()>18.15)return false;Vec3 q=originalP[i]-o;double u,v;int f=fc(q,u,v);int x=min(R-1,max(0,(int)((u+1)*.5*(R-1)+.5))),y=min(R-1,max(0,(int)((v+1)*.5*(R-1)+.5))),id=y*R+x;double sc=norm2(q);if(sc>S[f][id])S[f][id]=sc,B[f][id]=i;}vector<int>mp((size_t)R*R*R,-1);V.clear();Q.clear();V.reserve(6*R*R);Q.reserve(12*R*R);auto pt=[&](int f,int i,int j){int X,Y,Z;if(f==0)X=R-1,Y=i,Z=j;else if(f==1)X=0,Y=i,Z=j;else if(f==2)X=i,Y=R-1,Z=j;else if(f==3)X=i,Y=0,Z=j;else if(f==4)X=i,Y=j,Z=R-1;else X=i,Y=j,Z=0;int kk=(Z*R+Y)*R+X;if(mp[kk]>=0)return mp[kk];int bi=-1;double be=1e100;for(int rad=0;rad<R&&bi<0;rad++)for(int y=max(0,j-rad);y<=min(R-1,j+rad);y++)for(int x=max(0,i-rad);x<=min(R-1,i+rad);x++){int id=y*R+x,b=B[f][id];if(b<0)continue;double e=(x-i)*(x-i)+(y-j)*(y-j)-1e-10*S[f][id];if(e<be)be=e,bi=b;}if(bi<0)return-1;int id=(int)V.size();V.pb(originalP[bi]);mp[kk]=id;return id;};for(int f=0;f<6;f++)for(int i=0;i+1<R;i++)for(int j=0;j+1<R;j++){int a=pt(f,i,j),b=pt(f,i+1,j),c=pt(f,i+1,j+1),d=pt(f,i,j+1);if(a<0||b<0||c<0||d<0)return false;A(V,Q,a,b,c,o);A(V,Q,a,c,d,o);}return V.size()<(size_t)N&&H(V);}static bool keep(vector<Vec3>&V,vector<Face>&Q,AP&S,int sn,int pct,double need,int res){if(V.empty()||Q.empty()||(int)V.size()*100>=sn*pct||es()>19.05)return false;rs(S);bool ok=false;if(AF(V,Q)&&W5::strong_validator()&&cove()*100<sn*pct&&es()<19.55){double p=vps(res);ok=p>=need;if(ok&&res<384&&es()<19.85)ok=vps(384)>=need-.006;}if(!ok)rs(S);return ok;}static bool T(int R,int pct,double need,int res,AP&S,int sn){vector<Vec3>V;vector<Face>Q;if(!build(R,V,Q))return false;return keep(V,Q,S,sn,pct,need,res);}static bool run(){if(N<180000||es()>16.80)return false;AP S=AD();int sn=cove();if(sn<3000)return false;if(N>=650000){if(T(58,68,.956,256,S,sn))return true;rs(S);if(es()<18.25&&T(72,78,.965,256,S,sn))return true;rs(S);if(es()<17.85&&T(88,88,.973,256,S,sn))return true;rs(S);}else{if(T(46,66,.956,256,S,sn))return true;rs(S);if(es()<18.25&&T(58,78,.966,256,S,sn))return true;rs(S);if(es()<17.85&&T(70,88,.974,256,S,sn))return true;rs(S);}rs(S);return false;}}'''
+
+KW = set("""alignas alignof and and_eq asm atomic_cancel atomic_commit atomic_noexcept auto bitand bitor bool break case catch char char16_t char32_t class compl concept const consteval constexpr constinit const_cast continue co_await co_return co_yield decltype default delete do double dynamic_cast else enum explicit export extern false float for friend goto if inline int long mutable namespace new noexcept not not_eq nullptr operator or or_eq private protected public reflexpr register reinterpret_cast requires return short signed sizeof static static_assert static_cast struct switch synchronized template this thread_local throw true try typedef typeid typename union unsigned using virtual void volatile wchar_t while xor xor_eq""".split())
+STD = set("""abort abs acos adjacent_find array atan2 begin cbrt ceil chrono clear cos count data deque duration empty end erase exit fabs fill find floor fprintf fread fwrite greater hypot insert int16_t int32_t int64_t int8_t isfinite less lower_bound make_pair map max memcpy memset min move pair pop pop_back pow priority_queue printf push push_back queue reserve resize reverse set setvbuf shrink_to_fit sin size size_t snprintf sort sqrt stable_sort stderr stdin stdout strtod strtof strtol string swap tuple uint16_t uint32_t uint64_t uint8_t unordered_map unordered_set unique upper_bound vector""".split())
+ID = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
+OPS3 = ("<<=", ">>=", "->*", "...")
+OPS2 = ("++", "--", "->", "&&", "||", "<<", ">>", "<=", ">=", "==", "!=", "+=", "-=", "*=", "/=", "%=", "&=", "|=", "^=", "::", "##", ".*")
+OPC = set("+-*&|<>=:*/.%^!#")
+
+
+def die(msg):
+    raise SystemExit("FAIL_CLOSED: " + msg)
+
+
+def blob_sha(data):
+    return hashlib.sha1(b"blob " + str(len(data)).encode() + b"\0" + data).hexdigest()
+
+
+def match_brace(s, o):
+    d = 0
+    i = o
+    q = None
+    esc = False
+    while i < len(s):
+        c = s[i]
+        if q:
+            if esc:
+                esc = False
+            elif c == "\\":
+                esc = True
+            elif c == q:
+                q = None
+        else:
+            if c in "\"'":
+                q = c
+            elif c == "{":
+                d += 1
+            elif c == "}":
+                d -= 1
+                if d == 0:
+                    return i + 1
+        i += 1
+    return -1
+
+
+def find_main(s):
+    p = s.find("int main(){")
+    if p < 0:
+        m = re.search(r"\bint\s+main\s*\(\s*\)\s*\{", s)
+        if not m:
+            die("missing int main")
+        p = m.start()
+    o = s.find("{", p)
+    e = match_brace(s, o)
+    if e < 0:
+        die("unmatched main")
+    return p, e
+
+
+def scan(src):
+    t = []
+    i = 0
+    n = len(src)
+    bol = True
+    pp = False
+    while i < n:
+        c = src[i]
+        if bol:
+            j = i
+            while j < n and src[j] in " \t":
+                j += 1
+            pp = j < n and src[j] == "#"
+            bol = False
+        if c == "\n":
+            t.append(("ws", c, pp))
+            bol = True
+            pp = False
+            i += 1
+            continue
+        if c.isspace():
+            j = i + 1
+            while j < n and src[j].isspace() and src[j] != "\n":
+                j += 1
+            t.append(("ws", src[i:j], pp))
+            i = j
+            continue
+        if pp:
+            j = i + 1
+            while j < n and src[j] != "\n":
+                j += 1
+            t.append(("pp", src[i:j], True))
+            i = j
+            continue
+        if c in "\"'":
+            q = c
+            st = i
+            i += 1
+            esc = False
+            while i < n:
+                ch = src[i]
+                if esc:
+                    esc = False
+                elif ch == "\\":
+                    esc = True
+                elif ch == q:
+                    i += 1
+                    break
+                i += 1
+            t.append(("lit", src[st:i], False))
+            continue
+        if c == "/" and i + 1 < n and src[i + 1] == "/":
+            j = src.find("\n", i)
+            if j < 0:
+                j = n
+            t.append(("com", src[i:j], False))
+            i = j
+            continue
+        if c == "/" and i + 1 < n and src[i + 1] == "*":
+            j = src.find("*/", i + 2)
+            if j < 0:
+                die("unterminated comment")
+            t.append(("com", src[i:j + 2], False))
+            i = j + 2
+            continue
+        m = ID.match(src, i)
+        if m:
+            t.append(("id", m.group(0), False))
+            i = m.end()
+            continue
+        if c.isdigit() or (c == "." and i + 1 < n and src[i + 1].isdigit()):
+            j = i + 1
+            while j < n and (src[j].isalnum() or src[j] in "._+-"):
+                if src[j] in "+-" and not (j > i and src[j - 1] in "eEpP"):
+                    break
+                j += 1
+            t.append(("num", src[i:j], False))
+            i = j
+            continue
+        if i + 2 < n and src[i:i + 3] in OPS3:
+            t.append(("op", src[i:i + 3], False))
+            i += 3
+            continue
+        if i + 1 < n and src[i:i + 2] in OPS2:
+            t.append(("op", src[i:i + 2], False))
+            i += 2
+            continue
+        t.append(("op", c, False))
+        i += 1
+    return t
+
+
+def all_names(src):
+    return set(ID.findall(src))
+
+
+def need_space(a, b):
+    if not a or not b:
+        return False
+    x, y = a[-1], b[0]
+    if (x.isalnum() or x == "_") and (y.isalnum() or y == "_"):
+        return True
+    if x == "." and y == ".":
+        return True
+    if x in OPC and y in OPC:
+        return True
+    return False
+
+
+def shrink_includes(src):
+    incs = [
+        "#include<algorithm>\n",
+        "#include<array>\n",
+        "#include<chrono>\n",
+        "#include<utility>\n",
+        "#include<cstdint>\n",
+        "#include<queue>\n",
+        "#include<cmath>\n",
+        "#include<cstdio>\n",
+        "#include<cstdlib>\n",
+        "#include<cstring>\n",
+        "#include<string>\n",
+        "#include<vector>\n",
+    ]
+    if all(x in src for x in incs) and "#include<bits/stdc++.h>" not in src:
+        first = src.find("#include<algorithm>")
+        last = max(src.find(x) + len(x) for x in incs)
+        src = src[:first] + "#include<bits/stdc++.h>\n" + src[last:]
+    return src
+
+
+def minify_no_alias(src):
+    tok = scan(src)
+    protect = set(KW) | set(STD) | {"main"}
+    for k, v, _ in tok:
+        if k == "pp":
+            protect.update(ID.findall(v))
+    for i, (k, v, _) in enumerate(tok):
+        if k != "id":
+            continue
+        p = i - 1
+        while p >= 0 and tok[p][0] in ("ws", "com"):
+            p -= 1
+        n = i + 1
+        while n < len(tok) and tok[n][0] in ("ws", "com"):
+            n += 1
+        if p >= 0 and tok[p][1] in (".", "->", "::"):
+            protect.add(v)
+        if n < len(tok) and tok[n][1] == "::":
+            protect.add(v)
+        if p >= 0 and tok[p][0] == "id" and tok[p][1] == "namespace":
+            protect.add(v)
+
+    freq = {}
+    for k, v, _ in tok:
+        if k == "id" and v not in protect and len(v) >= 6:
+            freq[v] = freq.get(v, 0) + 1
+
+    alpha = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    def gen_names():
+        q = 0
+        while True:
+            x = q
+            s = "_" + alpha[x % 52]
+            x //= 52
+            while x:
+                s += alpha[x % 52]
+                x //= 52
+            q += 1
+            yield s
+
+    used = all_names(src) | KW | STD
+    rename = {}
+    saved = 0
+    g = gen_names()
+    items = sorted([((len(x) - 3) * c, x, c) for x, c in freq.items() if c >= 2 and (len(x) >= 8 or c >= 5)], reverse=True)
+    for _, x, c in items:
+        if saved > 18000:
+            break
+        y = next(g)
+        while y in used:
+            y = next(g)
+        if len(y) < len(x):
+            rename[x] = y
+            used.add(y)
+            saved += (len(x) - len(y)) * c
+
+    out = []
+    prev = ""
+    line = True
+    for k, v, _ in tok:
+        if k in ("ws", "com"):
+            if k == "ws" and "\n" in v:
+                line = True
+                prev = "\n"
+            continue
+        if k == "pp":
+            if not line:
+                out.append("\n")
+            out.append(v.rstrip() + "\n")
+            line = True
+            prev = "\n"
+            continue
+        cur = rename.get(v, v) if k == "id" else v
+        if need_space(prev, cur):
+            out.append(" ")
+        out.append(cur)
+        prev = cur
+        line = False
+    return "".join(out)
+
+
+def patch_source(src):
+    if "namespace K3B{" in src or "K3B::run()" in src:
+        die("K3B already installed")
+    for r in ["static AP AD()", "static void rs(", "AF(", "W5::strong_validator", "vps(", "cove(", "originalP", "AR", "int main"]:
+        if r not in src:
+            die("missing required anchor " + r)
+    a, b = find_main(src)
+    main = src[a:b]
+    anchor = "VIMP::run();MIDEC::run();"
+    if anchor not in main:
+        die("main missing VIMP/MIDEC insertion anchor")
+    main2 = main.replace(anchor, anchor + "if(K3B::run()){JD();return 0;}", 1)
+    patched = src[:a] + LANE + main2 + src[b:]
+    patched = patched.replace('if(0&&"B16P515A"){}', "")
+    if "K3B::run()" not in patched:
+        die("K3B insertion lost")
+    return patched
+
+
+def build_from(inp):
+    raw = inp.read_bytes()
+    sha = blob_sha(raw)
+    if sha != BEST_BLOB_SHA1:
+        die(f"base is not exact current-best 19903544 blob sha: got {sha}")
+    src = raw.decode("utf-8")
+    patched = patch_source(src)
+    patched = shrink_includes(patched)
+    out = minify_no_alias(patched)
+    if len(out.encode()) > LIMIT:
+        out = minify_no_alias(patched.replace("if(N<50625&&es()<18.9)WK::run();", ""))
+    if len(out.encode()) > LIMIT:
+        out = minify_no_alias(patched.replace("if(N<50625&&es()<18.90)WK::run();", ""))
+    n = len(out.encode())
+    if n > LIMIT:
+        die(f"output too large {n}>{LIMIT}")
+    if "#define P0" in out or "#define O0" in out:
+        die("fragile alias macro detected")
+    if "K3B::run()" not in out:
+        die("K3B call lost after minify")
+    return out
+
+
+def compile_gate(cpp, exe):
+    gpp = shutil.which("g++")
+    if not gpp:
+        die("g++ not found")
+    cmd = [gpp, "-std=c++17", "-O2", "-pipe", str(cpp), "-o", str(exe)]
+    subprocess.run(cmd, check=True, timeout=140)
+    return cmd
+
+
+def sample_gate(exe):
+    proc = subprocess.run([str(exe.resolve())], input=SAMPLE_INPUT.encode(), stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=20, check=True)
+    lines = proc.stdout.decode(errors="replace").strip().splitlines()
+    if not lines:
+        die("sample produced empty output")
+    if lines[0].strip() != "8 12":
+        die("official sample first line was not exactly 8 12; got: " + lines[0])
+    return lines[0].strip()
+
+
+def main():
+    outp = Path(sys.argv[2]) if len(sys.argv) > 2 else Path("k3b_exactbest_submit.cpp")
+    if len(sys.argv) > 1:
+        inp = Path(sys.argv[1])
+    else:
+        inp = Path("fetched_sources/kattis_19903544_81.938904.cpp")
+    if not inp.exists():
+        die("missing exact current-best source; expected fetched_sources/kattis_19903544_81.938904.cpp or pass it explicitly")
+    final = build_from(inp)
+    outp.write_text(final, encoding="utf-8")
+    exe = outp.with_suffix("")
+    cmd = compile_gate(outp, exe)
+    first = sample_gate(exe)
+    print(f"input={inp}")
+    print(f"output={outp}")
+    print(f"bytes={len(final.encode())} limit={LIMIT}")
+    print(f"sha256={hashlib.sha256(final.encode()).hexdigest()}")
+    print("compile=" + " ".join(cmd))
+    print(f"sample_first_line={first}")
+    print("route=K3B high-N cubemap candidate gated by exact 19903544 fallback, smooth/occupancy selector, AF+strong_validator+vps rollback; no macro alias minifier")
+
+
+if __name__ == "__main__":
+    main()
