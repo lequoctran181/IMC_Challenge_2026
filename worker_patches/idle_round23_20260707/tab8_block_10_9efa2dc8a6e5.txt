@@ -1,0 +1,7 @@
+cpp code block.
+2. No Python generators, no partial snippets, no patch instructions, no prose-only response.
+3. It must compile with clang++/g++ -std=c++17 -O2, read stdin, write stdout.
+4. It must pass the official sample with first output line exactly `8 12`.
+5. It must be materially different from all failed hashes/families above.
+
+Take your time. Do not stop at analysis. Implement the actual C++ submission that could jump from 81.94 to 91.80+.

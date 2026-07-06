@@ -1,0 +1,1 @@
+python code block. Do not attach a file, do not summarize, do not omit any lines. I need the runnable generator source text here so I can compile/sample/submit immediately.

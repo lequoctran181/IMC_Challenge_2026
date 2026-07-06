@@ -1,0 +1,4 @@
+python3 make_mvde.py fetched_sources/kattis_19903544_81.938904.cpp -o mvde_submit.cpp
+g++ -std=c++17 -O2 -pipe -static -s mvde_submit.cpp -o mvde_submit
+./mvde_submit < sample.in | head -1
+# expected: 8 12
