@@ -1,0 +1,1 @@
+cpp block, no Python/generator/snippets/prose. It must compile with -std=c++17 -O2 and pass official sample first line exactly `8 12`. Make it genuinely new.

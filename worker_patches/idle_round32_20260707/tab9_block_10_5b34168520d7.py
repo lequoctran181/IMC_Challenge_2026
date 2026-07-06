@@ -1,0 +1,1 @@
+cpp block. No Python, no generator, no old snippets, no prose. It must compile with -O2 -std=c++17 and pass the sample first line exactly `8 12`. Think bigger: we need a structural route to +10 score, not a tiny tweak.
