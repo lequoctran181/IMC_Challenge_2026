@@ -1,0 +1,5 @@
+worker_outputs/highN_afterrain_20260706/workerI_J93_surface_family.cpp:76:75719: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]
+worker_outputs/highN_afterrain_20260706/workerI_J93_surface_family.cpp:76:77801: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]
+worker_outputs/highN_afterrain_20260706/workerI_J93_surface_family.cpp:76:77951: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]
+3 warnings generated.
+8 12
