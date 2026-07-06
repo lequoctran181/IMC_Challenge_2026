@@ -1,0 +1,1 @@
+cpp code block. It must compile locally with C++17 and pass the official sample first line exactly `8 12`. No snippets, no duplicate generators, no patch-only answers, no prose-only answer, no attachments-only answer. If you cannot beat 91.80, still output the strongest complete new C++ attempt, not another known plateau wrapper.
