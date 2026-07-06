@@ -1,0 +1,1 @@
+cpp block, compileable, official sample first line `8 12`, materially different.
