@@ -1,0 +1,10 @@
+worker_outputs/round2_best_20260706/stx_grid.cpp:9:78828: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]
+worker_outputs/round2_best_20260706/stx_grid.cpp:9:80683: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]
+worker_outputs/round2_best_20260706/stx_grid.cpp:9:80794: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]
+worker_outputs/round2_best_20260706/stx_grid.cpp:9:99812: error: use of undeclared identifier '_Gd'
+worker_outputs/round2_best_20260706/stx_grid.cpp:9:101075: error: use of undeclared identifier '_Gd'
+worker_outputs/round2_best_20260706/stx_grid.cpp:9:122732: error: use of undeclared identifier '_zc'; did you mean '_Bc'?
+worker_outputs/round2_best_20260706/stx_grid.cpp:9:615: note: '_Bc' declared here
+worker_outputs/round2_best_20260706/stx_grid.cpp:9:124716: error: use of undeclared identifier '_zc'; did you mean '_Bc'?
+worker_outputs/round2_best_20260706/stx_grid.cpp:9:615: note: '_Bc' declared here
+3 warnings and 4 errors generated.
