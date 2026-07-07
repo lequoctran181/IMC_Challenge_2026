@@ -1,0 +1,11 @@
+{
+  "submission_id": "19912695",
+  "judgement": "Accepted (81.940905)",
+  "tests": "7/7",
+  "variant": "cv04_extra_s3_phase",
+  "root_file": "submission_1174_81.94_7.cpp",
+  "fetched_source": "fetched_sources/kattis_19912695_81.940905_7.cpp",
+  "source_sha256": "b83ecd73f35b4a0413ef1e26ac1814549aa490d333677690bad5fb768bd4397a",
+  "recorded_at": "2026-07-08T02:29:00+07:00",
+  "note": "Central exact-best score-mining batch; best moved to 81.940905, still below 91.80 target."
+}

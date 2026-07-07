@@ -1,0 +1,11 @@
+{
+  "submission_id": "19912729",
+  "judgement": "Accepted (81.938904)",
+  "tests": "7/7",
+  "variant": "cv05_wk3",
+  "root_file": "submission_1176_81.94_7.cpp",
+  "fetched_source": "fetched_sources/kattis_19912729_81.938904_7.cpp",
+  "source_sha256": "5f9f4b1f07c616b5ef33a3a481e9e6cee20f948e504207f9baa363a96304abe4",
+  "recorded_at": "2026-07-08T02:29:00+07:00",
+  "note": "Central/parallel batch; did not reach target 91.80."
+}
