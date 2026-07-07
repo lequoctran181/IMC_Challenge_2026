@@ -1,0 +1,19 @@
+{
+  "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round51_20260707/tab1_block01_b2f428531dd1.cpp",
+  "hash": "b2f428531dd1",
+  "attempts": [
+    {
+      "success": true,
+      "submission_id": 19908992,
+      "success_url": "/contests/imc2-2/submissions/19908992"
+    }
+  ],
+  "id": "19908992",
+  "final": {
+    "id": "19908992",
+    "judgement": "Accepted (30.644356)",
+    "runtime": "9.38 s",
+    "language": "C++",
+    "tests": "4/7"
+  }
+}

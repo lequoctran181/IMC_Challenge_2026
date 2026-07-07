@@ -1,0 +1,7 @@
+/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round52_20260707/tab1_block00_e684c0720890.cpp:249:18: error: expected '}'
+  249 |     read_input();
+      |                  ^
+/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round52_20260707/tab1_block00_e684c0720890.cpp:247:11: note: to match this '{'
+  247 | int main(){
+      |           ^
+1 error generated.

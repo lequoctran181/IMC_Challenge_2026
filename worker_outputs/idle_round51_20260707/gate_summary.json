@@ -1,0 +1,92 @@
+{
+  "round": "idle_round51_20260707",
+  "tabs": {
+    "1": {
+      "blocks": 2,
+      "links": 4,
+      "title": "IMC 2026 C++ Solution",
+      "error": ""
+    },
+    "2": {
+      "blocks": 0,
+      "links": 3,
+      "title": "C++17 Kattis Solution",
+      "error": ""
+    },
+    "3": {
+      "blocks": 0,
+      "links": 2,
+      "title": "ChatGPT",
+      "error": ""
+    },
+    "4": {
+      "blocks": 0,
+      "links": 3,
+      "title": "C++17 Kattis Solution",
+      "error": ""
+    },
+    "5": {
+      "blocks": 1,
+      "links": 4,
+      "title": "C++ Code for IMC Challenge",
+      "error": ""
+    },
+    "6": {
+      "blocks": 0,
+      "links": 4,
+      "title": "C++ Code Challenge Top 1",
+      "error": ""
+    },
+    "9": {
+      "blocks": 0,
+      "links": 4,
+      "title": "C++ code giải bài IMC",
+      "error": ""
+    },
+    "10": {
+      "blocks": 1,
+      "links": 2,
+      "title": "C++ code cho bài toán",
+      "error": ""
+    },
+    "12": {
+      "blocks": 0,
+      "links": 2,
+      "title": "C++ code giải bài top 1",
+      "error": ""
+    }
+  },
+  "candidates": [
+    {
+      "tab": 1,
+      "block": 0,
+      "hash": "0ca72bf913b6",
+      "duplicate": true
+    },
+    {
+      "tab": 1,
+      "block": 1,
+      "hash": "b2f428531dd1",
+      "duplicate": false,
+      "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round51_20260707/tab1_block01_b2f428531dd1.cpp",
+      "gate": {
+        "ok": true,
+        "stage": "sample",
+        "first": "8 12",
+        "returncode": 0
+      }
+    },
+    {
+      "tab": 5,
+      "block": 0,
+      "hash": "6199b8061507",
+      "duplicate": true
+    },
+    {
+      "tab": 10,
+      "block": 0,
+      "hash": "f656ecd2fcac",
+      "duplicate": true
+    }
+  ]
+}
