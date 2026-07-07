@@ -1,0 +1,659 @@
+Skip to content
+
+New chat
+
+Search chats
+
+Recents
+
+Chat history
+ChatGPT
+
+New chat
+⇧
+⌘
+O
+
+Search chats
+⌘
+K
+Library
+Projects
+
+Scheduled
+Apps
+Codex
+More
+
+Recents
+
+IMC Challenge 2026 Solution
+
+
+IMC 2026 Problem B
+
+
+IMC 2026 Simplifygeometry Code
+
+
+IMC 2026 C++17 Submission
+
+
+IMC 2026 SG Solution
+
+
+IMC 2026 Problem B
+
+
+IMC 2026 SimplifyGeometry
+
+
+IMC 2026 Problem B
+
+
+IMC 2026 Problem B
+
+
+C++ code giải bài tập
+
+
+IMC 2026 C++17 Solution
+
+
+IMC 2026 Simplifygeometry Solution
+
+
+IMC 2026 Submission Code
+
+
+IMC 2026 Code Submission
+
+
+IMC 2026 SimplifyGeometry Code
+
+
+IMC 2026 Code Submission
+
+
+C++17 Kattis Solution
+
+
+C++17 Kattis Solution
+
+
+IMC Challenge 2026 Solution
+
+
+IMC 2026 C++ Solution
+
+
+C++ code giải bài top 1
+
+
+C++ code cho bài này
+
+
+C++ code cho bài toán
+
+
+C++ code giải bài IMC
+
+
+C++ Code Optimization
+
+
+C++ Code for IMC Challenge
+
+
+C++ Code Challenge Top 1
+
+
+C++ code cho top 1
+
+
+
+Cuộc thi Toán Tiếng Anh VEMC
+Pro
+
+
+Share
+
+You are a fresh independent worker for IMC Challenge 2026 Problem B simplifygeometry. Use the GitHub repo https://github.com/lequoctran181/IMC_Challenge_2026 and the problem facts: output closed manifold triangle mesh, <= original vertices, nondegenerate faces, vertex-only symmetric Hausdorff <= 5% AABB diagonal, visual score >=0.9 from six fixed axial cameras using foreground-only SSIM on flat normal maps and depth maps. Current real best is only 81.938904; target is 91.80+. Many previous attempts plateau around 81.93 or score 0-70, so incremental decimation/QEM/sample tricks are not enough. Think broadly for a breakthrough: hidden test structure recognition, evaluator-specific axial remeshes, topology templates, vertex-Hausdorff exploitation, per-case classifier, and robust fallback. Do not stop early. Primary output must be an actual downloadable file named submission_next.cpp plus a complete standalone C++17 code block fallback. It must compile with g++ -O2 -std=c++17 -pipe and official sample first line exactly 8 12.
+
+Show more
+
+
+I’ll inspect the repository/history first, then build a fresh C++17 submission file and verify it at least compiles and matches the sample’s required first line behavior.
+
+Received app response
+I found the recorded best source at fetched_sources/kattis_19903544_81.938904.cpp and confirmed the repo contains many generated worker outputs. I’m now pivoting to a new geometry strategy rather than mutating that minified plateau code.
+
+Received app response
+
+Received app response
+
+Received app response
+
+Received app response
+
+Received app response
+Thought for 11m 43s
+Created and verified locally:
+Download: submission_next.cpp
+SHA-256: adcfbdceb5bb38b9d09a6b22a373713307ad9e1c56cc92fc7436f1a91099f108
+Compile check: g++ -O2 -std=c++17 -pipe
+Sample/cube first line: 8 12
+I used the repo history to avoid repeating known plateau/failure lanes; the session log confirms the 81.938904 current-best target context and many tied/regressed prior routes.
+C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Vec3{
+    double x,y,z;
+};
+struct Face{int a,b,c;};
+
+static inline Vec3 operator+(const Vec3&a,const Vec3&b){return {a.x+b.x,a.y+b.y,a.z+b.z};}
+static inline Vec3 operator-(const Vec3&a,const Vec3&b){return {a.x-b.x,a.y-b.y,a.z-b.z};}
+static inline Vec3 operator*(const Vec3&a,double s){return {a.x*s,a.y*s,a.z*s};}
+static inline Vec3 operator/(const Vec3&a,double s){return {a.x/s,a.y/s,a.z/s};}
+static inline double dotv(const Vec3&a,const Vec3&b){return a.x*b.x+a.y*b.y+a.z*b.z;}
+static inline Vec3 crossv(const Vec3&a,const Vec3&b){return {a.y*b.z-a.z*b.y,a.z*b.x-a.x*b.z,a.x*b.y-a.y*b.x};}
+static inline double norm2(const Vec3&a){return dotv(a,a);} 
+static inline double normv(const Vec3&a){return sqrt(norm2(a));}
+static inline Vec3 normed(Vec3 a){double n=normv(a); if(n<=0) return {0,0,0}; return a/n;}
+
+vector<Vec3> Pin;
+vector<Face> Fin;
+int N,M;
+Vec3 BBmn, BBmx, BBC;
+double DIAG=1.0, HTOL=1.0;
+chrono::steady_clock::time_point T0;
+static inline double elapsed(){return chrono::duration<double>(chrono::steady_clock::now()-T0).count();}
+
+static void readInput(){
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    cin>>N>>M;
+    Pin.resize(N); Fin.resize(M);
+    BBmn={1e100,1e100,1e100}; BBmx={-1e100,-1e100,-1e100};
+    char ch;
+    for(int i=0;i<N;i++){
+        cin>>ch>>Pin[i].x>>Pin[i].y>>Pin[i].z;
+        BBmn.x=min(BBmn.x,Pin[i].x); BBmn.y=min(BBmn.y,Pin[i].y); BBmn.z=min(BBmn.z,Pin[i].z);
+        BBmx.x=max(BBmx.x,Pin[i].x); BBmx.y=max(BBmx.y,Pin[i].y); BBmx.z=max(BBmx.z,Pin[i].z);
+    }
+    for(int i=0;i<M;i++){
+        cin>>ch>>Fin[i].a>>Fin[i].b>>Fin[i].c;
+        --Fin[i].a;--Fin[i].b;--Fin[i].c;
+    }
+    BBC=(BBmn+BBmx)*0.5;
+    DIAG=normv(BBmx-BBmn); if(!(DIAG>0)) DIAG=1.0;
+    HTOL=0.0492*DIAG;
+}
+
+static inline long long edgeKey(int a,int b){ if(a>b) swap(a,b); return ( (long long)(unsigned int)a<<32 ) | (unsigned int)b; }
+static inline array<int,3> triKey(Face f){ array<int,3> a={f.a,f.b,f.c}; sort(a.begin(),a.end()); return a; }
+static inline double faceArea2(const vector<Vec3>&V, const Face&f){return norm2(crossv(V[f.b]-V[f.a],V[f.c]-V[f.a]));}
+
+static void orientOut(vector<Vec3>&V, Face &f, const Vec3& ref){
+    Vec3 n=crossv(V[f.b]-V[f.a], V[f.c]-V[f.a]);
+    Vec3 c=(V[f.a]+V[f.b]+V[f.c])/3.0;
+    if(dotv(n,c-ref)<0) swap(f.b,f.c);
+}
+static void addFace(vector<Vec3>&V, vector<Face>&F, int a,int b,int c, const Vec3&ref){
+    if(a==b||a==c||b==c) return;
+    Face f{a,b,c}; orientOut(V,f,ref); F.push_back(f);
+}
+
+struct GridHash{
+    Vec3 mn; double cell; unordered_map<long long, vector<int>> h;
+    static long long pack(int x,int y,int z){
+        const long long B=1048576LL, O=524288LL;
+        return ((long long)(x+O)*B + (y+O))*B + (z+O);
+    }
+    GridHash(){}
+    GridHash(const vector<Vec3>&P,double c){init(P,c);} 
+    void init(const vector<Vec3>&P,double c){
+        cell=max(c,1e-12); mn={1e100,1e100,1e100};
+        for(auto&p:P){mn.x=min(mn.x,p.x);mn.y=min(mn.y,p.y);mn.z=min(mn.z,p.z);}        
+        h.reserve(P.size()*2+10);
+        for(int i=0;i<(int)P.size();++i){int x,y,z; idx(P[i],x,y,z); h[pack(x,y,z)].push_back(i);}    }
+    void idx(const Vec3&p,int&x,int&y,int&z) const{
+        x=(int)floor((p.x-mn.x)/cell); y=(int)floor((p.y-mn.y)/cell); z=(int)floor((p.z-mn.z)/cell);
+    }
+    bool hasNear(const vector<Vec3>&P,const Vec3&q,double r) const{
+        int X,Y,Z; idx(q,X,Y,Z); double r2=r*r;
+        for(int dx=-1;dx<=1;dx++) for(int dy=-1;dy<=1;dy++) for(int dz=-1;dz<=1;dz++){
+            auto it=h.find(pack(X+dx,Y+dy,Z+dz)); if(it==h.end()) continue;
+            for(int id:it->second) if(norm2(P[id]-q)<=r2) return true;
+        }
+        return false;
+    }
+};
+
+static bool symmetricVertexCheck(const vector<Vec3>&V,double tol){
+    if(V.empty()) return false;
+    GridHash ghOut(V,tol);
+    for(const Vec3&p:Pin) if(!ghOut.hasNear(V,p,tol)) return false;
+    GridHash ghIn(Pin,tol);
+    for(const Vec3&p:V) if(!ghIn.hasNear(Pin,p,tol)) return false;
+    return true;
+}
+
+static bool closedEdgeCheck(const vector<Vec3>&V,const vector<Face>&F){
+    if(V.empty()||F.empty()||V.size()>(size_t)N) return false;
+    double eps=max(1e-28,1e-24*DIAG*DIAG);
+    unordered_map<long long,int> cnt; cnt.reserve(F.size()*4+10);
+    unordered_set<unsigned long long> dup; dup.reserve(F.size()*2+10);
+    auto packTri=[&](array<int,3>a)->unsigned long long{
+        return ((unsigned long long)(unsigned int)a[0]<<42)^((unsigned long long)(unsigned int)a[1]<<21)^(unsigned int)a[2];
+    };
+    for(const Face&f:F){
+        if(f.a<0||f.b<0||f.c<0||f.a>=(int)V.size()||f.b>=(int)V.size()||f.c>=(int)V.size()) return false;
+        if(f.a==f.b||f.a==f.c||f.b==f.c) return false;
+        if(faceArea2(V,f)<=eps) return false;
+        auto tk=triKey(f); unsigned long long pk=packTri(tk); if(dup.count(pk)) return false; dup.insert(pk);
+        cnt[edgeKey(f.a,f.b)]++; cnt[edgeKey(f.b,f.c)]++; cnt[edgeKey(f.c,f.a)]++;
+    }
+    for(auto &kv:cnt) if(kv.second!=2) return false;
+    return true;
+}
+
+static bool acceptCandidate(const vector<Vec3>&V,const vector<Face>&F){
+    return V.size()<=Pin.size() && closedEdgeCheck(V,F) && symmetricVertexCheck(V,HTOL);
+}
+
+static void printMesh(const vector<Vec3>&V,const vector<Face>&F){
+    cout.setf(ios::fixed); cout<<setprecision(10);
+    cout<<V.size()<<" "<<F.size()<<"\n";
+    for(auto&p:V) cout<<"v "<<p.x<<" "<<p.y<<" "<<p.z<<"\n";
+    for(auto&f:F) cout<<"f "<<f.a+1<<" "<<f.b+1<<" "<<f.c+1<<"\n";
+}
+
+static void printOriginal(){ printMesh(Pin,Fin); }
+
+// AABB box remesh with grid vertices. It is only used after a strict vertex-Hausdorff check.
+static bool tryBox(vector<Vec3>&V, vector<Face>&F){
+    if(N<1500) return false;
+    double dx=BBmx.x-BBmn.x, dy=BBmx.y-BBmn.y, dz=BBmx.z-BBmn.z;
+    if(min({dx,dy,dz})<1e-8*DIAG) return false;
+    int bad=0; double sum=0; int st=max(1,N/200000);
+    for(int i=0;i<N;i+=st){
+        const Vec3&p=Pin[i];
+        double d=min({fabs(p.x-BBmn.x),fabs(p.x-BBmx.x),fabs(p.y-BBmn.y),fabs(p.y-BBmx.y),fabs(p.z-BBmn.z),fabs(p.z-BBmx.z)});
+        sum+=d; if(d>0.012*DIAG) bad++;
+    }
+    int samples=(N+st-1)/st;
+    if(bad*1000>samples*3 || sum>samples*0.0045*DIAG) return false;
+    double step=max(HTOL*0.72, DIAG*0.015);
+    int nx=max(1,(int)ceil(dx/step)); int ny=max(1,(int)ceil(dy/step)); int nz=max(1,(int)ceil(dz/step));
+    auto key=[&](int i,int j,int k)->long long{return ((long long)i*(ny+1)+j)*(nz+1)+k;};
+    unordered_map<long long,int> id; id.reserve((nx+1)*(ny+1)*2+(nx+1)*(nz+1)*2+(ny+1)*(nz+1)*2);
+    auto get=[&](int i,int j,int k)->int{
+        long long kk=key(i,j,k); auto it=id.find(kk); if(it!=id.end()) return it->second;
+        Vec3 p{BBmn.x+dx*(double)i/nx, BBmn.y+dy*(double)j/ny, BBmn.z+dz*(double)k/nz};
+        int r=(int)V.size(); V.push_back(p); id[kk]=r; return r;
+    };
+    V.clear(); F.clear(); Vec3 ref=BBC;
+    for(int i=0;i<nx;i++) for(int j=0;j<ny;j++){
+        int a=get(i,j,0),b=get(i+1,j,0),c=get(i+1,j+1,0),d=get(i,j+1,0); addFace(V,F,a,b,c,ref); addFace(V,F,a,c,d,ref);
+        a=get(i,j,nz);b=get(i+1,j,nz);c=get(i+1,j+1,nz);d=get(i,j+1,nz); addFace(V,F,a,c,b,ref); addFace(V,F,a,d,c,ref);
+    }
+    for(int i=0;i<nx;i++) for(int k=0;k<nz;k++){
+        int a=get(i,0,k),b=get(i+1,0,k),c=get(i+1,0,k+1),d=get(i,0,k+1); addFace(V,F,a,b,c,ref); addFace(V,F,a,c,d,ref);
+        a=get(i,ny,k);b=get(i+1,ny,k);c=get(i+1,ny,k+1);d=get(i,ny,k+1); addFace(V,F,a,c,b,ref); addFace(V,F,a,d,c,ref);
+    }
+    for(int j=0;j<ny;j++) for(int k=0;k<nz;k++){
+        int a=get(0,j,k),b=get(0,j+1,k),c=get(0,j+1,k+1),d=get(0,j,k+1); addFace(V,F,a,b,c,ref); addFace(V,F,a,c,d,ref);
+        a=get(nx,j,k);b=get(nx,j+1,k);c=get(nx,j+1,k+1);d=get(nx,j,k+1); addFace(V,F,a,c,b,ref); addFace(V,F,a,d,c,ref);
+    }
+    return V.size()<Pin.size()*7/10 && acceptCandidate(V,F);
+}
+
+static void makeIcosa(vector<Vec3>&V, vector<Face>&F){
+    V.clear(); F.clear();
+    double t=(1.0+sqrt(5.0))*0.5;
+    vector<Vec3> base={{-1,t,0},{1,t,0},{-1,-t,0},{1,-t,0},{0,-1,t},{0,1,t},{0,-1,-t},{0,1,-t},{t,0,-1},{t,0,1},{-t,0,-1},{-t,0,1}};
+    for(auto&p:base) V.push_back(normed(p));
+    int fa[20][3]={{0,11,5},{0,5,1},{0,1,7},{0,7,10},{0,10,11},{1,5,9},{5,11,4},{11,10,2},{10,7,6},{7,1,8},{3,9,4},{3,4,2},{3,2,6},{3,6,8},{3,8,9},{4,9,5},{2,4,11},{6,2,10},{8,6,7},{9,8,1}};
+    for(auto &x:fa) F.push_back({x[0],x[1],x[2]});
+}
+static void subdivSphere(vector<Vec3>&V, vector<Face>&F){
+    map<pair<int,int>,int> mid;
+    auto getmid=[&](int a,int b)->int{
+        if(a>b) swap(a,b); pair<int,int> k={a,b}; auto it=mid.find(k); if(it!=mid.end()) return it->second;
+        int id=V.size(); V.push_back(normed((V[a]+V[b])*0.5)); mid[k]=id; return id;
+    };
+    vector<Face> NF; NF.reserve(F.size()*4);
+    for(auto f:F){int ab=getmid(f.a,f.b), bc=getmid(f.b,f.c), ca=getmid(f.c,f.a); NF.push_back({f.a,ab,ca}); NF.push_back({f.b,bc,ab}); NF.push_back({f.c,ca,bc}); NF.push_back({ab,bc,ca});}
+    F.swap(NF);
+}
+
+static bool tryEllipsoid(vector<Vec3>&V, vector<Face>&F){
+    if(N<3500) return false;
+    Vec3 r={(BBmx.x-BBmn.x)*0.5,(BBmx.y-BBmn.y)*0.5,(BBmx.z-BBmn.z)*0.5};
+    if(min({r.x,r.y,r.z})<0.08*DIAG) return false;
+    int st=max(1,N/220000), bad=0, cnt=0; double sum=0, mxerr=0;
+    for(int i=0;i<N;i+=st){
+        Vec3 q=Pin[i]-BBC;
+        double s=sqrt((q.x*q.x)/(r.x*r.x)+(q.y*q.y)/(r.y*r.y)+(q.z*q.z)/(r.z*r.z));
+        double e=fabs(s-1.0); sum+=e; mxerr=max(mxerr,e); if(e>0.055) bad++; cnt++;
+    }
+    if(cnt<100 || bad*100>cnt*2 || sum/cnt>0.018 || mxerr>0.14) return false;
+    int sub = (N>120000?4:3);
+    makeIcosa(V,F); for(int i=0;i<sub;i++) subdivSphere(V,F);
+    if(V.size()>=Pin.size()*8/10) return false;
+    for(auto &p:V){
+        Vec3 d=normed(p);
+        double den=(d.x*d.x)/(r.x*r.x)+(d.y*d.y)/(r.y*r.y)+(d.z*d.z)/(r.z*r.z);
+        double t=1.0/sqrt(max(den,1e-100));
+        p=BBC+d*t;
+    }
+    for(auto &f:F) orientOut(V,f,BBC);
+    return acceptCandidate(V,F);
+}
+
+static Vec3 fromAxis(int ax, double u,double v,double w){
+    if(ax==0) return {w,u,v};
+    if(ax==1) return {u,w,v};
+    return {u,v,w};
+}
+static void toAxis(const Vec3&p,int ax,double&u,double&v,double&w){
+    if(ax==0){w=p.x;u=p.y;v=p.z;} else if(ax==1){u=p.x;w=p.y;v=p.z;} else {u=p.x;v=p.y;w=p.z;}
+}
+
+static bool tryCylinderAxis(int ax, vector<Vec3>&V, vector<Face>&F){
+    double mnU=1e100,mxU=-1e100,mnV=1e100,mxV=-1e100,mnW=1e100,mxW=-1e100;
+    for(auto&p:Pin){double u,v,w;toAxis(p,ax,u,v,w);mnU=min(mnU,u);mxU=max(mxU,u);mnV=min(mnV,v);mxV=max(mxV,v);mnW=min(mnW,w);mxW=max(mxW,w);}    
+    double cu=(mnU+mxU)*0.5, cv=(mnV+mxV)*0.5, h=mxW-mnW;
+    double R=0; for(auto&p:Pin){double u,v,w;toAxis(p,ax,u,v,w);R=max(R,hypot(u-cu,v-cv));}
+    if(R<0.08*DIAG||h<0.08*DIAG) return false;
+    int st=max(1,N/200000), cnt=0,bad=0; double sum=0;
+    for(int i=0;i<N;i+=st){double u,v,w;toAxis(Pin[i],ax,u,v,w); double rr=hypot(u-cu,v-cv); double side=fabs(rr-R); double cap=min(fabs(w-mnW),fabs(w-mxW)); double d=min(side,cap); sum+=d; if(d>0.018*DIAG) bad++; cnt++;}
+    if(cnt<100 || bad*100>cnt*2 || sum/cnt>0.0065*DIAG) return false;
+    double step=max(HTOL*0.68,DIAG*0.014);
+    int nt=max(12,(int)ceil(2*M_PI*R/step)); nt=min(nt,180);
+    int nz=max(1,(int)ceil(h/step)); nz=min(nz,140);
+    int nr=max(1,(int)ceil(R/step)); nr=min(nr,80);
+    V.clear(); F.clear(); Vec3 ref=BBC;
+    vector<vector<int>> side(nz+1, vector<int>(nt));
+    for(int k=0;k<=nz;k++){double w=mnW+h*(double)k/nz; for(int t=0;t<nt;t++){double a=2*M_PI*t/nt; side[k][t]=V.size(); V.push_back(fromAxis(ax,cu+R*cos(a),cv+R*sin(a),w));}}
+    for(int k=0;k<nz;k++) for(int t=0;t<nt;t++){int t2=(t+1)%nt; addFace(V,F,side[k][t],side[k][t2],side[k+1][t2],ref); addFace(V,F,side[k][t],side[k+1][t2],side[k+1][t],ref);}    
+    for(int capi=0;capi<2;capi++){
+        double w=capi?mxW:mnW; int outerK=capi?nz:0;
+        int center=V.size(); V.push_back(fromAxis(ax,cu,cv,w));
+        vector<vector<int>> ring(nr+1, vector<int>(nt));
+        for(int t=0;t<nt;t++) ring[nr][t]=side[outerK][t];
+        for(int rix=1;rix<nr;rix++){double rad=R*(double)rix/nr; for(int t=0;t<nt;t++){double a=2*M_PI*t/nt; ring[rix][t]=V.size(); V.push_back(fromAxis(ax,cu+rad*cos(a),cv+rad*sin(a),w));}}
+        for(int t=0;t<nt;t++){int t2=(t+1)%nt; addFace(V,F,center,ring[1][t],ring[1][t2],ref);}        
+        for(int rix=1;rix<nr;rix++) for(int t=0;t<nt;t++){int t2=(t+1)%nt; addFace(V,F,ring[rix][t],ring[rix+1][t],ring[rix+1][t2],ref); addFace(V,F,ring[rix][t],ring[rix+1][t2],ring[rix][t2],ref);}    
+    }
+    return V.size()<Pin.size()*7/10 && acceptCandidate(V,F);
+}
+static bool tryCylinder(vector<Vec3>&V, vector<Face>&F){
+    if(N<3000) return false;
+    for(int ax=0;ax<3;ax++){ if(tryCylinderAxis(ax,V,F)) return true; }
+    return false;
+}
+
+static bool tryTorusAxis(int ax, vector<Vec3>&V, vector<Face>&F){
+    vector<double> rho; rho.reserve(N); double mnW=1e100,mxW=-1e100; double cu=0,cv=0;
+    double mnU=1e100,mxU=-1e100,mnV=1e100,mxV=-1e100;
+    for(auto&p:Pin){double u,v,w;toAxis(p,ax,u,v,w);mnU=min(mnU,u);mxU=max(mxU,u);mnV=min(mnV,v);mxV=max(mxV,v);mnW=min(mnW,w);mxW=max(mxW,w);}    
+    cu=(mnU+mxU)*0.5; cv=(mnV+mxV)*0.5;
+    double Rmean=0; for(auto&p:Pin){double u,v,w;toAxis(p,ax,u,v,w); double rr=hypot(u-cu,v-cv); Rmean+=rr;} Rmean/=max(1,N);
+    double rmean=0; for(auto&p:Pin){double u,v,w;toAxis(p,ax,u,v,w); double rr=hypot(u-cu,v-cv); rmean+=hypot(rr-Rmean,w-(mnW+mxW)*0.5);} rmean/=max(1,N);
+    if(Rmean<0.12*DIAG||rmean<0.025*DIAG||rmean>0.45*Rmean) return false;
+    double cw=(mnW+mxW)*0.5;
+    int st=max(1,N/200000),cnt=0,bad=0; double sum=0;
+    for(int i=0;i<N;i+=st){double u,v,w;toAxis(Pin[i],ax,u,v,w); double rr=hypot(u-cu,v-cv); double e=fabs(hypot(rr-Rmean,w-cw)-rmean); sum+=e; if(e>0.016*DIAG) bad++; cnt++;}
+    if(cnt<100 || bad*100>cnt*2 || sum/cnt>0.006*DIAG) return false;
+    double step=max(HTOL*0.70,DIAG*0.014);
+    int nu=max(16,(int)ceil(2*M_PI*Rmean/step)); int nv=max(8,(int)ceil(2*M_PI*rmean/step));
+    nu=min(nu,220); nv=min(nv,120);
+    if((long long)nu*nv>=N*7LL/10) return false;
+    V.clear(); F.clear(); V.reserve(nu*nv);
+    for(int i=0;i<nu;i++){double uang=2*M_PI*i/nu; for(int j=0;j<nv;j++){double vang=2*M_PI*j/nv; double rr=Rmean+rmean*cos(vang); double u=cu+rr*cos(uang), v=cv+rr*sin(uang), w=cw+rmean*sin(vang); V.push_back(fromAxis(ax,u,v,w));}}
+    auto id=[&](int i,int j){i%=nu; if(i<0)i+=nu; j%=nv; if(j<0)j+=nv; return i*nv+j;};
+    for(int i=0;i<nu;i++) for(int j=0;j<nv;j++){
+        int a=id(i,j),b=id(i+1,j),c=id(i+1,j+1),d=id(i,j+1);
+        Face f1{a,b,c},f2{a,c,d};
+        auto fix=[&](Face &f){
+            Vec3 p=(V[f.a]+V[f.b]+V[f.c])/3.0; double u,v,w;toAxis(p,ax,u,v,w); double ang=atan2(v-cv,u-cu); Vec3 tube=fromAxis(ax,cu+Rmean*cos(ang),cv+Rmean*sin(ang),cw); Vec3 want=p-tube; Vec3 n=crossv(V[f.b]-V[f.a],V[f.c]-V[f.a]); if(dotv(n,want)<0) swap(f.b,f.c);
+        };
+        fix(f1); fix(f2); F.push_back(f1); F.push_back(f2);
+    }
+    return acceptCandidate(V,F);
+}
+static bool tryTorus(vector<Vec3>&V, vector<Face>&F){
+    if(N<5000) return false;
+    for(int ax=0;ax<3;ax++) if(tryTorusAxis(ax,V,F)) return true;
+    return false;
+}
+
+struct Simplifier{
+    vector<Vec3> V;
+    vector<Face> F;
+    vector<char> aliveV, aliveF;
+    vector<vector<int>> adj;
+    vector<double> err;
+    int aliveCnt, faceCnt;
+    double cosLimit, areaEps;
+    vector<int> markA,markB; int stampA=1,stampB=1;
+    struct Cand{double cost; int u,v; bool operator<(const Cand&o)const{return cost>o.cost;}};
+    priority_queue<Cand> pq;
+    Simplifier(){
+        V=Pin; F=Fin; aliveV.assign(N,1); aliveF.assign(M,1); err.assign(N,0); aliveCnt=N; faceCnt=M;
+        adj.assign(N,{}); for(int i=0;i<M;i++){adj[F[i].a].push_back(i);adj[F[i].b].push_back(i);adj[F[i].c].push_back(i);}        
+        markA.assign(N,0); markB.assign(N,0);
+        cosLimit=cos(28.0*M_PI/180.0); areaEps=max(1e-30,1e-25*DIAG*DIAG);
+        unordered_set<long long> seen; seen.reserve(M*3+10);
+        for(auto &f:F){long long e[3]={edgeKey(f.a,f.b),edgeKey(f.b,f.c),edgeKey(f.c,f.a)}; int a[3]={f.a,f.b,f.c}, b[3]={f.b,f.c,f.a}; for(int k=0;k<3;k++) if(seen.insert(e[k]).second) pushEdge(a[k],b[k]);}
+    }
+    void pushEdge(int a,int b){ if(a==b||!aliveV[a]||!aliveV[b]) return; pq.push({norm2(V[a]-V[b])+0.01*(err[a]+err[b])*(err[a]+err[b]),a,b}); }
+    bool contains(const Face&f,int v) const{return f.a==v||f.b==v||f.c==v;}
+    int otherInFace(const Face&f,int u,int v) const{ if(f.a!=u&&f.a!=v)return f.a; if(f.b!=u&&f.b!=v)return f.b; return f.c; }
+    void clean(int v){
+        if(v<0||v>=N) return;
+        vector<int> r; r.reserve(adj[v].size());
+        for(int id:adj[v]) if(aliveF[id]&&contains(F[id],v)) r.push_back(id);
+        sort(r.begin(),r.end()); r.erase(unique(r.begin(),r.end()),r.end()); adj[v].swap(r);
+    }
+    bool edgeFaces(int u,int v,int ef[2],int op[2]){
+        if(adj[u].size()>3000) clean(u); if(adj[v].size()>3000) clean(v);
+        int cnt=0;
+        const vector<int>&A=(adj[u].size()<adj[v].size()?adj[u]:adj[v]);
+        for(int id:A){ if(!aliveF[id]) continue; Face f=F[id]; if(contains(f,u)&&contains(f,v)){ if(cnt>=2)return false; ef[cnt]=id; op[cnt]=otherInFace(f,u,v); cnt++; }}
+        if(cnt!=2 || op[0]==op[1]) return false;
+        return true;
+    }
+    bool linkOK(int u,int v,const int op[2]){
+        ++stampA; if(stampA==INT_MAX){fill(markA.begin(),markA.end(),0);stampA=1;}
+        ++stampB; if(stampB==INT_MAX){fill(markB.begin(),markB.end(),0);stampB=1;}
+        for(int id:adj[u]) if(aliveF[id]&&contains(F[id],u)){Face f=F[id]; int xs[3]={f.a,f.b,f.c}; for(int x:xs) if(x!=u&&x!=v) markA[x]=stampA;}
+        int common=0;
+        for(int id:adj[v]) if(aliveF[id]&&contains(F[id],v)){Face f=F[id]; int xs[3]={f.a,f.b,f.c}; for(int x:xs) if(x!=u&&x!=v&&markA[x]==stampA){ if(x!=op[0]&&x!=op[1]) return false; if(markB[x]!=stampB){markB[x]=stampB;common++;}}}
+        return common==2 && markB[op[0]]==stampB && markB[op[1]]==stampB;
+    }
+    bool duplicateFaceExists(int fid,int rem,int keep,const Face&nf,const int ef[2]){
+        int verts[3]={nf.a,nf.b,nf.c}; int best=verts[0]; if(adj[verts[1]].size()<adj[best].size()) best=verts[1]; if(adj[verts[2]].size()<adj[best].size()) best=verts[2];
+        auto key=triKey(nf);
+        for(int id:adj[best]) if(aliveF[id]&&id!=fid&&id!=ef[0]&&id!=ef[1]){
+            Face g=F[id]; if(contains(g,rem)) continue; if(triKey(g)==key) return true;
+        }
+        return false;
+    }
+    bool tryDir(int keep,int rem,const int ef[2],double &newErr,double &score){
+        double d=normv(V[keep]-V[rem]); newErr=max(err[keep],err[rem]+d);
+        if(newErr>HTOL*0.995) return false;
+        int touched=0; double worst=1.0;
+        for(int id:adj[rem]){
+            if(!aliveF[id]||!contains(F[id],rem)) continue;
+            if(id==ef[0]||id==ef[1]) continue;
+            Face old=F[id], nf=old; if(nf.a==rem)nf.a=keep; if(nf.b==rem)nf.b=keep; if(nf.c==rem)nf.c=keep;
+            if(nf.a==nf.b||nf.a==nf.c||nf.b==nf.c) return false;
+            Vec3 no=crossv(V[old.b]-V[old.a],V[old.c]-V[old.a]); Vec3 nn=crossv(V[nf.b]-V[nf.a],V[nf.c]-V[nf.a]);
+            double ao=normv(no), an=normv(nn); if(ao*ao<areaEps||an*an<areaEps) return false;
+            double cs=dotv(no,nn)/(ao*an); worst=min(worst,cs); if(cs<cosLimit) return false;
+            if(duplicateFaceExists(id,rem,keep,nf,ef)) return false;
+            touched++;
+        }
+        if(touched==0) return false;
+        score=newErr/HTOL + 0.02*touched + 0.25*(1.0-worst);
+        return true;
+    }
+    void collapse(int keep,int rem,const int ef[2],double newErr){
+        for(int i=0;i<2;i++) if(aliveF[ef[i]]){aliveF[ef[i]]=0; faceCnt--;}
+        for(int id:adj[rem]) if(aliveF[id]&&contains(F[id],rem)){
+            if(F[id].a==rem)F[id].a=keep; if(F[id].b==rem)F[id].b=keep; if(F[id].c==rem)F[id].c=keep; adj[keep].push_back(id);
+        }
+        aliveV[rem]=0; aliveCnt--; err[keep]=newErr;
+        clean(keep); adj[rem].clear();
+        for(int id:adj[keep]) if(aliveF[id]){Face f=F[id]; pushEdge(f.a,f.b); pushEdge(f.b,f.c); pushEdge(f.c,f.a);}    }
+    bool step(){
+        if(pq.empty()) return false; Cand c=pq.top(); pq.pop();
+        int u=c.u,v=c.v; if(u==v||!aliveV[u]||!aliveV[v]) return false;
+        int ef[2],op[2]; if(!edgeFaces(u,v,ef,op)) return false; if(!linkOK(u,v,op)) return false;
+        double eu,ev,su,sv; bool ou=tryDir(u,v,ef,eu,su), ov=tryDir(v,u,ef,ev,sv);
+        if(!ou&&!ov) return false;
+        if(ov&&(!ou||sv<su)) collapse(v,u,ef,ev); else collapse(u,v,ef,eu);
+        return true;
+    }
+    void run(){
+        int fail=0; double limit = (N>120000?18.6:12.0);
+        while(!pq.empty() && elapsed()<limit){
+            bool ok=step(); if(ok) fail=0; else if(++fail> (int)pq.size()/2 + 200000) break;
+            if(aliveCnt<max(1000,N/12)) break;
+        }
+    }
+    void exportMesh(vector<Vec3>&OV, vector<Face>&OF){
+        vector<int> mp(N,-1); OV.clear(); OF.clear(); OV.reserve(aliveCnt); OF.reserve(faceCnt);
+        for(int i=0;i<N;i++) if(aliveV[i]){mp[i]=OV.size(); OV.push_back(V[i]);}
+        for(int i=0;i<M;i++) if(aliveF[i]){
+            Face f=F[i]; if(mp[f.a]<0||mp[f.b]<0||mp[f.c]<0) continue;
+            Face g{mp[f.a],mp[f.b],mp[f.c]}; if(g.a==g.b||g.a==g.c||g.b==g.c) continue; OF.push_back(g);
+        }
+    }
+};
+
+static bool trySimplify(vector<Vec3>&V,vector<Face>&F){
+    if(N<1000) return false;
+    Simplifier S; S.run(); S.exportMesh(V,F);
+    // The maintained link condition preserves closedness; this final edge check catches programming mistakes.
+    if(V.size()<Pin.size() && closedEdgeCheck(V,F)) return true;
+    return false;
+}
+
+int main(){
+    T0=chrono::steady_clock::now();
+    readInput();
+    // The sample cube must remain exactly 8 12. Also avoid risky special fitting on small cases.
+    if(N<=1000){ printOriginal(); return 0; }
+    vector<Vec3> V; vector<Face> F;
+    struct Candidate{vector<Vec3> V; vector<Face> F;};
+    Candidate best; bool have=false;
+    auto consider=[&](bool ok){
+        if(ok && (!have || V.size()<best.V.size())){best.V=V; best.F=F; have=true;}
+    };
+    consider(tryBox(V,F));
+    consider(tryTorus(V,F));
+    consider(tryEllipsoid(V,F));
+    consider(tryCylinder(V,F));
+    if(have){ printMesh(best.V,best.F); return 0; }
+    if(trySimplify(V,F)){ printMesh(V,F); return 0; }
+    printOriginal();
+    return 0;
+}
+
+Sources
+
+
+
+
+
+
+Manager feedback update. Do not stop early.
+
+Recent candidates from this worker pool did NOT improve the 81.938904 plateau:
+- d34bfe614a78 -> Kattis 17.008149 / 4 of 7
+- 9fbe4830a4f5 -> Kattis 16.997628 / 4 of 7
+- f0bd5fd4ba6c -> Kattis 45.865274 / 4 of 7
+- baddfdda6206 -> Kattis 27.320526 / 4 of 7
+- 48e373e00142 fails the official sample with first line 9 14, so it is not submit-ready.
+- Many old hashes around 81.93 are still below the required 91.80+ target.
+
+Continue as an independent long-thinking worker for IMC Challenge 2026 Problem B simplifygeometry. Use the attached files/history and GitHub repo if available: https://github.com/lequoctran181/IMC_Challenge_2026 . The goal remains 91.80+, not another small/low-score candidate.
+
+Your next answer must contain a genuinely new complete C++17 solution, preferably an actual downloadable file named submission_next.cpp plus a full code block fallback. It must compile with g++ -O2 -std=c++17 -pipe and pass the official sample first line exactly 8 12. Do not repeat any of the hashes or strategies above unless you substantially change them. If you cannot beat the plateau with your current direction, pivot to a new hidden-case-family recognizer, constructive simplifier, selector, or vertex-Hausdorff exploitation. Think longer; do not end with prose only.
+
+Show more
+
+
+I’ll treat the listed hashes as failed families and pivot away from the primitive/recognizer-heavy code I gave last time. I’m going back through the repo signals, then I’ll produce a new standalone file and compile/sample-gate it locally.
+
+Read resource
+The low-score feedback strongly suggests the previous standalone recognizers were too optimistic and hurt several hidden cases. I’m now looking for clues about hidden-case structure and prior high-score source families before deciding what to risk versus fallback.
+
+Received app response
+Thought for 7m 34s
+Created a new standalone candidate and verified: - Download: [submission_next.cpp](sandbox:/mnt/data/submission_next.cpp) - SHA-256: `67217a6feac1fa52e0911b36101ee7b7260d3ae2e44ad6004f99460dcb278676` - Compile: `g++ -O2 -std=c++17 -pipe submission_next.cpp -o submission_next` - Local sample/cube first line: `8 12` This pivots away from the recent low-score primitive/fallback families logged in the repo, including the round-42 regressions and later severe regressions. ```cpp #include <bits/stdc++.h> using namespace std; struct Vec3{ double x=0,y=0,z=0; }; struct Face{ int a=0,b=0,c=0; }; static inline Vec3 operator+(const Vec3&a,const Vec3&b){return {a.x+b.x,a.y+b.y,a.z+b.z};} static inline Vec3 operator-(const Vec3&a,const Vec3&b){return {a.x-b.x,a.y-b.y,a.z-b.z};} static inline Vec3 operator*(const Vec3&a,double s){return {a.x*s,a.y*s,a.z*s};} static inline Vec3 operator/(const Vec3&a,double s){return {a.x/s,a.y/s,a.z/s};} static inline double dot3(const Vec3&a,const Vec3&b){return a.x*b.x+a.y*b.y+a.z*b.z;} static inline Vec3 cross3(const Vec3&a,const Vec3&b){return {a.y*b.z-a.z*b.y,a.z*b.x-a.x*b.z,a.x*b.y-a.y*b.x};} static inline double n2(const Vec3&a){return dot3(a,a);} static inline double nrm(const Vec3&a){return sqrt(n2(a));} static inline Vec3 unit(Vec3 a){double l=nrm(a); if(l<=0) return {0,0,0}; return a/l;} static inline long long ekey(int a,int b){ if(a>b) swap(a,b); return ((long long)(unsigned int)a<<32) | (unsigned int)b; } int N,M; vector<Vec3> P0; vector<Face> F0; Vec3 mnB,mxB,ctrB; double diagB=1.0, hausTol=1.0; chrono::steady_clock::time_point tStart; static inline double elapsed(){ return chrono::duration<double>(chrono::steady_clock::now()-tStart).count(); } static void readAll(){ ios::sync_with_stdio(false); cin.tie(nullptr); cin>>N>>M; P0.resize(N); F0.resize(M); mnB={1e100,1e100,1e100}; mxB={-1e100,-1e100,-1e100}; char ch; for(int i=0;i<N;i++){ cin>>ch>>P0[i].x>>P0[i].y>>P0[i].z; mnB.x=min(mnB.x,P0[i].x); mnB.y=min(mnB.y,P0[i].y); mnB.z=min(mnB.z,P0[i].z); mxB.x=max(mxB.x,P0[i].x); mxB.y=max(mxB.y,P0[i].y); mxB.z=max(mxB.z,P0[i].z); } for(int i=0;i<M;i++){ cin>>ch>>F0[i].a>>F0[i].b>>F0[i].c; --F0[i].a;--F0[i].b;--F0[i].c; } ctrB=(mnB+mxB)*0.5; diagB=nrm(mxB-mnB); if(!(diagB>0)) diagB=1.0; hausTol=0.0490*diagB; } static void emit(const vector<Vec3>&V,const vector<Face>&F){ cout.setf(ios::fixed); cout<<setprecision(10); cout<<V.size()<<" "<<F.size()<<"\n"; for(const auto&p:V) cout<<"v "<<p.x<<" "<<p.y<<" "<<p.z<<"\n"; for(const auto&f:F) cout<<"f "<<f.a+1<<" "<<f.b+1<<" "<<f.c+1<<"\n"; } static void emitOriginal(){ emit(P0,F0); } struct NearGrid{ Vec3 mn; double cell; unordered_map<long long, vector<int>> g; static long long pack(int x,int y,int z){ const long long B=1048576LL,O=524288LL; return ((long long)(x+O)*B+(y+O))*B+(z+O); } NearGrid(){} NearGrid(const vector<Vec3>&P,double c){ init(P,c); } void init(const vector<Vec3>&P,double c){ cell=max(c,1e-12); mn={1e100,1e100,1e100}; for(auto&p:P){mn.x=min(mn.x,p.x);mn.y=min(mn.y,p.y);mn.z=min(mn.z,p.z);} g.reserve(P.size()*2+10); for(int i=0;i<(int)P.size();++i){int x,y,z; idx(P[i],x,y,z); g[pack(x,y,z)].push_back(i);} } void idx(const Vec3&p,int&x,int&y,int&z)const{ x=(int)floor((p.x-mn.x)/cell); y=(int)floor((p.y-mn.y)/cell); z=(int)floor((p.z-mn.z)/cell); } bool near(const vector<Vec3>&P,const Vec3&q,double r)const{ int X,Y,Z; idx(q,X,Y,Z); double r2=r*r; for(int dx=-1;dx<=1;dx++)for(int dy=-1;dy<=1;dy++)for(int dz=-1;dz<=1;dz++){ auto it=g.find(pack(X+dx,Y+dy,Z+dz)); if(it==g.end())continue; for(int id:it->second) if(n2(P[id]-q)<=r2) return true; } return false; } }; static bool symmetricCheck(const vector<Vec3>&V,double tol){ if(V.empty()) return false; NearGrid a(V,tol); for(const auto&p:P0) if(!a.near(V,p,tol)) return false; NearGrid b(P0,tol); for(const auto&p:V) if(!b.near(P0,p,tol)) return false; return true; } static void orientOut(vector<Vec3>&V, Face&f, const Vec3&ref){ Vec3 n=cross3(V[f.b]-V[f.a],V[f.c]-V[f.a]); Vec3 c=(V[f.a]+V[f.b]+V[f.c])/3.0; if(dot3(n,c-ref)<0) swap(f.b,f.c); } static void addTri(vector<Vec3>&V, vector<Face>&F, int a,int b,int c, const Vec3&ref){ if(a==b||a==c||b==c) return; Face f{a,b,c}; orientOut(V,f,ref); F.push_back(f); } static bool closedCheck(const vector<Vec3>&V,const vector<Face>&F); static bool tryStrictBox(vector<Vec3>&V,vector<Face>&F){ if(N<1500) return false; double dx=mxB.x-mnB.x,dy=mxB.y-mnB.y,dz=mxB.z-mnB.z; if(min({dx,dy,dz})<0.02*diagB) return false; int faceHits[6]={0,0,0,0,0,0}; double sum=0,mx=0; int bad=0; double close=0.0105*diagB; for(const Vec3&p:P0){ double d[6]={fabs(p.x-mnB.x),fabs(p.x-mxB.x),fabs(p.y-mnB.y),fabs(p.y-mxB.y),fabs(p.z-mnB.z),fabs(p.z-mxB.z)}; int b=0; for(int i=1;i<6;i++) if(d[i]<d[b]) b=i; faceHits[b]++; sum+=d[b]; mx=max(mx,d[b]); if(d[b]>close) bad++; } if(bad>0 || sum>0.0020*diagB*N || mx>close) return false; for(int i=0;i<6;i++) if(faceHits[i]<max(3,N/5000)) return false; double step=max(1e-12,0.68*hausTol); int nx=max(1,(int)ceil(dx/step)),ny=max(1,(int)ceil(dy/step)),nz=max(1,(int)ceil(dz/step)); if((long long)(nx+1)*(ny+1)*2+(long long)(nx+1)*(nz+1)*2+(long long)(ny+1)*(nz+1)*2 > (long long)N*3) return false; V.clear(); F.clear(); unordered_map<long long,int> id; id.reserve((nx+1)*(ny+1)*2+(nx+1)*(nz+1)*2+(ny+1)*(nz+1)*2+10); auto key=[&](int i,int j,int k){ return ((long long)i*(ny+1)+j)*(nz+1)+k; }; auto get=[&](int i,int j,int k)->int{ long long kk=key(i,j,k); auto it=id.find(kk); if(it!=id.end()) return it->second; Vec3 p{mnB.x+dx*(double)i/nx,mnB.y+dy*(double)j/ny,mnB.z+dz*(double)k/nz}; int r=V.size(); V.push_back(p); id[kk]=r; return r; }; Vec3 ref=ctrB; for(int i=0;i<nx;i++)for(int j=0;j<ny;j++){ int a=get(i,j,0),b=get(i+1,j,0),c=get(i+1,j+1,0),d=get(i,j+1,0); addTri(V,F,a,b,c,ref); addTri(V,F,a,c,d,ref); a=get(i,j,nz);b=get(i+1,j,nz);c=get(i+1,j+1,nz);d=get(i,j+1,nz); addTri(V,F,a,c,b,ref); addTri(V,F,a,d,c,ref); } for(int i=0;i<nx;i++)for(int k=0;k<nz;k++){ int a=get(i,0,k),b=get(i+1,0,k),c=get(i+1,0,k+1),d=get(i,0,k+1); addTri(V,F,a,b,c,ref); addTri(V,F,a,c,d,ref); a=get(i,ny,k);b=get(i+1,ny,k);c=get(i+1,ny,k+1);d=get(i,ny,k+1); addTri(V,F,a,c,b,ref); addTri(V,F,a,d,c,ref); } for(int j=0;j<ny;j++)for(int k=0;k<nz;k++){ int a=get(0,j,k),b=get(0,j+1,k),c=get(0,j+1,k+1),d=get(0,j,k+1); addTri(V,F,a,b,c,ref); addTri(V,F,a,c,d,ref); a=get(nx,j,k);b=get(nx,j+1,k);c=get(nx,j+1,k+1);d=get(nx,j,k+1); addTri(V,F,a,c,b,ref); addTri(V,F,a,d,c,ref); } if(V.size()>=P0.size()) return false; return closedCheck(V,F) && symmetricCheck(V,hausTol*0.998); } struct Solver{ vector<Vec3> V; vector<Face> F; vector<unsigned char> aliveV,aliveF,protectV,coneSharp; vector<vector<int>> inc; vector<double> err; vector<int> markA,markB; int stampA=1,stampB=1, aliveN=0, aliveM=0; double areaEps=0, cosHard=0.93, cosSoft=0.86, planeTol=0; int targetStop=0; struct Node{ double c; int a,b; bool operator<(const Node&o)const{return c>o.c;} }; priority_queue<Node> pq; Solver(){ V=P0; F=F0; aliveN=N; aliveM=M; aliveV.assign(N,1); aliveF.assign(M,1); protectV.assign(N,0); coneSharp.assign(N,0); err.assign(N,0); inc.assign(N,{}); for(int i=0;i<M;i++){ inc[F[i].a].push_back(i); inc[F[i].b].push_back(i); inc[F[i].c].push_back(i); } markA.assign(N,0); markB.assign(N,0); areaEps=max(1e-32,1e-26*diagB*diagB); planeTol=0.42*hausTol; targetStop=max(16, (int)(N*0.060)); if(N>250000) targetStop=max(targetStop,26000); else if(N>90000) targetStop=max(targetStop,12000); else if(N>25000) targetStop=max(targetStop,4200); buildProtection(); seedPQ(); } Vec3 fnormal(int id) const { const Face&f=F[id]; return cross3(V[f.b]-V[f.a],V[f.c]-V[f.a]); } bool has(const Face&f,int v) const { return f.a==v||f.b==v||f.c==v; } int opp(const Face&f,int a,int b) const { if(f.a!=a&&f.a!=b) return f.a; if(f.b!=a&&f.b!=b) return f.b; return f.c; } void clean(int v){ vector<int> r; r.reserve(inc[v].size()); for(int id:inc[v]) if(id>=0&&id<(int)F.size()&&aliveF[id]&&has(F[id],v)) r.push_back(id); sort(r.begin(),r.end()); r.erase(unique(r.begin(),r.end()),r.end()); inc[v].swap(r); } void buildProtection(){ vector<Vec3> fN(M); for(int i=0;i<M;i++) fN[i]=unit(cross3(P0[F0[i].b]-P0[F0[i].a],P0[F0[i].c]-P0[F0[i].a])); vector<Vec3> vN(N,{0,0,0}); for(int i=0;i<M;i++){ vN[F0[i].a]=vN[F0[i].a]+fN[i]; vN[F0[i].b]=vN[F0[i].b]+fN[i]; vN[F0[i].c]=vN[F0[i].c]+fN[i]; } for(int i=0;i<N;i++) vN[i]=unit(vN[i]); double sharpCos=cos(38.0*M_PI/180.0); unordered_map<long long,int> first; first.reserve(M*3+10); auto seeEdge=[&](int a,int b,int fid){ long long k=ekey(a,b); auto it=first.find(k); if(it==first.end()) first[k]=fid; else { int g=it->second; double d=dot3(fN[fid],fN[g]); if(d<sharpCos){ protectV[a]=protectV[b]=1; coneSharp[a]=coneSharp[b]=1; } } }; for(int i=0;i<M;i++){ seeEdge(F0[i].a,F0[i].b,i); seeEdge(F0[i].b,F0[i].c,i); seeEdge(F0[i].c,F0[i].a,i); } for(int i=0;i<M;i++){ int vs[3]={F0[i].a,F0[i].b,F0[i].c}; for(int v:vs) if(dot3(vN[v],fN[i])<cos(32.0*M_PI/180.0)) protectV[v]=1, coneSharp[v]=1; } double sx=max(1e-30,mxB.x-mnB.x), sy=max(1e-30,mxB.y-mnB.y), sz=max(1e-30,mxB.z-mnB.z); int R; if(N<15000) R=40; else if(N<70000) R=58; else if(N<180000) R=76; else R=92; auto markProjection=[&](int ax){ vector<int> mnId(R*R,-1), mxId(R*R,-1); vector<double> mnD(R*R,1e300), mxD(R*R,-1e300); for(int i=0;i<N;i++){ double u,v,d; if(ax==0){u=(P0[i].y-mnB.y)/sy; v=(P0[i].z-mnB.z)/sz; d=P0[i].x;} else if(ax==1){u=(P0[i].x-mnB.x)/sx; v=(P0[i].z-mnB.z)/sz; d=P0[i].y;} else {u=(P0[i].x-mnB.x)/sx; v=(P0[i].y-mnB.y)/sy; d=P0[i].z;} int a=min(R-1,max(0,(int)(u*R))); int b=min(R-1,max(0,(int)(v*R))); int id=a*R+b; if(d<mnD[id]) mnD[id]=d,mnId[id]=i; if(d>mxD[id]) mxD[id]=d,mxId[id]=i; } for(int id:mnId) if(id>=0) protectV[id]=1; for(int id:mxId) if(id>=0) protectV[id]=1; }; markProjection(0); markProjection(1); markProjection(2); int ix0=0,ix1=0,iy0=0,iy1=0,iz0=0,iz1=0; for(int i=1;i<N;i++){ if(P0[i].x<P0[ix0].x)ix0=i; if(P0[i].x>P0[ix1].x)ix1=i; if(P0[i].y<P0[iy0].y)iy0=i; if(P0[i].y>P0[iy1].y)iy1=i; if(P0[i].z<P0[iz0].z)iz0=i; if(P0[i].z>P0[iz1].z)iz1=i; } protectV[ix0]=protectV[ix1]=protectV[iy0]=protectV[iy1]=protectV[iz0]=protectV[iz1]=1; } void pushEdge(int a,int b){ if(a==b||a<0||b<0||!aliveV[a]||!aliveV[b]) return; double l=sqrt(n2(V[a]-V[b])); double pc=(protectV[a]&&protectV[b])?9.0:((protectV[a]||protectV[b])?0.35:0.0); pq.push({l + pc*hausTol + 0.20*(err[a]+err[b]),a,b}); } void seedPQ(){ unordered_set<long long> seen; seen.reserve((size_t)M*3+10); for(const Face&f:F){ int a[3]={f.a,f.b,f.c}, b[3]={f.b,f.c,f.a}; for(int k=0;k<3;k++){ long long kk=ekey(a[k],b[k]); if(seen.insert(kk).second) pushEdge(a[k],b[k]); } } } bool edgeFaces(int u,int v,int ef[2],int op[2]){ if((int)inc[u].size()>1600) clean(u); if((int)inc[v].size()>1600) clean(v); int cnt=0; const vector<int>&A=(inc[u].size()<inc[v].size()?inc[u]:inc[v]); for(int id:A){ if(!aliveF[id]) continue; Face f=F[id]; if(has(f,u)&&has(f,v)){ if(cnt>=2) return false; ef[cnt]=id; op[cnt]=opp(f,u,v); cnt++; } } if(cnt!=2 || op[0]<0 || op[1]<0 || op[0]==op[1]) return false; return true; } bool linkOK(int u,int v,const int op[2]){ if(++stampA==INT_MAX){fill(markA.begin(),markA.end(),0);stampA=1;} if(++stampB==INT_MAX){fill(markB.begin(),markB.end(),0);stampB=1;} for(int id:inc[u]) if(aliveF[id]&&has(F[id],u)){ int xs[3]={F[id].a,F[id].b,F[id].c}; for(int x:xs) if(x!=u&&x!=v) markA[x]=stampA; } int common=0; for(int id:inc[v]) if(aliveF[id]&&has(F[id],v)){ int xs[3]={F[id].a,F[id].b,F[id].c}; for(int x:xs) if(x!=u&&x!=v&&markA[x]==stampA){ if(x!=op[0]&&x!=op[1]) return false; if(markB[x]!=stampB){markB[x]=stampB; common++;} } } return common==2 && markB[op[0]]==stampB && markB[op[1]]==stampB; } static array<int,3> tkey(Face f){ array<int,3> a={f.a,f.b,f.c}; sort(a.begin(),a.end()); return a; } bool dupFace(int fid,int rem,int keep,const Face&nf,const int ef[2]){ int vs[3]={nf.a,nf.b,nf.c}; int best=vs[0]; if(inc[vs[1]].size()<inc[best].size()) best=vs[1]; if(inc[vs[2]].size()<inc[best].size()) best=vs[2]; auto k=tkey(nf); for(int id:inc[best]) if(aliveF[id]&&id!=fid&&id!=ef[0]&&id!=ef[1]){ if(has(F[id],rem)) continue; if(tkey(F[id])==k) return true; } return false; } bool tryDir(int keep,int rem,const int ef[2],double&ne,double&score){ if(protectV[rem] && !protectV[keep]) return false; if(protectV[rem] && protectV[keep]){ if(nrm(V[keep]-V[rem])>0.18*hausTol) return false; } double dist=nrm(V[keep]-V[rem]); ne=max(err[keep],err[rem]+dist); if(ne>0.982*hausTol) return false; double worstCos=1.0, worstPlane=0; int touched=0; bool hard=false; for(int id:inc[rem]){ if(!aliveF[id]||!has(F[id],rem)) continue; if(id==ef[0]||id==ef[1]) continue; Face old=F[id], nf=old; if(nf.a==rem) nf.a=keep; if(nf.b==rem) nf.b=keep; if(nf.c==rem) nf.c=keep; if(nf.a==nf.b||nf.a==nf.c||nf.b==nf.c) return false; Vec3 no=cross3(V[old.b]-V[old.a],V[old.c]-V[old.a]); Vec3 nn=cross3(V[nf.b]-V[nf.a],V[nf.c]-V[nf.a]); double ao=nrm(no), an=nrm(nn); if(ao*ao<=areaEps||an*an<=areaEps) return false; double cs=dot3(no,nn)/(ao*an); worstCos=min(worstCos,cs); int vs[3]={old.a,old.b,old.c}; bool fh=false; for(int x:vs) if(protectV[x]||coneSharp[x]) fh=true; double lim=fh?cosHard:cosSoft; if(cs<lim) return false; if(fh) hard=true; Vec3 n=no/ao; double pd=fabs(dot3(n,V[keep]-V[old.a])); worstPlane=max(worstPlane,pd); double plim=fh?0.30*hausTol:planeTol; if(pd>plim) return false; if(dupFace(id,rem,keep,nf,ef)) return false; touched++; } if(touched==0) return false; score=ne/hausTol + 0.06*touched + 1.5*max(0.0,1.0-worstCos) + 0.5*worstPlane/hausTol + (hard?0.12:0.0) + (protectV[keep]?0.01:0.0); return true; } void doCollapse(int keep,int rem,const int ef[2],double ne){ for(int i=0;i<2;i++) if(aliveF[ef[i]]){aliveF[ef[i]]=0; aliveM--;} for(int id:inc[rem]) if(aliveF[id]&&has(F[id],rem)){ if(F[id].a==rem) F[id].a=keep; if(F[id].b==rem) F[id].b=keep; if(F[id].c==rem) F[id].c=keep; inc[keep].push_back(id); } aliveV[rem]=0; aliveN--; err[keep]=ne; protectV[keep]=protectV[keep]|protectV[rem]; coneSharp[keep]=coneSharp[keep]|coneSharp[rem]; inc[rem].clear(); clean(keep); for(int id:inc[keep]) if(aliveF[id]){ Face f=F[id]; pushEdge(f.a,f.b); pushEdge(f.b,f.c); pushEdge(f.c,f.a); } } bool step(){ if(pq.empty()) return false; Node q=pq.top(); pq.pop(); int u=q.a,v=q.b; if(u==v||!aliveV[u]||!aliveV[v]) return false; int ef[2],op[2]; if(!edgeFaces(u,v,ef,op)) return false; if(!linkOK(u,v,op)) return false; double eu,ev,su,sv; bool ou=tryDir(u,v,ef,eu,su), ov=tryDir(v,u,ef,ev,sv); if(!ou&&!ov) return false; if(ov&&(!ou||sv<su)) doCollapse(v,u,ef,ev); else doCollapse(u,v,ef,eu); return true; } void run(){ int bad=0; double deadline = (N>220000?18.75:(N>80000?18.35:16.5)); while(!pq.empty() && elapsed()<deadline && aliveN>targetStop){ bool ok=step(); if(ok) bad=0; else if(++bad>350000 && bad>(int)pq.size()/3) break; } } void exportMesh(vector<Vec3>&OV,vector<Face>&OF){ vector<int> mp(N,-1); OV.clear(); OF.clear(); OV.reserve(aliveN); OF.reserve(aliveM); for(int i=0;i<N;i++) if(aliveV[i]){ mp[i]=(int)OV.size(); OV.push_back(V[i]); } for(int i=0;i<M;i++) if(aliveF[i]){ Face f=F[i]; if(mp[f.a]<0||mp[f.b]<0||mp[f.c]<0) continue; Face g{mp[f.a],mp[f.b],mp[f.c]}; if(g.a!=g.b&&g.a!=g.c&&g.b!=g.c) OF.push_back(g); } } }; static bool closedCheck(const vector<Vec3>&V,const vector<Face>&F){ if(V.empty()||F.empty()||V.size()>(size_t)N) return false; unordered_map<long long,int> cnt; cnt.reserve(F.size()*4+10); set<array<int,3>> tris; double eps=max(1e-32,1e-27*diagB*diagB); for(auto f:F){ if(f.a<0||f.b<0||f.c<0||f.a>=(int)V.size()||f.b>=(int)V.size()||f.c>=(int)V.size()) return false; if(f.a==f.b||f.a==f.c||f.b==f.c) return false; if(n2(cross3(V[f.b]-V[f.a],V[f.c]-V[f.a]))<=eps) return false; array<int,3> t={f.a,f.b,f.c}; sort(t.begin(),t.end()); if(!tris.insert(t).second) return false; cnt[ekey(f.a,f.b)]++; cnt[ekey(f.b,f.c)]++; cnt[ekey(f.c,f.a)]++; } for(auto&kv:cnt) if(kv.second!=2) return false; return true; } int main(){ tStart=chrono::steady_clock::now(); readAll(); if(N<=1000){ emitOriginal(); return 0; } vector<Vec3> V; vector<Face> F; if(tryStrictBox(V,F)){ emit(V,F); return 0; } Solver S; S.run(); S.exportMesh(V,F); if(V.size()<P0.size() && closedCheck(V,F)) emit(V,F); else emitOriginal(); return 0; } ```
+
+Sources
+
+
+
+
+
+
+Manager feedback: this tab is idle or repeated stale code. Continue working; do not answer early.
+
+Current best is still only 81.938904. Target is 91.80+. Recent bad/duplicate hashes to avoid: d34bfe614a78, 9fbe4830a4f5, f0bd5fd4ba6c, baddfdda6206, 48e373e00142, bf6fc56521d1, 1103e3095e6b, 2b139571f4bb unless you substantially redesign them. Several of these scored 17-46 or failed sample.
+
+Your next output must be a genuinely new complete C++17 submission_next.cpp and full code fallback. It must compile and official sample first line must be exactly 8 12. If your current code would output 9 14 on the sample, fix the sample simplification before doing anything else. Do not finish with prose only. If no breakthrough is ready, keep thinking and pivot to a different hidden-case family / constructive mesh simplification strategy / selector. Use repo/history/files in this conversation.
+
+Show more
+
+
+I’ll move away from the last protected-edge collapse variant and focus on a selector that first handles only extremely safe constructive cases, then uses a conservative manifold-preserving collapse so the sample stays 8 12. I’m also checking repo feedback to avoid repeating recent low-score/hash families.
+
+Received app response
+
+Received app response
+
+Received app response
+Thought for 5m 26s
+Created a new complete C++17 candidate: - Download: [submission_next.cpp](sandbox:/mnt/data/submission_next.cpp) - SHA-256: `cb487142a283787a143f510e28a48a7fd03def4d1255003a092d78dd4ba89fb9` - Compile verified: `g++ -O2 -std=c++17 -pipe` - Local cube/sample first line: `8 12` This is a different route from the recent low-score primitive/fallback variants: it uses a strict constructive selector only for very safe box/sphere cases, then a topology-preserving **planar one-ring dissolve** pass before conservative edge collapses. The repo log confirms many recent stale/low-score families and sample-fail/plateau attempts, so I avoided those directions. ```cpp #include <bits/stdc++.h> using namespace std; struct Vec3{double x=0,y=0,z=0;}; struct Face{int a=0,b=0,c=0;}; static inline Vec3 operator+(const Vec3&a,const Vec3&b){return {a.x+b.x,a.y+b.y,a.z+b.z};} static inline Vec3 operator-(const Vec3&a,const Vec3&b){return {a.x-b.x,a.y-b.y,a.z-b.z};} static inline Vec3 operator*(const Vec3&a,double s){return {a.x*s,a.y*s,a.z*s};} static inline Vec3 operator/(const Vec3&a,double s){return {a.x/s,a.y/s,a.z/s};} static inline double dot3(const Vec3&a,const Vec3&b){return a.x*b.x+a.y*b.y+a.z*b.z;} static inline Vec3 cross3(const Vec3&a,const Vec3&b){return {a.y*b.z-a.z*b.y,a.z*b.x-a.x*b.z,a.x*b.y-a.y*b.x};} static inline double norm2(const Vec3&a){return dot3(a,a);} static inline double norm3(const Vec3&a){return sqrt(norm2(a));} static inline Vec3 unit(Vec3 a){double l=norm3(a); if(l<=0) return {0,0,0}; return a/l;} static inline long long edgeKey(int a,int b){if(a>b) swap(a,b); return ((long long)(unsigned int)a<<32)|(unsigned int)b;} static inline array<int,3> triKey(Face f){array<int,3> t={f.a,f.b,f.c}; sort(t.begin(),t.end()); return t;} struct ArrHash{size_t operator()(const array<int,3>&a)const{return ((uint64_t)(unsigned)a[0]*11995408973635179863ull)^((uint64_t)(unsigned)a[1]*10150724397891781847ull)^((uint64_t)(unsigned)a[2]*7809847782465536323ull);} }; int N,M; vector<Vec3>P; vector<Face>Finput; Vec3 bbMin,bbMax,bbCtr; double diagLen=1,HT=1; chrono::steady_clock::time_point T0; static inline double elapsed(){return chrono::duration<double>(chrono::steady_clock::now()-T0).count();} static void readInput(){ ios::sync_with_stdio(false); cin.tie(nullptr); cin>>N>>M; P.resize(N); Finput.resize(M); bbMin={1e100,1e100,1e100}; bbMax={-1e100,-1e100,-1e100}; char ch; for(int i=0;i<N;i++){cin>>ch>>P[i].x>>P[i].y>>P[i].z; bbMin.x=min(bbMin.x,P[i].x); bbMin.y=min(bbMin.y,P[i].y); bbMin.z=min(bbMin.z,P[i].z); bbMax.x=max(bbMax.x,P[i].x); bbMax.y=max(bbMax.y,P[i].y); bbMax.z=max(bbMax.z,P[i].z);} for(int i=0;i<M;i++){cin>>ch>>Finput[i].a>>Finput[i].b>>Finput[i].c; --Finput[i].a;--Finput[i].b;--Finput[i].c;} bbCtr=(bbMin+bbMax)*0.5; diagLen=norm3(bbMax-bbMin); if(!(diagLen>0)) diagLen=1; HT=0.0490*diagLen; } static void printMesh(const vector<Vec3>&V,const vector<Face>&F){ cout.setf(ios::fixed); cout<<setprecision(10); cout<<V.size()<<" "<<F.size()<<"\n"; for(auto&p:V) cout<<"v "<<p.x<<" "<<p.y<<" "<<p.z<<"\n"; for(auto&f:F) cout<<"f "<<f.a+1<<" "<<f.b+1<<" "<<f.c+1<<"\n"; } static void printOriginal(){printMesh(P,Finput);} struct NearGrid{ Vec3 mn; double cell; unordered_map<long long,vector<int>> g; static long long pack(int x,int y,int z){const long long B=1048576LL,O=524288LL; return ((long long)(x+O)*B+(y+O))*B+(z+O);} NearGrid(){} NearGrid(const vector<Vec3>&V,double c){init(V,c);} void init(const vector<Vec3>&V,double c){cell=max(c,1e-12); mn={1e100,1e100,1e100}; for(auto&p:V){mn.x=min(mn.x,p.x);mn.y=min(mn.y,p.y);mn.z=min(mn.z,p.z);} g.reserve(V.size()*2+7); for(int i=0;i<(int)V.size();++i){int x,y,z; idx(V[i],x,y,z); g[pack(x,y,z)].push_back(i);}} void idx(const Vec3&p,int&x,int&y,int&z)const{x=(int)floor((p.x-mn.x)/cell);y=(int)floor((p.y-mn.y)/cell);z=(int)floor((p.z-mn.z)/cell);} bool near(const vector<Vec3>&V,const Vec3&q,double r)const{int X,Y,Z; idx(q,X,Y,Z); double r2=r*r; for(int dx=-1;dx<=1;dx++)for(int dy=-1;dy<=1;dy++)for(int dz=-1;dz<=1;dz++){auto it=g.find(pack(X+dx,Y+dy,Z+dz)); if(it==g.end()) continue; for(int id:it->second) if(norm2(V[id]-q)<=r2) return true;} return false;} }; static bool symmetricOK(const vector<Vec3>&V,double tol){if(V.empty()) return false; NearGrid a(V,tol); for(auto&p:P) if(!a.near(V,p,tol)) return false; NearGrid b(P,tol); for(auto&p:V) if(!b.near(P,p,tol)) return false; return true;} static void orientOut(vector<Vec3>&V, Face&f, const Vec3&ref){Vec3 n=cross3(V[f.b]-V[f.a],V[f.c]-V[f.a]); Vec3 c=(V[f.a]+V[f.b]+V[f.c])/3.0; if(dot3(n,c-ref)<0) swap(f.b,f.c);} static void addFace(vector<Vec3>&V,vector<Face>&F,int a,int b,int c,const Vec3&ref){if(a==b||a==c||b==c)return; Face f{a,b,c}; orientOut(V,f,ref); F.push_back(f);} static bool closedOK(const vector<Vec3>&V,const vector<Face>&F){ if(V.empty()||F.empty()||V.size()>(size_t)N) return false; double eps=max(1e-32,1e-27*diagLen*diagLen); unordered_map<long long,int> ec; ec.reserve(F.size()*4+3); unordered_set<array<int,3>,ArrHash> ts; ts.reserve(F.size()*2+3); for(auto f:F){if(f.a<0||f.b<0||f.c<0||f.a>=(int)V.size()||f.b>=(int)V.size()||f.c>=(int)V.size()) return false; if(f.a==f.b||f.a==f.c||f.b==f.c) return false; if(norm2(cross3(V[f.b]-V[f.a],V[f.c]-V[f.a]))<=eps) return false; if(!ts.insert(triKey(f)).second) return false; ec[edgeKey(f.a,f.b)]++; ec[edgeKey(f.b,f.c)]++; ec[edgeKey(f.c,f.a)]++;} for(auto&kv:ec) if(kv.second!=2) return false; return true; } static void makeIco(vector<Vec3>&V,vector<Face>&F){ V.clear();F.clear(); double t=(1+sqrt(5.0))*0.5; vector<Vec3>b={{-1,t,0},{1,t,0},{-1,-t,0},{1,-t,0},{0,-1,t},{0,1,t},{0,-1,-t},{0,1,-t},{t,0,-1},{t,0,1},{-t,0,-1},{-t,0,1}}; for(auto&p:b)V.push_back(unit(p)); int q[20][3]={{0,11,5},{0,5,1},{0,1,7},{0,7,10},{0,10,11},{1,5,9},{5,11,4},{11,10,2},{10,7,6},{7,1,8},{3,9,4},{3,4,2},{3,2,6},{3,6,8},{3,8,9},{4,9,5},{2,4,11},{6,2,10},{8,6,7},{9,8,1}}; for(auto &x:q)F.push_back({x[0],x[1],x[2]}); } static void subdiv(vector<Vec3>&V,vector<Face>&F){ map<pair<int,int>,int> mp; auto mid=[&](int a,int b)->int{if(a>b)swap(a,b); auto k=make_pair(a,b); auto it=mp.find(k); if(it!=mp.end())return it->second; int id=V.size(); V.push_back(unit((V[a]+V[b])*0.5)); mp[k]=id; return id;}; vector<Face> NF; NF.reserve(F.size()*4); for(auto f:F){int ab=mid(f.a,f.b),bc=mid(f.b,f.c),ca=mid(f.c,f.a); NF.push_back({f.a,ab,ca}); NF.push_back({f.b,bc,ab}); NF.push_back({f.c,ca,bc}); NF.push_back({ab,bc,ca});} F.swap(NF); } static bool tryStrictSphere(vector<Vec3>&V,vector<Face>&F){ if(N<5000) return false; Vec3 c=bbCtr; vector<double> r; r.reserve(N); double sum=0,mn=1e100,mx=-1e100; for(auto&p:P){double d=norm3(p-c); r.push_back(d); sum+=d; mn=min(mn,d); mx=max(mx,d);} double R=sum/N; if(R<0.08*diagLen) return false; double var=0; for(double d:r)var+=(d-R)*(d-R); var=sqrt(var/N); if(mx-mn>0.010*diagLen || var>0.0025*diagLen) return false; makeIco(V,F); int sub=0; while(sub<5 && V.size()<P.size()/2 && 2.2*R/sqrt((double)F.size())>0.72*HT){sub++; subdiv(V,F);} if(V.size()>=P.size()) return false; for(auto &p:V) p=c+p*R; for(auto&f:F) orientOut(V,f,c); return closedOK(V,F)&&symmetricOK(V,HT*0.995); } static bool tryStrictBox(vector<Vec3>&V,vector<Face>&F){ if(N<3000) return false; double dx=bbMax.x-bbMin.x,dy=bbMax.y-bbMin.y,dz=bbMax.z-bbMin.z; if(min({dx,dy,dz})<0.03*diagLen) return false; int st=max(1,N/250000),bad=0,cnt=0,h[6]={}; double sum=0,mx=0; for(int i=0;i<N;i+=st){auto&p=P[i]; double d[6]={fabs(p.x-bbMin.x),fabs(p.x-bbMax.x),fabs(p.y-bbMin.y),fabs(p.y-bbMax.y),fabs(p.z-bbMin.z),fabs(p.z-bbMax.z)}; int b=0; for(int k=1;k<6;k++) if(d[k]<d[b]) b=k; h[b]++; sum+=d[b]; mx=max(mx,d[b]); if(d[b]>0.0065*diagLen) bad++; cnt++;} if(cnt<50||bad>0||sum>cnt*0.0018*diagLen||mx>0.0065*diagLen) return false; for(int i=0;i<6;i++) if(h[i]<max(2,cnt/5000)) return false; vector<Vec3> W={{bbMin.x,bbMin.y,bbMin.z},{bbMax.x,bbMin.y,bbMin.z},{bbMax.x,bbMax.y,bbMin.z},{bbMin.x,bbMax.y,bbMin.z},{bbMin.x,bbMin.y,bbMax.z},{bbMax.x,bbMin.y,bbMax.z},{bbMax.x,bbMax.y,bbMax.z},{bbMin.x,bbMax.y,bbMax.z}}; int T[12][3]={{0,1,2},{0,2,3},{4,6,5},{4,7,6},{0,4,5},{0,5,1},{1,5,6},{1,6,2},{2,6,7},{2,7,3},{3,7,4},{3,4,0}}; vector<Face> Q; for(auto&t:T){Face f{t[0],t[1],t[2]}; orientOut(W,f,bbCtr); Q.push_back(f);} if(!symmetricOK(W,HT*0.995)) return false; V.swap(W); F.swap(Q); return true; } struct MeshOpt{ vector<Vec3> V; vector<Face> F; vector<unsigned char> aliveV,aliveF,protectV,sharpV; vector<vector<int>> inc; vector<double> err; unordered_map<long long,int> edgeCnt; unordered_set<array<int,3>,ArrHash> triSet; int aliveN,aliveM; double epsArea; vector<int> markA,markB; int stampA=1,stampB=1; struct Cand{double c;int a,b;bool operator<(const Cand&o)const{return c>o.c;}}; priority_queue<Cand> pq; MeshOpt(){ V=P; F=Finput; aliveN=N; aliveM=M; aliveV.assign(N,1); aliveF.assign(M,1); protectV.assign(N,0); sharpV.assign(N,0); err.assign(N,0); inc.assign(N,{}); epsArea=max(1e-32,1e-27*diagLen*diagLen); for(int i=0;i<M;i++){inc[F[i].a].push_back(i);inc[F[i].b].push_back(i);inc[F[i].c].push_back(i); triSet.insert(triKey(F[i])); edgeCnt[edgeKey(F[i].a,F[i].b)]++; edgeCnt[edgeKey(F[i].b,F[i].c)]++; edgeCnt[edgeKey(F[i].c,F[i].a)]++;} markA.assign(N,0); markB.assign(N,0); buildProtect(); seed(); } bool has(const Face&f,int v)const{return f.a==v||f.b==v||f.c==v;} Vec3 faceN(int id)const{return cross3(V[F[id].b]-V[F[id].a],V[F[id].c]-V[F[id].a]);} void clean(int v){vector<int> r; for(int id:inc[v]) if(id>=0&&id<(int)F.size()&&aliveF[id]&&has(F[id],v)) r.push_back(id); sort(r.begin(),r.end()); r.erase(unique(r.begin(),r.end()),r.end()); inc[v].swap(r);} void buildProtect(){ vector<Vec3> fn(M); for(int i=0;i<M;i++) fn[i]=unit(cross3(P[Finput[i].b]-P[Finput[i].a],P[Finput[i].c]-P[Finput[i].a])); unordered_map<long long,int> first; first.reserve(M*3+3); double sc=cos(35.0*M_PI/180.0); auto edge=[&](int a,int b,int f){long long k=edgeKey(a,b); auto it=first.find(k); if(it==first.end()) first[k]=f; else if(dot3(fn[f],fn[it->second])<sc) protectV[a]=protectV[b]=sharpV[a]=sharpV[b]=1;}; for(int i=0;i<M;i++){edge(Finput[i].a,Finput[i].b,i);edge(Finput[i].b,Finput[i].c,i);edge(Finput[i].c,Finput[i].a,i);} int R=N>180000?90:(N>70000?74:(N>20000?58:42)); double sx=max(1e-30,bbMax.x-bbMin.x),sy=max(1e-30,bbMax.y-bbMin.y),sz=max(1e-30,bbMax.z-bbMin.z); auto proj=[&](int ax){vector<int> lo(R*R,-1),hi(R*R,-1); vector<double> lv(R*R,1e300),hv(R*R,-1e300); for(int i=0;i<N;i++){double u,v,d;if(ax==0){u=(P[i].y-bbMin.y)/sy;v=(P[i].z-bbMin.z)/sz;d=P[i].x;}else if(ax==1){u=(P[i].x-bbMin.x)/sx;v=(P[i].z-bbMin.z)/sz;d=P[i].y;}else{u=(P[i].x-bbMin.x)/sx;v=(P[i].y-bbMin.y)/sy;d=P[i].z;} int x=min(R-1,max(0,(int)(u*R))),y=min(R-1,max(0,(int)(v*R))),id=x*R+y; if(d<lv[id])lv[id]=d,lo[id]=i; if(d>hv[id])hv[id]=d,hi[id]=i;} for(int id:lo) if(id>=0)protectV[id]=1; for(int id:hi) if(id>=0)protectV[id]=1;}; proj(0);proj(1);proj(2); } void seed(){unordered_set<long long> seen; seen.reserve(M*3+7); for(auto&f:F){int a[3]={f.a,f.b,f.c},b[3]={f.b,f.c,f.a}; for(int k=0;k<3;k++) if(seen.insert(edgeKey(a[k],b[k])).second) push(a[k],b[k]);}} void push(int a,int b){if(a==b||!aliveV[a]||!aliveV[b])return; double l=norm3(V[a]-V[b]); double pc=(protectV[a]&&protectV[b]?4.0:(protectV[a]||protectV[b]?0.55:0.0)); pq.push({l+pc*HT+0.20*(err[a]+err[b]),a,b});} bool getRing(int v, vector<int>&cyc, vector<int>&ifs, Vec3&navg){ clean(v); ifs.clear(); for(int id:inc[v]) if(aliveF[id]&&has(F[id],v)) ifs.push_back(id); int d=ifs.size(); if(d<4||d>80) return false; unordered_map<int,vector<int>> adj; adj.reserve(d*2+3); vector<int> neigh; neigh.reserve(d); navg={0,0,0}; Vec3 base={0,0,0}; bool got=false; for(int id:ifs){Face f=F[id]; int x[2],m=0; if(f.a!=v)x[m++]=f.a; if(f.b!=v)x[m++]=f.b; if(f.c!=v)x[m++]=f.c; if(m!=2)return false; adj[x[0]].push_back(x[1]); adj[x[1]].push_back(x[0]); Vec3 n=faceN(id); double nl=norm3(n); if(nl<=0)return false; n=n/nl; if(!got){base=n;got=true;} if(dot3(n,base)<0) n=n*-1.0; navg=navg+n;} for(auto&kv:adj){if(kv.second.size()!=2)return false; neigh.push_back(kv.first);} if((int)neigh.size()!=d) return false; navg=unit(navg); if(norm2(navg)==0)return false; cyc.clear(); int start=neigh[0],prev=-1,cur=start; for(int it=0;it<d+2;it++){cyc.push_back(cur); int n0=adj[cur][0],n1=adj[cur][1]; int nx=(n0==prev?n1:n0); prev=cur; cur=nx; if(cur==start)break;} if((int)cyc.size()!=d||cur!=start)return false; for(int id:ifs){Vec3 n=unit(faceN(id)); if(dot3(n,navg)<0) n=n*-1.0; if(dot3(n,navg)<0.9992) return false;} return true; } bool convexCycle(const vector<int>&cyc,const Vec3&n){ int ax=0; double axv=fabs(n.x); if(fabs(n.y)>axv) ax=1,axv=fabs(n.y); if(fabs(n.z)>axv) ax=2; auto get2=[&](int id){const Vec3&p=V[id]; if(ax==0)return pair<double,double>(p.y,p.z); if(ax==1)return pair<double,double>(p.x,p.z); return pair<double,double>(p.x,p.y);}; int m=cyc.size(); double sgn=0; for(int i=0;i<m;i++){auto a=get2(cyc[(i+m-1)%m]),b=get2(cyc[i]),c=get2(cyc[(i+1)%m]); double cr=(b.first-a.first)*(c.second-b.second)-(b.second-a.second)*(c.first-b.first); if(fabs(cr)<1e-18*diagLen*diagLen) return false; if(sgn==0)sgn=cr; else if(sgn*cr<0) return false;} return true; } bool tryDissolve(int v){ if(!aliveV[v]||protectV[v]) return false; vector<int>cyc,ifs; Vec3 n; if(!getRing(v,cyc,ifs,n)) return false; if(!convexCycle(cyc,n)) return false; double mind=1e100; for(int u:cyc) mind=min(mind,norm3(V[v]-V[u])+err[v]); if(mind>0.985*HT) return false; int m=cyc.size(); vector<Face> nf; nf.reserve(m-2); unordered_map<long long,int> delta; double eps=epsArea; for(int i=1;i+1<m;i++){Face f{cyc[0],cyc[i],cyc[i+1]}; if(dot3(cross3(V[f.b]-V[f.a],V[f.c]-V[f.a]),n)<0) swap(f.b,f.c); if(norm2(cross3(V[f.b]-V[f.a],V[f.c]-V[f.a]))<=eps) return false; if(triSet.count(triKey(f))) return false; nf.push_back(f); delta[edgeKey(f.a,f.b)]++; delta[edgeKey(f.b,f.c)]++; delta[edgeKey(f.c,f.a)]++;} unordered_set<int> remF(ifs.begin(),ifs.end()); for(int id:ifs){Face f=F[id]; delta[edgeKey(f.a,f.b)]--; delta[edgeKey(f.b,f.c)]--; delta[edgeKey(f.c,f.a)]--;} for(auto&kv:delta){int cur=edgeCnt[kv.first]+kv.second; if(cur<0||cur>2) return false;} for(int id:ifs){aliveF[id]=0;aliveM--;triSet.erase(triKey(F[id])); edgeCnt[edgeKey(F[id].a,F[id].b)]--;edgeCnt[edgeKey(F[id].b,F[id].c)]--;edgeCnt[edgeKey(F[id].c,F[id].a)]--;} aliveV[v]=0;aliveN--;inc[v].clear(); for(auto f:nf){int id=F.size();F.push_back(f);aliveF.push_back(1);aliveM++;triSet.insert(triKey(f));edgeCnt[edgeKey(f.a,f.b)]++;edgeCnt[edgeKey(f.b,f.c)]++;edgeCnt[edgeKey(f.c,f.a)]++;inc[f.a].push_back(id);inc[f.b].push_back(id);inc[f.c].push_back(id);} for(int u:cyc){clean(u); for(int id:inc[u]) if(aliveF[id]){Face f=F[id]; push(f.a,f.b);push(f.b,f.c);push(f.c,f.a);}} return true; } void dissolvePass(){ int removed=0; for(int round=0;round<4 && elapsed()<14.0;round++){bool any=false; for(int v=0;v<N && elapsed()<14.0;v++){if(tryDissolve(v)){any=true; if(++removed>max(1000,N/4)) return;}} if(!any)break;} } int opposite(const Face&f,int a,int b){if(f.a!=a&&f.a!=b)return f.a;if(f.b!=a&&f.b!=b)return f.b;return f.c;} bool edgeFaces(int a,int b,int ef[2],int op[2]){if(inc[a].size()>1600)clean(a);if(inc[b].size()>1600)clean(b);int c=0;auto&A=(inc[a].size()<inc[b].size()?inc[a]:inc[b]);for(int id:A)if(aliveF[id]&&has(F[id],a)&&has(F[id],b)){if(c>=2)return false;ef[c]=id;op[c]=opposite(F[id],a,b);c++;} return c==2&&op[0]!=op[1];} bool linkOK(int a,int b,const int op[2]){if(++stampA==INT_MAX){fill(markA.begin(),markA.end(),0);stampA=1;}if(++stampB==INT_MAX){fill(markB.begin(),markB.end(),0);stampB=1;} for(int id:inc[a])if(aliveF[id]&&has(F[id],a)){int xs[3]={F[id].a,F[id].b,F[id].c};for(int x:xs)if(x!=a&&x!=b)markA[x]=stampA;}int cc=0;for(int id:inc[b])if(aliveF[id]&&has(F[id],b)){int xs[3]={F[id].a,F[id].b,F[id].c};for(int x:xs)if(x!=a&&x!=b&&markA[x]==stampA){if(x!=op[0]&&x!=op[1])return false;if(markB[x]!=stampB){markB[x]=stampB;cc++;}}}return cc==2&&markB[op[0]]==stampB&&markB[op[1]]==stampB;} bool dupFace(int fid,int rem,const Face&nf,const int ef[2]){auto k=triKey(nf);int vs[3]={nf.a,nf.b,nf.c};int best=vs[0];if(inc[vs[1]].size()<inc[best].size())best=vs[1];if(inc[vs[2]].size()<inc[best].size())best=vs[2];for(int id:inc[best])if(aliveF[id]&&id!=fid&&id!=ef[0]&&id!=ef[1]){if(has(F[id],rem))continue;if(triKey(F[id])==k)return true;}return false;} bool tryDir(int keep,int rem,const int ef[2],double&ne,double&sc){ if(protectV[rem]) return false; ne=max(err[keep],err[rem]+norm3(V[keep]-V[rem])); if(ne>0.982*HT)return false; double worst=1.0,plane=0;int cnt=0; for(int id:inc[rem]){if(!aliveF[id]||!has(F[id],rem))continue;if(id==ef[0]||id==ef[1])continue;Face old=F[id],nf=old;if(nf.a==rem)nf.a=keep;if(nf.b==rem)nf.b=keep;if(nf.c==rem)nf.c=keep;if(nf.a==nf.b||nf.a==nf.c||nf.b==nf.c)return false;Vec3 no=faceN(id),nn=cross3(V[nf.b]-V[nf.a],V[nf.c]-V[nf.a]);double ao=norm3(no),an=norm3(nn);if(ao*ao<=epsArea||an*an<=epsArea)return false;double cs=dot3(no,nn)/(ao*an);worst=min(worst,cs);bool hard=sharpV[old.a]||sharpV[old.b]||sharpV[old.c]||protectV[old.a]||protectV[old.b]||protectV[old.c];if(cs<(hard?0.985:0.940))return false;double pd=fabs(dot3(no/ao,V[keep]-V[old.a]));plane=max(plane,pd);if(pd>(hard?0.22:0.50)*HT)return false;if(dupFace(id,rem,nf,ef))return false;cnt++;}if(cnt==0)return false;sc=ne/HT+0.03*cnt+0.7*(1-worst)+0.4*plane/HT;return true; } void collapse(int keep,int rem,const int ef[2],double ne){ for(int i=0;i<2;i++)if(aliveF[ef[i]]){aliveF[ef[i]]=0;aliveM--;triSet.erase(triKey(F[ef[i]]));edgeCnt[edgeKey(F[ef[i]].a,F[ef[i]].b)]--;edgeCnt[edgeKey(F[ef[i]].b,F[ef[i]].c)]--;edgeCnt[edgeKey(F[ef[i]].c,F[ef[i]].a)]--;} for(int id:inc[rem])if(aliveF[id]&&has(F[id],rem)){triSet.erase(triKey(F[id]));edgeCnt[edgeKey(F[id].a,F[id].b)]--;edgeCnt[edgeKey(F[id].b,F[id].c)]--;edgeCnt[edgeKey(F[id].c,F[id].a)]--;if(F[id].a==rem)F[id].a=keep;if(F[id].b==rem)F[id].b=keep;if(F[id].c==rem)F[id].c=keep;triSet.insert(triKey(F[id]));edgeCnt[edgeKey(F[id].a,F[id].b)]++;edgeCnt[edgeKey(F[id].b,F[id].c)]++;edgeCnt[edgeKey(F[id].c,F[id].a)]++;inc[keep].push_back(id);} aliveV[rem]=0;aliveN--;err[keep]=ne;inc[rem].clear();clean(keep);for(int id:inc[keep])if(aliveF[id]){Face f=F[id];push(f.a,f.b);push(f.b,f.c);push(f.c,f.a);} } bool step(){if(pq.empty())return false;auto q=pq.top();pq.pop();int a=q.a,b=q.b;if(a==b||!aliveV[a]||!aliveV[b])return false;int ef[2],op[2];if(!edgeFaces(a,b,ef,op)||!linkOK(a,b,op))return false;double ea,eb,sa,sb;bool oa=tryDir(a,b,ef,ea,sa),ob=tryDir(b,a,ef,eb,sb);if(!oa&&!ob)return false;if(ob&&(!oa||sb<sa))collapse(b,a,ef,eb);else collapse(a,b,ef,ea);return true;} void collapsePass(){int bad=0,target=max(32,N/18);double lim=N>150000?18.6:17.5;while(!pq.empty()&&elapsed()<lim&&aliveN>target){bool ok=step();if(ok)bad=0;else if(++bad>250000&&bad>(int)pq.size()/3)break;}} void exportMesh(vector<Vec3>&OV,vector<Face>&OF){vector<int>mp(N,-1);OV.clear();OF.clear();OV.reserve(aliveN);OF.reserve(aliveM);for(int i=0;i<N;i++)if(aliveV[i]){mp[i]=OV.size();OV.push_back(V[i]);}for(int i=0;i<(int)F.size();i++)if(aliveF[i]){Face f=F[i];if(f.a<0||f.b<0||f.c<0||mp[f.a]<0||mp[f.b]<0||mp[f.c]<0)continue;Face g{mp[f.a],mp[f.b],mp[f.c]};if(g.a!=g.b&&g.a!=g.c&&g.b!=g.c)OF.push_back(g);}} }; int main(){ T0=chrono::steady_clock::now(); readInput(); // Preserve the official cube sample exactly: first line stays 8 12. if(N<=1000){printOriginal();return 0;} vector<Vec3>V; vector<Face>F; if(tryStrictBox(V,F)){printMesh(V,F);return 0;} if(tryStrictSphere(V,F)){printMesh(V,F);return 0;} MeshOpt opt; opt.dissolvePass(); opt.collapsePass(); opt.exportMesh(V,F); if(V.size()<P.size() && closedOK(V,F)) printMesh(V,F); else printOriginal(); return 0; } ```
+
+Sources
+
+
+
+
+
+
+
+You said:
+Feedback: this tab is idle and has not produced a valid new submission. Recent tab 5 outputs 48e373e00142 and bf6fc56521d1 fail the official sample with 9 14; 31421ece0aed does not compile. Do not repeat them. Continue thinking and produce only a complete new C++17 submission_next.cpp plus full code fallback that compiles and outputs first line 8 12 on the official sample. Target remains 91.80+, current best 81.938904.
+
+
+
+ChatGPT said:
+I’ll avoid the failed sample-9 14 family entirely and keep the sample path as a hard fallback to original output. I’m going to generate a new standalone file now, compile it, and gate it against a cube-shaped sample so the first line is 8 12.
+The new direction I’m coding is local vertex-removal rather than the last edge-collapse-first variant: remove simple flat one-rings by retriangulating their boundary, then only use very conservative collapses. This should not trigger the sample 9 14 problem because small cases are emitted unchanged.
+Thought for 2m 32s
+Created a new complete C++17 candidate: - Download: [submission_next.cpp](sandbox:/mnt/data/submission_next.cpp) - SHA-256: `014c974545b257912613339da25444c74ce60ff10b48c437087165788204dc41` - Compile verified: `g++ -O2 -std=c++17 -pipe` - Cube/sample first line verified: `8 12` ```cpp #include <bits/stdc++.h> using namespace std; struct Vec3{ double x=0,y=0,z=0; }; struct Face{ int a=0,b=0,c=0; }; static inline Vec3 operator+(const Vec3&a,const Vec3&b){return {a.x+b.x,a.y+b.y,a.z+b.z};} static inline Vec3 operator-(const Vec3&a,const Vec3&b){return {a.x-b.x,a.y-b.y,a.z-b.z};} static inline Vec3 operator*(const Vec3&a,double s){return {a.x*s,a.y*s,a.z*s};} static inline Vec3 operator/(const Vec3&a,double s){return {a.x/s,a.y/s,a.z/s};} static inline double dot3(const Vec3&a,const Vec3&b){return a.x*b.x+a.y*b.y+a.z*b.z;} static inline Vec3 cross3(const Vec3&a,const Vec3&b){return {a.y*b.z-a.z*b.y,a.z*b.x-a.x*b.z,a.x*b.y-a.y*b.x};} static inline double norm2(const Vec3&a){return dot3(a,a);} static inline double norm3(const Vec3&a){return sqrt(norm2(a));} static inline Vec3 unit(Vec3 a){double l=norm3(a); return l>0?a/l:Vec3{0,0,0};} static inline long long edgeKey(int a,int b){ if(a>b) swap(a,b); return ((long long)(unsigned int)a<<32) | (unsigned int)b; } static inline array<int,3> triKey(Face f){ array<int,3> t={f.a,f.b,f.c}; sort(t.begin(),t.end()); return t; } struct ArrHash{ size_t operator()(const array<int,3>&a) const { uint64_t x=a[0],y=a[1],z=a[2]; return (size_t)(x*11995408973635179863ull ^ y*10150724397891781847ull ^ z*7809847782465536323ull); } }; int N,M; vector<Vec3> P0; vector<Face> F0; Vec3 bbMn,bbMx,bbC; double diagLen=1,HT=1; chrono::steady_clock::time_point T0; static inline double elapsed(){ return chrono::duration<double>(chrono::steady_clock::now()-T0).count(); } static void readInput(){ ios::sync_with_stdio(false); cin.tie(nullptr); cin>>N>>M; P0.resize(N); F0.resize(M); char ch; bbMn={1e100,1e100,1e100}; bbMx={-1e100,-1e100,-1e100}; for(int i=0;i<N;i++){ cin>>ch>>P0[i].x>>P0[i].y>>P0[i].z; bbMn.x=min(bbMn.x,P0[i].x); bbMn.y=min(bbMn.y,P0[i].y); bbMn.z=min(bbMn.z,P0[i].z); bbMx.x=max(bbMx.x,P0[i].x); bbMx.y=max(bbMx.y,P0[i].y); bbMx.z=max(bbMx.z,P0[i].z); } for(int i=0;i<M;i++){ cin>>ch>>F0[i].a>>F0[i].b>>F0[i].c; --F0[i].a; --F0[i].b; --F0[i].c; } bbC=(bbMn+bbMx)*0.5; diagLen=norm3(bbMx-bbMn); if(!(diagLen>0)) diagLen=1; HT=0.0490*diagLen; } static void printMesh(const vector<Vec3>&V,const vector<Face>&F){ cout.setf(ios::fixed); cout<<setprecision(10); cout<<V.size()<<" "<<F.size()<<"\n"; for(const Vec3&p:V) cout<<"v "<<p.x<<" "<<p.y<<" "<<p.z<<"\n"; for(const Face&f:F) cout<<"f "<<f.a+1<<" "<<f.b+1<<" "<<f.c+1<<"\n"; } static void printOriginal(){ printMesh(P0,F0); } static bool closedOK(const vector<Vec3>&V,const vector<Face>&F){ if(V.empty()||F.empty()||V.size()>(size_t)N) return false; double eps=max(1e-32,1e-27*diagLen*diagLen); unordered_map<long long,int> ec; ec.reserve(F.size()*4+7); unordered_set<array<int,3>,ArrHash> ts; ts.reserve(F.size()*2+7); for(const Face&f:F){ if(f.a<0||f.b<0||f.c<0||f.a>=(int)V.size()||f.b>=(int)V.size()||f.c>=(int)V.size()) return false; if(f.a==f.b||f.a==f.c||f.b==f.c) return false; if(norm2(cross3(V[f.b]-V[f.a],V[f.c]-V[f.a]))<=eps) return false; if(!ts.insert(triKey(f)).second) return false; ec[edgeKey(f.a,f.b)]++; ec[edgeKey(f.b,f.c)]++; ec[edgeKey(f.c,f.a)]++; } for(auto &kv:ec) if(kv.second!=2) return false; return true; } struct NearGrid{ Vec3 mn; double cell=1; unordered_map<long long,vector<int>> g; static long long pack(int x,int y,int z){ const long long B=1048576LL,O=524288LL; return ((long long)(x+O)*B+(y+O))*B+(z+O); } NearGrid(){} NearGrid(const vector<Vec3>&V,double c){init(V,c);} void init(const vector<Vec3>&V,double c){ cell=max(c,1e-12); mn={1e100,1e100,1e100}; for(auto&p:V){mn.x=min(mn.x,p.x); mn.y=min(mn.y,p.y); mn.z=min(mn.z,p.z);} g.reserve(V.size()*2+7); for(int i=0;i<(int)V.size();++i){int x,y,z; idx(V[i],x,y,z); g[pack(x,y,z)].push_back(i);} } void idx(const Vec3&p,int&x,int&y,int&z)const{ x=(int)floor((p.x-mn.x)/cell); y=(int)floor((p.y-mn.y)/cell); z=(int)floor((p.z-mn.z)/cell); } bool near(const vector<Vec3>&V,const Vec3&q,double r)const{ int X,Y,Z; idx(q,X,Y,Z); double r2=r*r; for(int dx=-1;dx<=1;dx++)for(int dy=-1;dy<=1;dy++)for(int dz=-1;dz<=1;dz++){ auto it=g.find(pack(X+dx,Y+dy,Z+dz)); if(it==g.end()) continue; for(int id:it->second) if(norm2(V[id]-q)<=r2) return true; } return false; } }; static bool symmetricOK(const vector<Vec3>&V,double tol){ if(V.empty()) return false; NearGrid gv(V,tol); for(const auto&p:P0) if(!gv.near(V,p,tol)) return false; NearGrid go(P0,tol); for(const auto&p:V) if(!go.near(P0,p,tol)) return false; return true; } struct Simplifier{ vector<Vec3> V; vector<Face> F; vector<unsigned char> aliveV, aliveF, protectV, sharpV; vector<vector<int>> inc; vector<double> accErr; unordered_map<long long,int> edgeCnt; unordered_set<array<int,3>,ArrHash> triSet; int aliveN, aliveM; double areaEps; vector<int> ma,mb; int sta=1,stb=1; struct EdgeCand{ double cost; int a,b; bool operator<(const EdgeCand&o)const{return cost>o.cost;} }; priority_queue<EdgeCand> pq; Simplifier(){ V=P0; F=F0; aliveN=N; aliveM=M; aliveV.assign(N,1); aliveF.assign(M,1); protectV.assign(N,0); sharpV.assign(N,0); accErr.assign(N,0); inc.assign(N,{}); areaEps=max(1e-32,1e-27*diagLen*diagLen); for(int i=0;i<M;i++){ inc[F[i].a].push_back(i); inc[F[i].b].push_back(i); inc[F[i].c].push_back(i); triSet.insert(triKey(F[i])); edgeCnt[edgeKey(F[i].a,F[i].b)]++; edgeCnt[edgeKey(F[i].b,F[i].c)]++; edgeCnt[edgeKey(F[i].c,F[i].a)]++; } ma.assign(N,0); mb.assign(N,0); buildProtection(); seedEdges(); } bool has(const Face&f,int v)const{return f.a==v||f.b==v||f.c==v;} Vec3 faceNormal(int id)const{return cross3(V[F[id].b]-V[F[id].a],V[F[id].c]-V[F[id].a]);} void clean(int v){ vector<int> r; r.reserve(inc[v].size()); for(int id:inc[v]) if(id>=0&&id<(int)F.size()&&aliveF[id]&&has(F[id],v)) r.push_back(id); sort(r.begin(),r.end()); r.erase(unique(r.begin(),r.end()),r.end()); inc[v].swap(r); } void buildProtection(){ vector<Vec3> fn(M); for(int i=0;i<M;i++) fn[i]=unit(cross3(P0[F0[i].b]-P0[F0[i].a],P0[F0[i].c]-P0[F0[i].a])); unordered_map<long long,int> first; first.reserve(M*3+7); double sharpCos=cos(33.0*M_PI/180.0); auto se=[&](int a,int b,int fid){ long long k=edgeKey(a,b); auto it=first.find(k); if(it==first.end()) first[k]=fid; else if(dot3(fn[fid],fn[it->second])<sharpCos){ protectV[a]=protectV[b]=1; sharpV[a]=sharpV[b]=1; } }; for(int i=0;i<M;i++){ se(F0[i].a,F0[i].b,i); se(F0[i].b,F0[i].c,i); se(F0[i].c,F0[i].a,i); } // Preserve axial silhouettes/depth extrema. This is tuned to the evaluator's six axial cameras. int R = N>220000?100:(N>90000?82:(N>25000?64:46)); double sx=max(1e-30,bbMx.x-bbMn.x), sy=max(1e-30,bbMx.y-bbMn.y), sz=max(1e-30,bbMx.z-bbMn.z); auto markProj=[&](int ax){ vector<int> lo(R*R,-1), hi(R*R,-1); vector<double> lv(R*R,1e300), hv(R*R,-1e300); for(int i=0;i<N;i++){ double u,v,d; if(ax==0){u=(P0[i].y-bbMn.y)/sy; v=(P0[i].z-bbMn.z)/sz; d=P0[i].x;} else if(ax==1){u=(P0[i].x-bbMn.x)/sx; v=(P0[i].z-bbMn.z)/sz; d=P0[i].y;} else {u=(P0[i].x-bbMn.x)/sx; v=(P0[i].y-bbMn.y)/sy; d=P0[i].z;} int x=min(R-1,max(0,(int)(u*R))), y=min(R-1,max(0,(int)(v*R))), id=x*R+y; if(d<lv[id]) lv[id]=d, lo[id]=i; if(d>hv[id]) hv[id]=d, hi[id]=i; } for(int id:lo) if(id>=0) protectV[id]=1; for(int id:hi) if(id>=0) protectV[id]=1; }; markProj(0); markProj(1); markProj(2); // Also keep global corners/extremes absolutely fixed. int ix0=0,ix1=0,iy0=0,iy1=0,iz0=0,iz1=0; for(int i=1;i<N;i++){ if(P0[i].x<P0[ix0].x)ix0=i; if(P0[i].x>P0[ix1].x)ix1=i; if(P0[i].y<P0[iy0].y)iy0=i; if(P0[i].y>P0[iy1].y)iy1=i; if(P0[i].z<P0[iz0].z)iz0=i; if(P0[i].z>P0[iz1].z)iz1=i; } protectV[ix0]=protectV[ix1]=protectV[iy0]=protectV[iy1]=protectV[iz0]=protectV[iz1]=1; } void pushEdge(int a,int b){ if(a==b||a<0||b<0||!aliveV[a]||!aliveV[b]) return; double l=norm3(V[a]-V[b]); double pc = (protectV[a]&&protectV[b])?8.0:((protectV[a]||protectV[b])?0.9:0.0); pq.push({l + pc*HT + 0.20*(accErr[a]+accErr[b]), a,b}); } void seedEdges(){ unordered_set<long long> seen; seen.reserve(M*3+7); for(const Face&f:F){int a[3]={f.a,f.b,f.c}, b[3]={f.b,f.c,f.a}; for(int k=0;k<3;k++) if(seen.insert(edgeKey(a[k],b[k])).second) pushEdge(a[k],b[k]);} } bool getOneRing(int v, vector<int>&cycle, vector<int>&incident, Vec3&avgN){ if(!aliveV[v]) return false; clean(v); incident.clear(); for(int id:inc[v]) if(aliveF[id]&&has(F[id],v)) incident.push_back(id); int d=(int)incident.size(); if(d<4||d>40) return false; unordered_map<int, vector<int>> adj; adj.reserve(d*3+7); avgN={0,0,0}; bool have=false; Vec3 refN{0,0,0}; for(int id:incident){ Face f=F[id]; int o[2],m=0; if(f.a!=v)o[m++]=f.a; if(f.b!=v)o[m++]=f.b; if(f.c!=v)o[m++]=f.c; if(m!=2) return false; adj[o[0]].push_back(o[1]); adj[o[1]].push_back(o[0]); Vec3 n=faceNormal(id); double nl=norm3(n); if(nl<=0) return false; n=n/nl; if(!have){refN=n; have=true;} if(dot3(n,refN)<0) n=n*-1.0; avgN=avgN+n; } if(norm2(avgN)==0) return false; avgN=unit(avgN); vector<int> neigh; neigh.reserve(d); for(auto &kv:adj){ if(kv.second.size()!=2) return false; neigh.push_back(kv.first); } if((int)neigh.size()!=d) return false; int start=neigh[0], prev=-1, cur=start; cycle.clear(); cycle.reserve(d); for(int step=0; step<=d+1; ++step){ cycle.push_back(cur); int n0=adj[cur][0], n1=adj[cur][1]; int nx=(n0==prev?n1:n0); prev=cur; cur=nx; if(cur==start) break; } if((int)cycle.size()!=d || cur!=start) return false; return true; } bool cycleLooksPlanarAndConvex(const vector<int>&cyc,const Vec3&n,double&radius){ int m=cyc.size(); if(m<4) return false; Vec3 c{0,0,0}; for(int id:cyc) c=c+V[id]; c=c/(double)m; radius=0; for(int id:cyc) radius=max(radius,norm3(V[id]-c)); int ax=0; double av=fabs(n.x); if(fabs(n.y)>av) ax=1,av=fabs(n.y); if(fabs(n.z)>av) ax=2; auto p2=[&](int id){const Vec3&p=V[id]; if(ax==0) return pair<double,double>(p.y,p.z); if(ax==1) return pair<double,double>(p.x,p.z); return pair<double,double>(p.x,p.y);}; double sign=0; double scale=max(1e-18,diagLen*diagLen); for(int i=0;i<m;i++){ auto A=p2(cyc[(i+m-1)%m]), B=p2(cyc[i]), C=p2(cyc[(i+1)%m]); double cr=(B.first-A.first)*(C.second-B.second)-(B.second-A.second)*(C.first-B.first); if(fabs(cr)<1e-18*scale) return false; if(sign==0) sign=cr; else if(sign*cr<0) return false; } return true; } bool tryRemoveVertex(int v){ if(!aliveV[v]||protectV[v]) return false; vector<int> cyc, incident; Vec3 avgN; if(!getOneRing(v,cyc,incident,avgN)) return false; for(int id:incident){Vec3 n=unit(faceNormal(id)); if(dot3(n,avgN)<0) n=n*-1.0; if(dot3(n,avgN)<0.9990) return false;} double nearest=1e100; for(int u:cyc) nearest=min(nearest,norm3(V[u]-V[v])+accErr[v]); if(nearest>0.975*HT) return false; double rad=0; if(!cycleLooksPlanarAndConvex(cyc,avgN,rad)) return false; if(rad>2.8*HT) return false; int m=cyc.size(); vector<Face> add; add.reserve(m-2); unordered_map<long long,int> delta; delta.reserve(m*4+7); // Fan from the shortest diagonal anchor to reduce skinny triangles. int anchor=0; double best=1e100; for(int i=0;i<m;i++){double s=norm3(V[cyc[i]]-V[cyc[(i+1)%m]])+norm3(V[cyc[i]]-V[cyc[(i+m-1)%m]]); if(s<best) best=s,anchor=i;} vector<int> ord; ord.reserve(m); for(int k=0;k<m;k++) ord.push_back(cyc[(anchor+k)%m]); for(int i=1;i+1<m;i++){ Face f{ord[0],ord[i],ord[i+1]}; Vec3 n=cross3(V[f.b]-V[f.a],V[f.c]-V[f.a]); if(norm2(n)<=areaEps) return false; if(dot3(n,avgN)<0) swap(f.b,f.c); if(triSet.count(triKey(f))) return false; add.push_back(f); delta[edgeKey(f.a,f.b)]++; delta[edgeKey(f.b,f.c)]++; delta[edgeKey(f.c,f.a)]++; } for(int id:incident){Face f=F[id]; delta[edgeKey(f.a,f.b)]--; delta[edgeKey(f.b,f.c)]--; delta[edgeKey(f.c,f.a)]--;} for(auto &kv:delta){int next=edgeCnt[kv.first]+kv.second; if(next<0||next>2) return false;} // Apply. for(int id:incident){ if(!aliveF[id]) continue; aliveF[id]=0; aliveM--; triSet.erase(triKey(F[id])); edgeCnt[edgeKey(F[id].a,F[id].b)]--; edgeCnt[edgeKey(F[id].b,F[id].c)]--; edgeCnt[edgeKey(F[id].c,F[id].a)]--; } aliveV[v]=0; aliveN--; inc[v].clear(); for(const Face&f:add){ int id=F.size(); F.push_back(f); aliveF.push_back(1); aliveM++; triSet.insert(triKey(f)); edgeCnt[edgeKey(f.a,f.b)]++; edgeCnt[edgeKey(f.b,f.c)]++; edgeCnt[edgeKey(f.c,f.a)]++; inc[f.a].push_back(id); inc[f.b].push_back(id); inc[f.c].push_back(id); } for(int u:cyc){ clean(u); for(int id:inc[u]) if(aliveF[id]){Face f=F[id]; pushEdge(f.a,f.b); pushEdge(f.b,f.c); pushEdge(f.c,f.a);} } return true; } void vertexRemovalPass(){ int removed=0; double lim = N>120000?12.5:10.5; for(int round=0; round<3 && elapsed()<lim; ++round){ bool any=false; for(int v=0; v<N && elapsed()<lim; ++v){ if(tryRemoveVertex(v)){ any=true; if(++removed > max(800,N/5)) return; } } if(!any) break; } } int oppositeInFace(const Face&f,int a,int b)const{ if(f.a!=a&&f.a!=b) return f.a; if(f.b!=a&&f.b!=b) return f.b; return f.c; } bool edgeFaces(int a,int b,int ef[2],int op[2]){ if(inc[a].size()>1600) clean(a); if(inc[b].size()>1600) clean(b); int cnt=0; const vector<int>&A = inc[a].size()<inc[b].size()?inc[a]:inc[b]; for(int id:A) if(aliveF[id]&&has(F[id],a)&&has(F[id],b)){ if(cnt>=2) return false; ef[cnt]=id; op[cnt]=oppositeInFace(F[id],a,b); cnt++; } return cnt==2 && op[0]!=op[1]; } bool linkOK(int a,int b,const int op[2]){ if(++sta==INT_MAX){fill(ma.begin(),ma.end(),0); sta=1;} if(++stb==INT_MAX){fill(mb.begin(),mb.end(),0); stb=1;} for(int id:inc[a]) if(aliveF[id]&&has(F[id],a)){int xs[3]={F[id].a,F[id].b,F[id].c}; for(int x:xs) if(x!=a&&x!=b) ma[x]=sta;} int common=0; for(int id:inc[b]) if(aliveF[id]&&has(F[id],b)){int xs[3]={F[id].a,F[id].b,F[id].c}; for(int x:xs) if(x!=a&&x!=b&&ma[x]==sta){ if(x!=op[0]&&x!=op[1]) return false; if(mb[x]!=stb){mb[x]=stb; common++;} }} return common==2 && mb[op[0]]==stb && mb[op[1]]==stb; } bool wouldDuplicate(int fid,int rem,const Face&nf,const int ef[2]){ array<int,3> tk=triKey(nf); int vs[3]={nf.a,nf.b,nf.c}; int best=vs[0]; if(inc[vs[1]].size()<inc[best].size()) best=vs[1]; if(inc[vs[2]].size()<inc[best].size()) best=vs[2]; for(int id:inc[best]) if(aliveF[id]&&id!=fid&&id!=ef[0]&&id!=ef[1]){ if(has(F[id],rem)) continue; if(triKey(F[id])==tk) return true; } return false; } bool tryDir(int keep,int rem,const int ef[2],double&ne,double&score){ if(protectV[rem]) return false; ne=max(accErr[keep], accErr[rem]+norm3(V[keep]-V[rem])); if(ne>0.980*HT) return false; double worstCos=1.0,worstPlane=0; int changed=0; for(int id:inc[rem]){ if(!aliveF[id]||!has(F[id],rem)) continue; if(id==ef[0]||id==ef[1]) continue; Face old=F[id], nf=old; if(nf.a==rem) nf.a=keep; if(nf.b==rem) nf.b=keep; if(nf.c==rem) nf.c=keep; if(nf.a==nf.b||nf.a==nf.c||nf.b==nf.c) return false; Vec3 no=faceNormal(id), nn=cross3(V[nf.b]-V[nf.a],V[nf.c]-V[nf.a]); double ao=norm3(no), an=norm3(nn); if(ao*ao<=areaEps||an*an<=areaEps) return false; double cs=dot3(no,nn)/(ao*an); worstCos=min(worstCos,cs); bool hard=protectV[old.a]||protectV[old.b]||protectV[old.c]||sharpV[old.a]||sharpV[old.b]||sharpV[old.c]; if(cs < (hard?0.992:0.955)) return false; double pd=fabs(dot3(no/ao,V[keep]-V[old.a])); worstPlane=max(worstPlane,pd); if(pd > (hard?0.18:0.40)*HT) return false; if(wouldDuplicate(id,rem,nf,ef)) return false; changed++; } if(changed==0) return false; score=ne/HT + 0.04*changed + 0.9*(1.0-worstCos) + 0.5*worstPlane/HT; return true; } void doCollapse(int keep,int rem,const int ef[2],double ne){ for(int i=0;i<2;i++) if(aliveF[ef[i]]){ Face f=F[ef[i]]; aliveF[ef[i]]=0; aliveM--; triSet.erase(triKey(f)); edgeCnt[edgeKey(f.a,f.b)]--; edgeCnt[edgeKey(f.b,f.c)]--; edgeCnt[edgeKey(f.c,f.a)]--; } for(int id:inc[rem]) if(aliveF[id]&&has(F[id],rem)){ Face old=F[id]; triSet.erase(triKey(old)); edgeCnt[edgeKey(old.a,old.b)]--; edgeCnt[edgeKey(old.b,old.c)]--; edgeCnt[edgeKey(old.c,old.a)]--; if(F[id].a==rem) F[id].a=keep; if(F[id].b==rem) F[id].b=keep; if(F[id].c==rem) F[id].c=keep; Face nf=F[id]; triSet.insert(triKey(nf)); edgeCnt[edgeKey(nf.a,nf.b)]++; edgeCnt[edgeKey(nf.b,nf.c)]++; edgeCnt[edgeKey(nf.c,nf.a)]++; inc[keep].push_back(id); } aliveV[rem]=0; aliveN--; accErr[keep]=ne; inc[rem].clear(); clean(keep); for(int id:inc[keep]) if(aliveF[id]){Face f=F[id]; pushEdge(f.a,f.b); pushEdge(f.b,f.c); pushEdge(f.c,f.a);} } bool collapseStep(){ if(pq.empty()) return false; auto q=pq.top(); pq.pop(); int a=q.a,b=q.b; if(a==b||!aliveV[a]||!aliveV[b]) return false; int ef[2],op[2]; if(!edgeFaces(a,b,ef,op)||!linkOK(a,b,op)) return false; double ea,eb,sa,sb; bool oa=tryDir(a,b,ef,ea,sa), ob=tryDir(b,a,ef,eb,sb); if(!oa&&!ob) return false; if(ob&&(!oa||sb<sa)) doCollapse(b,a,ef,eb); else doCollapse(a,b,ef,ea); return true; } void collapsePass(){ int fail=0; int target=max(24,N/16); double lim=N>160000?18.6:17.4; while(!pq.empty()&&elapsed()<lim&&aliveN>target){ bool ok=collapseStep(); if(ok) fail=0; else if(++fail>280000 && fail>(int)pq.size()/3) break; } } void exportMesh(vector<Vec3>&OV,vector<Face>&OF){ vector<int> mp(N,-1); OV.clear(); OF.clear(); OV.reserve(aliveN); OF.reserve(aliveM); for(int i=0;i<N;i++) if(aliveV[i]){ mp[i]=(int)OV.size(); OV.push_back(V[i]); } for(int i=0;i<(int)F.size();i++) if(aliveF[i]){ Face f=F[i]; if(f.a<0||f.b<0||f.c<0||mp[f.a]<0||mp[f.b]<0||mp[f.c]<0) continue; Face g{mp[f.a],mp[f.b],mp[f.c]}; if(g.a!=g.b&&g.a!=g.c&&g.b!=g.c) OF.push_back(g); } } }; int main(){ T0=chrono::steady_clock::now(); readInput(); // Official sample is the small cube; leave all small instances untouched so the first line is exactly 8 12. if(N<=1000){ printOriginal(); return 0; } Simplifier S; S.vertexRemovalPass(); S.collapsePass(); vector<Vec3> V; vector<Face> F; S.exportMesh(V,F); if(V.size()<P0.size() && closedOK(V,F)) printMesh(V,F); else printOriginal(); return 0; } ```
+
+
+
+
+
+
+
+
+
+Extra High
+
+
+
+ChatGPT can make mistakes. Check important info.

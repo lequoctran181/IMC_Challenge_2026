@@ -1,0 +1,80 @@
+[
+  {
+    "tab": 5,
+    "block": 0,
+    "hash": "48e373e00142",
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round73_20260707/tab5/block00_48e373e00142.cpp",
+    "duplicate_prior": true,
+    "prior_path": "worker_outputs/idle_round67_20260707/tab5/block00_48e373e00142.cpp",
+    "compile_rc": 0,
+    "compile_stderr": "",
+    "run_rc": 0,
+    "first_line": "9 14",
+    "sample_pass": false,
+    "run_stderr": ""
+  },
+  {
+    "tab": 5,
+    "block": 1,
+    "hash": "bf6fc56521d1",
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round73_20260707/tab5/block01_bf6fc56521d1.cpp",
+    "duplicate_prior": true,
+    "prior_path": "worker_outputs/idle_round70_20260707/tab5/block01_bf6fc56521d1.cpp",
+    "compile_rc": 0,
+    "compile_stderr": "",
+    "run_rc": 0,
+    "first_line": "9 14",
+    "sample_pass": false,
+    "run_stderr": ""
+  },
+  {
+    "tab": 5,
+    "block": 2,
+    "hash": "31421ece0aed",
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round73_20260707/tab5/block02_31421ece0aed.cpp",
+    "duplicate_prior": true,
+    "prior_path": "worker_outputs/idle_round72_20260707/tab5/block02_31421ece0aed.cpp",
+    "compile_rc": 1,
+    "compile_stderr": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round73_20260707/tab5/block02_31421ece0aed.cpp:2:18940: error: expected '}'\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round73_20260707/tab5/block02_31421ece0aed.cpp:2:18494: note: to match this '{'\n1 error generated.\n",
+    "sample_pass": false
+  },
+  {
+    "tab": 5,
+    "block": 3,
+    "hash": "685053a8f537",
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round73_20260707/tab5/block03_685053a8f537.cpp",
+    "duplicate_prior": false,
+    "prior_path": "",
+    "compile_rc": 1,
+    "compile_stderr": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round73_20260707/tab5/block03_685053a8f537.cpp:2:17424: error: expected '}'\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round73_20260707/tab5/block03_685053a8f537.cpp:2:4425: note: to match this '{'\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round73_20260707/tab5/block03_685053a8f537.cpp:2:5342: error: use of undeclared identifier 'seedEdges'\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round73_20260707/tab5/block03_685053a8f537.cpp:2:6292: error: expected '}'\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round73_20260707/tab5/block03_685053a8f537.cpp:2:5772: note: to match this '{'\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round73_20260707/tab5/block03_685053a8f537.cpp:2:6292: error: expected ';' after struct\n4 errors generated.\n",
+    "sample_pass": false
+  },
+  {
+    "tab": 12,
+    "block": 2,
+    "hash": "1103e3095e6b",
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round73_20260707/tab12/block02_1103e3095e6b.cpp",
+    "duplicate_prior": true,
+    "prior_path": "worker_outputs/idle_round71_20260707/tab12/block02_1103e3095e6b.cpp",
+    "compile_rc": 0,
+    "compile_stderr": "",
+    "run_rc": 0,
+    "first_line": "8 12",
+    "sample_pass": true,
+    "run_stderr": ""
+  },
+  {
+    "tab": 12,
+    "block": 5,
+    "hash": "2b139571f4bb",
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round73_20260707/tab12/block05_2b139571f4bb.cpp",
+    "duplicate_prior": true,
+    "prior_path": "worker_outputs/idle_round71_20260707/tab12/block05_2b139571f4bb.cpp",
+    "compile_rc": 0,
+    "compile_stderr": "",
+    "run_rc": 0,
+    "first_line": "8 12",
+    "sample_pass": true,
+    "run_stderr": ""
+  }
+]
