@@ -1,0 +1,1 @@
+bash -lc wc -c /mnt/data/solution.cpp && sha256sum /mnt/data/solution.cpp /mnt/data/solution

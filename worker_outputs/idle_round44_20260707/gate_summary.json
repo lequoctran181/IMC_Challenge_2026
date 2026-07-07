@@ -1,0 +1,55 @@
+{
+  "round": "idle_round44_20260707",
+  "tabs": {
+    "1": {
+      "blocks": 18,
+      "links": 4,
+      "title": "C++ Code for Top 1",
+      "error": ""
+    },
+    "2": {
+      "blocks": 1,
+      "links": 3,
+      "title": "C++ code cho top 1",
+      "error": ""
+    },
+    "3": {
+      "blocks": 1,
+      "links": 3,
+      "title": "C++ code giải bài top 1",
+      "error": ""
+    }
+  },
+  "candidates": [
+    {
+      "tab": 1,
+      "block": 0,
+      "hash": "14e891d7810d",
+      "duplicate": true
+    },
+    {
+      "tab": 1,
+      "block": 1,
+      "hash": "ece38e7cb2ce",
+      "duplicate": true
+    },
+    {
+      "tab": 1,
+      "block": 12,
+      "hash": "e33adf31bdf7",
+      "duplicate": true
+    },
+    {
+      "tab": 2,
+      "block": 0,
+      "hash": "445077126e16",
+      "duplicate": true
+    },
+    {
+      "tab": 3,
+      "block": 0,
+      "hash": "cd08d26b2022",
+      "duplicate": true
+    }
+  ]
+}
