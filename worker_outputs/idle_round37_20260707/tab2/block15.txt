@@ -1,0 +1,1 @@
+cpp block. No generator-only/snippets/prose. Must compile -O2 -std=c++17 and sample first line `8 12`. Need a real +10 strategy.

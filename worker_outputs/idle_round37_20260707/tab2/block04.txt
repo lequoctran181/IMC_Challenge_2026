@@ -1,0 +1,1 @@
+python3 make_k3_guarded.py -o k3_guarded_breakthrough.cppwc -c k3_guarded_breakthrough.cpp./k3_guarded_breakthrough < sample.in | head -n1

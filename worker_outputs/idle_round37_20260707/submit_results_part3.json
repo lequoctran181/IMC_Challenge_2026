@@ -1,0 +1,38 @@
+[
+  {
+    "hash": "105a00bc179c",
+    "tab": 2,
+    "block": 17,
+    "src": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round37_20260707/tab2_block17_105a00bc179c.cpp",
+    "compile_rc": 0,
+    "compile_tail": "",
+    "run_rc": 0,
+    "first": "8 12",
+    "stdout_head": "8 12\nv 0.5 0.5 0.5\nv 0.5 0.5 -0.5",
+    "stderr_tail": "",
+    "sample_pass": true,
+    "submission_result": {
+      "success": true,
+      "submission_id": 19907527,
+      "success_url": "/contests/imc2-2/submissions/19907527"
+    }
+  },
+  {
+    "hash": "34e423b7eace",
+    "tab": 6,
+    "block": 8,
+    "src": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round37_20260707/tab6_block08_34e423b7eace.cpp",
+    "compile_rc": 0,
+    "compile_tail": "",
+    "run_rc": 0,
+    "first": "8 12",
+    "stdout_head": "8 12\nv 0.5 0.5 0.5\nv 0.5 0.5 -0.5",
+    "stderr_tail": "",
+    "sample_pass": true,
+    "submission_result": {
+      "success": true,
+      "submission_id": 19907529,
+      "success_url": "/contests/imc2-2/submissions/19907529"
+    }
+  }
+]

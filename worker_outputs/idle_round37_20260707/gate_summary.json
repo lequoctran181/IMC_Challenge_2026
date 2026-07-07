@@ -1,0 +1,88 @@
+[
+  {
+    "hash": "5b23e55bd643",
+    "tab": 2,
+    "block": 10,
+    "src": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round37_20260707/tab2_block10_5b23e55bd643.cpp",
+    "compile_rc": 0,
+    "compile_tail": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round37_20260707/tab2_block10_5b23e55bd643.cpp:2:8802: warning: captured structured bindings are a C++20 extension [-Wc++20-extensions]\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round37_20260707/tab2_block10_5b23e55bd643.cpp:2:8442: note: 'lon' declared here\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round37_20260707/tab2_block10_5b23e55bd643.cpp:2:11743: warning: captured structured bindings are a C++20 extension [-Wc++20-extensions]\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round37_20260707/tab2_block10_5b23e55bd643.cpp:2:11248: note: 'S' declared here\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round37_20260707/tab2_block10_5b23e55bd643.cpp:2:13281: warning: captured structured bindings are a C++20 extension [-Wc++20-extensions]\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round37_20260707/tab2_block10_5b23e55bd643.cpp:2:13026: note: 'U' declared here\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round37_20260707/tab2_block10_5b23e55bd643.cpp:2:13288: warning: captured structured bindings are a C++20 extension [-Wc++20-extensions]\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round37_20260707/tab2_block10_5b23e55bd643.cpp:2:13028: note: 'Vn' declared here\n4 warnings generated.\n",
+    "run_rc": 0,
+    "first": "8 12",
+    "stdout_head": "8 12\nv 0.5 0.5 0.5\nv 0.5 0.5 -0.5",
+    "stderr_tail": "",
+    "sample_pass": true
+  },
+  {
+    "hash": "f8992afff2fd",
+    "tab": 2,
+    "block": 12,
+    "src": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round37_20260707/tab2_block12_f8992afff2fd.cpp",
+    "compile_rc": 0,
+    "compile_tail": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round37_20260707/tab2_block12_f8992afff2fd.cpp:2:11328: warning: captured structured bindings are a C++20 extension [-Wc++20-extensions]\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round37_20260707/tab2_block12_f8992afff2fd.cpp:2:10992: note: 'lon' declared here\n1 warning generated.\n",
+    "run_rc": 0,
+    "first": "8 12",
+    "stdout_head": "8 12\nv 0.5 0.5 0.5\nv 0.5 0.5 -0.5",
+    "stderr_tail": "",
+    "sample_pass": true
+  },
+  {
+    "hash": "15ff777f561f",
+    "tab": 2,
+    "block": 14,
+    "src": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round37_20260707/tab2_block14_15ff777f561f.cpp",
+    "compile_rc": 0,
+    "compile_tail": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round37_20260707/tab2_block14_15ff777f561f.cpp:2:15993: warning: captured structured bindings are a C++20 extension [-Wc++20-extensions]\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round37_20260707/tab2_block14_15ff777f561f.cpp:2:15525: note: 'lon' declared here\n1 warning generated.\n",
+    "run_rc": 0,
+    "first": "8 12",
+    "stdout_head": "8 12\nv 0.5 0.5 0.5\nv 0.5 0.5 -0.5",
+    "stderr_tail": "",
+    "sample_pass": true
+  },
+  {
+    "hash": "98ab9e4960f2",
+    "tab": 2,
+    "block": 16,
+    "src": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round37_20260707/tab2_block16_98ab9e4960f2.cpp",
+    "compile_rc": 0,
+    "compile_tail": "",
+    "run_rc": 0,
+    "first": "8 12",
+    "stdout_head": "8 12\nv 0.5 0.5 0.5\nv 0.5 0.5 -0.5",
+    "stderr_tail": "",
+    "sample_pass": true
+  },
+  {
+    "hash": "105a00bc179c",
+    "tab": 2,
+    "block": 17,
+    "src": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round37_20260707/tab2_block17_105a00bc179c.cpp",
+    "compile_rc": 0,
+    "compile_tail": "",
+    "run_rc": 0,
+    "first": "8 12",
+    "stdout_head": "8 12\nv 0.5 0.5 0.5\nv 0.5 0.5 -0.5",
+    "stderr_tail": "",
+    "sample_pass": true
+  },
+  {
+    "hash": "7564f0422203",
+    "tab": 6,
+    "block": 6,
+    "src": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round37_20260707/tab6_block06_7564f0422203.cpp",
+    "compile_rc": 1,
+    "compile_tail": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round37_20260707/tab6_block06_7564f0422203.cpp:1:2: error: invalid preprocessing directive\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round37_20260707/tab6_block06_7564f0422203.cpp:1:183: error: invalid suffix on literal; C++11 requires a space between literal and identifier [-Wreserved-user-defined-literal]\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round37_20260707/tab6_block06_7564f0422203.cpp:1:437: error: invalid suffix on literal; C++11 requires a space between literal and identifier [-Wreserved-user-defined-literal]\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round37_20260707/tab6_block06_7564f0422203.cpp:1:445: warning: empty character constant [-Winvalid-pp-token]\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round37_20260707/tab6_block06_7564f0422203.cpp:1:5120: warning: empty character constant [-Winvalid-pp-token]\n2 warnings and 3 errors generated.\n"
+  },
+  {
+    "hash": "34e423b7eace",
+    "tab": 6,
+    "block": 8,
+    "src": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round37_20260707/tab6_block08_34e423b7eace.cpp",
+    "compile_rc": 0,
+    "compile_tail": "",
+    "run_rc": 0,
+    "first": "8 12",
+    "stdout_head": "8 12\nv 0.5 0.5 0.5\nv 0.5 0.5 -0.5",
+    "stderr_tail": "",
+    "sample_pass": true
+  }
+]
