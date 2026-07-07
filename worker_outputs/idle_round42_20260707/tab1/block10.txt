@@ -1,0 +1,12 @@
+bash -lc tail -60 /mnt/data/imc/submission_index.csv && python3 - <<'PY'
+import csv,collections,statistics
+rows=[]
+for line in open('/mnt/data/imc/submission_index.csv'):
+    if not line.strip(): continue
+    n,score,acc,file=line.strip().split(',',3)
+    rows.append((int(n),float(score),int(acc),file))
+rows2=sorted(rows,key=lambda x:x[1],reverse=True)
+print('top 30')
+for r in rows2[:30]: print(r)
+print('counts acc',collections.Counter(r[2] for r in rows))
+PY

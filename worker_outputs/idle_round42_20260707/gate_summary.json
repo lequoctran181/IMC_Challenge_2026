@@ -1,0 +1,126 @@
+{
+  "round": "idle_round42_20260707",
+  "tabs": {
+    "1": {
+      "blocks": 18,
+      "title": "C++ Code for Top 1",
+      "error": ""
+    },
+    "2": {
+      "blocks": 1,
+      "title": "C++ code cho top 1",
+      "error": ""
+    },
+    "3": {
+      "blocks": 1,
+      "title": "C++ code giải bài top 1",
+      "error": ""
+    },
+    "4": {
+      "blocks": 1,
+      "title": "C++ code cho top 1",
+      "error": ""
+    },
+    "6": {
+      "blocks": 0,
+      "title": "C++ Code Challenge Top 1",
+      "error": ""
+    },
+    "10": {
+      "blocks": 1,
+      "title": "C++ code cho bài toán",
+      "error": ""
+    },
+    "12": {
+      "blocks": 0,
+      "title": "C++ code giải bài top 1",
+      "error": ""
+    }
+  },
+  "candidates": [
+    {
+      "tab": 1,
+      "block": 0,
+      "hash": "14e891d7810d",
+      "duplicate": false,
+      "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round42_20260707/tab1_block00_14e891d7810d.cpp",
+      "gate": {
+        "ok": true,
+        "stage": "sample",
+        "first": "8 12",
+        "returncode": 0,
+        "stderr": ""
+      }
+    },
+    {
+      "tab": 1,
+      "block": 1,
+      "hash": "ece38e7cb2ce",
+      "duplicate": false,
+      "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round42_20260707/tab1_block01_ece38e7cb2ce.cpp",
+      "gate": {
+        "ok": true,
+        "stage": "sample",
+        "first": "8 12",
+        "returncode": 0,
+        "stderr": ""
+      }
+    },
+    {
+      "tab": 2,
+      "block": 0,
+      "hash": "445077126e16",
+      "duplicate": false,
+      "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round42_20260707/tab2_block00_445077126e16.cpp",
+      "gate": {
+        "ok": true,
+        "stage": "sample",
+        "first": "8 12",
+        "returncode": 0,
+        "stderr": ""
+      }
+    },
+    {
+      "tab": 3,
+      "block": 0,
+      "hash": "cd08d26b2022",
+      "duplicate": false,
+      "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round42_20260707/tab3_block00_cd08d26b2022.cpp",
+      "gate": {
+        "ok": true,
+        "stage": "sample",
+        "first": "8 12",
+        "returncode": 0,
+        "stderr": ""
+      }
+    },
+    {
+      "tab": 4,
+      "block": 0,
+      "hash": "cbf3ea9728a6",
+      "duplicate": false,
+      "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round42_20260707/tab4_block00_cbf3ea9728a6.cpp",
+      "gate": {
+        "ok": true,
+        "stage": "sample",
+        "first": "8 12",
+        "returncode": 0,
+        "stderr": ""
+      }
+    },
+    {
+      "tab": 10,
+      "block": 0,
+      "hash": "f656ecd2fcac",
+      "duplicate": false,
+      "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round42_20260707/tab10_block00_f656ecd2fcac.cpp",
+      "gate": {
+        "ok": false,
+        "stage": "sample",
+        "first": "9 14",
+        "returncode": 0,
+        "stderr": ""
+      }
+    }
+  ]
+}
