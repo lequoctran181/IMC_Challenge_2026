@@ -1,0 +1,115 @@
+{
+  "url": "https://chatgpt.com/c/6a4cb4f1-7350-83ec-961c-8718a23392bf",
+  "title": "IMC 2026 Simplifygeometry Code",
+  "links": [
+    {
+      "i": 24,
+      "text": "IMC 2026 C++17 Submission",
+      "href": "https://chatgpt.com/c/6a4cb543-cd40-83ec-a746-eb97e4405f6d",
+      "download": ""
+    },
+    {
+      "i": 25,
+      "text": "Pin IMC 2026 C++17 Submission",
+      "href": "",
+      "download": ""
+    },
+    {
+      "i": 26,
+      "text": "Open conversation options for IMC 2026 C++17 Submission",
+      "href": "",
+      "download": ""
+    },
+    {
+      "i": 33,
+      "text": "IMC 2026 Submission Code",
+      "href": "https://chatgpt.com/c/6a4cb508-e31c-83ec-8ec9-041e07ea2bbc",
+      "download": ""
+    },
+    {
+      "i": 34,
+      "text": "Pin IMC 2026 Submission Code",
+      "href": "",
+      "download": ""
+    },
+    {
+      "i": 35,
+      "text": "Open conversation options for IMC 2026 Submission Code",
+      "href": "",
+      "download": ""
+    },
+    {
+      "i": 36,
+      "text": "IMC 2026 Code Submission",
+      "href": "https://chatgpt.com/c/6a4cb514-c3f8-83ec-824c-22c16b273d4c",
+      "download": ""
+    },
+    {
+      "i": 37,
+      "text": "Pin IMC 2026 Code Submission",
+      "href": "",
+      "download": ""
+    },
+    {
+      "i": 38,
+      "text": "Open conversation options for IMC 2026 Code Submission",
+      "href": "",
+      "download": ""
+    },
+    {
+      "i": 51,
+      "text": "IMC 2026 Code Submission",
+      "href": "https://chatgpt.com/c/6a4cb52c-5ab4-83ec-a52c-6dbeaa6eb5c9",
+      "download": ""
+    },
+    {
+      "i": 52,
+      "text": "Pin IMC 2026 Code Submission",
+      "href": "",
+      "download": ""
+    },
+    {
+      "i": 53,
+      "text": "Open conversation options for IMC 2026 Code Submission",
+      "href": "",
+      "download": ""
+    },
+    {
+      "i": 102,
+      "text": "Download apps",
+      "href": "",
+      "download": ""
+    },
+    {
+      "i": 111,
+      "text": "Download submission_next.cpp",
+      "href": "",
+      "download": ""
+    },
+    {
+      "i": 124,
+      "text": "Download submission_next.cpp",
+      "href": "",
+      "download": ""
+    },
+    {
+      "i": 137,
+      "text": "Download submission_next.cpp",
+      "href": "",
+      "download": ""
+    },
+    {
+      "i": 153,
+      "text": "Download submission_next.cpp",
+      "href": "",
+      "download": ""
+    },
+    {
+      "i": 164,
+      "text": "Add files and more",
+      "href": "",
+      "download": ""
+    }
+  ],
+  "bodyTail": "{\nT0=chrono::steady_clock::now();\nif(!read())return 0;\nif(N<=20){\nprintM(Orig);\nreturn 0;\n}\nvector<V>vn=vertexNormals();\nint R=resFor();\ndouble guard=guardFor();\nRender origR;\nrender(Orig,R,origR);\nMesh best=Orig;\nint bestN=N;\nbool ok=false;\n\n {\nMesh b=buildBox(1);\nif(tim()<16.0)ok|=tryCandidate(b,vn,origR,R,guard+0.015,best,bestN);\n}\n \n {\nEll e=fitEll();\nif(e.ok){\nvector<pair<int,int>>tr={\n{\n8,16}\n,{\n10,20}\n,{\n12,24}\n,{\n16,32}\n,{\n20,40}\n,{\n24,48}\n}\n;\nfor(auto [la,lo]:tr)if(tim()<16.0)ok|=tryCandidate(buildEll(e,la,lo),vn,origR,R,guard,best,bestN);\n}\n}\n\n {\nint r,s;\nif(detectLat(r,s)){\nvector<pair<int,int>>tr={\n{\nmax(2,r/12),max(8,s/12)}\n,{\nmax(2,r/8),max(8,s/8)}\n,{\nmax(3,r/6),max(10,s/6)}\n,{\nmax(4,r/4),max(12,s/4)}\n,{\nmax(5,r/3),max(16,s/3)}\n}\n;\nfor(auto [a,b]:tr)if(tim()<16.2)ok|=tryCandidate(buildLat(r,s,a,b),vn,origR,R,guard-0.004,best,bestN);\n}\n}\n\n {\nint u,s;\nif(detectTor(u,s)){\nvector<pair<int,int>>tr={\n{\nmax(6,u/10),max(6,s/2)}\n,{\nmax(6,u/8),max(6,s*2/3)}\n,{\nmax(6,u/6),max(6,s*3/4)}\n,{\nmax(6,u/4),max(6,s)}\n}\n;\nfor(auto [a,b]:tr)if(tim()<16.2)ok|=tryCandidate(buildTor(u,s,a,b),vn,origR,R,guard-0.004,best,bestN);\n}\n}\n\n if(tim()<15.0){\nSimp sim;\nauto snaps=sim.run();\nsort(snaps.begin(),snaps.end(),[](const Mesh&a,const Mesh&b){\nreturn a.v.size()<b.v.size();\n}\n);\nint lim=0;\nfor(auto &s:snaps){\nif(tim()>18.4||lim++>8)break;\nok|=tryCandidate(s,vn,origR,R,guard,best,bestN);\n}\n}\n\n if(!ok||!valid(best)||!outputToOriginalOK(best)||best.v.size()>Orig.v.size())best=Orig;\nprintM(best);\nreturn 0;\n}\n\n\n\n\n\n\n\nSources\n\n\neé\n\nExtra High\n\n\n\nChatGPT can make mistakes. Check important info.\n"
+}
