@@ -1,0 +1,103 @@
+{
+  "round": "idle_round48_20260707",
+  "tabs": {
+    "1": {
+      "blocks": 18,
+      "links": 4,
+      "title": "C++ Code for Top 1",
+      "error": ""
+    },
+    "2": {
+      "blocks": 1,
+      "links": 3,
+      "title": "C++ code cho top 1",
+      "error": ""
+    },
+    "3": {
+      "blocks": 1,
+      "links": 3,
+      "title": "C++ code giải bài top 1",
+      "error": ""
+    },
+    "4": {
+      "blocks": 1,
+      "links": 3,
+      "title": "C++ code cho top 1",
+      "error": ""
+    },
+    "5": {
+      "blocks": 1,
+      "links": 4,
+      "title": "C++ Code for IMC Challenge",
+      "error": ""
+    },
+    "7": {
+      "blocks": 1,
+      "links": 3,
+      "title": "C++ Code Optimization",
+      "error": ""
+    },
+    "10": {
+      "blocks": 1,
+      "links": 2,
+      "title": "C++ code cho bài toán",
+      "error": ""
+    }
+  },
+  "candidates": [
+    {
+      "tab": 1,
+      "block": 0,
+      "hash": "14e891d7810d",
+      "duplicate": true
+    },
+    {
+      "tab": 1,
+      "block": 1,
+      "hash": "ece38e7cb2ce",
+      "duplicate": true
+    },
+    {
+      "tab": 1,
+      "block": 12,
+      "hash": "e33adf31bdf7",
+      "duplicate": true
+    },
+    {
+      "tab": 2,
+      "block": 0,
+      "hash": "445077126e16",
+      "duplicate": true
+    },
+    {
+      "tab": 3,
+      "block": 0,
+      "hash": "cd08d26b2022",
+      "duplicate": true
+    },
+    {
+      "tab": 4,
+      "block": 0,
+      "hash": "cbf3ea9728a6",
+      "duplicate": true
+    },
+    {
+      "tab": 5,
+      "block": 0,
+      "hash": "6199b8061507",
+      "duplicate": true
+    },
+    {
+      "tab": 7,
+      "block": 0,
+      "hash": "a75bab3bc6f5",
+      "duplicate": true
+    },
+    {
+      "tab": 10,
+      "block": 0,
+      "hash": "f656ecd2fcac",
+      "duplicate": true
+    }
+  ]
+}
