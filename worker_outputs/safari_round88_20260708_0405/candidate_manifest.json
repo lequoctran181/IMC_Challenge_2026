@@ -1,0 +1,128 @@
+[
+  {
+    "tab": 4,
+    "kind": "pre",
+    "idx": 6,
+    "hash": "b61ff0982023",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round88_20260708_0405/tab04/block00_b61ff0982023.cpp",
+    "known": true,
+    "bytes": 32563
+  },
+  {
+    "tab": 4,
+    "kind": "pre",
+    "idx": 7,
+    "hash": "b0148fc16888",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round88_20260708_0405/tab04/block01_b0148fc16888.cpp",
+    "known": true,
+    "bytes": 32562
+  },
+  {
+    "tab": 4,
+    "kind": "pre",
+    "idx": 11,
+    "hash": "e92543a9eaa2",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round88_20260708_0405/tab04/block02_e92543a9eaa2.cpp",
+    "known": true,
+    "bytes": 17934
+  },
+  {
+    "tab": 4,
+    "kind": "pre",
+    "idx": 12,
+    "hash": "27170ea05434",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round88_20260708_0405/tab04/block03_27170ea05434.cpp",
+    "known": true,
+    "bytes": 17933
+  },
+  {
+    "tab": 4,
+    "kind": "pre",
+    "idx": 16,
+    "hash": "e6b6d20c1a0c",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round88_20260708_0405/tab04/block04_e6b6d20c1a0c.cpp",
+    "known": false,
+    "bytes": 17975
+  },
+  {
+    "tab": 4,
+    "kind": "pre",
+    "idx": 17,
+    "hash": "911e973a6540",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round88_20260708_0405/tab04/block05_911e973a6540.cpp",
+    "known": false,
+    "bytes": 17974
+  },
+  {
+    "tab": 11,
+    "kind": "pre",
+    "idx": 9,
+    "hash": "3c0b93cd1dcc",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round88_20260708_0405/tab11/block00_3c0b93cd1dcc.cpp",
+    "known": true,
+    "bytes": 45175
+  },
+  {
+    "tab": 11,
+    "kind": "pre",
+    "idx": 10,
+    "hash": "35483f457a66",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round88_20260708_0405/tab11/block01_35483f457a66.cpp",
+    "known": true,
+    "bytes": 45174
+  },
+  {
+    "tab": 12,
+    "kind": "pre",
+    "idx": 5,
+    "hash": "288b2e3402b2",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round88_20260708_0405/tab12/block00_288b2e3402b2.cpp",
+    "known": true,
+    "bytes": 31776
+  },
+  {
+    "tab": 12,
+    "kind": "pre",
+    "idx": 6,
+    "hash": "8e95d20dc3f2",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round88_20260708_0405/tab12/block01_8e95d20dc3f2.cpp",
+    "known": true,
+    "bytes": 31775
+  },
+  {
+    "tab": 12,
+    "kind": "pre",
+    "idx": 8,
+    "hash": "f0395a4491df",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round88_20260708_0405/tab12/block02_f0395a4491df.cpp",
+    "known": true,
+    "bytes": 33989
+  },
+  {
+    "tab": 12,
+    "kind": "pre",
+    "idx": 9,
+    "hash": "90b9c22fab6a",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round88_20260708_0405/tab12/block03_90b9c22fab6a.cpp",
+    "known": true,
+    "bytes": 33988
+  },
+  {
+    "tab": 12,
+    "kind": "pre",
+    "idx": 12,
+    "hash": "97f47ead4797",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round88_20260708_0405/tab12/block04_97f47ead4797.cpp",
+    "known": true,
+    "bytes": 33638
+  },
+  {
+    "tab": 12,
+    "kind": "pre",
+    "idx": 13,
+    "hash": "f81a5d8f78a9",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round88_20260708_0405/tab12/block05_f81a5d8f78a9.cpp",
+    "known": true,
+    "bytes": 33637
+  }
+]
