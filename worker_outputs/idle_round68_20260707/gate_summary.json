@@ -1,0 +1,70 @@
+[
+  {
+    "tab": 5,
+    "block": 0,
+    "hash": "48e373e00142",
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round68_20260707/tab5/block00_48e373e00142.cpp",
+    "duplicate_prior": true,
+    "prior_path": "worker_outputs/idle_round67_20260707/tab5/block00_48e373e00142.cpp",
+    "compile_rc": 0,
+    "compile_stderr": "",
+    "run_rc": 0,
+    "first_line": "9 14",
+    "sample_pass": false,
+    "run_stderr": ""
+  },
+  {
+    "tab": 8,
+    "block": 0,
+    "hash": "d34bfe614a78",
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round68_20260707/tab8/block00_d34bfe614a78.cpp",
+    "duplicate_prior": true,
+    "prior_path": "worker_outputs/idle_round67_20260707/tab8/block00_d34bfe614a78.cpp",
+    "compile_rc": 0,
+    "compile_stderr": "",
+    "run_rc": 0,
+    "first_line": "8 12",
+    "sample_pass": true,
+    "run_stderr": ""
+  },
+  {
+    "tab": 8,
+    "block": 1,
+    "hash": "9fbe4830a4f5",
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round68_20260707/tab8/block01_9fbe4830a4f5.cpp",
+    "duplicate_prior": true,
+    "prior_path": "worker_outputs/idle_round67_20260707/tab8/block01_9fbe4830a4f5.cpp",
+    "compile_rc": 0,
+    "compile_stderr": "",
+    "run_rc": 0,
+    "first_line": "8 12",
+    "sample_pass": true,
+    "run_stderr": ""
+  },
+  {
+    "tab": 7,
+    "block": 0,
+    "hash": "5eb442311975",
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round68_20260707/tab7/body_block00_5eb442311975.cpp",
+    "duplicate_prior": false,
+    "prior_path": "",
+    "compile_rc": 1,
+    "compile_stderr": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round68_20260707/tab7/body_block00_5eb442311975.cpp:1:26: warning: extra tokens at end of #include directive [-Wextra-tokens]\n1 warning generated.\nUndefined symbols for architecture arm64:\n  \"_main\", referenced from:\n      <initial-undefines>\nld: symbol(s) not found for architecture arm64\nclang++: error: linker command failed with exit code 1 (use -v to see invocation)\n",
+    "sample_pass": false
+  },
+  {
+    "tab": 7,
+    "block": 0,
+    "hash": "f0bd5fd4ba6c",
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round68_20260707/tab7/body_block00_f0bd5fd4ba6c_repaired.cpp",
+    "repair": "newline after bits include",
+    "duplicate_prior": false,
+    "prior_path": "",
+    "compile_rc": 0,
+    "compile_stderr": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round68_20260707/tab7/body_block00_f0bd5fd4ba6c_repaired.cpp:2:28159: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round68_20260707/tab7/body_block00_f0bd5fd4ba6c_repaired.cpp:2:28243: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round68_20260707/tab7/body_block00_f0bd5fd4ba6c_repaired.cpp:2:28609: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n3 warnings generated.\n",
+    "run_rc": 0,
+    "first_line": "8 12",
+    "sample_pass": true,
+    "run_stderr": ""
+  }
+]
