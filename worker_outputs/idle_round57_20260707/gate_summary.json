@@ -1,0 +1,92 @@
+{
+  "summary": [
+    {
+      "tab": 1,
+      "title": "IMC 2026 Simplifygeometry Solution",
+      "activeStop": false,
+      "retry": false,
+      "blocks": 2,
+      "new": [],
+      "duplicates": [
+        "cc70e2102693"
+      ],
+      "compile_fail": [],
+      "sample_fail": [
+        {
+          "hash": "2b7a6f8a17b3",
+          "first": "9 14"
+        }
+      ]
+    },
+    {
+      "tab": 2,
+      "title": "IMC 2026 C++17 Solution",
+      "activeStop": false,
+      "retry": false,
+      "blocks": 0,
+      "new": [],
+      "duplicates": [],
+      "compile_fail": [],
+      "sample_fail": []
+    },
+    {
+      "tab": 3,
+      "title": "IMC 2026 Problem B",
+      "activeStop": false,
+      "retry": false,
+      "blocks": 0,
+      "new": [],
+      "duplicates": [],
+      "compile_fail": [],
+      "sample_fail": []
+    },
+    {
+      "tab": 5,
+      "title": "IMC 2026 SimplifyGeometry Code",
+      "activeStop": false,
+      "retry": false,
+      "blocks": 0,
+      "new": [],
+      "duplicates": [],
+      "compile_fail": [],
+      "sample_fail": []
+    },
+    {
+      "tab": 7,
+      "title": "IMC 2026 Code Submission",
+      "activeStop": false,
+      "retry": false,
+      "blocks": 0,
+      "new": [],
+      "duplicates": [],
+      "compile_fail": [],
+      "sample_fail": []
+    },
+    {
+      "tab": 8,
+      "title": "C++ code giải bài tập",
+      "activeStop": false,
+      "retry": true,
+      "blocks": 2,
+      "new": [],
+      "duplicates": [
+        "ddba4ef93c08",
+        "eec8c82bc102"
+      ],
+      "compile_fail": [],
+      "sample_fail": []
+    },
+    {
+      "tab": 11,
+      "title": "IMC 2026 SimplifyGeometry",
+      "activeStop": false,
+      "retry": false,
+      "blocks": 0,
+      "new": [],
+      "duplicates": [],
+      "compile_fail": [],
+      "sample_fail": []
+    }
+  ],
+  "candidates": []
+}

@@ -1,0 +1,34 @@
+{
+  "url": "https://chatgpt.com/c/6a4cacac-9fa4-83ec-af57-61a4ef90a8c1",
+  "title": "IMC 2026 C++ Solution",
+  "activeStop": false,
+  "retry": 0,
+  "links": [
+    {
+      "text": "Download apps",
+      "href": "",
+      "download": ""
+    },
+    {
+      "text": "submission_next.cpp",
+      "href": "",
+      "download": ""
+    },
+    {
+      "text": "submission_next.cpp",
+      "href": "",
+      "download": ""
+    },
+    {
+      "text": "submission_next.cpp",
+      "href": "",
+      "download": ""
+    },
+    {
+      "text": "submission_next.cpp",
+      "href": "",
+      "download": ""
+    }
+  ],
+  "body": "        uint64_t b=(uint64_t)k.y*10150724397891781847ull;\n        uint64_t c=(uint64_t)k.z*15579859533126535913ull;\n        return (size_t)(a ^ (b<<1) ^ (c<<7));\n    }\n};\n\nstruct Candidate{\n    vector<Vec3> V;\n    vector<Face> T;\n    vector<int> oldToNew;\n    bool ok=false;\n};\n\nstatic bool verifyCandidate(const Candidate& C){\n    int n=(int)C.V.size(), m=(int)C.T.size();\n    if(n<=0 || m<=0 || n>N) return false;\n    vector<int> used(n,0);\n    unordered_map<long long,int> ec;\n    ec.reserve((size_t)m*4+10);\n    unordered_set<unsigned long long> tris;\n    tris.reserve((size_t)m*2+10);\n    const double areaEps=max(1e-30,diagLen*diagLen*1e-24);\n    for(const Face&f:C.T){\n        if(f.a<0||f.b<0||f.c<0||f.a>=n||f.b>=n||f.c>=n) return false;\n        if(f.a==f.b||f.a==f.c||f.b==f.c) return false;\n        Vec3 cr=cross3(C.V[f.b]-C.V[f.a],C.V[f.c]-C.V[f.a]);\n        if(norm2(cr)<=areaEps) return false;\n        auto tk=tkey(f.a,f.b,f.c);\n        unsigned long long h=((unsigned long long)(unsigned)tk[0]<<42)^((unsigned long long)(unsigned)tk[1]<<21)^(unsigned)tk[2];\n        if(!tris.insert(h).second) return false;\n        used[f.a]=used[f.b]=used[f.c]=1;\n        ec[ekey(f.a,f.b)]++;\n        ec[ekey(f.b,f.c)]++;\n        ec[ekey(f.c,f.a)]++;\n    }\n    for(auto &kv:ec) if(kv.second!=2) return false;\n    for(int u:used) if(!u) return false;\n    return true;\n}\n\nstatic bool hausdorffCoverOK(const Candidate& C){\n    double lim2=epsHaus*epsHaus*1.0000001;\n    for(int i=0;i<N;i++){\n        int j=C.oldToNew[i];\n        if(j<0 || j>=(int)C.V.size()) return false;\n        if(norm2(P[i]-C.V[j])>lim2) return false;\n    }\n    if(C.V.size()<=200){\n        for(const Vec3&v:C.V){\n            double best=1e300;\n            for(const Vec3&p:P) best=min(best,norm2(v-p));\n            if(best>lim2) return false;\n        }\n    }\n    return true;\n}\n\nCandidate voxelCluster(double cellScale){\n    Candidate C;\n    double s=epsHaus*cellScale;\n    if(!(s>0)) return C;\n    unordered_map<Key3,int,KeyHash> cid;\n    cid.reserve((size_t)N*2+10);\n    vector<vector<int>> members;\n    C.oldToNew.assign(N,-1);\n\n    for(int i=0;i<N;i++){\n        long long ix=(long long)floor((P[i].x-mnv.x)/s);\n        long long iy=(long long)floor((P[i].y-mnv.y)/s);\n        long long iz=(long long)floor((P[i].z-mnv.z)/s);\n        Key3 k{ix,iy,iz};\n        auto it=cid.find(k);\n        int id;\n        if(it==cid.end()){\n            id=(int)members.size();\n            cid.emplace(k,id);\n            members.push_back({});\n        }else id=it->second;\n        members[id].push_back(i);\n        C.oldToNew[i]=id;\n    }\n\n    int K=(int)members.size();\n    C.V.assign(K,{0,0,0});\n    for(int id=0;id<K;id++){\n        Vec3 cen{0,0,0};\n        for(int v:members[id]) cen=cen+P[v];\n        cen=cen*(1.0/(double)members[id].size());\n        int best=members[id][0];\n        double bd=norm2(P[best]-cen);\n        for(int v:members[id]){\n            double d=norm2(P[v]-cen);\n            if(d<bd){bd=d; best=v;}\n        }\n        C.V[id]=P[best];\n    }\n\n    double lim2=epsHaus*epsHaus*0.999999;\n    for(int id=0;id<K;id++){\n        for(int v:members[id]){\n            if(norm2(P[v]-C.V[id])>lim2) return C;\n        }\n    }\n\n    unordered_set<unsigned long long> seenTri;\n    seenTri.reserve((size_t)M*2+10);\n    C.T.reserve(M);\n    const double areaEps=max(1e-30,diagLen*diagLen*1e-24);\n    for(const Face&of:F){\n        int a=C.oldToNew[of.a], b=C.oldToNew[of.b], c=C.oldToNew[of.c];\n        if(a==b||a==c||b==c) continue;\n        Vec3 cr=cross3(C.V[b]-C.V[a],C.V[c]-C.V[a]);\n        if(norm2(cr)<=areaEps) continue;\n        auto tk=tkey(a,b,c);\n        unsigned long long h=((unsigned long long)(unsigned)tk[0]<<42)^((unsigned long long)(unsigned)tk[1]<<21)^(unsigned)tk[2];\n        if(seenTri.insert(h).second) C.T.push_back({a,b,c});\n    }\n\n    if(verifyCandidate(C) && hausdorffCoverOK(C)) C.ok=true;\n    return C;\n}\n\nint main(){\n    auto start=chrono::steady_clock::now();\n    readInput();\n\n    if(allVerticesNearBBoxCorners()){\n        printBBoxShell();\n        return 0;\n    }\n\n    if(N<=16 || M<=24){\n        printOriginal();\n        return 0;\n    }\n\n    Candidate best;\n    vector<double> scales;\n    if(N<1000) scales={0.46,0.40,0.34,0.28,0.22,0.16};\n    else if(N<10000) scales={0.54,0.48,0.42,0.36,0.30,0.24,0.18};\n    else scales={0.57,0.50,0.43,0.36,0.30,0.24,0.18};\n\n    for(double sc:scales){\n        if(chrono::duration<double>(chrono::steady_clock::now()-start).count()>6.5) break;\n        Candidate C=voxelCluster(sc);\n        if(!C.ok) continue;\n        if(!best.ok || C.V.size()<best.V.size()) best=std::move(C);\n    }\n\n    if(!best.ok){\n        printOriginal();\n        return 0;\n    }\n\n    cout.setf(ios::fixed); cout<<setprecision(10);\n    cout<<best.V.size()<<\" \"<<best.T.size()<<\"\\n\";\n    for(auto&p:best.V) cout<<\"v \"<<p.x<<\" \"<<p.y<<\" \"<<p.z<<\"\\n\";\n    for(auto&f:best.T) cout<<\"f \"<<f.a+1<<\" \"<<f.b+1<<\" \"<<f.c+1<<\"\\n\";\n    return 0;\n}\n\n\n\n\n\n\n\n\n\n\nMedium\n\n\n\nChatGPT can make mistakes. Check important info.\n"
+}
