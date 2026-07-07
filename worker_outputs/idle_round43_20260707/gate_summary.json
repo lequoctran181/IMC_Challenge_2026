@@ -1,0 +1,97 @@
+{
+  "round": "idle_round43_20260707",
+  "tabs": {
+    "1": {
+      "blocks": 18,
+      "links": 1,
+      "title": "C++ Code for Top 1",
+      "error": ""
+    },
+    "2": {
+      "blocks": 1,
+      "links": 3,
+      "title": "C++ code cho top 1",
+      "error": ""
+    },
+    "3": {
+      "blocks": 1,
+      "links": 3,
+      "title": "C++ code giải bài top 1",
+      "error": ""
+    },
+    "4": {
+      "blocks": 1,
+      "links": 3,
+      "title": "C++ code cho top 1",
+      "error": ""
+    },
+    "6": {
+      "blocks": 0,
+      "links": 4,
+      "title": "C++ Code Challenge Top 1",
+      "error": ""
+    },
+    "10": {
+      "blocks": 1,
+      "links": 2,
+      "title": "C++ code cho bài toán",
+      "error": ""
+    },
+    "12": {
+      "blocks": 0,
+      "links": 2,
+      "title": "C++ code giải bài top 1",
+      "error": ""
+    }
+  },
+  "candidates": [
+    {
+      "tab": 1,
+      "block": 0,
+      "hash": "14e891d7810d",
+      "duplicate": true
+    },
+    {
+      "tab": 1,
+      "block": 1,
+      "hash": "ece38e7cb2ce",
+      "duplicate": true
+    },
+    {
+      "tab": 1,
+      "block": 12,
+      "hash": "da940726b54b",
+      "duplicate": false,
+      "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round43_20260707/tab1_block12_da940726b54b.cpp",
+      "gate": {
+        "ok": false,
+        "stage": "compile",
+        "stderr": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round43_20260707/tab1_block12_da940726b54b.cpp:234:71: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n  234 |         if(ps>bestScore && ps>0.90 && (int)CV.size()<chosen){ chosenV=move(CV); chosenF=move(CF); chosen=(int)chosenV.size(); bestScore=ps; }\n      |                                                                       ^\n      |                                                                       std::\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round43_20260707/tab1_block12_da940726b54b.cpp:234:89: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n  234 |         if(ps>bestScore && ps>0.90 && (int)CV.size()<chosen){ chosenV=move(CV); chosenF=move(CF); chosen=(int)chosenV.size(); bestScore=ps; }\n      |                                                                                         ^\n      |                                                                                         std::\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round43_20260707/tab1_block12_da940726b54b.cpp:334:1: error: unknown type name 'CPP'\n  334 | CPP\n      | ^\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round43_20260707/tab1_block12_da940726b54b.cpp:334:4: error: expected unqualified-id\n  334 | CPP\n      |    ^\n2 warnings and 2 errors generated.\n"
+      }
+    },
+    {
+      "tab": 2,
+      "block": 0,
+      "hash": "445077126e16",
+      "duplicate": true
+    },
+    {
+      "tab": 3,
+      "block": 0,
+      "hash": "cd08d26b2022",
+      "duplicate": true
+    },
+    {
+      "tab": 4,
+      "block": 0,
+      "hash": "cbf3ea9728a6",
+      "duplicate": true
+    },
+    {
+      "tab": 10,
+      "block": 0,
+      "hash": "f656ecd2fcac",
+      "duplicate": true
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round43_20260707/tab1_block12_e33adf31bdf7_stripmarker.cpp",
+  "hash": "e33adf31bdf7",
+  "attempts": [
+    {
+      "success": false,
+      "error_messages": [
+        "You are out of submission tokens. Your next token will regenerate in 25 seconds."
+      ]
+    },
+    {
+      "success": true,
+      "submission_id": 19908640,
+      "success_url": "/contests/imc2-2/submissions/19908640"
+    }
+  ],
+  "id": "19908640",
+  "final": {
+    "id": "19908640",
+    "judgement": "Accepted (16.36164)",
+    "runtime": "6.54 s",
+    "language": "C++",
+    "tests": "2/7"
+  }
+}

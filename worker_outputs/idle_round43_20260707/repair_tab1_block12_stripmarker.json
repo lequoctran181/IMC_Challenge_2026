@@ -1,0 +1,9 @@
+{
+  "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round43_20260707/tab1_block12_e33adf31bdf7_stripmarker.cpp",
+  "hash": "e33adf31bdf7",
+  "compile_returncode": 0,
+  "compile_stderr": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round43_20260707/tab1_block12_e33adf31bdf7_stripmarker.cpp:234:71: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n  234 |         if(ps>bestScore && ps>0.90 && (int)CV.size()<chosen){ chosenV=move(CV); chosenF=move(CF); chosen=(int)chosenV.size(); bestScore=ps; }\n      |                                                                       ^\n      |                                                                       std::\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round43_20260707/tab1_block12_e33adf31bdf7_stripmarker.cpp:234:89: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n  234 |         if(ps>bestScore && ps>0.90 && (int)CV.size()<chosen){ chosenV=move(CV); chosenF=move(CF); chosen=(int)chosenV.size(); bestScore=ps; }\n      |                                                                                         ^\n      |                                                                                         std::\n2 warnings generated.\n",
+  "sample_first": "8 12",
+  "sample_returncode": 0,
+  "sample_ok": true
+}
