@@ -1,0 +1,90 @@
+[
+  {
+    "name": "cv06_s3_c8_phase3",
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/central_variants_20260708_0235/cv06_s3_c8_phase3.cpp",
+    "sha": "2a3ea7de3d8018a63bcfde4a960908c349077afd85249c7e985ee03b9b810f10",
+    "compile_ret": 0,
+    "compile_s": 3.533,
+    "sample_ret": 0,
+    "sample_first": "8 12",
+    "sample_s": 0.493,
+    "status": "sample_pass"
+  },
+  {
+    "name": "cv07_s3_phase4",
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/central_variants_20260708_0235/cv07_s3_phase4.cpp",
+    "sha": "1ddaf039dba0c24dc88bd732875c6819ec4b7284a82c94e38c129cb22fb9761b",
+    "compile_ret": 0,
+    "compile_s": 3.143,
+    "sample_ret": 0,
+    "sample_first": "8 12",
+    "sample_s": 0.378,
+    "status": "sample_pass"
+  },
+  {
+    "name": "cv08_s3_tighter",
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/central_variants_20260708_0235/cv08_s3_tighter.cpp",
+    "sha": "ccb10d8563288ac86a1c975e1ec9c7db4741d35d5c51e4be5cac4a6d65a0928a",
+    "compile_ret": 0,
+    "compile_s": 3.124,
+    "sample_ret": 0,
+    "sample_first": "8 12",
+    "sample_s": 0.389,
+    "status": "sample_pass"
+  },
+  {
+    "name": "cv09_extra_third_s3",
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/central_variants_20260708_0235/cv09_extra_third_s3.cpp",
+    "sha": "7c3143a8efa77f95788509833d36e1a23c5f78bd24a625b25f388aa46adda9ce",
+    "compile_ret": 0,
+    "compile_s": 3.178,
+    "sample_ret": 0,
+    "sample_first": "8 12",
+    "sample_s": 0.369,
+    "status": "sample_pass"
+  },
+  {
+    "name": "cv10_secondB16_82",
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/central_variants_20260708_0235/cv10_secondB16_82.cpp",
+    "sha": "abb13626791389d846920cb475b3e25e2d65629c1ca3919cc54268374e739846",
+    "compile_ret": 0,
+    "compile_s": 3.098,
+    "sample_ret": 0,
+    "sample_first": "8 12",
+    "sample_s": 0.389,
+    "status": "sample_pass"
+  },
+  {
+    "name": "cv11_secondB16_q961",
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/central_variants_20260708_0235/cv11_secondB16_q961.cpp",
+    "sha": "b4d3d0219c81c50b4c543662c1f550f98afd5d1fcd4d1f06412d5dc697193128",
+    "compile_ret": 0,
+    "compile_s": 3.235,
+    "sample_ret": 0,
+    "sample_first": "8 12",
+    "sample_s": 0.385,
+    "status": "sample_pass"
+  },
+  {
+    "name": "cv12_wk_late3",
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/central_variants_20260708_0235/cv12_wk_late3.cpp",
+    "sha": "4bbeefe3e941fb35bc10695dcaa60bc15a9ac3c9be539ee2974863716b994b06",
+    "compile_ret": 0,
+    "compile_s": 3.062,
+    "sample_ret": 0,
+    "sample_first": "8 12",
+    "sample_s": 0.388,
+    "status": "sample_pass"
+  },
+  {
+    "name": "cv13_s3_mr4",
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/central_variants_20260708_0235/cv13_s3_mr4.cpp",
+    "sha": "7105ff5c748bfc6f1b76fc1cc001f8f3b1e9cbd1479273a78c2fbb439d25aaae",
+    "compile_ret": 0,
+    "compile_s": 3.044,
+    "sample_ret": 0,
+    "sample_first": "8 12",
+    "sample_s": 0.383,
+    "status": "sample_pass"
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "name": "cv06_s3_c8_phase3",
+  "kattis_id": 19912823,
+  "score": 81.941571,
+  "tests": "7/7",
+  "runtime": "19.97 s",
+  "source": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/fetched_sources/kattis_19912823_81.941571_7.cpp",
+  "root_history": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1177_81.94_7.cpp",
+  "sha256": "2a3ea7de3d8018a63bcfde4a960908c349077afd85249c7e985ee03b9b810f10",
+  "based_on": "worker_outputs/central_variants_20260708_0215/cv04_extra_s3_phase.cpp",
+  "batch": "central_variants_20260708_0235"
+}

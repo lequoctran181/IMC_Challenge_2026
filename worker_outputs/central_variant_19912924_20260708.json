@@ -1,0 +1,14 @@
+{
+  "name": "parallel_best_resubmit_old1145",
+  "kattis_id": 19912924,
+  "score": 81.945906,
+  "tests": "7/7",
+  "runtime": "20.03 s",
+  "source": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/fetched_sources/kattis_19912924_81.945906_7.cpp",
+  "root_history": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1181_81.95_7.cpp",
+  "sha256": "afa1759b071bf51d5db9b98145804668aaf2b350bee1b2d4bea83e3cc8087d0c",
+  "duplicate_submission_files": [
+    "submission_1145_53.93_5.cpp"
+  ],
+  "batch": "central_variants_20260708_0235_or_parallel"
+}
