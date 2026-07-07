@@ -1,0 +1,15 @@
+[
+  {
+    "seq": 1152,
+    "file": "submission_1152_29.33_3.cpp",
+    "source": "worker_outputs/idle_round81_20260708/tab12/block13.cpp",
+    "hash": "51c1bc3982ce",
+    "kattis_id": 19912297,
+    "judgement": "Accepted",
+    "score_exact": "29.330194",
+    "score_file": "29.33",
+    "tests_accepted": 3,
+    "tests_total": 7,
+    "runtime": "> 21.00 s"
+  }
+]

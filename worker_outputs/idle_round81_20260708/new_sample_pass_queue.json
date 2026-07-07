@@ -1,0 +1,24 @@
+[
+  {
+    "path": "worker_outputs/idle_round81_20260708/tab12/block13.cpp",
+    "hash": "51c1bc3982ce",
+    "known_duplicate": false,
+    "bytes": 33637,
+    "compile_rc": 0,
+    "compile_stderr": "<2) continue; Mesh m=build_ring_candidate(rings,ax,sel,S,ctr); if(accept_candidate(m,true,0.895)) return m; if(elapsed()>16.0) break; }} return {}; }\n      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ^\n      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       std::\n3 warnings generated.\n",
+    "run_rc": 0,
+    "first_line": "8 12",
+    "sample_lines": 21
+  },
+  {
+    "path": "worker_outputs/idle_round81_20260708/tab12/block14.cpp",
+    "hash": "51c1bc3982ce",
+    "known_duplicate": false,
+    "bytes": 33637,
+    "compile_rc": 0,
+    "compile_stderr": "<2) continue; Mesh m=build_ring_candidate(rings,ax,sel,S,ctr); if(accept_candidate(m,true,0.895)) return m; if(elapsed()>16.0) break; }} return {}; }\n      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ^\n      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       std::\n3 warnings generated.\n",
+    "run_rc": 0,
+    "first_line": "8 12",
+    "sample_lines": 21
+  }
+]

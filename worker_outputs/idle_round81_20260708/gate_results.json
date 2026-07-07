@@ -1,0 +1,122 @@
+[
+  {
+    "path": "worker_outputs/idle_round81_20260708/tab12/block05.cpp",
+    "hash": "b6cd9baf1c58",
+    "known_duplicate": false,
+    "bytes": 31781,
+    "compile_rc": 1,
+    "compile_stderr": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round81_20260708/tab12/block05.cpp:1:1: error: unknown type name 'C'\n    1 | C++\n      | ^\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round81_20260708/tab12/block05.cpp:1:2: error: expected unqualified-id\n    1 | C++\n      |  ^\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round81_20260708/tab12/block05.cpp:111:252: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n  111 |         for(int s=0;s<N;){ double t0,u,v; coords_axis(P[ord[s]],ax,t0,u,v); int e=s+1; while(e<N){double tt,uu,vv; coords_axis(P[ord[e]],ax,tt,uu,vv); if(fabs(tt-t0)>tol) break; ++e;} Ring r; r.ids.assign(ord.begin()+s,ord.begin()+e); rings.push_back(move(r)); s=e; }\n      |                                                                                                                                                                                                                                                            ^\n      |                                                                                                                                                                                                                                                            std::\n1 warning and 2 errors generated.\n"
+  },
+  {
+    "path": "worker_outputs/idle_round81_20260708/tab12/block06.cpp",
+    "hash": "eada2626f4ce",
+    "known_duplicate": true,
+    "bytes": 31775,
+    "compile_rc": 0,
+    "compile_stderr": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round81_20260708/tab12/block06.cpp:109:252: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n  109 |         for(int s=0;s<N;){ double t0,u,v; coords_axis(P[ord[s]],ax,t0,u,v); int e=s+1; while(e<N){double tt,uu,vv; coords_axis(P[ord[e]],ax,tt,uu,vv); if(fabs(tt-t0)>tol) break; ++e;} Ring r; r.ids.assign(ord.begin()+s,ord.begin()+e); rings.push_back(move(r)); s=e; }\n      |                                                                                                                                                                                                                                                            ^\n      |                                                                                                                                                                                                                                                            std::\n1 warning generated.\n",
+    "run_rc": 0,
+    "first_line": "8 12",
+    "sample_lines": 21
+  },
+  {
+    "path": "worker_outputs/idle_round81_20260708/tab12/block07.cpp",
+    "hash": "eada2626f4ce",
+    "known_duplicate": true,
+    "bytes": 31775,
+    "compile_rc": 0,
+    "compile_stderr": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round81_20260708/tab12/block07.cpp:109:252: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n  109 |         for(int s=0;s<N;){ double t0,u,v; coords_axis(P[ord[s]],ax,t0,u,v); int e=s+1; while(e<N){double tt,uu,vv; coords_axis(P[ord[e]],ax,tt,uu,vv); if(fabs(tt-t0)>tol) break; ++e;} Ring r; r.ids.assign(ord.begin()+s,ord.begin()+e); rings.push_back(move(r)); s=e; }\n      |                                                                                                                                                                                                                                                            ^\n      |                                                                                                                                                                                                                                                            std::\n1 warning generated.\n",
+    "run_rc": 0,
+    "first_line": "8 12",
+    "sample_lines": 21
+  },
+  {
+    "path": "worker_outputs/idle_round81_20260708/tab12/block08.cpp",
+    "hash": "ee0911258bf8",
+    "known_duplicate": false,
+    "bytes": 33994,
+    "compile_rc": 1,
+    "compile_stderr": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round81_20260708/tab12/block08.cpp:1:1: error: unknown type name 'C'\n    1 | C++\n      | ^\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round81_20260708/tab12/block08.cpp:1:2: error: expected unqualified-id\n    1 | C++\n      |  ^\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round81_20260708/tab12/block08.cpp:120:272: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n  120 |         vector<Ring> rings; for(int s=0;s<N;){ double t0,u,v; coords_axis(P[ord[s]],ax,t0,u,v); int e=s+1; while(e<N){double tt,uu,vv; coords_axis(P[ord[e]],ax,tt,uu,vv); if(fabs(tt-t0)>tol) break; ++e;} Ring r; r.ids.assign(ord.begin()+s,ord.begin()+e); rings.push_back(move(r)); s=e; }\n      |                                                                                                                                                                                                                                                                                ^\n      |                                                                                                                                                                                                                                                                                std::\n1 warning and 2 errors generated.\n"
+  },
+  {
+    "path": "worker_outputs/idle_round81_20260708/tab12/block09.cpp",
+    "hash": "c4601cfc6c87",
+    "known_duplicate": true,
+    "bytes": 33988,
+    "compile_rc": 0,
+    "compile_stderr": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round81_20260708/tab12/block09.cpp:118:272: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n  118 |         vector<Ring> rings; for(int s=0;s<N;){ double t0,u,v; coords_axis(P[ord[s]],ax,t0,u,v); int e=s+1; while(e<N){double tt,uu,vv; coords_axis(P[ord[e]],ax,tt,uu,vv); if(fabs(tt-t0)>tol) break; ++e;} Ring r; r.ids.assign(ord.begin()+s,ord.begin()+e); rings.push_back(move(r)); s=e; }\n      |                                                                                                                                                                                                                                                                                ^\n      |                                                                                                                                                                                                                                                                                std::\n1 warning generated.\n",
+    "run_rc": 0,
+    "first_line": "8 12",
+    "sample_lines": 21
+  },
+  {
+    "path": "worker_outputs/idle_round81_20260708/tab12/block10.cpp",
+    "hash": "c4601cfc6c87",
+    "known_duplicate": true,
+    "bytes": 33988,
+    "compile_rc": 0,
+    "compile_stderr": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round81_20260708/tab12/block10.cpp:118:272: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n  118 |         vector<Ring> rings; for(int s=0;s<N;){ double t0,u,v; coords_axis(P[ord[s]],ax,t0,u,v); int e=s+1; while(e<N){double tt,uu,vv; coords_axis(P[ord[e]],ax,tt,uu,vv); if(fabs(tt-t0)>tol) break; ++e;} Ring r; r.ids.assign(ord.begin()+s,ord.begin()+e); rings.push_back(move(r)); s=e; }\n      |                                                                                                                                                                                                                                                                                ^\n      |                                                                                                                                                                                                                                                                                std::\n1 warning generated.\n",
+    "run_rc": 0,
+    "first_line": "8 12",
+    "sample_lines": 21
+  },
+  {
+    "path": "worker_outputs/idle_round81_20260708/tab12/block12.cpp",
+    "hash": "a1ce7322df27",
+    "known_duplicate": false,
+    "bytes": 33643,
+    "compile_rc": 1,
+    "compile_stderr": " Mesh m=build_ring_candidate(rings,ax,sel,S,ctr); if(accept_candidate(m,true,0.895)) return m; if(elapsed()>16.0) break; }} return {}; }\n      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ^\n      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       std::\n3 warnings and 2 errors generated.\n"
+  },
+  {
+    "path": "worker_outputs/idle_round81_20260708/tab12/block13.cpp",
+    "hash": "51c1bc3982ce",
+    "known_duplicate": false,
+    "bytes": 33637,
+    "compile_rc": 0,
+    "compile_stderr": "<2) continue; Mesh m=build_ring_candidate(rings,ax,sel,S,ctr); if(accept_candidate(m,true,0.895)) return m; if(elapsed()>16.0) break; }} return {}; }\n      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ^\n      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       std::\n3 warnings generated.\n",
+    "run_rc": 0,
+    "first_line": "8 12",
+    "sample_lines": 21
+  },
+  {
+    "path": "worker_outputs/idle_round81_20260708/tab12/block14.cpp",
+    "hash": "51c1bc3982ce",
+    "known_duplicate": false,
+    "bytes": 33637,
+    "compile_rc": 0,
+    "compile_stderr": "<2) continue; Mesh m=build_ring_candidate(rings,ax,sel,S,ctr); if(accept_candidate(m,true,0.895)) return m; if(elapsed()>16.0) break; }} return {}; }\n      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ^\n      |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       std::\n3 warnings generated.\n",
+    "run_rc": 0,
+    "first_line": "8 12",
+    "sample_lines": 21
+  },
+  {
+    "path": "worker_outputs/idle_round81_20260708/tab5/block08.cpp",
+    "hash": "f8a25bbe2c08",
+    "known_duplicate": false,
+    "bytes": 27132,
+    "compile_rc": 1,
+    "compile_stderr": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round81_20260708/tab5/block08.cpp:1:1: error: unknown type name 'C'\n    1 | C++\n      | ^\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round81_20260708/tab5/block08.cpp:1:2: error: expected unqualified-id\n    1 | C++\n      |  ^\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round81_20260708/tab5/block08.cpp:99:223: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n   99 | static const vector<Render>&origR(int res){auto it=cacheOrig.find(res);if(it!=cacheOrig.end())return it->second;vector<Render>v;for(int k=0;k<6;k++)v.push_back(renderMesh(origP,origF,res,k));auto ins=cacheOrig.emplace(res,move(v));return ins.first->second;}\n      |                                                                                                                                                                                                                               ^\n      |                                                                                                                                                                                                                               std::\n1 warning and 2 errors generated.\n"
+  },
+  {
+    "path": "worker_outputs/idle_round81_20260708/tab5/block09.cpp",
+    "hash": "fe6c33fc0763",
+    "known_duplicate": true,
+    "bytes": 27126,
+    "compile_rc": 0,
+    "compile_stderr": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round81_20260708/tab5/block09.cpp:97:223: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n   97 | static const vector<Render>&origR(int res){auto it=cacheOrig.find(res);if(it!=cacheOrig.end())return it->second;vector<Render>v;for(int k=0;k<6;k++)v.push_back(renderMesh(origP,origF,res,k));auto ins=cacheOrig.emplace(res,move(v));return ins.first->second;}\n      |                                                                                                                                                                                                                               ^\n      |                                                                                                                                                                                                                               std::\n1 warning generated.\n",
+    "run_rc": 0,
+    "first_line": "8 12",
+    "sample_lines": 21
+  },
+  {
+    "path": "worker_outputs/idle_round81_20260708/tab5/block10.cpp",
+    "hash": "fe6c33fc0763",
+    "known_duplicate": true,
+    "bytes": 27126,
+    "compile_rc": 0,
+    "compile_stderr": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round81_20260708/tab5/block10.cpp:97:223: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n   97 | static const vector<Render>&origR(int res){auto it=cacheOrig.find(res);if(it!=cacheOrig.end())return it->second;vector<Render>v;for(int k=0;k<6;k++)v.push_back(renderMesh(origP,origF,res,k));auto ins=cacheOrig.emplace(res,move(v));return ins.first->second;}\n      |                                                                                                                                                                                                                               ^\n      |                                                                                                                                                                                                                               std::\n1 warning generated.\n",
+    "run_rc": 0,
+    "first_line": "8 12",
+    "sample_lines": 21
+  }
+]
