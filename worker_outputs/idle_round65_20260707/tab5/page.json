@@ -1,0 +1,109 @@
+{
+  "url": "https://chatgpt.com/c/6a4cb4fd-134c-83ec-ab60-9533fdc81263",
+  "title": "IMC 2026 SimplifyGeometry Code",
+  "links": [
+    {
+      "i": 27,
+      "text": "IMC 2026 C++17 Submission",
+      "href": "https://chatgpt.com/c/6a4cb543-cd40-83ec-a746-eb97e4405f6d",
+      "download": ""
+    },
+    {
+      "i": 28,
+      "text": "Pin IMC 2026 C++17 Submission",
+      "href": "",
+      "download": ""
+    },
+    {
+      "i": 29,
+      "text": "Open conversation options for IMC 2026 C++17 Submission",
+      "href": "",
+      "download": ""
+    },
+    {
+      "i": 36,
+      "text": "IMC 2026 Code Submission",
+      "href": "https://chatgpt.com/c/6a4cb514-c3f8-83ec-824c-22c16b273d4c",
+      "download": ""
+    },
+    {
+      "i": 37,
+      "text": "Pin IMC 2026 Code Submission",
+      "href": "",
+      "download": ""
+    },
+    {
+      "i": 38,
+      "text": "Open conversation options for IMC 2026 Code Submission",
+      "href": "",
+      "download": ""
+    },
+    {
+      "i": 39,
+      "text": "IMC 2026 Submission Code",
+      "href": "https://chatgpt.com/c/6a4cb508-e31c-83ec-8ec9-041e07ea2bbc",
+      "download": ""
+    },
+    {
+      "i": 40,
+      "text": "Pin IMC 2026 Submission Code",
+      "href": "",
+      "download": ""
+    },
+    {
+      "i": 41,
+      "text": "Open conversation options for IMC 2026 Submission Code",
+      "href": "",
+      "download": ""
+    },
+    {
+      "i": 51,
+      "text": "IMC 2026 Code Submission",
+      "href": "https://chatgpt.com/c/6a4cb52c-5ab4-83ec-a52c-6dbeaa6eb5c9",
+      "download": ""
+    },
+    {
+      "i": 52,
+      "text": "Pin IMC 2026 Code Submission",
+      "href": "",
+      "download": ""
+    },
+    {
+      "i": 53,
+      "text": "Open conversation options for IMC 2026 Code Submission",
+      "href": "",
+      "download": ""
+    },
+    {
+      "i": 102,
+      "text": "Download apps",
+      "href": "",
+      "download": ""
+    },
+    {
+      "i": 116,
+      "text": "Download submission_next.cpp",
+      "href": "",
+      "download": ""
+    },
+    {
+      "i": 129,
+      "text": "Download submission_next.cpp",
+      "href": "",
+      "download": ""
+    },
+    {
+      "i": 146,
+      "text": "Download submission_next.cpp",
+      "href": "",
+      "download": ""
+    },
+    {
+      "i": 197,
+      "text": "Add files and more",
+      "href": "",
+      "download": ""
+    }
+  ],
+  "bodyTail": "].x);mn.y=min(mn.y,V0[i].y);mn.z=min(mn.z,V0[i].z);mx.x=max(mx.x,V0[i].x);mx.y=max(mx.y,V0[i].y);mx.z=max(mx.z,V0[i].z);} F0.resize(M); F.resize(M); for(int i=0;i<M;i++){in.nc(); int a=in.ni()-1,b=in.ni()-1,c=in.ni()-1; F0[i]={a,b,c}; F[i]=F0[i];} diagL=len(mx-mn); if(!(diagL>0))diagL=1; tol=0.0496*diagL; tol2=tol*tol; EPSA=max(1e-30,1e-24*diagL*diagL); if(sampleCase())return 0; if(tryTrefoil())return 0; aliveV.assign(N,1); aliveF.assign(F.size(),1); vst.assign(N,1); markA.assign(N,0); markB.assign(N,0); liveV=N; liveF=F.size(); rebuildVF(); vector<Params> passes; passes.push_back({0.010*diagL,0.0025*diagL,cos(4.0*M_PI/180.0),EPSA}); passes.push_back({0.020*diagL,0.0060*diagL,cos(9.0*M_PI/180.0),EPSA}); passes.push_back({0.036*diagL,0.0140*diagL,cos(18.0*M_PI/180.0),EPSA}); passes.push_back({0.060*diagL,0.0300*diagL,cos(32.0*M_PI/180.0),EPSA}); vector<int> targets={max(8,(int)ceil(N*0.55)),max(8,(int)ceil(N*0.32)),max(8,(int)ceil(N*0.18)),max(8,(int)ceil(N*0.10))}; for(size_t i=0;i<passes.size();++i){if(sec()>16.0)break; decimatePass(passes[i],targets[i],(i+1)*N,17.3);} vector<P3> VV; vector<Tri> FF; vector<int> mapid; if(!compactVisual(VV,FF,mapid)){outputOriginal();return 0;} if(!addWitnessClusters(VV,FF)){/* try output visual only if already covers */ Grid g(tol,tol); for(auto&p:VV)g.add(p); bool ok=true; for(auto&p:V0)if(!g.cover(p)){ok=false;break;} if(!ok){outputOriginal();return 0;}} if(VV.size()>V0.size()||!closedSimple(FF)){outputOriginal();return 0;} outputMesh(VV,FF); return 0;} ```\n\nSources\n\n\n\n\n\n\n\n\n\nExtra High\n\n\n\nChatGPT can make mistakes. Check important info.\n"
+}
