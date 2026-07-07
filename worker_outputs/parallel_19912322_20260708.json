@@ -1,0 +1,12 @@
+{
+  "seq": 1154,
+  "file": "submission_1154_81.93_7.cpp",
+  "source": "fetched_sources/kattis_19912322_81.93_7.cpp",
+  "kattis_id": 19912322,
+  "judgement": "Accepted",
+  "score_exact": "81.93457",
+  "score_file": "81.93",
+  "tests": "7/7",
+  "runtime": "20.04 s",
+  "note": "parallel submission observed; exact hash matches existing tracked submission_1154_81.93_7.cpp; plateau below best 81.938904"
+}
