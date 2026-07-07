@@ -1,0 +1,362 @@
+[
+  {
+    "tab": 1,
+    "kind": "pre",
+    "idx": 8,
+    "hash": "b81feb031a82",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab01/block00_b81feb031a82.cpp",
+    "known": false,
+    "bytes": 25537
+  },
+  {
+    "tab": 1,
+    "kind": "pre",
+    "idx": 9,
+    "hash": "07c913b34979",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab01/block01_07c913b34979.cpp",
+    "known": false,
+    "bytes": 25536
+  },
+  {
+    "tab": 3,
+    "kind": "pre",
+    "idx": 5,
+    "hash": "9c9b17c33358",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab03/block00_9c9b17c33358.cpp",
+    "known": true,
+    "bytes": 28505
+  },
+  {
+    "tab": 3,
+    "kind": "pre",
+    "idx": 6,
+    "hash": "2a730ed62db3",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab03/block01_2a730ed62db3.cpp",
+    "known": true,
+    "bytes": 28504
+  },
+  {
+    "tab": 3,
+    "kind": "pre",
+    "idx": 12,
+    "hash": "b66b104cdab9",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab03/block02_b66b104cdab9.cpp",
+    "known": true,
+    "bytes": 19572
+  },
+  {
+    "tab": 3,
+    "kind": "pre",
+    "idx": 13,
+    "hash": "91508dd98cdd",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab03/block03_91508dd98cdd.cpp",
+    "known": true,
+    "bytes": 19571
+  },
+  {
+    "tab": 4,
+    "kind": "pre",
+    "idx": 6,
+    "hash": "b61ff0982023",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab04/block00_b61ff0982023.cpp",
+    "known": true,
+    "bytes": 32563
+  },
+  {
+    "tab": 4,
+    "kind": "pre",
+    "idx": 7,
+    "hash": "b0148fc16888",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab04/block01_b0148fc16888.cpp",
+    "known": true,
+    "bytes": 32562
+  },
+  {
+    "tab": 4,
+    "kind": "pre",
+    "idx": 11,
+    "hash": "e92543a9eaa2",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab04/block02_e92543a9eaa2.cpp",
+    "known": true,
+    "bytes": 17934
+  },
+  {
+    "tab": 4,
+    "kind": "pre",
+    "idx": 12,
+    "hash": "27170ea05434",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab04/block03_27170ea05434.cpp",
+    "known": false,
+    "bytes": 17933
+  },
+  {
+    "tab": 5,
+    "kind": "pre",
+    "idx": 8,
+    "hash": "7f9c37e063a7",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab05/block00_7f9c37e063a7.cpp",
+    "known": true,
+    "bytes": 27127
+  },
+  {
+    "tab": 5,
+    "kind": "pre",
+    "idx": 9,
+    "hash": "cda872e5480b",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab05/block01_cda872e5480b.cpp",
+    "known": true,
+    "bytes": 27126
+  },
+  {
+    "tab": 6,
+    "kind": "pre",
+    "idx": 4,
+    "hash": "aeab67b986ef",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab06/block00_aeab67b986ef.cpp",
+    "known": true,
+    "bytes": 23203
+  },
+  {
+    "tab": 6,
+    "kind": "pre",
+    "idx": 5,
+    "hash": "a6c798d9933e",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab06/block01_a6c798d9933e.cpp",
+    "known": true,
+    "bytes": 23202
+  },
+  {
+    "tab": 6,
+    "kind": "pre",
+    "idx": 7,
+    "hash": "10c4019527a9",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab06/block02_10c4019527a9.cpp",
+    "known": true,
+    "bytes": 23198
+  },
+  {
+    "tab": 6,
+    "kind": "pre",
+    "idx": 8,
+    "hash": "1470df6a685a",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab06/block03_1470df6a685a.cpp",
+    "known": true,
+    "bytes": 23197
+  },
+  {
+    "tab": 6,
+    "kind": "pre",
+    "idx": 10,
+    "hash": "3b60b280d1cc",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab06/block04_3b60b280d1cc.cpp",
+    "known": true,
+    "bytes": 9810
+  },
+  {
+    "tab": 6,
+    "kind": "pre",
+    "idx": 11,
+    "hash": "fc4677781a91",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab06/block05_fc4677781a91.cpp",
+    "known": true,
+    "bytes": 9809
+  },
+  {
+    "tab": 7,
+    "kind": "pre",
+    "idx": 3,
+    "hash": "9cc31ec6b87e",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab07/block00_9cc31ec6b87e.cpp",
+    "known": true,
+    "bytes": 26349
+  },
+  {
+    "tab": 7,
+    "kind": "pre",
+    "idx": 4,
+    "hash": "e3a897bd97dc",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab07/block01_e3a897bd97dc.cpp",
+    "known": true,
+    "bytes": 26348
+  },
+  {
+    "tab": 8,
+    "kind": "pre",
+    "idx": 7,
+    "hash": "0135859786fd",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab08/block00_0135859786fd.cpp",
+    "known": true,
+    "bytes": 18632
+  },
+  {
+    "tab": 8,
+    "kind": "pre",
+    "idx": 8,
+    "hash": "b81127cdd85d",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab08/block01_b81127cdd85d.cpp",
+    "known": true,
+    "bytes": 18631
+  },
+  {
+    "tab": 8,
+    "kind": "pre",
+    "idx": 13,
+    "hash": "272f6ceb9316",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab08/block02_272f6ceb9316.cpp",
+    "known": true,
+    "bytes": 21719
+  },
+  {
+    "tab": 8,
+    "kind": "pre",
+    "idx": 14,
+    "hash": "2bae1eba1b93",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab08/block03_2bae1eba1b93.cpp",
+    "known": true,
+    "bytes": 21718
+  },
+  {
+    "tab": 8,
+    "kind": "pre",
+    "idx": 19,
+    "hash": "5872541987ac",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab08/block04_5872541987ac.cpp",
+    "known": true,
+    "bytes": 19341
+  },
+  {
+    "tab": 8,
+    "kind": "pre",
+    "idx": 20,
+    "hash": "5015deb1992d",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab08/block05_5015deb1992d.cpp",
+    "known": true,
+    "bytes": 19340
+  },
+  {
+    "tab": 9,
+    "kind": "pre",
+    "idx": 2,
+    "hash": "ec0b95a2443b",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab09/block00_ec0b95a2443b.cpp",
+    "known": true,
+    "bytes": 29664
+  },
+  {
+    "tab": 9,
+    "kind": "pre",
+    "idx": 3,
+    "hash": "cd5001c2a903",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab09/block01_cd5001c2a903.cpp",
+    "known": true,
+    "bytes": 29663
+  },
+  {
+    "tab": 10,
+    "kind": "pre",
+    "idx": 6,
+    "hash": "d4775266477e",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab10/block00_d4775266477e.cpp",
+    "known": true,
+    "bytes": 33837
+  },
+  {
+    "tab": 10,
+    "kind": "pre",
+    "idx": 7,
+    "hash": "576fab0ea237",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab10/block01_576fab0ea237.cpp",
+    "known": true,
+    "bytes": 33836
+  },
+  {
+    "tab": 10,
+    "kind": "pre",
+    "idx": 12,
+    "hash": "2a34684cd065",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab10/block02_2a34684cd065.cpp",
+    "known": true,
+    "bytes": 14185
+  },
+  {
+    "tab": 10,
+    "kind": "pre",
+    "idx": 13,
+    "hash": "bb0d7beb53db",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab10/block03_bb0d7beb53db.cpp",
+    "known": true,
+    "bytes": 14184
+  },
+  {
+    "tab": 11,
+    "kind": "pre",
+    "idx": 9,
+    "hash": "3c0b93cd1dcc",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab11/block00_3c0b93cd1dcc.cpp",
+    "known": true,
+    "bytes": 45175
+  },
+  {
+    "tab": 11,
+    "kind": "pre",
+    "idx": 10,
+    "hash": "35483f457a66",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab11/block01_35483f457a66.cpp",
+    "known": false,
+    "bytes": 45174
+  },
+  {
+    "tab": 12,
+    "kind": "pre",
+    "idx": 5,
+    "hash": "288b2e3402b2",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab12/block00_288b2e3402b2.cpp",
+    "known": true,
+    "bytes": 31776
+  },
+  {
+    "tab": 12,
+    "kind": "pre",
+    "idx": 6,
+    "hash": "8e95d20dc3f2",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab12/block01_8e95d20dc3f2.cpp",
+    "known": true,
+    "bytes": 31775
+  },
+  {
+    "tab": 12,
+    "kind": "pre",
+    "idx": 8,
+    "hash": "f0395a4491df",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab12/block02_f0395a4491df.cpp",
+    "known": true,
+    "bytes": 33989
+  },
+  {
+    "tab": 12,
+    "kind": "pre",
+    "idx": 9,
+    "hash": "90b9c22fab6a",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab12/block03_90b9c22fab6a.cpp",
+    "known": true,
+    "bytes": 33988
+  },
+  {
+    "tab": 12,
+    "kind": "pre",
+    "idx": 12,
+    "hash": "97f47ead4797",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab12/block04_97f47ead4797.cpp",
+    "known": false,
+    "bytes": 33638
+  },
+  {
+    "tab": 12,
+    "kind": "pre",
+    "idx": 13,
+    "hash": "f81a5d8f78a9",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/safari_round87_20260708_0352/tab12/block05_f81a5d8f78a9.cpp",
+    "known": true,
+    "bytes": 33637
+  }
+]
