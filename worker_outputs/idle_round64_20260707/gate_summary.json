@@ -1,0 +1,106 @@
+[
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round64_20260707/tab5/block02_76a88efe8544.cpp",
+    "hash": "76a88efe8544",
+    "compile_rc": 0,
+    "sample_rc": 0,
+    "first": "8 12",
+    "sample": "pass"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round64_20260707/tab5/block04_441e08dd4413.cpp",
+    "hash": "441e08dd4413",
+    "compile_rc": 0,
+    "sample_rc": 0,
+    "first": "8 12",
+    "sample": "pass"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round64_20260707/tab5/block05_5f2c4bcf3c29.cpp",
+    "hash": "5f2c4bcf3c29",
+    "compile_rc": 0,
+    "sample_rc": 0,
+    "first": "8 12",
+    "sample": "pass"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round64_20260707/tab6/block02_8c1795357b6c.cpp",
+    "hash": "8c1795357b6c",
+    "compile_rc": 0,
+    "sample_rc": 0,
+    "first": "8 12",
+    "sample": "pass"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round64_20260707/tab6/block04_f2045702c7c2.cpp",
+    "hash": "f2045702c7c2",
+    "compile_rc": 0,
+    "sample_rc": 0,
+    "first": "8 12",
+    "sample": "pass"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round64_20260707/tab7/block02_2b758c5b0b4c.cpp",
+    "hash": "2b758c5b0b4c",
+    "compile_rc": 0,
+    "sample_rc": 0,
+    "first": "8 12",
+    "sample": "pass"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round64_20260707/tab7/block03_cdf76c80fd71.cpp",
+    "hash": "cdf76c80fd71",
+    "compile_rc": 0,
+    "sample_rc": 0,
+    "first": "8 12",
+    "sample": "pass"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round64_20260707/tab9/block01_f712487c73f6.cpp",
+    "hash": "f712487c73f6",
+    "compile_rc": 0,
+    "sample_rc": 0,
+    "first": "8 12",
+    "sample": "pass"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round64_20260707/tab9/block02_c42805b628f0.cpp",
+    "hash": "c42805b628f0",
+    "compile_rc": 0,
+    "sample_rc": 0,
+    "first": "8 12",
+    "sample": "pass"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round64_20260707/tab11/block01_f7c624f61f8b.cpp",
+    "hash": "f7c624f61f8b",
+    "compile_rc": 0,
+    "sample_rc": 0,
+    "first": "8 12",
+    "sample": "pass"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round64_20260707/tab11/block02_bfb8f57e3932.cpp",
+    "hash": "bfb8f57e3932",
+    "compile_rc": 0,
+    "sample_rc": 0,
+    "first": "8 12",
+    "sample": "pass"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round64_20260707/tab12/block02_06cea54ff56f.cpp",
+    "hash": "06cea54ff56f",
+    "compile_rc": 0,
+    "sample_rc": 0,
+    "first": "8 12",
+    "sample": "pass"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round64_20260707/tab12/block05_838ce4425511.cpp",
+    "hash": "838ce4425511",
+    "compile_rc": 0,
+    "sample_rc": 0,
+    "first": "8 12",
+    "sample": "pass"
+  }
+]
