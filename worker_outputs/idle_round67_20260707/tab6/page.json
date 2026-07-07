@@ -1,0 +1,198 @@
+{
+  "url": "https://chatgpt.com/c/6a4cf638-f974-83ec-ab9b-b03360dfe7b2",
+  "title": "IMC 2026 Problem B",
+  "tail": "chat\n\nSearch chats\n\nRecents\n\nChat history\nChatGPT\n\nNew chat\n⇧\n⌘\nO\n\nSearch chats\n⌘\nK\nLibrary\nProjects\n\nScheduled\nApps\nCodex\nMore\n\nRecents\n\nIMC 2026 SG Solution\n\n\nIMC 2026 Problem B\n\n\nIMC 2026 SimplifyGeometry\n\n\nIMC 2026 Problem B\n\n\nIMC 2026 Problem B\n\n\nIMC 2026 Problem B\n\n\nC++ code giải bài tập\n\n\nIMC 2026 Simplifygeometry Code\n\n\nNew chat\n\n\nIMC 2026 C++17 Solution\n\n\nIMC 2026 Simplifygeometry Solution\n\n\nIMC 2026 C++17 Submission\n\n\nIMC 2026 Submission Code\n\n\nIMC 2026 Code Submission\n\n\nIMC 2026 SimplifyGeometry Code\n\n\nIMC 2026 Code Submission\n\n\nC++17 Kattis Solution\n\n\nC++17 Kattis Solution\n\n\nIMC Challenge 2026 Solution\n\n\nIMC 2026 C++ Solution\n\n\nC++ code giải bài top 1\n\n\nC++ code cho bài này\n\n\nC++ code cho bài toán\n\n\nC++ code giải bài IMC\n\n\nC++ Code Optimization\n\n\nC++ Code for IMC Challenge\n\n\nC++ Code Challenge Top 1\n\n\nC++ code cho top 1\n\n\n\nCuộc thi Toán Tiếng Anh VEMC\nPro\n\n\nShare\n\nYou are a fresh independent worker for IMC Challenge 2026 Problem B simplifygeometry. Use the GitHub repo https://github.com/lequoctran181/IMC_Challenge_2026 and the problem facts: output closed manifold triangle mesh, <= original vertices, nondegenerate faces, vertex-only symmetric Hausdorff <= 5% AABB diagonal, visual score >=0.9 from six fixed axial cameras using foreground-only SSIM on flat normal maps and depth maps. Current real best is only 81.938904; target is 91.80+. Many previous attempts plateau around 81.93 or score 0-70, so incremental decimation/QEM/sample tricks are not enough. Think broadly for a breakthrough: hidden test structure recognition, evaluator-specific axial remeshes, topology templates, vertex-Hausdorff exploitation, per-case classifier, and robust fallback. Do not stop early. Primary output must be an actual downloadable file named submission_next.cpp plus a complete standalone C++17 code block fallback. It must compile with g++ -O2 -std=c++17 -pipe and official sample first line exactly 8 12.\n\nShow more\n\n\n\nChatGPT said:\nThought for 7m 50s\n\nSources\n\n\n\nExtra High\n\n\n\n",
+  "blocks": [],
+  "links": [
+    {
+      "text": "Skip to content",
+      "href": "https://chatgpt.com/c/6a4cf638-f974-83ec-ab9b-b03360dfe7b2#main",
+      "download": ""
+    },
+    {
+      "text": "New chat",
+      "href": "https://chatgpt.com/",
+      "download": ""
+    },
+    {
+      "text": "ChatGPT",
+      "href": "https://chatgpt.com/",
+      "download": ""
+    },
+    {
+      "text": "New chat\n⇧\n⌘\nO",
+      "href": "https://chatgpt.com/",
+      "download": ""
+    },
+    {
+      "text": "Library",
+      "href": "https://chatgpt.com/library",
+      "download": ""
+    },
+    {
+      "text": "Projects",
+      "href": "https://chatgpt.com/projects",
+      "download": ""
+    },
+    {
+      "text": "Scheduled",
+      "href": "https://chatgpt.com/scheduled",
+      "download": ""
+    },
+    {
+      "text": "Apps",
+      "href": "https://chatgpt.com/apps",
+      "download": ""
+    },
+    {
+      "text": "Codex",
+      "href": "https://chatgpt.com/codex",
+      "download": ""
+    },
+    {
+      "text": "",
+      "href": "https://chatgpt.com/",
+      "download": ""
+    },
+    {
+      "text": "IMC 2026 SG Solution",
+      "href": "https://chatgpt.com/c/6a4cf706-dc04-83ec-86c7-768d519a5324",
+      "download": ""
+    },
+    {
+      "text": "IMC 2026 Problem B",
+      "href": "https://chatgpt.com/c/6a4cf5f3-daf8-83ec-830f-7f4fca86c249",
+      "download": ""
+    },
+    {
+      "text": "IMC 2026 SimplifyGeometry",
+      "href": "https://chatgpt.com/c/6a4cb538-085c-83ec-880b-d601ea32b3a5",
+      "download": ""
+    },
+    {
+      "text": "IMC 2026 Problem B",
+      "href": "https://chatgpt.com/c/6a4cb478-6718-83ec-bbba-cf1e18758a4a",
+      "download": ""
+    },
+    {
+      "text": "IMC 2026 Problem B",
+      "href": "https://chatgpt.com/c/6a4cb520-7fcc-83ec-a8b8-4a2d656169f7",
+      "download": ""
+    },
+    {
+      "text": "IMC 2026 Problem B",
+      "href": "https://chatgpt.com/c/6a4cf638-f974-83ec-ab9b-b03360dfe7b2",
+      "download": ""
+    },
+    {
+      "text": "C++ code giải bài tập",
+      "href": "https://chatgpt.com/c/6a4c859c-0610-83ec-a364-07355db01d50",
+      "download": ""
+    },
+    {
+      "text": "IMC 2026 Simplifygeometry Code",
+      "href": "https://chatgpt.com/c/6a4cb4f1-7350-83ec-961c-8718a23392bf",
+      "download": ""
+    },
+    {
+      "text": "New chat",
+      "href": "https://chatgpt.com/c/6a4cf67c-371c-83ec-8061-95460801e778",
+      "download": ""
+    },
+    {
+      "text": "IMC 2026 C++17 Solution",
+      "href": "https://chatgpt.com/c/6a4cb4e5-c3a0-83ec-af02-4416d40f9ef4",
+      "download": ""
+    },
+    {
+      "text": "IMC 2026 Simplifygeometry Solution",
+      "href": "https://chatgpt.com/c/6a4cb4da-31e0-83ec-88fb-19d83e614b41",
+      "download": ""
+    },
+    {
+      "text": "IMC 2026 C++17 Submission",
+      "href": "https://chatgpt.com/c/6a4cb543-cd40-83ec-a746-eb97e4405f6d",
+      "download": ""
+    },
+    {
+      "text": "IMC 2026 Submission Code",
+      "href": "https://chatgpt.com/c/6a4cb508-e31c-83ec-8ec9-041e07ea2bbc",
+      "download": ""
+    },
+    {
+      "text": "IMC 2026 Code Submission",
+      "href": "https://chatgpt.com/c/6a4cb514-c3f8-83ec-824c-22c16b273d4c",
+      "download": ""
+    },
+    {
+      "text": "IMC 2026 SimplifyGeometry Code",
+      "href": "https://chatgpt.com/c/6a4cb4fd-134c-83ec-ab60-9533fdc81263",
+      "download": ""
+    },
+    {
+      "text": "IMC 2026 Code Submission",
+      "href": "https://chatgpt.com/c/6a4cb52c-5ab4-83ec-a52c-6dbeaa6eb5c9",
+      "download": ""
+    },
+    {
+      "text": "C++17 Kattis Solution",
+      "href": "https://chatgpt.com/c/6a4cacaf-7e24-83ec-99a1-641d7236b449",
+      "download": ""
+    },
+    {
+      "text": "C++17 Kattis Solution",
+      "href": "https://chatgpt.com/c/6a4cacb5-7e10-83ec-bd4b-f61c44d0cabd",
+      "download": ""
+    },
+    {
+      "text": "IMC Challenge 2026 Solution",
+      "href": "https://chatgpt.com/c/6a4cacb2-5938-83ec-81a0-538e5bebe2a4",
+      "download": ""
+    },
+    {
+      "text": "IMC 2026 C++ Solution",
+      "href": "https://chatgpt.com/c/6a4cacac-9fa4-83ec-af57-61a4ef90a8c1",
+      "download": ""
+    },
+    {
+      "text": "C++ code giải bài top 1",
+      "href": "https://chatgpt.com/c/6a4c87f7-9b64-83ec-bdec-7e411e654e93",
+      "download": ""
+    },
+    {
+      "text": "C++ code cho bài này",
+      "href": "https://chatgpt.com/c/6a4c87e8-fcd0-83ec-b1d7-8c0c828942d5",
+      "download": ""
+    },
+    {
+      "text": "C++ code cho bài toán",
+      "href": "https://chatgpt.com/c/6a4c87d9-1078-83ec-9667-baa47e99ad54",
+      "download": ""
+    },
+    {
+      "text": "C++ code giải bài IMC",
+      "href": "https://chatgpt.com/c/6a4c87c3-9d0c-83ec-8c3c-13d047f04909",
+      "download": ""
+    },
+    {
+      "text": "C++ Code Optimization",
+      "href": "https://chatgpt.com/c/6a4c8584-5f60-83ec-88a9-4e9f0d48767e",
+      "download": ""
+    },
+    {
+      "text": "C++ Code for IMC Challenge",
+      "href": "https://chatgpt.com/c/6a4c855f-21c4-83ec-a467-e04676faad9a",
+      "download": ""
+    },
+    {
+      "text": "C++ Code Challenge Top 1",
+      "href": "https://chatgpt.com/c/6a4c8570-3fb4-83ec-b480-cc84fe5788fa",
+      "download": ""
+    },
+    {
+      "text": "C++ code cho top 1",
+      "href": "https://chatgpt.com/c/6a4c8553-6a18-83ec-9965-9d972cad51bb",
+      "download": ""
+    }
+  ]
+}
