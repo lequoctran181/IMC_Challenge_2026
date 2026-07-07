@@ -1,0 +1,1 @@
+bash -lc sed -n '260,520p' /mnt/data/imc/problem_b_transcription.md && echo '---baseline.cpp---' && sed -n '1,260p' /mnt/data/imc/baseline.cpp && echo '---baseline.py---' && sed -n '1,240p' /mnt/data/imc/baseline.py && echo '---inner zip---' && unzip -l /mnt/data/imc/simplifygeometry.zip
