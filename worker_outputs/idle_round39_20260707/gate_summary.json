@@ -1,0 +1,15 @@
+[
+  {
+    "hash": "803678da88dd",
+    "tab": 3,
+    "block": 0,
+    "src": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round39_20260707/tab3_block00_803678da88dd.cpp",
+    "compile_rc": 0,
+    "compile_tail": "",
+    "run_rc": 0,
+    "first": "8 12",
+    "stdout_head": "8 12\nv 0.5 0.5 0.5\nv 0.5 0.5 -0.5",
+    "stderr_tail": "",
+    "sample_pass": true
+  }
+]
