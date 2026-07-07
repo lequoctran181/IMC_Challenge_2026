@@ -1,0 +1,408 @@
+[
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab01/block07.cpp",
+    "sha": "99402b33138a136887f0200867f4d83e5481778e54662504c23b72842103cf77",
+    "known": null,
+    "status": "compile_error",
+    "err": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab01/block07.cpp:1:1: error: unknown type name 'C'\n    1 | C++\n      | ^\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab01/block07.cpp:1:2: error: expected unqualified-id\n    1 | C++\n      |  ^\n2 errors generated.\n"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab01/block08.cpp",
+    "sha": "07c913b34979eaef627fe4e01c9b07be043109a64bd332e44440b3d666b7ef34",
+    "known": null,
+    "status": "sample_fail",
+    "sample_first": "9 14",
+    "ret": 0,
+    "stderr": "",
+    "out_head": "9 14\nv 0.5 0.5 0.5\nv 0.5 0.5 -0.5"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab01/block09.cpp",
+    "sha": "07c913b34979eaef627fe4e01c9b07be043109a64bd332e44440b3d666b7ef34",
+    "known": null,
+    "status": "round_duplicate"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab01/block10.cpp",
+    "sha": "99402b33138a136887f0200867f4d83e5481778e54662504c23b72842103cf77",
+    "known": null,
+    "status": "round_duplicate"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab01/block11.cpp",
+    "sha": "07c913b34979eaef627fe4e01c9b07be043109a64bd332e44440b3d666b7ef34",
+    "known": null,
+    "status": "round_duplicate"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab01/block12.cpp",
+    "sha": "07c913b34979eaef627fe4e01c9b07be043109a64bd332e44440b3d666b7ef34",
+    "known": null,
+    "status": "round_duplicate"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab03/block04.cpp",
+    "sha": "2d1dcbec1d7e9ab84dbf8e31fa684b09ee65873dd3f576b9e870e345308f9cca",
+    "known": null,
+    "status": "compile_error",
+    "err": "titive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab03/block04.cpp:35:87: warning: while loop has empty body [-Wempty-body]\n   35 |     inline void skip(){ char c; while((c=gc()) && (c==' '||c=='\\n'||c=='\\r'||c=='\\t')); if(c) --idx; }\n      |                                                                                       ^\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab03/block04.cpp:35:87: note: put the semicolon on a separate line to silence this warning\n1 warning and 2 errors generated.\n"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab03/block05.cpp",
+    "sha": "2a730ed62db39b51f32d1f555052bd647d480b662e6566f92a552df0989b41cc",
+    "known": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1147_28.83_3.cpp",
+    "status": "known"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab03/block06.cpp",
+    "sha": "2a730ed62db39b51f32d1f555052bd647d480b662e6566f92a552df0989b41cc",
+    "known": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1147_28.83_3.cpp",
+    "status": "known"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab03/block10.cpp",
+    "sha": "8c8ad4a9b8239dd3a32aa27c34e5dcb6db6c84cfc443ade9305ed16e86f7765d",
+    "known": null,
+    "status": "compile_error",
+    "err": "();if(c=='-')sg=-1,c=gc();else if(c=='+')c=gc();while(c>='0'&&c<='9'){e=e*10+c-'0';c=gc();}x*=pow(10.,sg*e);}return s*x;}char nc(){sw();return gc();}};\n      |                                                                                                                                                                                                          ^\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab03/block10.cpp:20:202: note: put the semicolon on a separate line to silence this warning\n1 warning and 2 errors generated.\n"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab03/block11.cpp",
+    "sha": "91508dd98cddbe8a84fa14af3d75a0a7c2d3ab947ecf4ab2ced81c478e4d9bfa",
+    "known": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1148_0.00_2.cpp",
+    "status": "known"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab03/block12.cpp",
+    "sha": "91508dd98cddbe8a84fa14af3d75a0a7c2d3ab947ecf4ab2ced81c478e4d9bfa",
+    "known": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1148_0.00_2.cpp",
+    "status": "known"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab04/block01.cpp",
+    "sha": "ff6b013ba6bb8cbaddf5525c0e565bde551bb155d4a1acbee4f4f1bf2d8138f5",
+    "known": null,
+    "status": "compile_error",
+    "err": "8/tab04/block01.cpp:180:141: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n  180 |     Mesh box; if(tryBoxGrid(box) && box.V.size()<best.V.size()){ double sc; if(proxyAccept(box,origMaps,R,max(0.900,guard-0.020),&sc)) best=move(box); }\n      |                                                                                                                                             ^\n      |                                                                                                                                             std::\n7 warnings and 2 errors generated.\n"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab04/block02.cpp",
+    "sha": "b0148fc1688801cb6a570978d0c87b5e3bc3d7b1047c18b958f59d2c7f66c297",
+    "known": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1132_46.08_4.cpp",
+    "status": "known"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab04/block03.cpp",
+    "sha": "b0148fc1688801cb6a570978d0c87b5e3bc3d7b1047c18b958f59d2c7f66c297",
+    "known": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1132_46.08_4.cpp",
+    "status": "known"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab04/block04.cpp",
+    "sha": "8eeadbb2a259d6bc9991079ed3567993502f7a2f0d88238211bf7b083e7b1242",
+    "known": null,
+    "status": "compile_error",
+    "err": "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                std::\n1 warning and 2 errors generated.\n"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab04/block05.cpp",
+    "sha": "27170ea05434020365746159f8096068c3809870b46cb95e68ceb78aca4aa5be",
+    "known": null,
+    "status": "sample_pass",
+    "sample_first": "8 12",
+    "ret": 0
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab04/block06.cpp",
+    "sha": "27170ea05434020365746159f8096068c3809870b46cb95e68ceb78aca4aa5be",
+    "known": null,
+    "status": "round_duplicate"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab05/block04.cpp",
+    "sha": "6b31689ce117c8eeff206b9fd401c245f5d58ceff8b5ffca48fdcda92f6b7d5b",
+    "known": null,
+    "status": "compile_error",
+    "err": "renderMesh(origP,origF,res,k));auto ins=cacheOrig.emplace(res,move(v));return ins.first->second;}\n      |                                                                                                                                                                                                                               ^\n      |                                                                                                                                                                                                                               std::\n1 warning and 2 errors generated.\n"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab05/block05.cpp",
+    "sha": "cda872e5480bd0160441809d753e696f87e6adefd51e97989b443ad92c5e4801",
+    "known": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1134_17.81_3.cpp",
+    "status": "known"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab05/block06.cpp",
+    "sha": "cda872e5480bd0160441809d753e696f87e6adefd51e97989b443ad92c5e4801",
+    "known": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1134_17.81_3.cpp",
+    "status": "known"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab06/block04.cpp",
+    "sha": "9a6f3ca57f79b568796287373f7ac51065afecf3d6dd2cc9d93b44950d4e9f5b",
+    "known": null,
+    "status": "compile_error",
+    "err": "           ^\n      |                                                                                                   std::\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab06/block04.cpp:397:64: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n  397 |     Mesh dec; if(elapsed()<18.5 && tryDecimator(dec)) consider(move(dec));\n      |                                                                ^\n      |                                                                std::\n6 warnings and 2 errors generated.\n"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab06/block05.cpp",
+    "sha": "a6c798d9933eeea8b94db8a09b2aca37f6ad349794e10e6d2d0e384b4a5862a6",
+    "known": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1117_16.30_2.cpp",
+    "status": "known"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab06/block06.cpp",
+    "sha": "a6c798d9933eeea8b94db8a09b2aca37f6ad349794e10e6d2d0e384b4a5862a6",
+    "known": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1117_16.30_2.cpp",
+    "status": "known"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab06/block07.cpp",
+    "sha": "fd1c3a0e2bea495d599eb0de87561a5306c9a7b6dc39a97aa148ed572c1cb0e2",
+    "known": null,
+    "status": "compile_error",
+    "err": "           ^\n      |                                                                                                   std::\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab06/block07.cpp:398:64: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n  398 |     Mesh dec; if(elapsed()<18.5 && tryDecimator(dec)) consider(move(dec));\n      |                                                                ^\n      |                                                                std::\n6 warnings and 2 errors generated.\n"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab06/block08.cpp",
+    "sha": "1470df6a685a2e88a4a9f8a4a2eb77828cf5aeeb8d04f7e250cca0f64d384964",
+    "known": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1120_16.30_2.cpp",
+    "status": "known"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab06/block09.cpp",
+    "sha": "1470df6a685a2e88a4a9f8a4a2eb77828cf5aeeb8d04f7e250cca0f64d384964",
+    "known": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1120_16.30_2.cpp",
+    "status": "known"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab06/block10.cpp",
+    "sha": "c7dd614e319b0c6d36712c2585777d29d06d1879c45382d403a649a622b8a255",
+    "known": null,
+    "status": "compile_error",
+    "err": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab06/block10.cpp:1:1: error: unknown type name 'C'\n    1 | C++\n      | ^\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab06/block10.cpp:1:2: error: expected unqualified-id\n    1 | C++\n      |  ^\n2 errors generated.\n"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab06/block11.cpp",
+    "sha": "fc4677781a91231d1033c39d0ab6885f8e18741a3392a50debf5e9a3fef8d091",
+    "known": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1136_0.00_7.cpp",
+    "status": "known"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab06/block12.cpp",
+    "sha": "fc4677781a91231d1033c39d0ab6885f8e18741a3392a50debf5e9a3fef8d091",
+    "known": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1136_0.00_7.cpp",
+    "status": "known"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab07/block01.cpp",
+    "sha": "68cc151e8c384919689a5ebbfda13ae8eeab247500f1c2c34b3289734c87379b",
+    "known": null,
+    "status": "compile_error",
+    "err": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab07/block01.cpp:1:1: error: unknown type name 'C'\n    1 | C++\n      | ^\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab07/block01.cpp:1:2: error: expected unqualified-id\n    1 | C++\n      |  ^\n2 errors generated.\n"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab07/block02.cpp",
+    "sha": "e3a897bd97dca5d9cff674962a4918cf3be8b9279a16409f9b4e74dd39158adb",
+    "known": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1121_16.53_2.cpp",
+    "status": "known"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab07/block03.cpp",
+    "sha": "e3a897bd97dca5d9cff674962a4918cf3be8b9279a16409f9b4e74dd39158adb",
+    "known": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1121_16.53_2.cpp",
+    "status": "known"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab08/block04.cpp",
+    "sha": "bd3c8e43c948d98e9be618fe556db0073588fb27d358aca6d476f2d897be6bec",
+    "known": null,
+    "status": "compile_error",
+    "err": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab08/block04.cpp:1:1: error: unknown type name 'C'\n    1 | C++\n      | ^\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab08/block04.cpp:1:2: error: expected unqualified-id\n    1 | C++\n      |  ^\n2 errors generated.\n"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab08/block05.cpp",
+    "sha": "b81127cdd85d10722311399e8d642131a7a4d18ffb712924a13444687bfc291e",
+    "known": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1139_40.00_4.cpp",
+    "status": "known"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab08/block06.cpp",
+    "sha": "b81127cdd85d10722311399e8d642131a7a4d18ffb712924a13444687bfc291e",
+    "known": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1139_40.00_4.cpp",
+    "status": "known"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab08/block07.cpp",
+    "sha": "2b794a78e5c4eee34005585295521da6bd1e1f46ca4005498322b50a4c7e3bf1",
+    "known": null,
+    "status": "compile_error",
+    "err": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab08/block07.cpp:1:1: error: unknown type name 'C'\n    1 | C++\n      | ^\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab08/block07.cpp:1:2: error: expected unqualified-id\n    1 | C++\n      |  ^\n2 errors generated.\n"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab08/block08.cpp",
+    "sha": "2bae1eba1b93c093a65ce1de87c444f2046efaf6a07cc51780f880cfd5da26ed",
+    "known": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1141_34.00_4.cpp",
+    "status": "known"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab08/block09.cpp",
+    "sha": "2bae1eba1b93c093a65ce1de87c444f2046efaf6a07cc51780f880cfd5da26ed",
+    "known": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1141_34.00_4.cpp",
+    "status": "known"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab08/block10.cpp",
+    "sha": "7d56a33d8b3eca869c2daec55e7734766d0ae9e6adf6ade16055749472060d9b",
+    "known": null,
+    "status": "compile_error",
+    "err": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab08/block10.cpp:1:1: error: unknown type name 'C'\n    1 | C++\n      | ^\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab08/block10.cpp:1:2: error: expected unqualified-id\n    1 | C++\n      |  ^\n2 errors generated.\n"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab08/block11.cpp",
+    "sha": "5015deb1992dd4b625512edeb097a4a78eac7950ba4b622cb680f47e948b77d1",
+    "known": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1142_0.00_6.cpp",
+    "status": "known"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab08/block12.cpp",
+    "sha": "5015deb1992dd4b625512edeb097a4a78eac7950ba4b622cb680f47e948b77d1",
+    "known": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1142_0.00_6.cpp",
+    "status": "known"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab09/block01.cpp",
+    "sha": "ba81c4c887013211f0a5548b876c2d56ad448d1cda9cfd9062a8d804f3b27023",
+    "known": null,
+    "status": "compile_error",
+    "err": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab09/block01.cpp:1:1: error: unknown type name 'C'\n    1 | C++\n      | ^\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab09/block01.cpp:1:2: error: expected unqualified-id\n    1 | C++\n      |  ^\n2 errors generated.\n"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab09/block02.cpp",
+    "sha": "cd5001c2a903c98e3a839c642aa45aff42488d7e430eff195f8a7c4a95e35923",
+    "known": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1123_16.49_2.cpp",
+    "status": "known"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab09/block03.cpp",
+    "sha": "cd5001c2a903c98e3a839c642aa45aff42488d7e430eff195f8a7c4a95e35923",
+    "known": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1123_16.49_2.cpp",
+    "status": "known"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab10/block04.cpp",
+    "sha": "4bae6cae84d14f94aba8230447392d3d3c41f70c2be8a79f693f36bdd7002cb7",
+    "known": null,
+    "status": "compile_error",
+    "err": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab10/block04.cpp:1:1: error: unknown type name 'C'\n    1 | C++\n      | ^\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab10/block04.cpp:1:2: error: expected unqualified-id\n    1 | C++\n      |  ^\n2 errors generated.\n"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab10/block05.cpp",
+    "sha": "576fab0ea237e76eeb35a5057ecc87a7232f3b842d860ec294ebd697c19eee71",
+    "known": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1125_16.53_2.cpp",
+    "status": "known"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab10/block06.cpp",
+    "sha": "576fab0ea237e76eeb35a5057ecc87a7232f3b842d860ec294ebd697c19eee71",
+    "known": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1125_16.53_2.cpp",
+    "status": "known"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab10/block10.cpp",
+    "sha": "26330ddc022f0c21d65b7c9bfa32f4f1b5542097c96ee331eb024a1a4cc5b887",
+    "known": null,
+    "status": "compile_error",
+    "err": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab10/block10.cpp:1:1: error: unknown type name 'C'\n    1 | C++\n      | ^\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab10/block10.cpp:1:2: error: expected unqualified-id\n    1 | C++\n      |  ^\n2 errors generated.\n"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab10/block11.cpp",
+    "sha": "bb0d7beb53db30c2ab786179c7d52d174f8da7e2ad70051ad3b3c425f4b70435",
+    "known": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1150_16.30_7.cpp",
+    "status": "known"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab10/block12.cpp",
+    "sha": "bb0d7beb53db30c2ab786179c7d52d174f8da7e2ad70051ad3b3c425f4b70435",
+    "known": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1150_16.30_7.cpp",
+    "status": "known"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab11/block01.cpp",
+    "sha": "9ded88d45f50e7b34b57a0e110dc5b9639fbb3c1370803d5244f9c7cb2b731bd",
+    "known": null,
+    "status": "compile_error",
+    "err": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab11/block01.cpp:1:1: error: unknown type name 'C'\n    1 | C++\n      | ^\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab11/block01.cpp:1:2: error: expected unqualified-id\n    1 | C++\n      |  ^\n2 errors generated.\n"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab11/block02.cpp",
+    "sha": "35483f457a6621ded539fbb23cc338c189e2c9645162bfc8be7d0902f0e60185",
+    "known": null,
+    "status": "sample_pass",
+    "sample_first": "8 12",
+    "ret": 0
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab11/block03.cpp",
+    "sha": "35483f457a6621ded539fbb23cc338c189e2c9645162bfc8be7d0902f0e60185",
+    "known": null,
+    "status": "round_duplicate"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab12/block01.cpp",
+    "sha": "a44e4303b06ee33747e952553518e569f4555a6f5c9c8c0dfad1203658cedb2e",
+    "known": null,
+    "status": "compile_error",
+    "err": "()+e); rings.push_back(move(r)); s=e; }\n      |                                                                                                                                                                                                                                                            ^\n      |                                                                                                                                                                                                                                                            std::\n1 warning and 2 errors generated.\n"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab12/block02.cpp",
+    "sha": "8e95d20dc3f28e414d3d7c2e891e7537d99a2a2625ce69b142249ba04e3734da",
+    "known": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1127_29.33_3.cpp",
+    "status": "known"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab12/block03.cpp",
+    "sha": "8e95d20dc3f28e414d3d7c2e891e7537d99a2a2625ce69b142249ba04e3734da",
+    "known": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1127_29.33_3.cpp",
+    "status": "known"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab12/block04.cpp",
+    "sha": "c74fc4dd636b41e045125c6148bc6c73abc8d406bd8e0c316cd54bc1d9834ae7",
+    "known": null,
+    "status": "compile_error",
+    "err": "      |                                                                                                                                                                                                                                                                                ^\n      |                                                                                                                                                                                                                                                                                std::\n1 warning and 2 errors generated.\n"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab12/block05.cpp",
+    "sha": "90b9c22fab6adacf49d06529cf8f664b0a274c3ab8998cc9a18df128d74debed",
+    "known": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1130_29.33_3.cpp",
+    "status": "known"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab12/block06.cpp",
+    "sha": "90b9c22fab6adacf49d06529cf8f664b0a274c3ab8998cc9a18df128d74debed",
+    "known": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1130_29.33_3.cpp",
+    "status": "known"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab12/block07.cpp",
+    "sha": "7309fac9691614a7c925f6eb8a210bb49511ff1c48b2a33a457985774c5223ba",
+    "known": null,
+    "status": "compile_error",
+    "err": "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               std::\n3 warnings and 2 errors generated.\n"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab12/block08.cpp",
+    "sha": "f81a5d8f78a9affd9a06cbe57e3ebab6b2ad70dd45085bd75b09f3763ac22a05",
+    "known": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1152_29.33_3.cpp",
+    "status": "known"
+  },
+  {
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/round82_20260708_0148/tab12/block09.cpp",
+    "sha": "f81a5d8f78a9affd9a06cbe57e3ebab6b2ad70dd45085bd75b09f3763ac22a05",
+    "known": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1152_29.33_3.cpp",
+    "status": "known"
+  }
+]

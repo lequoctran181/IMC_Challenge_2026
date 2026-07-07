@@ -1,0 +1,3 @@
+g++ -O2 -std=c++17 -pipe submission_next.cpp -o solution
+./solution < sample_cube.in | head -1
+# 8 12

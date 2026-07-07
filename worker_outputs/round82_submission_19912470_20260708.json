@@ -1,0 +1,10 @@
+{
+  "submission_id": "19912470",
+  "judgement": "Accepted (50.250436)",
+  "tests": "5/7",
+  "root_file": "submission_1167_50.25_5.cpp",
+  "fetched_source": "fetched_sources/kattis_19912470_50.25_5.cpp",
+  "source_sha256": "20a2521e9cca1c9a22ff51f4ddcc760b18b2d1e4a7ca19c376b83857044f73ce",
+  "recorded_at": "2026-07-08T01:56:00+07:00",
+  "note": "Recorded after Safari/parallel round82; did not improve best 81.938904."
+}

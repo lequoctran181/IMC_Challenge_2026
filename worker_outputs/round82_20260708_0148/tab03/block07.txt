@@ -1,0 +1,5 @@
+Bash
+
+g++ -O2 -std=c++17 -pipe /mnt/data/submission_next.cpp -o /mnt/data/solution
+/mnt/data/solution < /mnt/data/sample_cube.in | head -1
+# 8 12
