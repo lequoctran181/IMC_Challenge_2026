@@ -1,0 +1,62 @@
+[
+  {
+    "seq": 1138,
+    "hash": "0135859786fd",
+    "submission_id": 19912109,
+    "score": 40.002485,
+    "tests": "4/7",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1138_40.00_4.cpp",
+    "source": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round78_tab8_20260707/block02_0135859786fd.cpp",
+    "round": "round78"
+  },
+  {
+    "seq": 1139,
+    "hash": "b81127cdd85d",
+    "submission_id": 19912110,
+    "score": 40.002485,
+    "tests": "4/7",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1139_40.00_4.cpp",
+    "source": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round78_tab8_20260707/block03_b81127cdd85d.cpp",
+    "round": "round78"
+  },
+  {
+    "seq": 1140,
+    "hash": "272f6ceb9316",
+    "submission_id": 19912111,
+    "score": 34.001685,
+    "tests": "4/7",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1140_34.00_4.cpp",
+    "source": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round78_tab8_20260707/block04_272f6ceb9316.cpp",
+    "round": "round78"
+  },
+  {
+    "seq": 1141,
+    "hash": "2bae1eba1b93",
+    "submission_id": 19912114,
+    "score": 34.001685,
+    "tests": "4/7",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1141_34.00_4.cpp",
+    "source": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round78_tab8_20260707/block05_2bae1eba1b93.cpp",
+    "round": "round78"
+  },
+  {
+    "seq": 1142,
+    "hash": "5872541987ac",
+    "submission_id": 19912160,
+    "score": 0.0,
+    "tests": "6/7",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1142_0.00_6.cpp",
+    "source": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round78_tab8_20260707/block06_5872541987ac.cpp",
+    "round": "round78"
+  },
+  {
+    "seq": 1143,
+    "hash": "5015deb1992d",
+    "submission_id": 19912180,
+    "score": 0.0,
+    "tests": "6/7",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1143_0.00_6.cpp",
+    "source": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round78_tab8_20260707/block07_5015deb1992d.cpp",
+    "round": "round78"
+  }
+]

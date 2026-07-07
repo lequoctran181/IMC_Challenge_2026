@@ -1,0 +1,242 @@
+[
+  {
+    "hash": "0135859786fd",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round78_tab8_20260707/block02_0135859786fd.cpp",
+    "returncode": 0,
+    "stdout": [
+      {
+        "success": true,
+        "submission_id": 19912109,
+        "success_url": "/contests/imc2-2/submissions/19912109"
+      },
+      {
+        "id": "19912109",
+        "judgement": "New",
+        "runtime": "",
+        "language": "C++",
+        "tests": "-/-"
+      }
+    ],
+    "stderr": "",
+    "submission_id": 19912109,
+    "initial_row": {
+      "id": "19912109",
+      "judgement": "New",
+      "runtime": "",
+      "language": "C++",
+      "tests": "-/-"
+    },
+    "final_row": {
+      "id": "19912109",
+      "judgement": "Accepted (40.002485)",
+      "runtime": "7.27 s",
+      "language": "C++",
+      "tests": "4/7"
+    }
+  },
+  {
+    "hash": "b81127cdd85d",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round78_tab8_20260707/block03_b81127cdd85d.cpp",
+    "returncode": 0,
+    "stdout": [
+      {
+        "success": true,
+        "submission_id": 19912110,
+        "success_url": "/contests/imc2-2/submissions/19912110"
+      },
+      {
+        "id": "19912110",
+        "judgement": "New",
+        "runtime": "",
+        "language": "C++",
+        "tests": "-/-"
+      }
+    ],
+    "stderr": "",
+    "submission_id": 19912110,
+    "initial_row": {
+      "id": "19912110",
+      "judgement": "New",
+      "runtime": "",
+      "language": "C++",
+      "tests": "-/-"
+    },
+    "final_row": {
+      "id": "19912110",
+      "judgement": "Accepted (40.002485)",
+      "runtime": "7.28 s",
+      "language": "C++",
+      "tests": "4/7"
+    }
+  },
+  {
+    "hash": "272f6ceb9316",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round78_tab8_20260707/block04_272f6ceb9316.cpp",
+    "returncode": 0,
+    "stdout": [
+      {
+        "success": true,
+        "submission_id": 19912111,
+        "success_url": "/contests/imc2-2/submissions/19912111"
+      },
+      {
+        "id": "19912111",
+        "judgement": "New",
+        "runtime": "",
+        "language": "C++",
+        "tests": "-/-"
+      }
+    ],
+    "stderr": "",
+    "submission_id": 19912111,
+    "initial_row": {
+      "id": "19912111",
+      "judgement": "New",
+      "runtime": "",
+      "language": "C++",
+      "tests": "-/-"
+    },
+    "final_row": {
+      "id": "19912111",
+      "judgement": "Accepted (34.001685)",
+      "runtime": "7.20 s",
+      "language": "C++",
+      "tests": "4/7"
+    }
+  },
+  {
+    "hash": "2bae1eba1b93",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round78_tab8_20260707/block05_2bae1eba1b93.cpp",
+    "returncode": 0,
+    "stdout": [
+      {
+        "success": true,
+        "submission_id": 19912114,
+        "success_url": "/contests/imc2-2/submissions/19912114"
+      },
+      {
+        "id": "19912114",
+        "judgement": "New",
+        "runtime": "",
+        "language": "C++",
+        "tests": "-/-"
+      }
+    ],
+    "stderr": "",
+    "submission_id": 19912114,
+    "initial_row": {
+      "id": "19912114",
+      "judgement": "New",
+      "runtime": "",
+      "language": "C++",
+      "tests": "-/-"
+    },
+    "final_row": {
+      "id": "19912114",
+      "judgement": "Accepted (34.001685)",
+      "runtime": "7.20 s",
+      "language": "C++",
+      "tests": "4/7"
+    }
+  },
+  {
+    "hash": "5872541987ac",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round78_tab8_20260707/block06_5872541987ac.cpp",
+    "returncode": 0,
+    "stdout": [
+      {
+        "success": false,
+        "error_messages": [
+          "You are out of submission tokens. Your next token will regenerate in 610 seconds."
+        ]
+      }
+    ],
+    "stderr": "",
+    "blocked_wait_seconds": 620
+  },
+  {
+    "hash": "5872541987ac",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round78_tab8_20260707/block06_5872541987ac.cpp",
+    "returncode": 0,
+    "stdout": [
+      {
+        "success": true,
+        "submission_id": 19912160,
+        "success_url": "/contests/imc2-2/submissions/19912160"
+      },
+      {
+        "id": "19912160",
+        "judgement": "New",
+        "runtime": "",
+        "language": "C++",
+        "tests": "-/-"
+      }
+    ],
+    "stderr": "",
+    "submission_id": 19912160,
+    "initial_row": {
+      "id": "19912160",
+      "judgement": "New",
+      "runtime": "",
+      "language": "C++",
+      "tests": "-/-"
+    },
+    "final_row": {
+      "id": "19912160",
+      "judgement": "Accepted (0)",
+      "runtime": "20.13 s",
+      "language": "C++",
+      "tests": "6/7"
+    }
+  },
+  {
+    "hash": "5015deb1992d",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round78_tab8_20260707/block07_5015deb1992d.cpp",
+    "returncode": 0,
+    "stdout": [
+      {
+        "success": false,
+        "error_messages": [
+          "You are out of submission tokens. Your next token will regenerate in 229 seconds."
+        ]
+      }
+    ],
+    "stderr": "",
+    "blocked_wait_seconds": 239
+  },
+  {
+    "hash": "5015deb1992d",
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/idle_round78_tab8_20260707/block07_5015deb1992d.cpp",
+    "returncode": 0,
+    "stdout": [
+      {
+        "success": true,
+        "submission_id": 19912180,
+        "success_url": "/contests/imc2-2/submissions/19912180"
+      },
+      {
+        "id": "19912180",
+        "judgement": "New",
+        "runtime": "",
+        "language": "C++",
+        "tests": "-/-"
+      }
+    ],
+    "stderr": "",
+    "submission_id": 19912180,
+    "initial_row": {
+      "id": "19912180",
+      "judgement": "New",
+      "runtime": "",
+      "language": "C++",
+      "tests": "-/-"
+    },
+    "final_row": {
+      "id": "19912180",
+      "judgement": "Accepted (0)",
+      "runtime": "20.14 s",
+      "language": "C++",
+      "tests": "6/7"
+    }
+  }
+]
