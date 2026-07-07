@@ -1,0 +1,252 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Vec3{ double x,y,z; };
+static inline Vec3 operator+(const Vec3&a,const Vec3&b){ return {a.x+b.x,a.y+b.y,a.z+b.z}; }
+static inline Vec3 operator-(const Vec3&a,const Vec3&b){ return {a.x-b.x,a.y-b.y,a.z-b.z}; }
+static inline Vec3 operator*(const Vec3&a,double s){ return {a.x*s,a.y*s,a.z*s}; }
+static inline double dot3(const Vec3&a,const Vec3&b){ return a.x*b.x+a.y*b.y+a.z*b.z; }
+static inline Vec3 cross3(const Vec3&a,const Vec3&b){ return {a.y*b.z-a.z*b.y,a.z*b.x-a.x*b.z,a.x*b.y-a.y*b.x}; }
+static inline double norm2(const Vec3&a){ return dot3(a,a); }
+static inline double norm3(const Vec3&a){ return sqrt(norm2(a)); }
+
+struct Face{ int a,b,c; };
+int N,M;
+vector<Vec3> P;
+vector<Face> F;
+Vec3 mnv,mxv;
+double diagLen, epsHaus;
+
+static inline long long ekey(int a,int b){
+    if(a>b) swap(a,b);
+    return (long long)(unsigned)a<<32 | (unsigned)b;
+}
+static inline array<int,3> tkey(int a,int b,int c){
+    array<int,3> r={a,b,c}; sort(r.begin(),r.end()); return r;
+}
+
+void readInput(){
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cin>>N>>M;
+    P.resize(N);
+    F.resize(M);
+    mnv={1e100,1e100,1e100};
+    mxv={-1e100,-1e100,-1e100};
+    for(int i=0;i<N;i++){
+        char ch; cin>>ch>>P[i].x>>P[i].y>>P[i].z;
+        mnv.x=min(mnv.x,P[i].x); mnv.y=min(mnv.y,P[i].y); mnv.z=min(mnv.z,P[i].z);
+        mxv.x=max(mxv.x,P[i].x); mxv.y=max(mxv.y,P[i].y); mxv.z=max(mxv.z,P[i].z);
+    }
+    for(int i=0;i<M;i++){
+        char ch; int a,b,c; cin>>ch>>a>>b>>c;
+        F[i]={a-1,b-1,c-1};
+    }
+    diagLen=norm3(mxv-mnv);
+    if(!(diagLen>0)) diagLen=1.0;
+    epsHaus=0.05*diagLen;
+}
+
+void printOriginal(){
+    cout.setf(ios::fixed); cout<<setprecision(10);
+    cout<<N<<" "<<M<<"\n";
+    for(auto&p:P) cout<<"v "<<p.x<<" "<<p.y<<" "<<p.z<<"\n";
+    for(auto&f:F) cout<<"f "<<f.a+1<<" "<<f.b+1<<" "<<f.c+1<<"\n";
+}
+
+void printBBoxShell(){
+    double x0=mnv.x,x1=mxv.x,y0=mnv.y,y1=mxv.y,z0=mnv.z,z1=mxv.z;
+    Vec3 q[8]={{x0,y0,z0},{x1,y0,z0},{x1,y1,z0},{x0,y1,z0},{x0,y0,z1},{x1,y0,z1},{x1,y1,z1},{x0,y1,z1}};
+    int tr[12][3]={{1,3,2},{1,4,3},{5,6,7},{5,7,8},{1,2,6},{1,6,5},{2,3,7},{2,7,6},{3,4,8},{3,8,7},{4,1,5},{4,5,8}};
+    cout.setf(ios::fixed); cout<<setprecision(10);
+    cout<<"8 12\n";
+    for(auto&p:q) cout<<"v "<<p.x<<" "<<p.y<<" "<<p.z<<"\n";
+    for(auto&t:tr) cout<<"f "<<t[0]<<" "<<t[1]<<" "<<t[2]<<"\n";
+}
+
+bool allVerticesNearBBoxCorners(){
+    if(N<8 || N>80) return false;
+    Vec3 c[8]={{mnv.x,mnv.y,mnv.z},{mxv.x,mnv.y,mnv.z},{mxv.x,mxv.y,mnv.z},{mnv.x,mxv.y,mnv.z},
+               {mnv.x,mnv.y,mxv.z},{mxv.x,mnv.y,mxv.z},{mxv.x,mxv.y,mxv.z},{mnv.x,mxv.y,mxv.z}};
+    double lim=epsHaus*0.999;
+    double lim2=lim*lim;
+    int mask=0;
+    for(const Vec3&p:P){
+        double best=1e300; int bi=0;
+        for(int i=0;i<8;i++){
+            double d=norm2(p-c[i]);
+            if(d<best){best=d; bi=i;}
+        }
+        if(best>lim2) return false;
+        mask|=1<<bi;
+    }
+    return mask==255;
+}
+
+struct Key3{
+    long long x,y,z;
+    bool operator==(const Key3&o)const{return x==o.x&&y==o.y&&z==o.z;}
+};
+struct KeyHash{
+    size_t operator()(const Key3&k)const{
+        uint64_t a=(uint64_t)k.x*11995408973635179863ull;
+        uint64_t b=(uint64_t)k.y*10150724397891781847ull;
+        uint64_t c=(uint64_t)k.z*15579859533126535913ull;
+        return (size_t)(a ^ (b<<1) ^ (c<<7));
+    }
+};
+
+struct Candidate{
+    vector<Vec3> V;
+    vector<Face> T;
+    vector<int> oldToNew;
+    bool ok=false;
+};
+
+static bool verifyCandidate(const Candidate& C){
+    int n=(int)C.V.size(), m=(int)C.T.size();
+    if(n<=0 || m<=0 || n>N) return false;
+    vector<int> used(n,0);
+    unordered_map<long long,int> ec;
+    ec.reserve((size_t)m*4+10);
+    unordered_set<unsigned long long> tris;
+    tris.reserve((size_t)m*2+10);
+    const double areaEps=max(1e-30,diagLen*diagLen*1e-24);
+    for(const Face&f:C.T){
+        if(f.a<0||f.b<0||f.c<0||f.a>=n||f.b>=n||f.c>=n) return false;
+        if(f.a==f.b||f.a==f.c||f.b==f.c) return false;
+        Vec3 cr=cross3(C.V[f.b]-C.V[f.a],C.V[f.c]-C.V[f.a]);
+        if(norm2(cr)<=areaEps) return false;
+        auto tk=tkey(f.a,f.b,f.c);
+        unsigned long long h=((unsigned long long)(unsigned)tk[0]<<42)^((unsigned long long)(unsigned)tk[1]<<21)^(unsigned)tk[2];
+        if(!tris.insert(h).second) return false;
+        used[f.a]=used[f.b]=used[f.c]=1;
+        ec[ekey(f.a,f.b)]++;
+        ec[ekey(f.b,f.c)]++;
+        ec[ekey(f.c,f.a)]++;
+    }
+    for(auto &kv:ec) if(kv.second!=2) return false;
+    for(int u:used) if(!u) return false;
+    return true;
+}
+
+static bool hausdorffCoverOK(const Candidate& C){
+    double lim2=epsHaus*epsHaus*1.0000001;
+    for(int i=0;i<N;i++){
+        int j=C.oldToNew[i];
+        if(j<0 || j>=(int)C.V.size()) return false;
+        if(norm2(P[i]-C.V[j])>lim2) return false;
+    }
+    if(C.V.size()<=200){
+        for(const Vec3&v:C.V){
+            double best=1e300;
+            for(const Vec3&p:P) best=min(best,norm2(v-p));
+            if(best>lim2) return false;
+        }
+    }
+    return true;
+}
+
+Candidate voxelCluster(double cellScale){
+    Candidate C;
+    double s=epsHaus*cellScale;
+    if(!(s>0)) return C;
+    unordered_map<Key3,int,KeyHash> cid;
+    cid.reserve((size_t)N*2+10);
+    vector<vector<int>> members;
+    C.oldToNew.assign(N,-1);
+
+    for(int i=0;i<N;i++){
+        long long ix=(long long)floor((P[i].x-mnv.x)/s);
+        long long iy=(long long)floor((P[i].y-mnv.y)/s);
+        long long iz=(long long)floor((P[i].z-mnv.z)/s);
+        Key3 k{ix,iy,iz};
+        auto it=cid.find(k);
+        int id;
+        if(it==cid.end()){
+            id=(int)members.size();
+            cid.emplace(k,id);
+            members.push_back({});
+        }else id=it->second;
+        members[id].push_back(i);
+        C.oldToNew[i]=id;
+    }
+
+    int K=(int)members.size();
+    C.V.assign(K,{0,0,0});
+    for(int id=0;id<K;id++){
+        Vec3 cen{0,0,0};
+        for(int v:members[id]) cen=cen+P[v];
+        cen=cen*(1.0/(double)members[id].size());
+        int best=members[id][0];
+        double bd=norm2(P[best]-cen);
+        for(int v:members[id]){
+            double d=norm2(P[v]-cen);
+            if(d<bd){bd=d; best=v;}
+        }
+        C.V[id]=P[best];
+    }
+
+    double lim2=epsHaus*epsHaus*0.999999;
+    for(int id=0;id<K;id++){
+        for(int v:members[id]){
+            if(norm2(P[v]-C.V[id])>lim2) return C;
+        }
+    }
+
+    unordered_set<unsigned long long> seenTri;
+    seenTri.reserve((size_t)M*2+10);
+    C.T.reserve(M);
+    const double areaEps=max(1e-30,diagLen*diagLen*1e-24);
+    for(const Face&of:F){
+        int a=C.oldToNew[of.a], b=C.oldToNew[of.b], c=C.oldToNew[of.c];
+        if(a==b||a==c||b==c) continue;
+        Vec3 cr=cross3(C.V[b]-C.V[a],C.V[c]-C.V[a]);
+        if(norm2(cr)<=areaEps) continue;
+        auto tk=tkey(a,b,c);
+        unsigned long long h=((unsigned long long)(unsigned)tk[0]<<42)^((unsigned long long)(unsigned)tk[1]<<21)^(unsigned)tk[2];
+        if(seenTri.insert(h).second) C.T.push_back({a,b,c});
+    }
+
+    if(verifyCandidate(C) && hausdorffCoverOK(C)) C.ok=true;
+    return C;
+}
+
+int main(){
+    auto start=chrono::steady_clock::now();
+    readInput();
+
+    if(allVerticesNearBBoxCorners()){
+        printBBoxShell();
+        return 0;
+    }
+
+    if(N<=16 || M<=24){
+        printOriginal();
+        return 0;
+    }
+
+    Candidate best;
+    vector<double> scales;
+    if(N<1000) scales={0.46,0.40,0.34,0.28,0.22,0.16};
+    else if(N<10000) scales={0.54,0.48,0.42,0.36,0.30,0.24,0.18};
+    else scales={0.57,0.50,0.43,0.36,0.30,0.24,0.18};
+
+    for(double sc:scales){
+        if(chrono::duration<double>(chrono::steady_clock::now()-start).count()>6.5) break;
+        Candidate C=voxelCluster(sc);
+        if(!C.ok) continue;
+        if(!best.ok || C.V.size()<best.V.size()) best=std::move(C);
+    }
+
+    if(!best.ok){
+        printOriginal();
+        return 0;
+    }
+
+    cout.setf(ios::fixed); cout<<setprecision(10);
+    cout<<best.V.size()<<" "<<best.T.size()<<"\n";
+    for(auto&p:best.V) cout<<"v "<<p.x<<" "<<p.y<<" "<<p.z<<"\n";
+    for(auto&f:best.T) cout<<"f "<<f.a+1<<" "<<f.b+1<<" "<<f.c+1<<"\n";
+    return 0;
+}
