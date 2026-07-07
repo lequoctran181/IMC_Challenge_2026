@@ -1,0 +1,12 @@
+{
+  "seq": 1166,
+  "file": "submission_1166_42.50_4.cpp",
+  "source": "fetched_sources/kattis_19912414_42.50_4.cpp",
+  "kattis_id": 19912414,
+  "judgement": "Accepted",
+  "score_exact": "42.502633",
+  "score_file": "42.50",
+  "tests": "4/7",
+  "runtime": "6.28 s",
+  "note": "parallel low-score candidate; below best 81.938904"
+}
