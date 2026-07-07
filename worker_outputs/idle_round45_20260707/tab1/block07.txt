@@ -1,0 +1,1 @@
+bash -lc sed -n '1,220p' /mnt/data/imc/CURRENT_STATUS.md && echo '--- index head' && head -30 /mnt/data/imc/submission_index.csv && echo '--- problem head' && sed -n '1,240p' /mnt/data/imc/problem_b_transcription.md && echo '--- baseline' && cat /mnt/data/imc/baseline.cpp

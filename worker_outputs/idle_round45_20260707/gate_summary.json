@@ -1,0 +1,79 @@
+{
+  "round": "idle_round45_20260707",
+  "tabs": {
+    "1": {
+      "blocks": 18,
+      "links": 4,
+      "title": "C++ Code for Top 1",
+      "error": ""
+    },
+    "3": {
+      "blocks": 1,
+      "links": 3,
+      "title": "C++ code giải bài top 1",
+      "error": ""
+    },
+    "4": {
+      "blocks": 1,
+      "links": 3,
+      "title": "C++ code cho top 1",
+      "error": ""
+    },
+    "6": {
+      "blocks": 0,
+      "links": 4,
+      "title": "C++ Code Challenge Top 1",
+      "error": ""
+    },
+    "10": {
+      "blocks": 1,
+      "links": 2,
+      "title": "C++ code cho bài toán",
+      "error": ""
+    },
+    "12": {
+      "blocks": 0,
+      "links": 2,
+      "title": "C++ code giải bài top 1",
+      "error": ""
+    }
+  },
+  "candidates": [
+    {
+      "tab": 1,
+      "block": 0,
+      "hash": "14e891d7810d",
+      "duplicate": true
+    },
+    {
+      "tab": 1,
+      "block": 1,
+      "hash": "ece38e7cb2ce",
+      "duplicate": true
+    },
+    {
+      "tab": 1,
+      "block": 12,
+      "hash": "e33adf31bdf7",
+      "duplicate": true
+    },
+    {
+      "tab": 3,
+      "block": 0,
+      "hash": "cd08d26b2022",
+      "duplicate": true
+    },
+    {
+      "tab": 4,
+      "block": 0,
+      "hash": "cbf3ea9728a6",
+      "duplicate": true
+    },
+    {
+      "tab": 10,
+      "block": 0,
+      "hash": "f656ecd2fcac",
+      "duplicate": true
+    }
+  ]
+}
