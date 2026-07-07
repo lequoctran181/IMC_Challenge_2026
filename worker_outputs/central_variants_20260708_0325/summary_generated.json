@@ -1,0 +1,32 @@
+[
+  {
+    "name": "exactbest_deadline_safe1",
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/central_variants_20260708_0325/exactbest_deadline_safe1.cpp",
+    "sha": "86b23f4ebc95afba51fb38c276cfdaf36fce3a439d5f787875508d523bc4d800"
+  },
+  {
+    "name": "exactbest_deadline_safe2",
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/central_variants_20260708_0325/exactbest_deadline_safe2.cpp",
+    "sha": "bed3843b4e30b278d553b61e4824e27c12e060895485915cccb3b36eef097554"
+  },
+  {
+    "name": "exactbest_no_tail_wk2",
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/central_variants_20260708_0325/exactbest_no_tail_wk2.cpp",
+    "sha": "b64485b1e92f9b18cce411f7da2bf5669d3cbc41bd9e8fe175dbdd19ca4a8137"
+  },
+  {
+    "name": "exactbest_skip_last_smallwk",
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/central_variants_20260708_0325/exactbest_skip_last_smallwk.cpp",
+    "sha": "a589db1fe10289c42be3f4f8f74c6557e4740a6b3d031a36cb91bc540bfc767e"
+  },
+  {
+    "name": "exactbest_broad2_60",
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/central_variants_20260708_0325/exactbest_broad2_60.cpp",
+    "sha": "1d6f626522f44ee40ae2b7277b1851a15cf457ad59ef8f52cd77b9f1d96b0245"
+  },
+  {
+    "name": "exactbest_broad2_72_early",
+    "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_outputs/central_variants_20260708_0325/exactbest_broad2_72_early.cpp",
+    "sha": "5c8269a3d10f57a08df940306fd7ddfd3ef89ca83a709c32832ded81f7501666"
+  }
+]
