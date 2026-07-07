@@ -1,0 +1,50 @@
+{
+  "round": "idle_round50_20260707",
+  "tabs": {
+    "1": {
+      "blocks": 1,
+      "links": 4,
+      "title": "IMC 2026 C++ Solution",
+      "error": ""
+    },
+    "3": {
+      "blocks": 0,
+      "links": 2,
+      "title": "ChatGPT",
+      "error": ""
+    },
+    "7": {
+      "blocks": 1,
+      "links": 3,
+      "title": "C++ Code Optimization",
+      "error": ""
+    },
+    "11": {
+      "blocks": 0,
+      "links": 2,
+      "title": "C++ code cho bài này",
+      "error": ""
+    }
+  },
+  "candidates": [
+    {
+      "tab": 1,
+      "block": 0,
+      "hash": "0ca72bf913b6",
+      "duplicate": false,
+      "file": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/worker_patches/idle_round50_20260707/tab1_block00_0ca72bf913b6.cpp",
+      "gate": {
+        "ok": false,
+        "stage": "sample",
+        "first": "9 14",
+        "returncode": 0
+      }
+    },
+    {
+      "tab": 7,
+      "block": 0,
+      "hash": "a75bab3bc6f5",
+      "duplicate": true
+    }
+  ]
+}
