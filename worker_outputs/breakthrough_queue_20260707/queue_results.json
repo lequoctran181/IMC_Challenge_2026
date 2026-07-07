@@ -1,0 +1,142 @@
+[
+  {
+    "rel": "b93_shadowcarrier_out_563/b93_hcc_post_g9.cpp",
+    "exists": true,
+    "bytes": 122362,
+    "sha12": "52c44a113fc8",
+    "compile": "ok",
+    "compile_stderr": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b93_shadowcarrier_out_563/b93_hcc_post_g9.cpp:201:71666: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b93_shadowcarrier_out_563/b93_hcc_post_g9.cpp:201:73453: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b93_shadowcarrier_out_563/b93_hcc_post_g9.cpp:201:73574: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n3 warnings generated.\n",
+    "sample": "ok",
+    "first_line": "8 12",
+    "sample_stderr": "",
+    "submit": true
+  },
+  {
+    "rel": "b93_shadowcarrier_out_563/b93_hcc_post_g12.cpp",
+    "exists": true,
+    "bytes": 122364,
+    "sha12": "90d3297465c7",
+    "compile": "ok",
+    "compile_stderr": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b93_shadowcarrier_out_563/b93_hcc_post_g12.cpp:201:71666: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b93_shadowcarrier_out_563/b93_hcc_post_g12.cpp:201:73453: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b93_shadowcarrier_out_563/b93_hcc_post_g12.cpp:201:73574: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n3 warnings generated.\n",
+    "sample": "ok",
+    "first_line": "8 12",
+    "sample_stderr": "",
+    "submit": true
+  },
+  {
+    "rel": "b93_shadowcarrier_out_563/b93_hcc_post_safe.cpp",
+    "exists": true,
+    "bytes": 122363,
+    "sha12": "1a77e15ebb05",
+    "compile": "ok",
+    "compile_stderr": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b93_shadowcarrier_out_563/b93_hcc_post_safe.cpp:201:71666: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b93_shadowcarrier_out_563/b93_hcc_post_safe.cpp:201:73453: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b93_shadowcarrier_out_563/b93_hcc_post_safe.cpp:201:73574: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n3 warnings generated.\n",
+    "sample": "ok",
+    "first_line": "8 12",
+    "sample_stderr": "",
+    "submit": true
+  },
+  {
+    "rel": "b93_shadowcarrier_out_563/b93_hcc_post_ultrafine.cpp",
+    "exists": true,
+    "bytes": 122362,
+    "sha12": "209a87cc0391",
+    "compile": "ok",
+    "compile_stderr": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b93_shadowcarrier_out_563/b93_hcc_post_ultrafine.cpp:201:71666: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b93_shadowcarrier_out_563/b93_hcc_post_ultrafine.cpp:201:73453: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b93_shadowcarrier_out_563/b93_hcc_post_ultrafine.cpp:201:73574: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n3 warnings generated.\n",
+    "sample": "ok",
+    "first_line": "8 12",
+    "sample_stderr": "",
+    "submit": true
+  },
+  {
+    "rel": "b93_shadowcarrier_out_563/b93_hcc_post_aggr.cpp",
+    "exists": true,
+    "bytes": 122364,
+    "sha12": "69a0c1cdc19d",
+    "compile": "ok",
+    "compile_stderr": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b93_shadowcarrier_out_563/b93_hcc_post_aggr.cpp:201:71666: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b93_shadowcarrier_out_563/b93_hcc_post_aggr.cpp:201:73453: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b93_shadowcarrier_out_563/b93_hcc_post_aggr.cpp:201:73574: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n3 warnings generated.\n",
+    "sample": "ok",
+    "first_line": "8 12",
+    "sample_stderr": "",
+    "submit": true
+  },
+  {
+    "rel": "b97_direct_macro_out/B97_torus_mid.cpp",
+    "exists": true,
+    "bytes": 110519,
+    "sha12": "0ea3d84784bb",
+    "compile": "fail",
+    "compile_stderr": "hallenge_2026_remote/b97_direct_macro_out/B97_torus_mid.cpp:261:103626: error: expected unqualified-id\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b97_direct_macro_out/B97_torus_mid.cpp:261:103864: error: expected '(' for function-style cast or type construction\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b97_direct_macro_out/B97_torus_mid.cpp:261:104109: error: no member named 'cout' in namespace 'std'\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b97_direct_macro_out/B97_torus_mid.cpp:261:104141: error: no member named 'cout' in namespace 'std'\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b97_direct_macro_out/B97_torus_mid.cpp:261:104171: error: no member named 'setprecision' in namespace 'std'\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b97_direct_macro_out/B97_torus_mid.cpp:261:104217: error: no member named 'cout' in namespace 'std'\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b97_direct_macro_out/B97_torus_mid.cpp:261:104295: error: no member named 'cout' in namespace 'std'\n3 warnings and 8 errors generated.\n"
+  },
+  {
+    "rel": "b97_direct_macro_out/B97_sphere_hi.cpp",
+    "exists": true,
+    "bytes": 110480,
+    "sha12": "45c9f434e357",
+    "compile": "fail",
+    "compile_stderr": "hallenge_2026_remote/b97_direct_macro_out/B97_sphere_hi.cpp:261:103293: error: expected unqualified-id\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b97_direct_macro_out/B97_sphere_hi.cpp:261:103696: error: expected '(' for function-style cast or type construction\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b97_direct_macro_out/B97_sphere_hi.cpp:261:104014: error: no member named 'cout' in namespace 'std'\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b97_direct_macro_out/B97_sphere_hi.cpp:261:104046: error: no member named 'cout' in namespace 'std'\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b97_direct_macro_out/B97_sphere_hi.cpp:261:104086: error: no member named 'setprecision' in namespace 'std'\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b97_direct_macro_out/B97_sphere_hi.cpp:261:104132: error: no member named 'cout' in namespace 'std'\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b97_direct_macro_out/B97_sphere_hi.cpp:261:104210: error: no member named 'cout' in namespace 'std'\n3 warnings and 8 errors generated.\n"
+  },
+  {
+    "rel": "b97_direct_macro_out/B97_torus_aggr.cpp",
+    "exists": true,
+    "bytes": 110518,
+    "sha12": "966e459b3933",
+    "compile": "fail",
+    "compile_stderr": "e_2026_remote/b97_direct_macro_out/B97_torus_aggr.cpp:261:103626: error: expected unqualified-id\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b97_direct_macro_out/B97_torus_aggr.cpp:261:103864: error: expected '(' for function-style cast or type construction\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b97_direct_macro_out/B97_torus_aggr.cpp:261:104109: error: no member named 'cout' in namespace 'std'\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b97_direct_macro_out/B97_torus_aggr.cpp:261:104141: error: no member named 'cout' in namespace 'std'\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b97_direct_macro_out/B97_torus_aggr.cpp:261:104171: error: no member named 'setprecision' in namespace 'std'\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b97_direct_macro_out/B97_torus_aggr.cpp:261:104217: error: no member named 'cout' in namespace 'std'\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b97_direct_macro_out/B97_torus_aggr.cpp:261:104295: error: no member named 'cout' in namespace 'std'\n3 warnings and 8 errors generated.\n"
+  },
+  {
+    "rel": "b97_direct_macro_out/B97_sphere_safe.cpp",
+    "exists": true,
+    "bytes": 110480,
+    "sha12": "6f4699d9caf5",
+    "compile": "fail",
+    "compile_stderr": "remote/b97_direct_macro_out/B97_sphere_safe.cpp:261:103293: error: expected unqualified-id\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b97_direct_macro_out/B97_sphere_safe.cpp:261:103696: error: expected '(' for function-style cast or type construction\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b97_direct_macro_out/B97_sphere_safe.cpp:261:104014: error: no member named 'cout' in namespace 'std'\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b97_direct_macro_out/B97_sphere_safe.cpp:261:104046: error: no member named 'cout' in namespace 'std'\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b97_direct_macro_out/B97_sphere_safe.cpp:261:104086: error: no member named 'setprecision' in namespace 'std'\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b97_direct_macro_out/B97_sphere_safe.cpp:261:104132: error: no member named 'cout' in namespace 'std'\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b97_direct_macro_out/B97_sphere_safe.cpp:261:104210: error: no member named 'cout' in namespace 'std'\n3 warnings and 8 errors generated.\n"
+  },
+  {
+    "rel": "local_worker_BROAD_26/broad26_ab19_highn_timerfix.cpp",
+    "exists": true,
+    "bytes": 130072,
+    "sha12": "2a905a4b7c56",
+    "compile": "ok",
+    "compile_stderr": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/local_worker_BROAD_26/broad26_ab19_highn_timerfix.cpp:20:82499: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/local_worker_BROAD_26/broad26_ab19_highn_timerfix.cpp:20:84677: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/local_worker_BROAD_26/broad26_ab19_highn_timerfix.cpp:20:84833: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n3 warnings generated.\n",
+    "sample": "ok",
+    "first_line": "8 12",
+    "sample_stderr": "",
+    "submit": true
+  },
+  {
+    "rel": "local_worker_BROAD_30/broad30_b25_dcdeep_combo.cpp",
+    "exists": true,
+    "bytes": 130652,
+    "sha12": "62267daba305",
+    "compile": "ok",
+    "compile_stderr": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/local_worker_BROAD_30/broad30_b25_dcdeep_combo.cpp:20:84849: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/local_worker_BROAD_30/broad30_b25_dcdeep_combo.cpp:20:87099: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/local_worker_BROAD_30/broad30_b25_dcdeep_combo.cpp:20:87255: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n3 warnings generated.\n",
+    "sample": "ok",
+    "first_line": "8 12",
+    "sample_stderr": "",
+    "submit": true
+  },
+  {
+    "rel": "b92_budget_latest_out/B92pack_combo_all.cpp",
+    "exists": true,
+    "bytes": 113586,
+    "sha12": "13cbdd3d1518",
+    "compile": "ok",
+    "compile_stderr": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b92_budget_latest_out/B92pack_combo_all.cpp:261:62337: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b92_budget_latest_out/B92pack_combo_all.cpp:261:63946: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b92_budget_latest_out/B92pack_combo_all.cpp:261:64055: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n3 warnings generated.\n",
+    "sample": "ok",
+    "first_line": "8 12",
+    "sample_stderr": "",
+    "submit": true
+  },
+  {
+    "rel": "b92_budget_latest_out/B92pack_qnet_dsu.cpp",
+    "exists": true,
+    "bytes": 106359,
+    "sha12": "38790e7cc3f0",
+    "compile": "ok",
+    "compile_stderr": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b92_budget_latest_out/B92pack_qnet_dsu.cpp:262:62060: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b92_budget_latest_out/B92pack_qnet_dsu.cpp:262:63668: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/b92_budget_latest_out/B92pack_qnet_dsu.cpp:262:63777: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]\n3 warnings generated.\n",
+    "sample": "ok",
+    "first_line": "8 12",
+    "sample_stderr": "",
+    "submit": true
+  }
+]
