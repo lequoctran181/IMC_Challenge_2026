@@ -1,0 +1,10 @@
+bash -lc python3 - <<'PY'
+import urllib.request
+url='https://raw.githubusercontent.com/lequoctran181/IMC_Challenge_2026/main/submission_596_81.93_7.cpp'
+try:
+    with urllib.request.urlopen(url, timeout=10) as r:
+        data=r.read(100)
+    print('ok',data[:50])
+except Exception as e:
+    print('err',repr(e))
+PY
