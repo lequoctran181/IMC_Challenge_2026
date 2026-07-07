@@ -1,0 +1,11 @@
+{
+  "submission_id": "19912548",
+  "judgement": "Accepted (16.544656)",
+  "tests": "2/7",
+  "root_file": "submission_1169_16.54_2.cpp",
+  "fetched_source": "fetched_sources/kattis_19912548_16.54_2.cpp",
+  "source_sha256": "3c0b93cd1dcce85376fa523ac9f6af07f0bafa74fe9da52766dd3d656887bff2",
+  "duplicate_of": "19912514",
+  "recorded_at": "2026-07-08T02:00:00+07:00",
+  "note": "Parallel duplicate; did not improve best 81.938904."
+}
