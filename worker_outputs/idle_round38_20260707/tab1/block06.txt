@@ -1,0 +1,1 @@
+bash -lc sed -n '240,520p' /mnt/data/imc/problem_b_transcription.md
