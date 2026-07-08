@@ -22,6 +22,8 @@ Active base: `submission_1448_81.98_7.cpp` / Kattis `19922865`, exact score `81.
 | `submission_1480_0.00_7.cpp` | `19923533` | `0.000000`, `7/7` | Diagnostic false: exact case bbox `middle/long >= .80`. |
 | `submission_1481_0.00_6.cpp` | `19923536` | `0.000000`, `6/7` | Diagnostic true: exact case bbox `middle/long >= .40`. |
 | `submission_1482_0.00_7.cpp` | `19923544` | `0.000000`, `7/7` | Diagnostic false: exact case bbox `middle/long >= .60`. |
+| `submission_1483_0.00_7.cpp` | `19923548` | `0.000000`, `7/7` | Diagnostic false: exact case bbox `short/middle >= .70`. |
+| `submission_1484_0.00_7.cpp` | `19923551` | `0.000000`, `7/7` | Diagnostic false: exact case bbox `short/middle >= .75`. |
 
 ## Interpretation
 
@@ -33,6 +35,7 @@ Active base: `submission_1448_81.98_7.cpp` / Kattis `19922865`, exact score `81.
 - Raising all `FL()` trial thresholds to `.99` avoids the earlier 6/7 failure but also loses the best gain, landing in the familiar `81.946573` bucket.
 - Global `GT()` activation is unsafe: it reached only `66.820859`, 6/7.
 - Exact case bbox is flat/elongated: `short/long < .40` and `0.40 <= middle/long < .60`.
+- Exact case is not a round tube/capsule cross-section: `short/middle < .70`.
 - Do not activate `GI`, `FL`, or `IC` globally just because they are already present in the source. Any structural recognizer needs an exact, fail-closed detector and enough byte budget for an additional guard.
 
 Next local work should stay on the active `1448` base and target exact `N == 49987, M == 99970` with a new ring4/ring8-aware surface strategy rather than more B16/WK/S3B16 tail nudges.
