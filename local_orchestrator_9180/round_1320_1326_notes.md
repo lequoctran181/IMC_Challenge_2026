@@ -46,6 +46,8 @@ Target remains `91.80+`; exact best is now `81.977514`.
 | `submission_1356_81.94_7.cpp` | `19921150` | `81.938237`, 7/7 | S10_03 recombine; valid but still below best |
 | `submission_1357_70.49_6.cpp` | `19921160` | `70.491928`, 6/7 | S10_05 recombine; unsafe |
 | `submission_1358_81.94_7.cpp` | `19921181` | `81.938237`, 7/7 | S10_08 lateW5 recombine; same as S10_03, below best |
+| `submission_1359_81.93_7.cpp` | `19921209` | `81.934570`, 7/7 | S5 case6 late candidate; no improvement |
+| `submission_1361_81.95_7.cpp` | `19921195` | `81.945906`, 7/7 | concurrent worker source, tracked by commit `090389c`; ties old exact best |
 
 ## Current Lessons
 
@@ -71,3 +73,4 @@ Target remains `91.80+`; exact best is now `81.977514`.
 - First q `.942/.955` is unsafe too; Kattis `19921049` fell to `43.093759`/4, so the safe point is a very narrow `.941/.955`.
 - Worker515 T03's local compare/fallback compiles after replacing out-of-scope `SN` with `cove()`, but Kattis `19921075` only scored `81.929569`; do not prioritize that branch without a stronger hidden-case trigger.
 - S14/S7 case5 and pipeline-selector variants mostly collapse to the old `81.934570` plateau; S10 recombines are mixed, with `S10_03`/`S10_08` at `81.938237` and `S10_05` unsafe at `70.491928`.
+- S5 case6 late did not improve (`81.934570`), and concurrent `1361` only tied old exact best `81.945906`.
