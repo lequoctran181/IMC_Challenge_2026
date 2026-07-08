@@ -106,6 +106,9 @@ Target remains `91.80+`; exact best is now `81.977514`.
 | `submission_1419_0.00_7.cpp` | `19922280` | `0.000000`, 7/7 | diagnostic: exact case 5 is not mostly valence-6 under `v6>=68%, v567>=92%` |
 | `submission_1420_68.11_6.cpp` | `19922291` | `68.112743`, 6/7 | generic smooth high-N constants tuned (`DZ/EK/EL/pth`); unsafe |
 | `submission_1421_55.22_5.cpp` | `19922301` | `55.216006`, 5/7 | exact `N==49987` W5 patch max-valence 10; unsafe |
+| `submission_1422_0.00_7.cpp` | `19922338` | `0.000000`, 7/7 | diagnostic: exact case 5 does not have `v567>=92%` |
+| `submission_1423_66.15_6.cpp` | `19922343` | `66.149899`, 6/7 | exact W2C cap 300; still unsafe |
+| `submission_1424_0.00_6.cpp` | `19922354` | `0.000000`, 6/7 | diagnostic: exact case 5 has `v4..8>=92%` with low very-bad valence |
 
 ## Current Lessons
 
@@ -166,7 +169,7 @@ Target remains `91.80+`; exact best is now `81.977514`.
 - `19922036` shows broad `FL` threshold relaxation is unsafe; `19922051` confirms case 5 is not in the hardcoded `GJ/FL` ring face order despite `N-2 = 65*769`.
 - `19922074` shows exact-N/M broad re-enabling of skipped branches is also unsafe; prefer narrow shape diagnostics (`GY/GI`, valence, sampled normal ratios) before implementing more exact-case logic.
 - `19922093` shows current `GY()` sphere-fit is false on exact case 5; next primitive probe should be `GA/EJ` ellipsoid/PCA, not `GI` sphere tuning.
-- `19922128` excludes a near-AABB/box-surface interpretation, and `19922144` excludes current `GA/EJ` ellipsoid/PCA; `19922151` and `19922232` confirm sampled normal smoothness, including the stricter current generic gate. `19922181` shows plain exact `MIDEC AH .12` drops to `81.945906`, `19922198` shows an extra exact-B16 pass is unsafe, `19922248` shows generic exact-W2C is unsafe, `19922280` excludes mostly-valence-6 regularity, `19922291` shows broad generic smooth constant tuning is unsafe, and `19922301` shows higher-valence W5 patches are unsafe. Case 5 needs a more fail-closed smooth local pass or weaker valence/topology diagnostics rather than simply widening existing post-passes.
+- `19922128` excludes a near-AABB/box-surface interpretation, and `19922144` excludes current `GA/EJ` ellipsoid/PCA; `19922151` and `19922232` confirm sampled normal smoothness, including the stricter current generic gate. `19922280`/`19922338`/`19922354` show case 5 is not mostly valence-6 or 5..7, but is mostly valence 4..8. `19922181`, `19922198`, `19922248`, `19922291`, `19922301`, and `19922343` are all negative for widening existing post-passes. Case 5 needs a more fail-closed smooth local pass or valence-4/8-aware diagnostics.
 - WorkerF macro5k candidate returned `80.634329`; macro5k is not a breakthrough branch in this form.
 - Broad09 r12grid W2+B16 returned `81.709845`; avoid this structural branch unless redesigned around a much narrower detector.
 - Broad19 boxgrid failclosed returned `81.934570`; failclosed structural branches still mostly preserve plateau rather than improve compression.
