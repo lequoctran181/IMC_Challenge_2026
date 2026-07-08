@@ -17,6 +17,7 @@ Current target: Kattis score >= 91.80. Current retained root-submission best by 
 - Latest checked `1365-1366` also did not improve: both returned `81.934570`.
 - Latest checked `1367` also did not improve: S14 upper-exact guard returned `81.934570`, matching the same plateau.
 - Latest fetched `1372` from Kattis `19921359` scored `81.945906`, 7/7; valid but still below the `81.977514` best.
+- Latest checked `1373` did not improve: S11_01 proxy-aware S7_04 selector returned `81.934570`.
 
 ## Score Buckets
 
@@ -71,3 +72,4 @@ Current target: Kattis score >= 91.80. Current retained root-submission best by 
 - Also avoid widening the first high-N q above `.941/.955`: `.942/.955` fell to `43.093759`/4.
 - S14 guard variants are now exhausted for this cycle (`midfloor`, `looseguard`, `tightguard`, `upper-exact` all returned `81.934570`); next 16-lane work should shift away from case5 guard-only deltas.
 - Unknown-source Kattis `19921359` tied the older exact-best bucket (`81.945906`) but did not recover the new `1339` gain; keep `1339` as the only trusted root for score-improving edits.
+- The `19921359` source broadened W2G-style grid detection to larger N but still scored only `81.945906`; treat large-N W2G detector expansion as low priority unless paired with a different output surface.

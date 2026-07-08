@@ -58,6 +58,7 @@ Target remains `91.80+`; exact best is now `81.977514`.
 | `submission_1366_81.93_7.cpp` | `19921326` | `81.934570`, 7/7 | S14 tightguard; no improvement |
 | `submission_1367_81.93_7.cpp` | `19921340` | `81.934570`, 7/7 | S14 upper-exact guard; no improvement |
 | `submission_1372_81.95_7.cpp` | `19921359` | `81.945906`, 7/7 | fetched unknown-source Kattis candidate; ties older exact-best bucket, below `1339` |
+| `submission_1373_81.93_7.cpp` | `19921376` | `81.934570`, 7/7 | S11_01 proxy-aware S7_04 selector; no improvement |
 
 ## Current Lessons
 
@@ -88,3 +89,5 @@ Target remains `91.80+`; exact best is now `81.977514`.
 - S14 guard variants (`midfloor`, `looseguard`, `tightguard`) all return the same `81.934570` plateau.
 - S14 upper-exact guard also returned `81.934570`; stop spending attempts on S14 guard-only parameter changes unless they are paired with a new hidden-case discriminator.
 - Unknown-source Kattis `19921359` scored `81.945906`; it is valid but lacks the narrow `1339` gain, so use it only as a comparison source rather than a new base.
+- `19921359` extends W2G-like grid detection to larger N but does not improve; this suggests output quality/target geometry, not just detector coverage, is the blocker for large-N structural branches.
+- S11_01 S7_04 proxy-aware selector returned `81.934570`; S11 variants may still test clean order selectors, but the pre-MIDEC/WK swap idea has weak signal.
