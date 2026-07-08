@@ -267,3 +267,22 @@ Submitted the slim source-size-safe probe:
 Kattis details: test case 3 failed with `Wrong Answer: SSIM is too low`; test case 7 timed out.
 
 Conclusion: blacklist pragma/unroll plus include-shave speed probes. The local timing idea did not transfer; it broke hidden visual fidelity and still TLEd the last case.
+
+## VIMP same-size cap batch
+
+Generated 16 same-size variants from exact high-water `submission_1448_81.98_7.cpp` in `local_orchestrator_9180/queue16_vimp_samesize_20260709/`. All variants stayed exactly `131030` bytes and only changed constants inside `VIMP::sc/run`.
+
+Proxy result: most variants were output-identical to the fresh high-water build. Two variants gave stable local gains over three reruns:
+
+| Variant | Proxy signal |
+| --- | --- |
+| `v11_ratio_low` | `case5_lobed 1133/2262 -> 1026/2048`, `torus57 1412/2824 -> 1265/2530`, `wavy57 2257/4514 -> 2025/4050`; no changes on the rest of the portfolio. |
+| `v13_keep_loose` | Stronger reductions on the same three proxies, but higher SSIM risk because it loosens VIMP rollback thresholds. |
+
+Submitted the safer candidate first:
+
+| Submission | Kattis | Result | Change |
+| --- | --- | --- | --- |
+| `submission_1550_81.95_7.cpp` | `19924859` | `81.946573`, `7/7`, runtime `20.32 s` | Lowered the VIMP cap ratios from `24/16/12` to `22/14/10`. |
+
+Conclusion: VIMP cap reduction is hidden-valid but below the `81.978181` high-water. It is a useful safety datum, but it does not break the plateau. Do not submit `v13_keep_loose` automatically; it is likely a higher-risk same-family probe and should wait for a new reason or a narrower guard.
