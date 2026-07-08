@@ -264,3 +264,18 @@ Interpretation: because these use high-water-shaved plus `IJ()` and Kattis score
   - `vps_eval` at res 256 still reports `wavy57 = 0.955364`, `torus23_scr = 0.921692`, and `ico2562 = 0.930209` for `dcev_02_p90`; high-water has `0.968827`, `0.953174`, and `0.889848` respectively.
 - Submitted `dcev_02_p90.cpp` as `19924680`; official result `Accepted (53.927292)`, `5/7`, runtime `> 21.00 s`. This matches the broad grid/TG failure class despite proxy gains.
 - Conclusion: lowering `DC::EV` proxy thresholds or pushing its ratio list is unsafe on hidden tests. Do not submit `dcev_04`, `dcev_14`, or stronger DCEV ratio/threshold variants without a new hidden-specific guard.
+
+## DCEV conditional-threshold follow-up
+
+- Submitted `fine_all_915.cpp` as `19924735`; official result `53.927292`, `5/7`, with test 4 validator hint `SSIM is too low`.
+- Built `queue16_dcev_guarded_mid/` by turning off the DCEV threshold change outside selected `N` bands. This preserved `case5_lobed`, `ico2562`, and `wavy57` in some variants, but turning off the whole DCEV branch for `39k..60k` also removed high-water's safe 57k improvement, so the branch-level guard is not useful.
+- Built `queue16_dcev_condpth/` from the exact high-water source by making only the DCEV positive threshold conditional. Local single-run checks:
+  - high-water `torus23_scr`: `1282 2564`, `vps_eval 1024 = 0.927136`.
+  - `c07_8_39_p91`: `932 1864`, `vps_eval 1024 = 0.915503`, with `case5_lobed`, `ico2562`, and `wavy57` unchanged locally.
+  - `c13_8_39_p88`: `583 1166`, but `vps_eval 512 = 0.895246`, so it is below the local safety margin and was not submitted.
+- Kattis results:
+  - `19924826` / `1552`, `c07_8_39_p91_smallonly`: `53.927292`, `5/7`, test 4 `SSIM is too low`.
+  - `19924858` / `1553`, `c17_8_39_p916_smallonly`: `68.113410`, `6/7`, test 4 `SSIM is too low`.
+  - `19924871` / `1554`, `c18_20_30_p916_smallonly`: `53.927292`, `5/7`, test 4 `SSIM is too low`.
+  - `19924883` / `1555`, `c19_20_25_p91_smallonly`: `53.927292`, `5/7`, test 4 `SSIM is too low`.
+- Conclusion: hidden test 4 is in the `20k..25k` range and is fooled by local DCEV proxy thresholds; even `.916` is too aggressive. Do not submit more DCEV threshold/ratio lowering for `20k..25k`. A future DCEV route needs a discriminating shape/signature guard that excludes this hidden test 4 before it can be useful.

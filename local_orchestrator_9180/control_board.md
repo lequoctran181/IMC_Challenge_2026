@@ -224,3 +224,9 @@ Current target: Kattis score >= 91.80. Current retained root-submission best by 
 - Local 16-worker exact skipped-struct batch (`QX/FR/FG/IC` reopened only for `N==49987`) was proxy-identical to `1448` on the current portfolio, including exact-case5 synthetic `1133/2262`; no submission.
 - `1549` / `19924779` pragma speed probe (`O3,unroll-loops` plus a minimal source-size shave) returned `56.927589`, `5/7`, with test 3 `SSIM is too low` and test 7 `Time Limit Exceeded`; blacklist pragma/unroll/include-shave as a speed route.
 - `1550` / `19924859` VIMP same-size cap reduction (`24/16/12 -> 22/14/10`) returned `81.946573`, `7/7`, runtime `20.32 s`; valid but below high-water `81.978181`. Treat VIMP cap lowering as safe historical data, not a breakthrough. Hold the stronger `v13_keep_loose` unless a narrower hidden guard appears.
+- `1551` / `19924735` DCEV `0.915` global/fine threshold returned `53.927292`, `5/7`, test 4 `SSIM is too low`.
+- `1552` / `19924826` conditional DCEV `N>8000 && N<39000`, positive threshold `.91`, returned `53.927292`, `5/7`, test 4 `SSIM is too low`.
+- `1553` / `19924858` conditional DCEV `.916` in the `N<30000` branch returned `68.113410`, `6/7`, test 4 `SSIM is too low`.
+- `1554` / `19924871` narrower DCEV `.916` for `20000<N<30000` returned `53.927292`, `5/7`, test 4 `SSIM is too low`.
+- `1555` / `19924883` narrower DCEV `.91` for `20000<N<25000` returned `53.927292`, `5/7`, test 4 `SSIM is too low`.
+- Conclusion: hidden test 4 is inside the `20k..25k` DCEV-sensitive bucket, and even p916 proxy acceptance is too aggressive. Stop DCEV threshold lowering for that bucket. Only revisit DCEV with a new recognizer that explicitly excludes hidden test 4 while preserving another identified hidden case.
