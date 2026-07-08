@@ -1,1 +1,0 @@
-cpp block. No Python generators, no summary-only answer, no patch-only response, no partial snippets. It must compile with -std=c++17 -O2 and pass official sample with first line exactly `8 12`. Spend the reasoning budget on an actual breakthrough implementation.

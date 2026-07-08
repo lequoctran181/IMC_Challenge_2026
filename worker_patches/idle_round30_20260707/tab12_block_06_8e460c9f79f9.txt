@@ -1,3 +1,0 @@
-cpp block. It must compile with g++ -O2 -std=c++17 -pipe -static -s and pass official sample first line exactly `8 12`.
-
-Current best is still 81.938904; target 91.80+. Recent low results: 19905886 = 50.001488, 19905803 = 0. Need a genuinely new strategy, not fragments/duplicates. Use attached files and repo: https://github.com/lequoctran181/IMC_Challenge_2026 . Output only full final C++.

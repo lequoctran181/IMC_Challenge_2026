@@ -1,2 +1,0 @@
-g++ -O2 -std=c++17 -pipe /mnt/data/submission_next.cpp -o /mnt/data/submission_next_bin
-official-sample-shaped cube first line: 8 12

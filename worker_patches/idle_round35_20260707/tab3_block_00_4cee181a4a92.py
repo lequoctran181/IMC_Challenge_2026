@@ -1,1 +1,0 @@
-# from repo rootpython3 make_x92_breakthrough.py# emits x92_breakthrough.cpp and self-checks:# g++ -std=c++17 -O2 -pipe x92_breakthrough.cpp -o x92_breakthrough# optional Kattis-style compile:g++ -std=c++17 -O2 -pipe -static -s x92_breakthrough.cpp -o x92_breakthrough# sample check if sample.in is present:./x92_breakthrough < sample.in | head -n1# expected: 8 12

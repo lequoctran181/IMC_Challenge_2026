@@ -1,2 +1,0 @@
-worker_outputs/workerG_tab8_20260706/workerG_deep_param_candidate_361_from_chat.cpp:22:85482: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]
-1 warning generated.

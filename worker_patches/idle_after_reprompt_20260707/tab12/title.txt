@@ -1,1 +1,0 @@
-IMC SimplifyGeometry Optimization

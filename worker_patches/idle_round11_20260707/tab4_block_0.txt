@@ -1,7 +1,0 @@
-python3 gen_ax6_impostor.py \
-  --src fetched_sources/kattis_19903326_fetched.cpp \
-  --out submission_ax6_impostor.cpp \
-  --exe submission_ax6_impostor.check
-
-# Submit this generated file:
-submission_ax6_impostor.cpp

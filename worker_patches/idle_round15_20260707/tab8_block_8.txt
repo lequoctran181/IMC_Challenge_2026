@@ -1,1 +1,0 @@
-cpp block. It must compile with C++17 and pass the official sample first line exactly `8 12`. No snippets, no repeated generators, no patch-only/prose-only answer, no attachment-only answer.

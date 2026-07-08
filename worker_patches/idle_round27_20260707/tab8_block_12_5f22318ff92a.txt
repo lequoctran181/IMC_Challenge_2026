@@ -1,1 +1,0 @@
-cpp block. No Python/generator-only/snippets/prose. It must compile -O2 -std=c++17 and pass sample first line `8 12`. We need a true +10 route.

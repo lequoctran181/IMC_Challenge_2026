@@ -1,4 +1,0 @@
-worker_outputs/retarget_19903544_20260706/q35_on_19903544.cpp:38:71959: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]
-worker_outputs/retarget_19903544_20260706/q35_on_19903544.cpp:38:73742: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]
-worker_outputs/retarget_19903544_20260706/q35_on_19903544.cpp:38:73863: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]
-3 warnings generated.

@@ -1,1 +1,0 @@
-cpp block that compiles and whose official sample first line is exactly `8 12`. No prose-only, no patch-only, no repeated hash family.

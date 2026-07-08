@@ -1,7 +1,0 @@
-base=fetched_sources/kattis_19903326_fetched.cpp
-base_bytes=130837
-output=worker_outputs/tab12_vhx_20260706/vhx_anchor_submit.cpp
-output_bytes=114642
-source_limit=131072
-sha256=86809829668b5599854e26284877790a87007e1743fa62fa3a1480f25f28eb94
-FAIL_CLOSED: C++ compiler not found: /opt/homebrew/bin/g++-15

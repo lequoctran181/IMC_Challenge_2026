@@ -1,1 +1,0 @@
-bash -lc cat > /mnt/data/sample.in <<'EOF'9 14v 0.5 0.5 0.5v 0.5 0.5 -0.5v 0.5 -0.5 0.5v 0.5 -0.5 -0.5v -0.5 0.5 0.5v -0.5 0.5 -0.5v -0.5 -0.5 0.5v -0.5 -0.5 -0.5v 0.5 0.49 0.49f 1 3 9f 1 9 2f 9 3 4f 9 4 2f 5 6 8f 5 8 7f 1 2 6f 1 6 5f 3 7 8f 3 8 4f 1 5 7f 1 7 3f 2 4 8f 2 8 6EOF/mnt/data/solution < /mnt/data/sample.in > /mnt/data/sample.outcat /mnt/data/sample.out

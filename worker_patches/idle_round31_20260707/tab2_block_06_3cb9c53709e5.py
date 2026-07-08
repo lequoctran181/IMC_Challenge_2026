@@ -1,1 +1,0 @@
-python3 make_srf_exact_best.py -o srf_exact_best_breakthrough.cppwc -c srf_exact_best_breakthrough.cpp./srf_exact_best_breakthrough < sample.in | head -n1

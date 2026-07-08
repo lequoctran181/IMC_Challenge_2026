@@ -1,1 +1,0 @@
-bash -lc find /mnt/data/imc -maxdepth 2 -type f -printf '%p %s\n' | sort | head -200

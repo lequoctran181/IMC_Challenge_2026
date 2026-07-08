@@ -1,1 +1,0 @@
-cpp block. No Python generator this time if possible; if you must use generation, include the final generated C++ too. It must compile with -O2 -std=c++17 and sample first line `8 12`. Aim at a real +10 breakthrough.

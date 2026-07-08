@@ -1,1 +1,0 @@
-submission_next.cpp

@@ -1,1 +1,0 @@
-python3 make_vhc_breakthrough.py -o vhc_breakthrough.cpp./vhc_breakthrough < sample.in | head -n1

@@ -1,1 +1,0 @@
-cpp block. No duplicate generators, no old block families, no wrappers unless they materially improve hidden cases. Use attached files and repo https://github.com/lequoctran181/IMC_Challenge_2026 .

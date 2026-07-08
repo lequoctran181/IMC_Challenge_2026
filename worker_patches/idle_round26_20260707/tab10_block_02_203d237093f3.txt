@@ -1,5 +1,0 @@
-cpp block. It must compile with g++ -O2 -std=c++17 -pipe -static -s and pass official sample first line `8 12`.
-
-Current real best remains only 81.938904; target is 91.80+. Recent valid submissions 19905603 and 19905630 only tied best; 19905643 got 52.608857. We need a genuine new strategy, not wrappers around current-best and not snippets.
-
-Use attached problem/files and repo history: https://github.com/lequoctran181/IMC_Challenge_2026 . Think deeply, implement fully, output only the full final C++ code block.

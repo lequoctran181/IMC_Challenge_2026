@@ -1,4 +1,0 @@
-worker_outputs/tab12_vhx_20260706/vhx_anchor_submit.cpp:38:71077: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]
-worker_outputs/tab12_vhx_20260706/vhx_anchor_submit.cpp:38:72786: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]
-worker_outputs/tab12_vhx_20260706/vhx_anchor_submit.cpp:38:72894: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]
-3 warnings generated.

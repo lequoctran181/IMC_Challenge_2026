@@ -1,8 +1,0 @@
-Round78 targeted tab8 harvest
-{"url": "https://chatgpt.com/c/6a4d2080-3cc4-83ec-9152-caf746ce56d5", "title": "IMC Challenge 2026 Problem B", "pro": true}
-block02_0135859786fd.cpp compile=0 run=0 first='8 12'
-block03_b81127cdd85d.cpp compile=0 run=0 first='8 12'
-block04_272f6ceb9316.cpp compile=0 run=0 first='8 12'
-block05_2bae1eba1b93.cpp compile=0 run=0 first='8 12'
-block06_5872541987ac.cpp compile=0 run=0 first='8 12'
-block07_5015deb1992d.cpp compile=0 run=0 first='8 12'

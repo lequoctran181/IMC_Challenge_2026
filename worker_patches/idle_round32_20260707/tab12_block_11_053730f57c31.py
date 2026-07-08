@@ -1,1 +1,0 @@
-cpp block. No Python, no generator, no partial code, no patches, no prose-only result. It must compile with C++17 -O2 and pass the official sample with first output line exactly `8 12`. Think long and aim directly at the 91.80+ jump.

@@ -1,4 +1,0 @@
-worker_outputs/round2_best_20260706/pcl2_postfinal.cpp:38:77109: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]
-worker_outputs/round2_best_20260706/pcl2_postfinal.cpp:38:79226: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]
-worker_outputs/round2_best_20260706/pcl2_postfinal.cpp:38:79379: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]
-3 warnings generated.

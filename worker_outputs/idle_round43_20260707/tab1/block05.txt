@@ -1,1 +1,0 @@
-bash -lc ls -lh /mnt/data && file /mnt/data/Archive\(12\).zip && unzip -l /mnt/data/Archive\(12\).zip | head -100

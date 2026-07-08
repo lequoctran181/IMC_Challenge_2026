@@ -1,4 +1,0 @@
-worker_outputs/workerL_svi_20260706/worker_trefoil_exact_from563_svi.cpp:29:79471: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]
-worker_outputs/workerL_svi_20260706/worker_trefoil_exact_from563_svi.cpp:29:81581: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]
-worker_outputs/workerL_svi_20260706/worker_trefoil_exact_from563_svi.cpp:29:81733: warning: unqualified call to 'std::move' [-Wunqualified-std-cast-call]
-3 warnings generated.

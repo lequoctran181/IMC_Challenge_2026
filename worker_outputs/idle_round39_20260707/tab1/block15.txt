@@ -1,1 +1,0 @@
-bash -lc python3 - <<'PY'p='/mnt/data/solution.cpp's=open(p).read().replace('angleDeg*M_PI/180.0','angleDeg*acos(-1.0)/180.0')open(p,'w').write(s)PYg++ -std=c++17 -O2 -pipe -static -s /mnt/data/solution.cpp -o /mnt/data/solution

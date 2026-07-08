@@ -1,1 +1,0 @@
-double need=N>47500?0.969:0.962;keep=px>=need;}if(!keep){rs(S);return false;}return true;}}namespace W2G{

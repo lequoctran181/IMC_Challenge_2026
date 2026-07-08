@@ -1,3 +1,0 @@
-Round80 tab9 harvest
-block00_ec0b95a2443b.cpp compile=0 run=0 first='8 12'
-block01_cd5001c2a903.cpp compile=0 run=0 first='8 12'

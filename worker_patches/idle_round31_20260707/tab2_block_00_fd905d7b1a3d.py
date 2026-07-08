@@ -1,1 +1,0 @@
-cd IMC_Challenge_2026python3 make_vxh_breakthrough.py -o vxh_breakthrough.cppwc -c vxh_breakthrough.cpp./vxh_breakthrough < sample.in | head -n1# submit vxh_breakthrough.cpp

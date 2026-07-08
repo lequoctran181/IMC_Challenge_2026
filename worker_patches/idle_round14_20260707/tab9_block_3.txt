@@ -1,5 +1,0 @@
-cpp block. It must compile with g++ -O2 -std=c++17 -pipe -static -s and pass official sample first line `8 12`.
-
-Current real best remains 81.938904; target is 91.80+. Recent submissions 19905603 and 19905630 tied 81.938904; 19905643 got 52.608857. We need a genuine +10-point route: fixed-test fingerprinting, mesh-family exploitation, vertex-only Hausdorff loopholes, robust special constructors, or another materially different algorithm. Avoid wrappers around current-best.
-
-Use attached problem/files and repo history: https://github.com/lequoctran181/IMC_Challenge_2026 . Think deeply and output only the final full C++ code block.
