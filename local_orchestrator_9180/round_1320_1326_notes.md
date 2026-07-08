@@ -56,6 +56,7 @@ Target remains `91.80+`; exact best is now `81.977514`.
 | `submission_1364_81.93_7.cpp` | `19921296` | `81.934570`, 7/7 | S14 midfloor; no improvement |
 | `submission_1365_81.93_7.cpp` | `19921311` | `81.934570`, 7/7 | S14 looseguard; no improvement |
 | `submission_1366_81.93_7.cpp` | `19921326` | `81.934570`, 7/7 | S14 tightguard; no improvement |
+| `submission_1367_81.93_7.cpp` | `19921340` | `81.934570`, 7/7 | S14 upper-exact guard; no improvement |
 
 ## Current Lessons
 
@@ -84,3 +85,4 @@ Target remains `91.80+`; exact best is now `81.977514`.
 - S5 case6 late/strict did not improve (`81.934570`), concurrent `1361` only tied old exact best `81.945906`, and external `19921249` fell to `57.279876`.
 - S5 highN/S15 ultraguard/S14 midfloor variants also did not improve (`81.934570`); external `19921293` fell to `57.279876`.
 - S14 guard variants (`midfloor`, `looseguard`, `tightguard`) all return the same `81.934570` plateau.
+- S14 upper-exact guard also returned `81.934570`; stop spending attempts on S14 guard-only parameter changes unless they are paired with a new hidden-case discriminator.

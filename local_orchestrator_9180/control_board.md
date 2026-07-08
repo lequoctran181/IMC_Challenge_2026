@@ -15,6 +15,7 @@ Current target: Kattis score >= 91.80. Current retained root-submission best by 
 - Latest checked `1359-1360` and concurrent `1361` also did not improve: S5 case6 late/strict returned `81.934570`, `1361` tied old exact best `81.945906`, and external `19921249` fell to `57.279876`.
 - Latest checked `1362-1364` also did not improve: all returned `81.934570`; external `19921293` fell to `57.279876`.
 - Latest checked `1365-1366` also did not improve: both returned `81.934570`.
+- Latest checked `1367` also did not improve: S14 upper-exact guard returned `81.934570`, matching the same plateau.
 
 ## Score Buckets
 
@@ -67,3 +68,4 @@ Current target: Kattis score >= 91.80. Current retained root-submission best by 
 - E proved the source-size workaround and fail-closed fallback can preserve the plateau, but the visual-shell recognizer did not trigger a score jump.
 - Highest priority is now preserving `submission_1339_81.98_7.cpp` exactly while adding genuinely fail-closed branches; do not increase the final high-N B16 count beyond `88` without a stronger guard, because `89+` fell to `53.926625`.
 - Also avoid widening the first high-N q above `.941/.955`: `.942/.955` fell to `43.093759`/4.
+- S14 guard variants are now exhausted for this cycle (`midfloor`, `looseguard`, `tightguard`, `upper-exact` all returned `81.934570`); next 16-lane work should shift away from case5 guard-only deltas.
