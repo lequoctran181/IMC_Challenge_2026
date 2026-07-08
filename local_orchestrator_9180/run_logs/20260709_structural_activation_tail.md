@@ -293,4 +293,11 @@ Conclusion: VIMP cap reduction is hidden-valid but below the `81.978181` high-wa
 ## QEM target and DCEV fine-threshold checks
 
 - Generated 16 same-size `choose_target` variants in `local_orchestrator_9180/queue16_qem_target_samesize_20260709/`, changing `.089`, `.035`, feature cap `.22`, and clamp `.086/.115`. All were output-identical to the high-water build on the portfolio; no submission.
+
+## Standalone Pro Pool Check
+
+- After switching orchestration away from the 8 Pro Extended chats and back to 16 local workers, compiled the local standalone Pro candidates that were already on disk.
+- `proext_02_reverse_15k_local` was the only plausible submit: sample OK and local proxy scores at 512 were `0.9021` on torus23, `0.9441` on case5, and `0.9030` on bumpy25.
+- `1557` / `19924969` submitted the unpatched local file and received `Compile Error`, likely because clang accepted indirectly available `chrono`/`cstdint`/`climits` while GNU did not.
+- `1558` / `19924977` added those headers and compiled on Kattis, but scored only `48.522102`, `5/7`, runtime `13.33s`. Standalone Pro reverse-15k is blacklisted as a replacement route.
 - Generated 16 DCEV thresholds just below `.920` in `local_orchestrator_9180/queue16_dcev_fine_p92_20260709/` (`.917`, `.918`, `.919`, `.9195` with `20k..30k`, `20k..25k`, `23k..25k`, and `8k..39k` guards). These also produced no first-line gains over the base on the tested 23k proxies. The useful local cliff remains below `.917`, and known `.916` submissions fail hidden test 4.
