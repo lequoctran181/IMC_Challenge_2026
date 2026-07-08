@@ -115,6 +115,5 @@ Target remains `91.80+`; exact best is now `81.977514`.
 - Unknown concurrent `19921509` returned `75.613142`; do not use it as a base unless later diff analysis reveals an isolated positive branch.
 - Diagnostic `19921584` accepted with score `0.000000` because the S14 lower guard never fired on hidden tests; stop spending attempts on that exact lower guard, since its proxy wins do not correspond to any official hidden slice.
 - WorkerF macro5k candidate returned `80.634329`; macro5k is not a breakthrough branch in this form.
-- Unknown concurrent `19921584` scored 0 with 7/7 validity; visual threshold, not manifold validity, killed it.
 - Broad09 r12grid W2+B16 returned `81.709845`; avoid this structural branch unless redesigned around a much narrower detector.
 - Broad19 boxgrid failclosed returned `81.934570`; failclosed structural branches still mostly preserve plateau rather than improve compression.
