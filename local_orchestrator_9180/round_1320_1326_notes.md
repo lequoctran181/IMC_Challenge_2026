@@ -139,6 +139,7 @@ Target remains `91.80+`; exact best is now `81.977514`.
 | `submission_1452_81.95_7.cpp` | `19922913` | `81.945906`, 7/7 | micro filler `S3B16::T(02,11,192,.96,18.47,3,5,.0015)`; valid but loses micro-gain |
 | `submission_1453_68.11_6.cpp` | `19922935` | `68.113076`, 6/7 | micro filler `S3B16::T(02,13,192,.96,18.47,5,5,.0015)`; unsafe positive-step/late-phase shift |
 | `submission_1454_81.94_7.cpp` | `19922956` | `81.944239`, 7/7 | micro filler `S3B16::T(02,-9,192,.96,18.47,0,5,.0018)`; valid but epsilon increase loses the micro-gain |
+| `submission_1455_81.95_7.cpp` | `19922974` | `81.946573`, 7/7 | micro filler `S3B16::T(02,-9,192,.96,18.47,0,5,.0020)`; valid but still below `.0015` micro-best |
 
 ## Current Lessons
 
