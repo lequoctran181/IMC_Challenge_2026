@@ -38,6 +38,14 @@ Target remains `91.80+`; exact best is now `81.977514`.
 | `submission_1348_43.09_4.cpp` | `19921049` | `43.093759`, 4/7 | first q `.942/.955`; unsafe, worse than `.941/.954` |
 | `submission_1349_43.09_4.cpp` | `19921061` | `43.093759`, 4/7 | concurrent external source hash `0fbe2af2`; unsafe |
 | `submission_1350_81.93_7.cpp` | `19921075` | `81.929569`, 7/7 | fixed worker515 T03 case5 compare branch; valid but below best |
+| `submission_1351_81.93_7.cpp` | `19921102` | `81.934570`, 7/7 | S14 case5 cap92 candidate; no improvement |
+| `submission_1352_80.63_7.cpp` | `19921105` | `80.634329`, 7/7 | S10_06 recombine; valid but harmful |
+| `submission_1353_81.93_7.cpp` | `19921125` | `81.934570`, 7/7 | S7_04 pre-MIDEC/WK swap; no improvement |
+| `submission_1354_81.93_7.cpp` | `19921130` | `81.934570`, 7/7 | S14 exact feature candidate; no improvement |
+| `submission_1355_81.93_7.cpp` | `19921141` | `81.934570`, 7/7 | S7_05 skip-MIDEC selector; no improvement |
+| `submission_1356_81.94_7.cpp` | `19921150` | `81.938237`, 7/7 | S10_03 recombine; valid but still below best |
+| `submission_1357_70.49_6.cpp` | `19921160` | `70.491928`, 6/7 | S10_05 recombine; unsafe |
+| `submission_1358_81.94_7.cpp` | `19921181` | `81.938237`, 7/7 | S10_08 lateW5 recombine; same as S10_03, below best |
 
 ## Current Lessons
 
@@ -62,3 +70,4 @@ Target remains `91.80+`; exact best is now `81.977514`.
 - First q `.941/.954` is also unsafe; two submissions with identical source produced low 5/7 scores (`57.279876` and `53.926625`), so the low/mid threshold must stay `.955` unless protected by a new fallback.
 - First q `.942/.955` is unsafe too; Kattis `19921049` fell to `43.093759`/4, so the safe point is a very narrow `.941/.955`.
 - Worker515 T03's local compare/fallback compiles after replacing out-of-scope `SN` with `cove()`, but Kattis `19921075` only scored `81.929569`; do not prioritize that branch without a stronger hidden-case trigger.
+- S14/S7 case5 and pipeline-selector variants mostly collapse to the old `81.934570` plateau; S10 recombines are mixed, with `S10_03`/`S10_08` at `81.938237` and `S10_05` unsafe at `70.491928`.
