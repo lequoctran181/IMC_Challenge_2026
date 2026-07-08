@@ -18,15 +18,16 @@ Active base: `submission_1448_81.98_7.cpp` / Kattis `19922865`, exact score `81.
 | `local_orchestrator_9180/diag_case5_mid60.cpp` | `19923544` | `0.000000`, `7/7` | False: exact case 5 does not have middle AABB extent / longest extent `>= .60`. |
 | `local_orchestrator_9180/diag_case5_short_mid70.cpp` | `19923548` | `0.000000`, `7/7` | False: exact case 5 does not have shortest AABB extent / middle extent `>= .70`. |
 | external/parallel `diag_case5_short_mid75.cpp` | `19923551` | `0.000000`, `7/7` | False: exact case 5 does not have shortest AABB extent / middle extent `>= .75`. |
+| `local_orchestrator_9180/diag_case5_cross_flat50.cpp` | `19923559` | `0.000000`, `7/7` | False: exact case 5 does not have shortest AABB extent / middle extent `<= .50`. |
 
 ## Interpretation
 
 - Exact case 5 is strongly anisotropic: `shortest / longest < .40`.
 - Its middle axis is bounded: `.40 <= middle / longest < .60`.
-- Its shortest axis is substantially smaller than its middle axis: `shortest / middle < .70`.
+- Its shortest axis is moderately smaller than its middle axis: `.50 < shortest / middle < .70`.
 - It is not the already-tested sphere, cubic shell, axis-aligned ellipsoid, or radial shell family.
 - It is also not a lat-long sphere-like mesh with two high-degree poles.
-- This is not a broad flat sheet (`middle / longest >= .80` is false) and not a round tube/capsule cross-section (`shortest / middle >= .70` is false). It now looks like a flattened elongated smooth body.
+- This is not a broad flat sheet (`middle / longest >= .80` is false), not a round tube/capsule cross-section (`shortest / middle >= .70` is false), and not an ultra-flat ribbon (`shortest / middle <= .50` is false). It now looks like a moderately flattened elongated smooth body.
 - The next useful split is thin-axis normal concentration or whether the object is approximately a height-field over the long/middle plane.
 
 ## Candidate Guidance
