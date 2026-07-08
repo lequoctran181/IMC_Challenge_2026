@@ -22,3 +22,14 @@ Active base: `submission_1448_81.98_7.cpp` / Kattis `19922865`, exact score `81.
 - The `N < 47500` group is strong but not saturated: if it covers three hidden cases, perfecting all three would add at most about `(300 - 247.160934) / 6 = 8.806511` total points. That ceiling is useful, but unrealistic without a new small-case strategy.
 - To reach `91.80+`, we need both a better exact-case strategy and at least one additional high-impact hidden-case improvement, with large-case compact ablations still a priority because original-output probes are contaminated there.
 - Avoid high-N original-output probes as contribution estimators; use narrower ablations or compact candidate replacements instead.
+
+## Range original-output probes that are not clean
+
+| Submission | Branch | Result | Interpretation |
+| --- | --- | --- | --- |
+| `19924271` / `submission_1529_26.60_6.cpp` | For `N < 39000`, output original through low-precision `IJ()`. | `26.598574`, `6/7` | Not clean; output-original/time behavior breaks a hidden test. |
+| `19924272` / `submission_1530_42.47_5.cpp` | For `39000 <= N < 60000`, output original through low-precision `IJ()`. | `42.472647`, `5/7` | Not clean; this range includes fragile case5/mid behavior and cannot estimate contribution. |
+| `19924279` / `submission_1531_26.60_6.cpp` | For `N < 39000`, output original through high-precision `IJ()`. | `26.598574`, `6/7` | High precision does not rescue this range diagnostic; do not infer score mass from it. |
+| `19924284` / `submission_1532_37.43_5.cpp` | For `N < 5000`, output original through high-precision `IJ()`. | `37.431440`, `5/7` | Also contaminated; very small/sample-like original-output branches are unsafe diagnostics. |
+
+Conclusion: the only trusted original-output contribution probes remain `19923695` exact case5 high precision and `19923847` broad `N < 47500` high precision. Finer original-output splits are affected by runtime/output/format fragility and should not steer route design directly.
