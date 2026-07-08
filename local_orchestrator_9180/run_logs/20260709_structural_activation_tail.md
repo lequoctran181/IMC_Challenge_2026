@@ -180,3 +180,18 @@ Local proxy result:
 | `15_skip_wk` | Worse exact-case5 proxy: `1135/2266` vs base `1133/2262`. |
 
 Conclusion: no candidate to submit. Reorders do not produce vertex-count gains on the proxy set, and the only changed-count pass-order variant is worse.
+
+## Local 16-worker `1339` marker-replacement batch
+
+Base: `submission_1339_81.98_7.cpp`, which has the dormant marker `if(0&&"A32_A02_MS55"){}` and exact Kattis score `81.977514`. Generated 16 replacements in `/tmp/imc_9180_main/marker1339_20260709`, including small calls to `W5::post_patch_pass()`, `VIMP::run()`, `MIDEC::run()`, `WK::run()`, `IC/FL/GI`, tiny `B16::R` calls, the known winning micro-S3 call, and micro-S3 plus one extra tiny call. All compiled and stayed under the source-size ceiling.
+
+Local proxy result:
+
+| Variant | Exact-case proxy | Softbox proxy | Other proxies |
+| --- | --- | --- | --- |
+| `m00_marker_noop` | `1134/2264` | `1236/2468` | base counts |
+| `m01_s3_highwater` | `1133/2262` | `1235/2466` | base counts |
+| non-S3 marker replacements | no improvement over `m00` | no improvement over `m00` | unchanged |
+| `m13..m15` S3 plus extra call | no vertex-count gain over `m01` | no vertex-count gain over `m01` | unchanged |
+
+Conclusion: no submission. This confirms the already-submitted `1448` marker replacement remains the best local marker use; extra calls either no-op on the proxy set or stay in the already-risky S3/B16 family.
