@@ -151,3 +151,32 @@ Conclusion: do not transplant the broad B16 tail across byte-bank bases. The `15
 | `submission_1546_51.87_5.cpp` | `19924524` | `51.870090`, `5/7` | Newer submission observed while polling Kattis after the 1543 broad-B16 probe. |
 
 Conclusion: record for history only. This result is well below the current `1448` high-water mark and should not be used as an active base.
+
+## Local 16-worker extra micro-S3 no-submit batch
+
+Generated 16 variants from the exact `submission_1448_81.98_7.cpp` source by inserting one additional 39-byte call after the positive phase-0 micro pass, e.g. `S3B16::T(1,-9,192,.96,18.47,p,5,.0015);`. All variants compiled and stayed at `131069` bytes, just below the `131072` source-size ceiling.
+
+Local proxy result:
+
+| Proxy | Base | Best changed variants |
+| --- | --- | --- |
+| official sample | `8/12` | unchanged |
+| exact case5 synthetic | `1133/2262` | several variants reached `1132/2260` |
+| `softbox50402` | `1235/2466` | a few variants reached `1234/2464` |
+| `torus23`, `torus80`, `lobes49954` | base counts | unchanged |
+
+Conclusion: do not submit this batch. The useful-looking changes are still in the S3B16 phase/count family already rejected by Kattis (`19923923`, `19923905`, `19924394`, and `19924498` all dropped to `6/7` despite similar proxy improvements).
+
+## Local 16-worker pass-order no-submit batch
+
+Reviewed `/tmp/imc_9180_main/queue16_order_20260709`, which tests same-size or source-size-safe reorders/skips/extras around `VIMP`, `MIDEC`, and `WK`.
+
+Local proxy result:
+
+| Variant group | Result |
+| --- | --- |
+| `01..14`, `16` | Same output counts as `1448` on sample, exact-case5 proxy, torus23, and torus80. |
+| `11`, `12` extra `WK` | Same first-line counts but different case5 output hash. |
+| `15_skip_wk` | Worse exact-case5 proxy: `1135/2266` vs base `1133/2262`. |
+
+Conclusion: no candidate to submit. Reorders do not produce vertex-count gains on the proxy set, and the only changed-count pass-order variant is worse.
