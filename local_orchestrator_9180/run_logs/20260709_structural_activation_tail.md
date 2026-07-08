@@ -143,3 +143,11 @@ Conclusion: the exact `N==49987` S3 extra-patch direction is hidden-unsafe even 
 Local proxy note: the candidate stayed proxy-identical to `1543` on sample, exact-case5, torus57, torus80, and the other quick structural checks, with source size `130756` bytes. Hidden Kattis still collapsed to the same low `53.92` bucket as other order/tail-sensitive perturbations.
 
 Conclusion: do not transplant the broad B16 tail across byte-bank bases. The `1543` source is useful as a smaller reference, but the high-water `1448` route dependencies do not survive this direct graft.
+
+## External/new low-score follow-up
+
+| Submission | Kattis | Result | Change |
+| --- | --- | --- | --- |
+| `submission_1546_51.87_5.cpp` | `19924524` | `51.870090`, `5/7` | Newer submission observed while polling Kattis after the 1543 broad-B16 probe. |
+
+Conclusion: record for history only. This result is well below the current `1448` high-water mark and should not be used as an active base.
