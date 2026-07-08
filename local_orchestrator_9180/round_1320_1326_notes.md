@@ -119,6 +119,10 @@ Target remains `91.80+`; exact best is now `81.977514`.
 | `submission_1432_0.00_7.cpp` | `19922561` | `0.000000`, 7/7 | diagnostic: exact case 5 does not have `valence-3 >= 4%` |
 | `submission_1433_0.00_6.cpp` | `19922584` | `0.000000`, 6/7 | diagnostic: exact case 5 has `valence-4 + valence-8 >= 8%` |
 | `submission_1434_0.00_7.cpp` | `19922601` | `0.000000`, 7/7 | diagnostic: exact case 5 does not have `valence 5..7 >= 88%` |
+| `submission_1435_51.68_5.cpp` | `19922622` | `51.683150`, 5/7 | W5 fan/geometry relax2; unsafe, broad W5 angle/geometry relaxation breaks hidden cases |
+| `submission_1436_81.95_7.cpp` | `19922627` | `81.945906`, 7/7 | S3B16 max ring-size `5 -> 6`; valid but below best |
+| `submission_1435_51.68_5.cpp` | `19922622` | `51.683150`, 5/7 | W5 fan/geometry relax2; unsafe despite proxy rollback |
+| `submission_1436_81.95_7.cpp` | `19922627` | `81.945906`, 7/7 | S3B16 max ring-size `5 -> 6`; valid but below `1339` |
 
 ## Current Lessons
 
@@ -179,7 +183,7 @@ Target remains `91.80+`; exact best is now `81.977514`.
 - `19922036` shows broad `FL` threshold relaxation is unsafe; `19922051` confirms case 5 is not in the hardcoded `GJ/FL` ring face order despite `N-2 = 65*769`.
 - `19922074` shows exact-N/M broad re-enabling of skipped branches is also unsafe; prefer narrow shape diagnostics (`GY/GI`, valence, sampled normal ratios) before implementing more exact-case logic.
 - `19922093` shows current `GY()` sphere-fit is false on exact case 5; next primitive probe should be `GA/EJ` ellipsoid/PCA, not `GI` sphere tuning.
-- `19922128` excludes a near-AABB/box-surface interpretation, and `19922144` excludes current `GA/EJ` ellipsoid/PCA; `19922151` and `19922232` confirm sampled normal smoothness, including the stricter current generic gate. `19922280`/`19922338`/`19922354` show case 5 is not mostly valence-6 or 5..7, but is mostly valence 4..8, while `19922452` and `19922472` exclude a valence-4-heavy explanation, `19922504` excludes a valence-8-heavy explanation, `19922513` excludes a heavy valence-9..12 bucket, `19922525` and `19922601` show valence 5..7 is below 88%, `19922561` excludes a valence-3-heavy explanation, and `19922584` confirms the combined `v4+v8` bucket is at least 8%. `19922181`, `19922198`, `19922248`, `19922291`, `19922301`, `19922343`, and `19922386` are all negative for widening existing post-passes; `19922413` shows stripping the tail is also worse. Case 5 needs a balanced ring4/ring8-aware smooth local pass, not a single-degree bucket patch.
+- `19922128` excludes a near-AABB/box-surface interpretation, and `19922144` excludes current `GA/EJ` ellipsoid/PCA; `19922151` and `19922232` confirm sampled normal smoothness, including the stricter current generic gate. `19922280`/`19922338`/`19922354` show case 5 is not mostly valence-6 or 5..7, but is mostly valence 4..8, while `19922452` and `19922472` exclude a valence-4-heavy explanation, `19922504` excludes a valence-8-heavy explanation, `19922513` excludes a heavy valence-9..12 bucket, `19922525` and `19922601` show valence 5..7 is below 88%, `19922561` excludes a valence-3-heavy explanation, and `19922584` confirms the combined `v4+v8` bucket is at least 8%. `19922181`, `19922198`, `19922248`, `19922291`, `19922301`, `19922343`, `19922386`, `19922622`, and `19922627` are all negative for widening existing post-passes or ring caps; `19922413` shows stripping the tail is also worse. Case 5 needs a balanced ring4/ring8-aware smooth local pass, not a single-degree bucket patch.
 - WorkerF macro5k candidate returned `80.634329`; macro5k is not a breakthrough branch in this form.
 - Broad09 r12grid W2+B16 returned `81.709845`; avoid this structural branch unless redesigned around a much narrower detector.
 - Broad19 boxgrid failclosed returned `81.934570`; failclosed structural branches still mostly preserve plateau rather than improve compression.
