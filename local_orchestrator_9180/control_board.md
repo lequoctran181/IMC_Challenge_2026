@@ -23,6 +23,7 @@ Current target: Kattis score >= 91.80. Current retained root-submission best by 
 - Latest checked `1376` tied the older exact-best bucket: Kattis `19921400` scored `81.945906`, 7/7, still below `1339`.
 - Latest checked `1377` did not improve: S11_06 wide B16-before-WK selector returned `81.934570`.
 - Latest checked `1378` regressed: S11_02 wide S7_04 selector returned `79.729258`, 7/7.
+- Latest checked `1379` did not improve: S7_09 late-W5 guarded B16 returned `81.934570`.
 
 ## Score Buckets
 
@@ -82,3 +83,4 @@ Current target: Kattis score >= 91.80. Current retained root-submission best by 
 - S11_05 clean B16-before-WK also hit `81.934570`; mid-band order selectors remain no-gain so far.
 - S11_06 wide B16-before-WK also hit `81.934570`; S11 order-selector branch is effectively exhausted for this cycle.
 - S11_02 wide S7_04 guard is harmful (`79.729258`); do not widen S7_04 acceptance margins without a stronger rollback/proxy discriminator.
+- S7_09 late-W5 guard also hit `81.934570`; mid-band reorder/late-W5 lanes are not breaking the plateau.
