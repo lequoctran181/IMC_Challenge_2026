@@ -28,9 +28,9 @@ Current target: Kattis score >= 91.80. Current retained root-submission best by 
 - Latest checked `1381` did not improve: S9 full C5T structural shrink returned `81.934570`.
 - Latest fetched `1382` from Kattis `19921509` regressed: unknown concurrent source returned `75.613142`, 7/7.
 - Latest checked `1384` regressed: workerF macro5k candidate returned `80.634329`, 7/7.
-- Latest diagnostic `1387` from Kattis `19921584` scored `0.000000`, 7/7; the S14 lower guard `N>49842 && N<50234 && AS && BG<=.001 && BL>=.985 && Z<=.0037` did not trigger on any hidden case.
+- Latest diagnostic `1385` from Kattis `19921584` scored `0.000000`, 7/7; the S14 lower guard `N>49842 && N<50234 && AS && BG<=.001 && BL>=.985 && Z<=.0037` did not trigger on any hidden case.
 - Latest checked `1386` regressed: broad09 r12grid W2+B16 returned `81.709845`, 7/7.
-- Latest checked `1388` did not improve: broad19 boxgrid failclosed returned `81.934570`.
+- Latest checked `1387` did not improve: broad19 boxgrid failclosed returned `81.934570`.
 
 ## Score Buckets
 
