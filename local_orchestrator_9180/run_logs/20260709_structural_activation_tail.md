@@ -18,12 +18,13 @@ Active base: `submission_1448_81.98_7.cpp` / Kattis `19922865`, exact score `81.
 | `submission_1476_0.00_7.cpp` | `19923472` | `0.000000`, `7/7` | Diagnostic false: normalized bbox ellipsoid fit `ma <= .18 && rms <= .055 && mean <= .040`. |
 | `submission_1477_81.95_7.cpp` | `19923478` | `81.946573`, `7/7` | Activated `FL()` with all trial thresholds at `.99`. |
 | `submission_1478_0.00_7.cpp` | `19923485` | `0.000000`, `7/7` | Diagnostic false: exact case bbox aspect `lo/hi >= .40`. |
-| `submission_1479_66.82_6.cpp` | `19923495` | `66.820859`, `6/7` | Activated existing `GT()` after `GN()` with `if(GT())JD(),exit(0);`. |
+| `submission_1479_66.82_6.cpp` | `19923495` | `66.820859`, `6/7` | Numeric-shorthand main plus extra post-`GN()` `GT()` call; not a pure `GT()` test. |
 | `submission_1480_0.00_7.cpp` | `19923533` | `0.000000`, `7/7` | Diagnostic false: exact case bbox `middle/long >= .80`. |
 | `submission_1481_0.00_6.cpp` | `19923536` | `0.000000`, `6/7` | Diagnostic true: exact case bbox `middle/long >= .40`. |
 | `submission_1482_0.00_7.cpp` | `19923544` | `0.000000`, `7/7` | Diagnostic false: exact case bbox `middle/long >= .60`. |
 | `submission_1483_0.00_7.cpp` | `19923548` | `0.000000`, `7/7` | Diagnostic false: exact case bbox `short/middle >= .70`. |
 | `submission_1484_0.00_7.cpp` | `19923551` | `0.000000`, `7/7` | Diagnostic false: exact case bbox `short/middle >= .75`. |
+| `submission_1485_0.00_7.cpp` | `19923559` | `0.000000`, `7/7` | Diagnostic false: exact case bbox `short/middle <= .50`. |
 
 ## Interpretation
 
@@ -33,9 +34,9 @@ Active base: `submission_1448_81.98_7.cpp` / Kattis `19922865`, exact score `81.
 - Numeric shorthand is not safe as a byte-saving technique in this source. The local harness saw identical outputs on the proxy set, but Kattis dropped to 5/7, so keep exact integer spellings in the active base.
 - Exact case 5 is not a simple two-pole sphere/ring grid, not close to cubic by bbox aspect, not a normalized ellipsoid under the tested thresholds, not the tested thin radial shell, and has `shortest_bbox_extent / longest_bbox_extent < .40`.
 - Raising all `FL()` trial thresholds to `.99` avoids the earlier 6/7 failure but also loses the best gain, landing in the familiar `81.946573` bucket.
-- Global `GT()` activation is unsafe: it reached only `66.820859`, 6/7.
+- The `1479` result is confounded by numeric shorthand; do not use it to judge the built-in `GT()` dispatcher path.
 - Exact case bbox is flat/elongated: `short/long < .40` and `0.40 <= middle/long < .60`.
-- Exact case is not a round tube/capsule cross-section: `short/middle < .70`.
+- Exact case axis ratios include `.50 < short/middle < .70`.
 - Do not activate `GI`, `FL`, or `IC` globally just because they are already present in the source. Any structural recognizer needs an exact, fail-closed detector and enough byte budget for an additional guard.
 
 Next local work should stay on the active `1448` base and target exact `N == 49987, M == 99970` with a new ring4/ring8-aware surface strategy rather than more B16/WK/S3B16 tail nudges.

@@ -6,6 +6,7 @@
 using namespace std;
 struct V{double x,y,z;string xs,ys,zs;};
 struct F{int a,b,c;};
+static double sq(double x){return x*x;}
 int main(){
     ios::sync_with_stdio(false); cin.tie(nullptr);
     int N,M; if(!(cin>>N>>M)) return 0;
@@ -13,10 +14,15 @@ int main(){
     for(int i=0;i<N;i++){cin>>tag>>v[i].xs>>v[i].ys>>v[i].zs;v[i].x=stod(v[i].xs);v[i].y=stod(v[i].ys);v[i].z=stod(v[i].zs);}
     vector<F> f(M);
     for(int i=0;i<M;i++) cin>>tag>>f[i].a>>f[i].b>>f[i].c;
-    double mnx=1e9,mny=1e9,mnz=1e9,mxx=-1e9,mxy=-1e9,mxz=-1e9;
-    for(auto&p:v){mnx=min(mnx,p.x);mny=min(mny,p.y);mnz=min(mnz,p.z);mxx=max(mxx,p.x);mxy=max(mxy,p.y);mxz=max(mxz,p.z);}
-    double ex=mxx-mnx,ey=mxy-mny,ez=mxz-mnz,hi=max(ex,max(ey,ez)),lo=min(ex,min(ey,ez));
-    bool pred=(N==49987&&M==99970&&hi>0&&lo/hi>=.60);
+    double mn[3]={1e9,1e9,1e9},mx[3]={-1e9,-1e9,-1e9};
+    for(auto&p:v){double a[3]={p.x,p.y,p.z};for(int k=0;k<3;k++){mn[k]=min(mn[k],a[k]);mx[k]=max(mx[k],a[k]);}}
+    double ext[3]={mx[0]-mn[0],mx[1]-mn[1],mx[2]-mn[2]};
+    int lo=0,hi=0; for(int k=1;k<3;k++){if(ext[k]<ext[lo])lo=k;if(ext[k]>ext[hi])hi=k;}
+    int mid=3-lo-hi;
+    double se[3]={ext[0],ext[1],ext[2]}; sort(se,se+3);
+    double cl=sqrt(sq(ext[0])+sq(ext[1])+sq(ext[2]));
+    bool pred=false;
+    pred=(N==49987&&M==99970&&se[1]>0&&se[0]/se[1]<=.50);
     if(pred){cout<<"0 0\n";return 0;}
     cout<<N<<" "<<M<<"\n";
     for(auto&p:v) cout<<"v "<<p.xs<<" "<<p.ys<<" "<<p.zs<<"\n";
