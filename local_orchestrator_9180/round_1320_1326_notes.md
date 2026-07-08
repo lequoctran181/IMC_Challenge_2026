@@ -69,6 +69,7 @@ Target remains `91.80+`; exact best is now `81.977514`.
 | `submission_1381_81.93_7.cpp` | `19921493` | `81.934570`, 7/7 | S9 full C5T structural shrink; no improvement |
 | `submission_1382_75.61_7.cpp` | `19921509` | `75.613142`, 7/7 | unknown concurrent source; valid but harmful |
 | `submission_1384_80.63_7.cpp` | `19921546` | `80.634329`, 7/7 | workerF macro5k candidate; valid but below best |
+| `submission_1386_81.71_7.cpp` | `19921559` | `81.709845`, 7/7 | broad09 r12grid W2+B16; valid but below best |
 
 ## Current Lessons
 
@@ -111,3 +112,4 @@ Target remains `91.80+`; exact best is now `81.977514`.
 - S9 full C5T structural shrink returned `81.934570`; C5T should be paused unless redesigned with a new target surface or discriminator.
 - Unknown concurrent `19921509` returned `75.613142`; do not use it as a base unless later diff analysis reveals an isolated positive branch.
 - WorkerF macro5k candidate returned `80.634329`; macro5k is not a breakthrough branch in this form.
+- Broad09 r12grid W2+B16 returned `81.709845`; avoid this structural branch unless redesigned around a much narrower detector.
