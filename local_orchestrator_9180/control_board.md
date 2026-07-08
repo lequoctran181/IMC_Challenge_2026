@@ -14,6 +14,7 @@ Current target: Kattis score >= 91.80. Current retained root-submission best by 
 - Latest checked submissions `1351-1358` also did not improve: most S14/S7 selectors tie the old `81.934570` plateau, `S10_03` and `S10_08` reach `81.938237`, and `S10_05` falls to `70.491928`.
 - Latest checked `1359-1360` and concurrent `1361` also did not improve: S5 case6 late/strict returned `81.934570`, `1361` tied old exact best `81.945906`, and external `19921249` fell to `57.279876`.
 - Latest checked `1362-1364` also did not improve: all returned `81.934570`; external `19921293` fell to `57.279876`.
+- Latest checked `1365-1366` also did not improve: both returned `81.934570`.
 
 ## Score Buckets
 
