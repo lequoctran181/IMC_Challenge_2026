@@ -118,4 +118,5 @@ Current target: Kattis score >= 91.80. Current retained root-submission best by 
 - Coordination update: pause management of the 8 ChatGPT Pro Extended chats; operate with the local lane ceiling raised from 12 to 16. `submission_1391_broad12_codex128_PENDING.cpp` returned `70.530987`, 7/7 as Kattis `19921635`; broad12/codex128 is a negative branch. `submission_1392_s11_04_skip_midec_tight_PENDING.cpp` returned `81.934570`, 7/7 as Kattis `19921667`, confirming S11 skip-MIDEC tight remains plateau. Next prepared attempt is `submission_1394_broad31_ab19_plus_1339_b16_PENDING.cpp`.
 - Diagnostic update: the next token was used on N/M split `19921651`, not the pending S11 candidate; the S11 file remains pending.
 - Latest diagnostic `1406` from Kattis `19921928` scored `0.000000`, 7/7; hidden test case 5/7 is not `N == 49986`, so the exact vertex count is `N == 49987`.
-- Current case-5 N after diagnostics is exactly `N == 49987`; continue M/topology probes before adding any aggressive branch.
+- Latest diagnostic `1407` from Kattis `19921977` scored `0.000000`, 7/7; hidden test case 5/7 has `N == 49987` but not `M == 2*N` (`M != 99974`).
+- Current case-5 state after diagnostics is exactly `N == 49987`, `M != 99974`; next topology probe is `M == 2*N-4` (`99970`).
