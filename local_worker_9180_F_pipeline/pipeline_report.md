@@ -1,19 +1,21 @@
 # Worker F pipeline report
 
-- Generated: `2026-07-08T11:38:21+07:00`
+- Generated: `2026-07-08T12:38:47+07:00`
 - Root: `/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote`
 - Worker output dir: `/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/local_worker_9180_F_pipeline`
-- Root submissions scanned: `272`
-- Fetched sources scanned: `99`
-- Exact duplicate SHA groups among scanned references: `43`
+- Root submissions scanned: `285`
+- Fetched sources scanned: `112`
+- Exact duplicate SHA groups among scanned references: `53`
 - Source limit used: `131072` bytes
-- Next root submission filename suggestion: `submission_1240_PENDING.cpp`
+- Next root submission filename suggestion: `submission_1253_PENDING.cpp`
 - CSV inventory: `/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/local_worker_9180_F_pipeline/hash_inventory.csv`
 - Session log: `/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/local_worker_9180_F_pipeline/session_log.md`
 
 ## Candidate checks
 
-- No candidate was passed on this run. Use `--candidate path/to/file.cpp` to check a sample-pass candidate before submission.
+| candidate | size | sha256 | status | duplicate refs | suggested root filename |
+|---|---:|---|---|---|---|
+| `pro_extended_workers/tab2_compact_standalone/solution.cpp` | 10084 | `a35ad784889bbec9` | `unique_reference_sha` | - | `submission_1253_PENDING.cpp` |
 
 ## Top recorded root scores
 
@@ -54,16 +56,16 @@ Showing up to 30 groups; full data is in the CSV inventory.
 - `e4ca7fdbecb5465b` (2 files): `fetched_sources/kattis_19915947_68.11_6.cpp`, `submission_1238_68.11_6.cpp`
 - `fe84a369c32df19f` (2 files): `fetched_sources/kattis_19915979_81.94_7.cpp`, `submission_1237_81.94_7.cpp`
 - `bce9ec0321635870` (2 files): `fetched_sources/kattis_19916059_80.65_7.cpp`, `submission_1239_80.65_7.cpp`
-- `f8df257161bebc11` (2 files): `submission_1020_5.00_7.cpp`, `submission_1047_4.20_7.cpp`
-- `c6a1225044498d0b` (2 files): `submission_1021_3.99_7.cpp`, `submission_1052_3.79_7.cpp`
-- `e83b45b7455727ef` (2 files): `submission_1023_27.62_5.cpp`, `submission_1045_27.62_5.cpp`
-- `8ac82a729152419e` (2 files): `submission_1024_15.67_6.cpp`, `submission_1068_15.68_6.cpp`
-- `d6599e60b86f841b` (2 files): `submission_1025_15.91_6.cpp`, `submission_1069_15.90_6.cpp`
-- `8f3d760df1e25709` (2 files): `submission_1026_45.18_4.cpp`, `submission_1070_45.18_4.cpp`
-- `37e280c703e90bd9` (2 files): `submission_1028_15.58_2.cpp`, `submission_1056_15.58_2.cpp`
-- `a4c79d631154137a` (2 files): `submission_1029_1.51_2.cpp`, `submission_1058_1.51_2.cpp`
-- `63fdfd44cb3a2c7b` (2 files): `submission_1031_16.50_1.cpp`, `submission_1059_16.50_1.cpp`
-- `d34bfe614a785b08` (2 files): `submission_1039_17.01_4.cpp`, `submission_1090_17.01_4.cpp`
+- `d359a4d7feff2ee4` (2 files): `fetched_sources/kattis_19916172_53.92_5.cpp`, `submission_1243_53.92_5.cpp`
+- `be8bbbb040ad6502` (2 files): `fetched_sources/kattis_19916304_53.93_5.cpp`, `submission_1244_53.93_5.cpp`
+- `61c76b8edd42a3ae` (2 files): `fetched_sources/kattis_19916404_43.10_4.cpp`, `submission_1245_43.10_4.cpp`
+- `c931fb86003d6b97` (2 files): `fetched_sources/kattis_19916451_81.93_7.cpp`, `submission_1240_81.93_7.cpp`
+- `42be75e13d7ef0f9` (2 files): `fetched_sources/kattis_19916516_53.93_5.cpp`, `submission_1246_53.93_5.cpp`
+- `dcdc6900a5ae4bf7` (2 files): `fetched_sources/kattis_19916575_81.93_7.cpp`, `submission_1241_81.93_7.cpp`
+- `f7c353e246ff7b4c` (2 files): `fetched_sources/kattis_19916795_56.67_5.cpp`, `submission_1247_56.67_5.cpp`
+- `bd6fd2e8f804515c` (2 files): `fetched_sources/kattis_19916962_71.11_6.cpp`, `submission_1242_71.11_6.cpp`
+- `93afcb77c4c48e3c` (2 files): `fetched_sources/kattis_19917114_81.93_7.cpp`, `submission_1248_81.93_7.cpp`
+- `75fa06478951a722` (2 files): `fetched_sources/kattis_19917401_81.93_7.cpp`, `submission_1249_81.93_7.cpp`
 
 ## Safety notes
 

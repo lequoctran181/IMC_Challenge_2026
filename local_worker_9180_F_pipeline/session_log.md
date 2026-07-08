@@ -239,3 +239,115 @@
 - `submission_1246_53.93_5.cpp`: fetched Kattis `19916516`, `Accepted (53.926625)`, `5/7`.
 - `submission_1247_56.67_5.cpp`: fetched Kattis `19916795`, `Accepted (56.668546)`, `5/7`.
 - `submission_1248_PENDING.cpp`: prepared but not yet submitted; clean S7_04 candidate, SHA `93afcb77c4c48e3c487b9d6482c438234467b4b78dc6daec3641f4903d652590`.
+## Session 2026-07-08T12:10:59+07:00
+
+- Next suggested root filename before submit: `submission_1250_PENDING.cpp`
+- Candidate 1: `submission_1249_PENDING.cpp`
+- Candidate 1 sha256: `75fa06478951a7229b38faba039cb698a2fcaec3127eff8a1d6a44871cba8599`
+- Candidate 1 size: `130682` bytes
+- Candidate 1 duplicate refs: `submission_1249_PENDING.cpp`
+- Candidate 1 suggested root copy: `submission_1250_PENDING.cpp`
+- Pre-submit sample gate: `<compile command, sample input path, observed first line / validator result>`
+- Pre-submit Kattis list snapshot: `<path under this worker dir>`
+- Submitted root file: `<submission_N_PENDING.cpp or final name>`
+- Kattis submission id: `<fill>`
+- Kattis judgement / score / tests / runtime: `<fill>`
+- Archived fetched source: `<fetched_sources/kattis_ID_score_tests.cpp>`
+- Final root filename after result: `<submission_N_score_tests.cpp>`
+- Notes / rollback concern: `<fill>`
+## Session 2026-07-08T12:19:51+07:00
+
+- Next suggested root filename before submit: `submission_1250_PENDING.cpp`
+- Candidate 1: `submission_1249_PENDING.cpp`
+- Candidate 1 sha256: `75fa06478951a7229b38faba039cb698a2fcaec3127eff8a1d6a44871cba8599`
+- Candidate 1 size: `130682` bytes
+- Candidate 1 duplicate refs: `submission_1249_PENDING.cpp`
+- Candidate 1 suggested root copy: `submission_1250_PENDING.cpp`
+- Pre-submit sample gate: `<compile command, sample input path, observed first line / validator result>`
+- Pre-submit Kattis list snapshot: `<path under this worker dir>`
+- Submitted root file: `<submission_N_PENDING.cpp or final name>`
+- Kattis submission id: `<fill>`
+- Kattis judgement / score / tests / runtime: `<fill>`
+- Archived fetched source: `<fetched_sources/kattis_ID_score_tests.cpp>`
+- Final root filename after result: `<submission_N_score_tests.cpp>`
+- Notes / rollback concern: `<fill>`
+## Session 2026-07-08T12:23:15+07:00
+
+- Next suggested root filename before submit: `submission_1250_PENDING.cpp`
+- Candidate 1: `local_worker_S14_case5_next/s14_01_s4_08_aggr_feat_cap92.cpp`
+- Candidate 1 sha256: `8059163939024778be5fe46ea85a486bab90046987ee463cb9b00d035bb52a89`
+- Candidate 1 size: `130558` bytes
+- Candidate 1 duplicate refs: none
+- Candidate 1 suggested root copy: `submission_1250_PENDING.cpp`
+- Pre-submit sample gate: `<compile command, sample input path, observed first line / validator result>`
+- Pre-submit Kattis list snapshot: `<path under this worker dir>`
+- Submitted root file: `<submission_N_PENDING.cpp or final name>`
+- Kattis submission id: `<fill>`
+- Kattis judgement / score / tests / runtime: `<fill>`
+- Archived fetched source: `<fetched_sources/kattis_ID_score_tests.cpp>`
+- Final root filename after result: `<submission_N_score_tests.cpp>`
+- Notes / rollback concern: `<fill>`
+## Session 2026-07-08T12:23:57+07:00
+
+- Next suggested root filename before submit: `submission_1251_PENDING.cpp`
+- Candidate 1: `submission_1250_PENDING.cpp`
+- Candidate 1 sha256: `8059163939024778be5fe46ea85a486bab90046987ee463cb9b00d035bb52a89`
+- Candidate 1 size: `130558` bytes
+- Candidate 1 duplicate refs: `submission_1250_PENDING.cpp`
+- Candidate 1 suggested root copy: `submission_1251_PENDING.cpp`
+- Pre-submit sample gate: `<compile command, sample input path, observed first line / validator result>`
+- Pre-submit Kattis list snapshot: `<path under this worker dir>`
+- Submitted root file: `<submission_N_PENDING.cpp or final name>`
+- Kattis submission id: `<fill>`
+- Kattis judgement / score / tests / runtime: `<fill>`
+- Archived fetched source: `<fetched_sources/kattis_ID_score_tests.cpp>`
+- Final root filename after result: `<submission_N_score_tests.cpp>`
+- Notes / rollback concern: `<fill>`
+## Session 2026-07-08T12:27:35+07:00
+
+- Next suggested root filename before submit: `submission_1252_PENDING.cpp`
+- Candidate 1: `local_worker_S5_highN_safety/workerS5_02_case6_strict_vp128.cpp`
+- Candidate 1 sha256: `7f186ce6039e1def053f812773f740adbda2cb7ac6b6546c2a9add82ad329813`
+- Candidate 1 size: `130372` bytes
+- Candidate 1 duplicate refs: `submission_1251_PENDING.cpp`
+- Candidate 1 suggested root copy: `submission_1252_PENDING.cpp`
+- Pre-submit sample gate: `<compile command, sample input path, observed first line / validator result>`
+- Pre-submit Kattis list snapshot: `<path under this worker dir>`
+- Submitted root file: `<submission_N_PENDING.cpp or final name>`
+- Kattis submission id: `<fill>`
+- Kattis judgement / score / tests / runtime: `<fill>`
+- Archived fetched source: `<fetched_sources/kattis_ID_score_tests.cpp>`
+- Final root filename after result: `<submission_N_score_tests.cpp>`
+- Notes / rollback concern: `<fill>`
+## Session 2026-07-08T12:29:00+07:00
+
+- Next suggested root filename before submit: `submission_1253_PENDING.cpp`
+- Candidate 1: `local_worker_S7_pipeline_selector/s7_05_skip_midec_selector_b16.cpp`
+- Candidate 1 sha256: `8d25a50b9995b1cad109d59abdfa31c17198294b02779d004b6518fab0260360`
+- Candidate 1 size: `130584` bytes
+- Candidate 1 duplicate refs: `submission_1252_PENDING.cpp`
+- Candidate 1 suggested root copy: `submission_1253_PENDING.cpp`
+- Pre-submit sample gate: `<compile command, sample input path, observed first line / validator result>`
+- Pre-submit Kattis list snapshot: `<path under this worker dir>`
+- Submitted root file: `<submission_N_PENDING.cpp or final name>`
+- Kattis submission id: `<fill>`
+- Kattis judgement / score / tests / runtime: `<fill>`
+- Archived fetched source: `<fetched_sources/kattis_ID_score_tests.cpp>`
+- Final root filename after result: `<submission_N_score_tests.cpp>`
+- Notes / rollback concern: `<fill>`
+## Session 2026-07-08T12:38:47+07:00
+
+- Next suggested root filename before submit: `submission_1253_PENDING.cpp`
+- Candidate 1: `pro_extended_workers/tab2_compact_standalone/solution.cpp`
+- Candidate 1 sha256: `a35ad784889bbec961b965d8e617c3480a28f825fe29a9212ecfcc376fcf9e48`
+- Candidate 1 size: `10084` bytes
+- Candidate 1 duplicate refs: none
+- Candidate 1 suggested root copy: `submission_1253_PENDING.cpp`
+- Pre-submit sample gate: `<compile command, sample input path, observed first line / validator result>`
+- Pre-submit Kattis list snapshot: `<path under this worker dir>`
+- Submitted root file: `<submission_N_PENDING.cpp or final name>`
+- Kattis submission id: `<fill>`
+- Kattis judgement / score / tests / runtime: `<fill>`
+- Archived fetched source: `<fetched_sources/kattis_ID_score_tests.cpp>`
+- Final root filename after result: `<submission_N_score_tests.cpp>`
+- Notes / rollback concern: `<fill>`
