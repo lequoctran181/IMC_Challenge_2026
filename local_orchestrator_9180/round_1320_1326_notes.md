@@ -65,6 +65,7 @@ Target remains `91.80+`; exact best is now `81.977514`.
 | `submission_1377_81.93_7.cpp` | `19921428` | `81.934570`, 7/7 | S11_06 wide B16-before-WK selector; no improvement |
 | `submission_1378_79.73_7.cpp` | `19921435` | `79.729258`, 7/7 | S11_02 wide S7_04 selector; valid but harmful |
 | `submission_1379_81.93_7.cpp` | `19921458` | `81.934570`, 7/7 | S7_09 late-W5 guarded B16; no improvement |
+| `submission_1380_81.86_7.cpp` | `19921466` | `81.858216`, 7/7 | S7_08 largeN W5L473 tail; valid but below best |
 
 ## Current Lessons
 
@@ -103,3 +104,4 @@ Target remains `91.80+`; exact best is now `81.977514`.
 - S11_06 wide B16-before-WK selector returned `81.934570`; stop prioritizing S11 order-selector variants after the pending wide-gain result unless it breaks the bucket.
 - S11_02 wide S7_04 selector regressed to `79.729258`; blacklist wide S7_04 margins for this cycle.
 - S7_09 late-W5 guarded B16 returned `81.934570`; late-W5 alone is not enough to produce a new hidden bucket.
+- S7_08 largeN W5L473 returned `81.858216`; broad large-N W5L473 is not the needed jump without a better hidden-case discriminator.
