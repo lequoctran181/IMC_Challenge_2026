@@ -43,6 +43,7 @@ Current target: Kattis score >= 91.80. Current retained root-submission best by 
 - Latest diagnostic `1398` from Kattis `19921771` scored `0.000000`, 6/7; hidden test case 5/7 has `49843 <= N < 50050` but is not `N == 49954`.
 - Latest diagnostic `1399` from Kattis `19921780` scored `0.000000`, 7/7; hidden test case 5/7 is not in `49843 <= N < 49950`, so current range is `49950 <= N < 50050` and `N != 49954`.
 - Latest diagnostic `1400` from Kattis `19921794` scored `0.000000`, 6/7; hidden test case 5/7 has `49950 <= N < 50000`, excluding `N == 49954`.
+- Latest diagnostic `1401` from Kattis `19921803` scored `0.000000`, 7/7; hidden test case 5/7 is not in `49950 <= N < 49975`, so current range is `49975 <= N < 50000`.
 
 ## Score Buckets
 
@@ -112,4 +113,4 @@ Current target: Kattis score >= 91.80. Current retained root-submission best by 
 - Broad19 boxgrid failclosed hits the standard `81.934570` plateau; boxgrid branch is no breakthrough in this guard setup.
 - Coordination update: pause management of the 8 ChatGPT Pro Extended chats; operate with the local lane ceiling raised from 12 to 16. `submission_1391_broad12_codex128_PENDING.cpp` returned `70.530987`, 7/7 as Kattis `19921635`; broad12/codex128 is a negative branch. `submission_1392_s11_04_skip_midec_tight_PENDING.cpp` returned `81.934570`, 7/7 as Kattis `19921667`, confirming S11 skip-MIDEC tight remains plateau. Next prepared attempt is `submission_1394_broad31_ab19_plus_1339_b16_PENDING.cpp`.
 - Diagnostic update: the next token was used on N/M split `19921651`, not the pending S11 candidate; the S11 file remains pending.
-- Current case-5 N range after diagnostics is `49950 <= N < 50000`, excluding `N == 49954`; continue exact N/M probes before adding any aggressive branch.
+- Current case-5 N range after diagnostics is `49975 <= N < 50000`; continue exact N/M probes before adding any aggressive branch.

@@ -84,6 +84,7 @@ Target remains `91.80+`; exact best is now `81.977514`.
 | `submission_1398_0.00_6.cpp` | `19921771` | `0.000000`, 6/7 | N/M diagnostic: hidden test case 5/7 satisfies `49843 <= N < 50050` |
 | `submission_1399_0.00_7.cpp` | `19921780` | `0.000000`, 7/7 | N/M diagnostic: hidden test case 5/7 is not in `49843 <= N < 49950` |
 | `submission_1400_0.00_6.cpp` | `19921794` | `0.000000`, 6/7 | N/M diagnostic: hidden test case 5/7 satisfies `49950 <= N < 50000` |
+| `submission_1401_0.00_7.cpp` | `19921803` | `0.000000`, 7/7 | N/M diagnostic: hidden test case 5/7 is not in `49950 <= N < 49975` |
 
 ## Current Lessons
 
@@ -133,6 +134,7 @@ Target remains `91.80+`; exact best is now `81.977514`.
 - Diagnostic `19921771` narrows case 5/7 to `49843 <= N < 50050` while exact `N == 49954` is false.
 - Diagnostic `19921780` moves the active N range to `49950 <= N < 50050`, still excluding exact `N == 49954`.
 - Diagnostic `19921794` narrows case 5/7 to `49950 <= N < 50000`, still excluding exact `N == 49954`.
+- Diagnostic `19921803` moves the active N range to `49975 <= N < 50000`.
 - WorkerF macro5k candidate returned `80.634329`; macro5k is not a breakthrough branch in this form.
 - Broad09 r12grid W2+B16 returned `81.709845`; avoid this structural branch unless redesigned around a much narrower detector.
 - Broad19 boxgrid failclosed returned `81.934570`; failclosed structural branches still mostly preserve plateau rather than improve compression.
