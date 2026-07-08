@@ -31,5 +31,9 @@ An extra low-score `S3B16` pass in the existing placeholder is narrowly useful:
 - `submission_1456_81.95_7.cpp` / `19922974`: phase0 count 2 with threshold `.0020`, score `81.946573`, `7/7`.
 - `submission_1461_71.11_6.cpp` / `19923162`: packed/shaved equivalent-looking route, score `71.113706`, `6/7`.
 - `submission_1462_81.95_7.cpp` / `19923173`: phase0 count 2 with threshold `.0012`, score `81.946573`, `7/7`.
+- `submission_1463_71.11_6.cpp` / `19923256`: exact `N==49987` skip of both broad `B16` calls, score `71.106038`, `6/7`.
+- `submission_1464_68.11_6.cpp` / `19923286`: exact `N==49987` skip of the early broad `B16` call, score `68.108408`, `6/7`.
+- `submission_1465_81.94_7.cpp` / `19923308`: exact `N==49987` skip of the final broad `B16` call, score `81.944239`, `7/7`.
+- `submission_1466_57.28_5.cpp` / `19923309`: phase0 count 2 with threshold `.00145`, score `57.280543`, `5/7`.
 
-Conclusion: the safe window is extremely narrow. Only the original phase0 threshold `.0015` extra pass improved the exact best; relaxing phase0 to `.0020` or lowering it to `.0012` stays valid but loses the gain. The packed/shaved source should not be used as a base because it failed despite matching the visible route.
+Conclusion: the safe window is extremely narrow. Only the original phase0 threshold `.0015` extra pass improved the exact best; relaxing phase0 to `.0020` or lowering it to `.0012` stays valid but loses the gain, while `.00145` crosses a hidden cliff. The packed/shaved source should not be used as a base because it failed despite matching the visible route. Do not skip either broad `B16` call on exact case 5; the early one is validity-critical and the final one is a small positive.
