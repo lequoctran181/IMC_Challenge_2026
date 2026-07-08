@@ -1,6 +1,6 @@
 # 91.80 Control Board
 
-Current target: Kattis score >= 91.80. Current retained root-submission best by filename: 81.98 (submission_1339_81.98_7.cpp). Exact high-water mark is 81.977514.
+Current target: Kattis score >= 91.80. Current retained root-submission best by filename: 81.98 (submission_1448_81.98_7.cpp). Exact high-water mark is 81.978181.
 
 ## Latest Local Manager Round
 
@@ -178,4 +178,6 @@ Current target: Kattis score >= 91.80. Current retained root-submission best by 
 - `1464` (`19923286`) skipped only the early broad `B16` call on exact `N==49987` and fell to `68.108408`, 6/7; do not suppress the early broad B16 for case 5.
 - `1465` (`19923308`) skipped only the final broad `B16` call on exact `N==49987` and returned `81.944239`, 7/7; valid but below best, so the final broad B16 contributes a small positive amount.
 - `1466` (`19923309`) changed the positive micro filler epsilon from `.0015` to `.00145` and fell to `57.280543`, 5/7; the `.0015` threshold is a sharp cliff, not a smooth optimum.
+- `1467` (`19923344`) added a late high-N `B16::R(60001,120000,120,-13,128,.965,18.68)` tail and fell to `68.113410`, 6/7; do not add generic post-tail B16 passes without a much stronger detector.
+- `1468` (`19923346`) activated the existing `FL()` structural ring-grid recognizer after `GN()` and fell to `68.113410`, 6/7; despite local torus proxy improvement, global `FL()` activation is unsafe on hidden tests.
 - Current case-5 state after diagnostics is exact: `N == 49987`, `M == 99970`, genus-0, smooth, mostly valence 4..8, with `v5..7 < 88%`, `4% <= v4 < 8%`, `4% <= v8 < 8%`, and `12% <= v4+v8 < 14%`. Next useful implementation direction is not W5 ordering/relaxation but a genuinely different exact-guarded ring4/ring8 surface strategy; avoid plain `MIDEC AH .12`, extra exact-B16, generic W2C, broad generic constant changes, higher-valence W5 patches, extra WK, broad W5 angle/geometry relaxation, W5 high-valence score bias, S3B16 ring cap/count/phase changes, or stripping the B16/WK tail.
