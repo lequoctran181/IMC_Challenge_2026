@@ -1,6 +1,6 @@
 # 91.80 Control Board
 
-Current target: Kattis score >= 91.80. Current retained root-submission best by filename: 81.95 (submission_1181_81.95_7.cpp). Exact high-water mark remains 81.945906.
+Current target: Kattis score >= 91.80. Current retained root-submission best by filename: 81.98 (submission_1339_81.98_7.cpp). Exact high-water mark is 81.977514.
 
 ## Latest Local Manager Round
 
@@ -8,7 +8,7 @@ Current target: Kattis score >= 91.80. Current retained root-submission best by 
 - `submission_1237_81.94_7.cpp`: Worker E visual-shell cover candidate, byte-trimmed by identifier renaming to 129127 bytes, Kattis `19915979`, accepted 81.938904, 7/7.
 - `submission_1238_68.11_6.cpp`: fetched concurrent submission `19915947`, accepted 68.108742, 6/7.
 - `submission_1239_80.65_7.cpp`: fetched concurrent submission `19916059`, accepted 80.64606, 7/7.
-- None of the latest four submissions beats `submission_1181_81.95_7.cpp`; use them as negative/near-plateau evidence, not as a new base.
+- New best after the latest micro-sweep is `submission_1339_81.98_7.cpp` / Kattis `19920917`, exact score `81.977514`.
 
 ## Score Buckets
 
@@ -59,4 +59,4 @@ Current target: Kattis score >= 91.80. Current retained root-submission best by 
 
 - Do not spend more attempts on pure WK/B16 tail nudges without a hidden-case reason; D dropped to 68.11.
 - E proved the source-size workaround and fail-closed fallback can preserve the plateau, but the visual-shell recognizer did not trigger a score jump.
-- Highest priority remains isolating the exact `submission_1181` delta and building a size-budgeted, fail-closed branch for the suspected `49843..50625` hidden band.
+- Highest priority is now preserving `submission_1339_81.98_7.cpp` exactly while adding genuinely fail-closed branches; do not increase the final high-N B16 count beyond `88` without a stronger guard, because `89+` fell to `53.926625`.

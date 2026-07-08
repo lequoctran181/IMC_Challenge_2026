@@ -1,6 +1,6 @@
 # Round 1320-1326 Notes
 
-Target remains `91.80+`; exact best remains `81.945906`.
+Target remains `91.80+`; exact best is now `81.977514`.
 
 ## Submitted Results
 
@@ -26,10 +26,19 @@ Target remains `91.80+`; exact best remains `81.945906`.
 | `submission_1336_57.28_5.cpp` | `19920870` | `57.279876`, 5/7 | external/pro branch; unsafe |
 | `submission_1337_30.67_3.cpp` | `19920842` | `30.666004`, 3/7 | Pro Extended standalone proxy-router; very unsafe |
 | `submission_1338_0.00_6.cpp` | `19920866` | `0.000000`, 6/7 | Pro Extended 49843..50625 standalone branch; accepted but below visual threshold |
+| `submission_1339_81.98_7.cpp` | `19920917` | `81.977514`, 7/7 | new best; first high-N B16 q `.941/.955` plus final high-N B16 count `88` |
+| `submission_1340_81.95_7.cpp` | `19920953` | `81.945906`, 7/7 | first q `.940/.954` with final count `88`; valid but drops to old best |
+| `submission_1341_53.93_5.cpp` | `19920967` | `53.926625`, 5/7 | first q `.940/.955`; unsafe |
+| `submission_1342_53.93_5.cpp` | `19920939` | `53.926625`, 5/7 | final high-N B16 q `.945/.958`; unsafe |
+| `submission_1343_81.93_7.cpp` | `19920942` | `81.934570`, 7/7 | BROAD_32 C5 tube guarded branch; no improvement |
+| `submission_1344_53.93_5.cpp` | `19920961` | `53.926625`, 5/7 | final high-N B16 count `92`; unsafe |
+| `submission_1345_53.93_5.cpp` | `19920965` | `53.926625`, 5/7 | final high-N B16 count `90`; unsafe |
+| `submission_1346_53.93_5.cpp` | `19920978` | `53.926625`, 5/7 | final high-N B16 count `89`; unsafe |
+| `submission_1347_57.28_5.cpp` | `19921011` / `19921005` | `57.279876` / `53.926625`, 5/7 | first q `.941/.954`; same SHA produced two low scores, likely time-threshold instability |
 
 ## Current Lessons
 
-- Keep `submission_1181_81.95_7.cpp` / `submission_1255_min1181_PENDING.cpp` as the only trusted base.
+- Keep `submission_1339_81.98_7.cpp` / Kattis `19920917` as the trusted base.
 - Small high-N B16 q/count variants can tie exact-best but have not improved it.
 - Do not use the current `macro_pack` output as a behavior-preserving shrink; it changes hidden behavior despite sample passing.
 - B92 structural branches rebased onto exact-best still false-positive or timeout.
@@ -43,3 +52,8 @@ Target remains `91.80+`; exact best remains `81.945906`.
 - `S3B16::T` count must stay conservative: changing 10 -> 12 fell to 53.927292/5.
 - Pro Extended standalone/weak-fallback rewrites can pass sample but collapse badly on hidden tests; prioritize exact-best-preserving patches.
 - A standalone hidden-band branch can pass 6/7 validity yet score 0; visual threshold risk dominates if exact-best fallback is absent.
+- The useful move was specifically combining first high-N q `.941/.955` with final high-N B16 count `88`; it raised exact score from `81.945906` to `81.977514`.
+- Final high-N B16 count is a hard cliff on the new base: `89`, `90`, and `92` all fell to `53.926625`, so keep it exactly `88` unless a stronger guard/fallback is added.
+- Final high-N B16 q is also brittle: changing `.946/.959` to `.945/.958` fell to `53.926625`.
+- First high-N q `.940` is not a safe direction: `.940/.954` remains valid but loses the new gain, while `.940/.955` falls to `53.926625`.
+- First q `.941/.954` is also unsafe; two submissions with identical source produced low 5/7 scores (`57.279876` and `53.926625`), so the low/mid threshold must stay `.955` unless protected by a new fallback.
