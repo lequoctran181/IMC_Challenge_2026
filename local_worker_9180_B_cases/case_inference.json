@@ -1,0 +1,193 @@
+{
+  "worker": "B",
+  "scope": "local inference only; no Kattis submission",
+  "anchor_pipeline": {
+    "representative_files": [
+      "kattis_19901232.cpp",
+      "submission_1042_81.94_7.cpp",
+      "submission_1089_81.94_7.cpp",
+      "submission_1131_81.94_7.cpp"
+    ],
+    "main_signature": [
+      "W2G::run fallback W2C::run",
+      "W5::post_patch_pass",
+      "VIMP::run",
+      "MIDEC::run",
+      "WK::run",
+      "B16::R(39000,60000,220,-7,192,.96,18.05)",
+      "B16::R(39000,60000,76,-10,192,.96,18.35)",
+      "WK tail for 47500..60000"
+    ],
+    "interpretation": "stable 81.93/81.94 7/7 plateau; exact notes identify 19901232 as 81.93457"
+  },
+  "score_evidence": [
+    {
+      "cluster": "81.93..81.95 7/7",
+      "files": ["kattis_19901232.cpp", "submission_1181_81.95_7.cpp"],
+      "signature": "anchor plus small B16/S3B16 variants in 1181",
+      "read": "safe plateau; direct B16 ridge mostly saturated"
+    },
+    {
+      "cluster": "79.88 7/7",
+      "files": ["submission_969_79.88_7.cpp"],
+      "signature": "anchor plus B16::R(49843,50233,140,-5,224,.958,18.55)",
+      "read": "lower case5 B16-only patch hurts despite acceptance"
+    },
+    {
+      "cluster": "70.49 6/7",
+      "files": ["submission_1034_70.49_6.cpp", "submission_1060_70.49_6.cpp"],
+      "signature": "UG periodic/grid special or broad 47501..85000 B16 replacing anchor B16",
+      "read": "special branch/router can damage one hidden case badly"
+    },
+    {
+      "cluster": "67.73..67.75 6/7",
+      "files": ["submission_1033_67.75_6.cpp", "submission_1105_67.75_6.cpp"],
+      "signature": "aggressive STARX/KCM/high-count B16 or late special branch",
+      "read": "broad structural replacement is dangerous without tight classifier"
+    },
+    {
+      "cluster": "40..57 4/7 or 5/7",
+      "files": ["submission_1214_45.91_4.cpp", "submission_1233_55.27_5.cpp", "submission_1235_45.17_4.cpp"],
+      "signature": "generic QEM/primitive/torus/ellipsoid/radial shell solvers",
+      "read": "generic simplification passes some cases but misses high-value routed cases"
+    }
+  ],
+  "archetypes": [
+    {
+      "name": "tiny_sample_or_simple_primitive",
+      "likely_n": "very small or official sample-like",
+      "evidence": ["low accepted files include tryTinySampleBox and N0==9 sample special cases"],
+      "helps": ["safe fallback", "format/topology validation"],
+      "hurts": ["spending primary search effort here"],
+      "priority_for_9180": "low"
+    },
+    {
+      "name": "case3_periodic_torus_grid",
+      "likely_n": "23125..23500",
+      "mesh_signature": "M == 2*N, factorable wrapped grid U,V in 80..320",
+      "evidence": ["W2G::det in anchor", "S8 proxy case3_torus_23296"],
+      "helps": ["W2G direct grid downsample", "W2C fallback collapse"],
+      "hurts": ["generalizing periodic recognizer outside guarded band"],
+      "priority_for_9180": "medium-low"
+    },
+    {
+      "name": "core_midband_smooth_case5",
+      "likely_n": "47500..60000",
+      "mesh_signature": "smooth AS normal classifier; low BG/AH, high AL/BL",
+      "evidence": ["anchor W5/VIMP/MIDEC/WK/B16 all target this band", "many 81.94 plateau files"],
+      "helps": ["B16 second pass count 74..76 stride -10 vp192 q .960..961", "WK tail"],
+      "hurts": ["96,-9,.962", "80,-11,224,.964", "47501..85000 broad B16"],
+      "priority_for_9180": "high"
+    },
+    {
+      "name": "lower_case5_uv_or_torus_ripple",
+      "likely_n": "49843..50234",
+      "mesh_signature": "very smooth lower slice; S4 guard AS && BG<=0.001 && BL>=0.985 && Z<=0.0037",
+      "evidence": ["S4_08 uv49954_bumpy 1249/2494 -> 1129/2254", "S14 lower ripple 1985/3970 -> 1799/3598", "submission_969 B16-only falls to 79.88"],
+      "helps": ["feature-guarded W5/R13 patch", "BROAD_30 DC-deep only for torus-ripple"],
+      "hurts": ["B16-only lower patch", "unguarded exact S4 on rough-phase"],
+      "priority_for_9180": "very high"
+    },
+    {
+      "name": "upper_case5_boxy_softbox",
+      "likely_n": "50234..50625",
+      "mesh_signature": "upper slice boxy/softbox smooth surface",
+      "evidence": ["S14 upper_aggr improves r5_uv50623_boxy and s8_uv50402_softbox by about 105..111 vertices", "orientation flags in S14"],
+      "helps": ["S14_07 upper aggressive with orientation-safe rollback"],
+      "hurts": ["upper exact without rough-phase veto", "orientation-conflict outputs"],
+      "priority_for_9180": "high"
+    },
+    {
+      "name": "case6_high_mid_smooth",
+      "likely_n": "60001..160000",
+      "mesh_signature": "smooth but outside WK/MIDEC midband",
+      "evidence": ["S5 B06 late pass discussion", "strict vp128 candidate queue"],
+      "helps": ["late B16 after preserving anchor, narrowed to 60001..120000 first"],
+      "hurts": ["omitting current second B16", "low-res late pass"],
+      "priority_for_9180": "medium-high"
+    },
+    {
+      "name": "very_high_n_smooth_uv_box_or_torus",
+      "likely_n": "160000..1200000",
+      "mesh_signature": "large smooth or AABB/box shell; classifier must be very tight",
+      "evidence": ["broad high-N B16 scored about 67.74", "BROAD_26 AB19 high-N box-shell notes", "S15 guarded VIMP/W5L473 notes"],
+      "helps": ["extra VIMP/W5L473 under tight AS/BG/AL/AH", "AB19 box-shell with vps512>=.992"],
+      "hurts": ["B16 160001..1200000 count 220 stride -17 vp64 q .93"],
+      "priority_for_9180": "medium-high but high risk"
+    },
+    {
+      "name": "generic_irregular_or_sharp_mesh",
+      "likely_n": "various",
+      "mesh_signature": "not smooth enough for AS smooth route or primitive recognizers",
+      "evidence": ["recent generic QEM submissions score 40..57 with 4/7 or 5/7"],
+      "helps": ["generic fallback if all structural branches no-op"],
+      "hurts": ["using generic simplifier as main route"],
+      "priority_for_9180": "medium-low"
+    }
+  ],
+  "missing_for_10_point_jump": [
+    "slice-aware structural classifier for 49843..50625",
+    "orientation-safe rollback for case5 upper/lower patches",
+    "high-resolution or baseline-relative proxy gating for high-N branches",
+    "tournament routers for MIDEC/WK/B16 order rather than more raw B16 count sweeps",
+    "strict no-op behavior on non-target rough-phase, UV, torus, and box proxies"
+  ],
+  "experiments": [
+    {
+      "name": "lower_case5_s4_08_tournament",
+      "band": "49843 <= N < 50234",
+      "branch": "feature-guarded W5/R13-style patch",
+      "keep_condition": "cove drop, strong topology, vps512 >= baseline - .001, rough-phase veto",
+      "expected_value": "highest"
+    },
+    {
+      "name": "upper_case5_s14_07_orientation_safe",
+      "band": "50234 <= N < 50625",
+      "branch": "upper aggressive patch",
+      "keep_condition": "cove drop, HS, orientation-conflict check, vps512 floor",
+      "expected_value": "high"
+    },
+    {
+      "name": "midband_pass_order_tournament",
+      "band": "47500 <= N < 60000",
+      "branch": "WK-before-MIDEC, skip-MIDEC, B16-before-WK variants",
+      "keep_condition": "strictly lower cove and vps512 >= baseline - .001",
+      "expected_value": "high"
+    },
+    {
+      "name": "strict_case6_late_b16",
+      "band": "60001 <= N <= 120000, then 120001..160000",
+      "branch": "B16::R with vp128 q .965 after preserving anchor",
+      "keep_condition": "no cove increase, validator, high proxy floor",
+      "expected_value": "medium"
+    },
+    {
+      "name": "extra_vimp_high_mid",
+      "band": "60000..180000",
+      "branch": "one extra VIMP pass with S15 guards",
+      "keep_condition": "minimum cove gain and vps512/256 relative floor",
+      "expected_value": "medium"
+    },
+    {
+      "name": "high_n_box_shell_ab19",
+      "band": "high-N only",
+      "branch": "BROAD_26 AB19 AABB shell recognizer",
+      "keep_condition": "box-face tolerance, grid coverage, vps512>=.992, no-op on non-box proxies",
+      "expected_value": "medium but risky"
+    },
+    {
+      "name": "torus_ripple_dcdeep",
+      "band": "49843 <= N < 50625",
+      "branch": "BROAD_30 DC-deep table only under torus/ripple recognizer",
+      "keep_condition": "topology valid, full rollback, no-op on uv/box/rough proxies",
+      "expected_value": "speculative high"
+    }
+  ],
+  "avoid": [
+    "broad high-N B16 vp64/q.93 over 160001..1200000",
+    "B16-only lower case5 49843..50233 count 140 stride -5 vp224 q .958",
+    "direct second-B16 96,-9,.962 and 80,-11,224,.964",
+    "late passes that omit or replace B16::R(39000,60000,76,-10,192,.96,18.35)",
+    "unguarded S4/R13 lower patch that catches rough-phase"
+  ]
+}

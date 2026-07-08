@@ -1,0 +1,248 @@
+{
+  "argv": [
+    "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/local_worker_9180_C_eval/eval_harness.py",
+    "run",
+    "best1044=/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1044_81.94_7.cpp",
+    "fetched19913561=/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/fetched_sources/kattis_19913561_81.93_7.cpp",
+    "--run-dir",
+    "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/local_worker_9180_C_eval/runs/compile_sample_best",
+    "--timeout",
+    "30"
+  ],
+  "cxx": "/usr/bin/g++",
+  "cxxflags": "-std=c++17 -O2 -pipe",
+  "original_diagnostics": {
+    "bad_edges": 0,
+    "bbox": {
+      "diagonal": 1.7320508075688772,
+      "max": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "min": [
+        -0.5,
+        -0.5,
+        -0.5
+      ]
+    },
+    "boundary_edges": 0,
+    "compression_percent": null,
+    "declared_faces": 14,
+    "declared_vertices": 9,
+    "degenerate_faces": 0,
+    "duplicate_faces": 0,
+    "duplicate_index_faces": 0,
+    "duplicate_vertices_exact": 0,
+    "edge_length_quantiles": {
+      "max": 1.4142135623730951,
+      "median": 1.0,
+      "min": 0.014142135623730963,
+      "p05": 0.9900505037623081,
+      "p95": 1.4142135623730951
+    },
+    "edges_unique": 21,
+    "euler_characteristic": 2,
+    "face_area2_quantiles": {
+      "max": 1.0,
+      "median": 1.0,
+      "min": 0.00010000000000000018,
+      "p05": 0.00010000000000000018,
+      "p95": 1.0
+    },
+    "face_components": 1,
+    "faces": 14,
+    "finite_bad_vertices": 0,
+    "flags": [],
+    "genus_estimate": 0,
+    "hard_ok": true,
+    "invalid_index_faces": 0,
+    "isolated_vertices": 0,
+    "manifold_edges_2_incident": 21,
+    "nearest_vertex_proxy": {
+      "available": false
+    },
+    "nonmanifold_edges_gt2": 0,
+    "original_faces": null,
+    "original_vertices": null,
+    "path": "/Users/TranAnh/Desktop/Competitive_programming/sg_work/1.in",
+    "same_direction_edges": 0,
+    "self_loop_edges": 0,
+    "sha256": "3882c6e480edb53ba240ba9e6174e9f7d4f352e6f9cd5349c060a72e220c0229",
+    "used_vertices": 9,
+    "vertices": 9
+  },
+  "ranked_labels": [
+    "best1044",
+    "fetched19913561"
+  ],
+  "runs": [
+    {
+      "compile_log": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/local_worker_9180_C_eval/runs/compile_sample_best/logs/best1044.compile.log",
+      "compile_ok": true,
+      "compile_seconds": 5.496501750021707,
+      "diagnostics": {
+        "bad_edges": 0,
+        "bbox": {
+          "diagonal": 1.7320508075688772,
+          "max": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "min": [
+            -0.5,
+            -0.5,
+            -0.5
+          ]
+        },
+        "boundary_edges": 0,
+        "compression_percent": 11.111111111111116,
+        "declared_faces": 12,
+        "declared_vertices": 8,
+        "degenerate_faces": 0,
+        "duplicate_faces": 0,
+        "duplicate_index_faces": 0,
+        "duplicate_vertices_exact": 0,
+        "edge_length_quantiles": {
+          "max": 1.4142135623730951,
+          "median": 1.0,
+          "min": 1.0,
+          "p05": 1.0,
+          "p95": 1.4142135623730951
+        },
+        "edges_unique": 18,
+        "euler_characteristic": 2,
+        "face_area2_quantiles": {
+          "max": 1.0,
+          "median": 1.0,
+          "min": 1.0,
+          "p05": 1.0,
+          "p95": 1.0
+        },
+        "face_components": 1,
+        "faces": 12,
+        "finite_bad_vertices": 0,
+        "flags": [],
+        "genus_estimate": 0,
+        "hard_ok": true,
+        "invalid_index_faces": 0,
+        "isolated_vertices": 0,
+        "manifold_edges_2_incident": 18,
+        "nearest_vertex_proxy": {
+          "available": true,
+          "candidate_to_orig": 0.0,
+          "orig_to_candidate": 0.014142135623730963,
+          "ratio_to_tolerance": 0.16329931618554536,
+          "sample_limit": 5000,
+          "symmetric": 0.014142135623730963,
+          "tolerance_5pct_aabb": 0.08660254037844387
+        },
+        "nonmanifold_edges_gt2": 0,
+        "original_faces": 14,
+        "original_vertices": 9,
+        "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/local_worker_9180_C_eval/runs/compile_sample_best/outputs/best1044.out",
+        "same_direction_edges": 0,
+        "self_loop_edges": 0,
+        "sha256": "2082e6d08e81f9f6fa0f8c9b7bba12e1607d76bf8d5fb2e210c4b736a3fe8c2a",
+        "used_vertices": 8,
+        "vertices": 8
+      },
+      "error": "",
+      "label": "best1044",
+      "output_path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/local_worker_9180_C_eval/runs/compile_sample_best/outputs/best1044.out",
+      "returncode": 0,
+      "runtime_seconds": 0.4078536249580793,
+      "source": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/submission_1044_81.94_7.cpp",
+      "source_bytes": 122675,
+      "source_sha256": "7d94bd32c1bcba1601f1a2f84615ca2dccf6ccf6fc734f62b923b35ba96ab539",
+      "status": "ok",
+      "stderr_path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/local_worker_9180_C_eval/runs/compile_sample_best/logs/best1044.stderr"
+    },
+    {
+      "compile_log": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/local_worker_9180_C_eval/runs/compile_sample_best/logs/fetched19913561.compile.log",
+      "compile_ok": true,
+      "compile_seconds": 5.023752666951623,
+      "diagnostics": {
+        "bad_edges": 0,
+        "bbox": {
+          "diagonal": 1.7320508075688772,
+          "max": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "min": [
+            -0.5,
+            -0.5,
+            -0.5
+          ]
+        },
+        "boundary_edges": 0,
+        "compression_percent": 11.111111111111116,
+        "declared_faces": 12,
+        "declared_vertices": 8,
+        "degenerate_faces": 0,
+        "duplicate_faces": 0,
+        "duplicate_index_faces": 0,
+        "duplicate_vertices_exact": 0,
+        "edge_length_quantiles": {
+          "max": 1.4142135623730951,
+          "median": 1.0,
+          "min": 1.0,
+          "p05": 1.0,
+          "p95": 1.4142135623730951
+        },
+        "edges_unique": 18,
+        "euler_characteristic": 2,
+        "face_area2_quantiles": {
+          "max": 1.0,
+          "median": 1.0,
+          "min": 1.0,
+          "p05": 1.0,
+          "p95": 1.0
+        },
+        "face_components": 1,
+        "faces": 12,
+        "finite_bad_vertices": 0,
+        "flags": [],
+        "genus_estimate": 0,
+        "hard_ok": true,
+        "invalid_index_faces": 0,
+        "isolated_vertices": 0,
+        "manifold_edges_2_incident": 18,
+        "nearest_vertex_proxy": {
+          "available": true,
+          "candidate_to_orig": 0.0,
+          "orig_to_candidate": 0.014142135623730963,
+          "ratio_to_tolerance": 0.16329931618554536,
+          "sample_limit": 5000,
+          "symmetric": 0.014142135623730963,
+          "tolerance_5pct_aabb": 0.08660254037844387
+        },
+        "nonmanifold_edges_gt2": 0,
+        "original_faces": 14,
+        "original_vertices": 9,
+        "path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/local_worker_9180_C_eval/runs/compile_sample_best/outputs/fetched19913561.out",
+        "same_direction_edges": 0,
+        "self_loop_edges": 0,
+        "sha256": "2082e6d08e81f9f6fa0f8c9b7bba12e1607d76bf8d5fb2e210c4b736a3fe8c2a",
+        "used_vertices": 8,
+        "vertices": 8
+      },
+      "error": "",
+      "label": "fetched19913561",
+      "output_path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/local_worker_9180_C_eval/runs/compile_sample_best/outputs/fetched19913561.out",
+      "returncode": 0,
+      "runtime_seconds": 0.44049829203868285,
+      "source": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/fetched_sources/kattis_19913561_81.93_7.cpp",
+      "source_bytes": 123350,
+      "source_sha256": "427c297d06c632f25370e01fd6880d7aad0ab2ae2a4ef88bf2bc9a6f52a6a178",
+      "status": "ok",
+      "stderr_path": "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/local_worker_9180_C_eval/runs/compile_sample_best/logs/fetched19913561.stderr"
+    }
+  ],
+  "sample": "/Users/TranAnh/Desktop/Competitive_programming/sg_work/1.in",
+  "sample_sha256": "3882c6e480edb53ba240ba9e6174e9f7d4f352e6f9cd5349c060a72e220c0229",
+  "tool": "local_worker_9180_C_eval/eval_harness.py"
+}

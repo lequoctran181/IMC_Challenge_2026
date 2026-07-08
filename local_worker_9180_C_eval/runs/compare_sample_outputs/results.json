@@ -1,0 +1,240 @@
+{
+  "argv": [
+    "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/local_worker_9180_C_eval/eval_harness.py",
+    "compare",
+    "ans=/Users/TranAnh/Desktop/Competitive_programming/sg_work/1.ans",
+    "codex91=/Users/TranAnh/Desktop/Competitive_programming/sg_work/codex91_sample.out",
+    "hybrid=/Users/TranAnh/Desktop/Competitive_programming/sg_work/hybrid_sample.out",
+    "--run-dir",
+    "/Users/TranAnh/Desktop/Competitive_programming/IMC_Challenge_2026_remote/local_worker_9180_C_eval/runs/compare_sample_outputs"
+  ],
+  "ranked_labels": [
+    "ans",
+    "codex91",
+    "hybrid"
+  ],
+  "runs": [
+    {
+      "diagnostics": {
+        "bad_edges": 0,
+        "bbox": {
+          "diagonal": 1.7320508075688772,
+          "max": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "min": [
+            -0.5,
+            -0.5,
+            -0.5
+          ]
+        },
+        "boundary_edges": 0,
+        "compression_percent": 11.111111111111116,
+        "declared_faces": 12,
+        "declared_vertices": 8,
+        "degenerate_faces": 0,
+        "duplicate_faces": 0,
+        "duplicate_index_faces": 0,
+        "duplicate_vertices_exact": 0,
+        "edge_length_quantiles": {
+          "max": 1.4142135623730951,
+          "median": 1.0,
+          "min": 1.0,
+          "p05": 1.0,
+          "p95": 1.4142135623730951
+        },
+        "edges_unique": 18,
+        "euler_characteristic": 2,
+        "face_area2_quantiles": {
+          "max": 1.0,
+          "median": 1.0,
+          "min": 1.0,
+          "p05": 1.0,
+          "p95": 1.0
+        },
+        "face_components": 1,
+        "faces": 12,
+        "finite_bad_vertices": 0,
+        "flags": [],
+        "genus_estimate": 0,
+        "hard_ok": true,
+        "invalid_index_faces": 0,
+        "isolated_vertices": 0,
+        "manifold_edges_2_incident": 18,
+        "nearest_vertex_proxy": {
+          "available": true,
+          "candidate_to_orig": 0.0,
+          "orig_to_candidate": 0.014142135623730963,
+          "ratio_to_tolerance": 0.16329931618554536,
+          "sample_limit": 5000,
+          "symmetric": 0.014142135623730963,
+          "tolerance_5pct_aabb": 0.08660254037844387
+        },
+        "nonmanifold_edges_gt2": 0,
+        "original_faces": 14,
+        "original_vertices": 9,
+        "path": "/Users/TranAnh/Desktop/Competitive_programming/sg_work/1.ans",
+        "same_direction_edges": 0,
+        "self_loop_edges": 0,
+        "sha256": "0f432291d526e85ae5af157c5687b68525b6e35ca964f75b438317e86f39422a",
+        "used_vertices": 8,
+        "vertices": 8
+      },
+      "label": "ans",
+      "output_path": "/Users/TranAnh/Desktop/Competitive_programming/sg_work/1.ans",
+      "runtime_seconds": 0.0,
+      "status": "ok"
+    },
+    {
+      "diagnostics": {
+        "bad_edges": 0,
+        "bbox": {
+          "diagonal": 1.7320508075688772,
+          "max": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "min": [
+            -0.5,
+            -0.5,
+            -0.5
+          ]
+        },
+        "boundary_edges": 0,
+        "compression_percent": 11.111111111111116,
+        "declared_faces": 12,
+        "declared_vertices": 8,
+        "degenerate_faces": 0,
+        "duplicate_faces": 0,
+        "duplicate_index_faces": 0,
+        "duplicate_vertices_exact": 0,
+        "edge_length_quantiles": {
+          "max": 1.4142135623730951,
+          "median": 1.0,
+          "min": 1.0,
+          "p05": 1.0,
+          "p95": 1.4142135623730951
+        },
+        "edges_unique": 18,
+        "euler_characteristic": 2,
+        "face_area2_quantiles": {
+          "max": 1.0,
+          "median": 1.0,
+          "min": 1.0,
+          "p05": 1.0,
+          "p95": 1.0
+        },
+        "face_components": 1,
+        "faces": 12,
+        "finite_bad_vertices": 0,
+        "flags": [],
+        "genus_estimate": 0,
+        "hard_ok": true,
+        "invalid_index_faces": 0,
+        "isolated_vertices": 0,
+        "manifold_edges_2_incident": 18,
+        "nearest_vertex_proxy": {
+          "available": true,
+          "candidate_to_orig": 0.0,
+          "orig_to_candidate": 0.014142135623730963,
+          "ratio_to_tolerance": 0.16329931618554536,
+          "sample_limit": 5000,
+          "symmetric": 0.014142135623730963,
+          "tolerance_5pct_aabb": 0.08660254037844387
+        },
+        "nonmanifold_edges_gt2": 0,
+        "original_faces": 14,
+        "original_vertices": 9,
+        "path": "/Users/TranAnh/Desktop/Competitive_programming/sg_work/codex91_sample.out",
+        "same_direction_edges": 0,
+        "self_loop_edges": 0,
+        "sha256": "2082e6d08e81f9f6fa0f8c9b7bba12e1607d76bf8d5fb2e210c4b736a3fe8c2a",
+        "used_vertices": 8,
+        "vertices": 8
+      },
+      "label": "codex91",
+      "output_path": "/Users/TranAnh/Desktop/Competitive_programming/sg_work/codex91_sample.out",
+      "runtime_seconds": 0.0,
+      "status": "ok"
+    },
+    {
+      "diagnostics": {
+        "bad_edges": 0,
+        "bbox": {
+          "diagonal": 1.7320508075688772,
+          "max": [
+            0.5,
+            0.5,
+            0.5
+          ],
+          "min": [
+            -0.5,
+            -0.5,
+            -0.5
+          ]
+        },
+        "boundary_edges": 0,
+        "compression_percent": 11.111111111111116,
+        "declared_faces": 12,
+        "declared_vertices": 8,
+        "degenerate_faces": 0,
+        "duplicate_faces": 0,
+        "duplicate_index_faces": 0,
+        "duplicate_vertices_exact": 0,
+        "edge_length_quantiles": {
+          "max": 1.4142135623730951,
+          "median": 1.0,
+          "min": 1.0,
+          "p05": 1.0,
+          "p95": 1.4142135623730951
+        },
+        "edges_unique": 18,
+        "euler_characteristic": 2,
+        "face_area2_quantiles": {
+          "max": 1.0,
+          "median": 1.0,
+          "min": 1.0,
+          "p05": 1.0,
+          "p95": 1.0
+        },
+        "face_components": 1,
+        "faces": 12,
+        "finite_bad_vertices": 0,
+        "flags": [],
+        "genus_estimate": 0,
+        "hard_ok": true,
+        "invalid_index_faces": 0,
+        "isolated_vertices": 0,
+        "manifold_edges_2_incident": 18,
+        "nearest_vertex_proxy": {
+          "available": true,
+          "candidate_to_orig": 0.0,
+          "orig_to_candidate": 0.014142135623730963,
+          "ratio_to_tolerance": 0.16329931618554536,
+          "sample_limit": 5000,
+          "symmetric": 0.014142135623730963,
+          "tolerance_5pct_aabb": 0.08660254037844387
+        },
+        "nonmanifold_edges_gt2": 0,
+        "original_faces": 14,
+        "original_vertices": 9,
+        "path": "/Users/TranAnh/Desktop/Competitive_programming/sg_work/hybrid_sample.out",
+        "same_direction_edges": 0,
+        "self_loop_edges": 0,
+        "sha256": "2082e6d08e81f9f6fa0f8c9b7bba12e1607d76bf8d5fb2e210c4b736a3fe8c2a",
+        "used_vertices": 8,
+        "vertices": 8
+      },
+      "label": "hybrid",
+      "output_path": "/Users/TranAnh/Desktop/Competitive_programming/sg_work/hybrid_sample.out",
+      "runtime_seconds": 0.0,
+      "status": "ok"
+    }
+  ],
+  "sample": "/Users/TranAnh/Desktop/Competitive_programming/sg_work/1.in",
+  "sample_sha256": "3882c6e480edb53ba240ba9e6174e9f7d4f352e6f9cd5349c060a72e220c0229",
+  "tool": "local_worker_9180_C_eval/eval_harness.py compare"
+}

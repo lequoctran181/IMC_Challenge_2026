@@ -1,0 +1,4 @@
+label,status,compile_ok,runtime_seconds,vertices,faces,compression_percent,hard_ok,bad_edges,boundary_edges,nonmanifold_edges_gt2,same_direction_edges,degenerate_faces,duplicate_faces,face_components,genus_estimate,nearest_ratio,sha256,source,output_path,flags,error
+ans,ok,,0.0,8,12,11.111111111111116,True,0,0,0,0,0,0,1,0,0.16329931618554536,0f432291d526e85ae5af157c5687b68525b6e35ca964f75b438317e86f39422a,,/Users/TranAnh/Desktop/Competitive_programming/sg_work/1.ans,,
+codex91,ok,,0.0,8,12,11.111111111111116,True,0,0,0,0,0,0,1,0,0.16329931618554536,2082e6d08e81f9f6fa0f8c9b7bba12e1607d76bf8d5fb2e210c4b736a3fe8c2a,,/Users/TranAnh/Desktop/Competitive_programming/sg_work/codex91_sample.out,,
+hybrid,ok,,0.0,8,12,11.111111111111116,True,0,0,0,0,0,0,1,0,0.16329931618554536,2082e6d08e81f9f6fa0f8c9b7bba12e1607d76bf8d5fb2e210c4b736a3fe8c2a,,/Users/TranAnh/Desktop/Competitive_programming/sg_work/hybrid_sample.out,,
