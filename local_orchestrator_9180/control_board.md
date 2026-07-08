@@ -25,6 +25,7 @@ Current target: Kattis score >= 91.80. Current retained root-submission best by 
 - Latest checked `1378` regressed: S11_02 wide S7_04 selector returned `79.729258`, 7/7.
 - Latest checked `1379` did not improve: S7_09 late-W5 guarded B16 returned `81.934570`.
 - Latest checked `1380` regressed mildly: S7_08 largeN W5L473 returned `81.858216`, 7/7.
+- Latest checked `1381` did not improve: S9 full C5T structural shrink returned `81.934570`.
 
 ## Score Buckets
 
@@ -86,3 +87,4 @@ Current target: Kattis score >= 91.80. Current retained root-submission best by 
 - S11_02 wide S7_04 guard is harmful (`79.729258`); do not widen S7_04 acceptance margins without a stronger rollback/proxy discriminator.
 - S7_09 late-W5 guard also hit `81.934570`; mid-band reorder/late-W5 lanes are not breaking the plateau.
 - S7_08 largeN W5L473 is valid but loses the `1339` gain (`81.858216`); do not prioritize W5L473 large-N tail without a sharper detector.
+- S9 full C5T also hit `81.934570`; C5T structural shrink is not sufficient as currently guarded.
