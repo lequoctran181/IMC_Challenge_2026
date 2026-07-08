@@ -79,6 +79,8 @@ Target remains `91.80+`; exact best is now `81.977514`.
 | `submission_1393_81.93_7.cpp` | `19921667` | `81.934570`, 7/7 | S11_04 skip-MIDEC tight; no improvement |
 | `submission_1394_81.94_7.cpp` | `19921695` | `81.941905`, 7/7 | BROAD31 AB19 + 1339 B16; valid but below best |
 | `submission_1395_0.00_7.cpp` | `19921724` | `0.000000`, 7/7 | N/M diagnostic: hidden test case 5/7 is not `N == 49954` |
+| `submission_1396_0.00_7.cpp` | `19921730` | `0.000000`, 7/7 | diagnostic: hidden test case 5/7 does not satisfy the broad `EZ()/AS/BG/AL/AH` midguard |
+| `submission_1397_0.00_7.cpp` | `19921741` | `0.000000`, 7/7 | N/M diagnostic: hidden test case 5/7 is not `N == 50176` |
 
 ## Current Lessons
 
@@ -124,6 +126,7 @@ Target remains `91.80+`; exact best is now `81.977514`.
 - Diagnostic `19921631` invalidated test case 5/7 for the raw `49843 <= N < 50625` band. The real case5 target is in this N band, but it fails the old `AS && BG<=.001 && BL>=.985 && Z<=.0037` selector, so next diagnostics should split lower/upper and then shape/`M` rather than reuse the smooth lower guard.
 - Diagnostic `19921651` further narrowed test case 5/7 to `49843 <= N < 50234`; prioritize exact N/M and shape diagnostics in this lower half.
 - Diagnostic `19921724` shows case 5/7 is not `N == 49954`; the next likely exact-N probe is `N == 50176` or a broader split around `50050`.
+- Diagnostics `19921730` and `19921741` show case 5/7 is neither the broad smooth/midguard family nor exact `N == 50176`; continue binary-searching `49843 <= N < 50234` and test `M == 2N-4`/shape gates.
 - WorkerF macro5k candidate returned `80.634329`; macro5k is not a breakthrough branch in this form.
 - Broad09 r12grid W2+B16 returned `81.709845`; avoid this structural branch unless redesigned around a much narrower detector.
 - Broad19 boxgrid failclosed returned `81.934570`; failclosed structural branches still mostly preserve plateau rather than improve compression.

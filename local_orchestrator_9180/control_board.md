@@ -38,6 +38,8 @@ Current target: Kattis score >= 91.80. Current retained root-submission best by 
 - Latest checked `1393` did not improve: S11_04 skip-MIDEC tight returned `81.934570`, 7/7.
 - Latest checked `1394` did not improve: BROAD31 AB19 + 1339 B16 returned `81.941905`, 7/7; valid signal but still below `1339`.
 - Latest diagnostic `1395` from Kattis `19921724` scored `0.000000`, 7/7; hidden test case 5/7 is not `N == 49954`.
+- Latest diagnostic `1396` from Kattis `19921730` scored `0.000000`, 7/7; hidden test case 5/7 does not satisfy the broad `EZ()/AS/BG/AL/AH` midguard.
+- Latest diagnostic `1397` from Kattis `19921741` scored `0.000000`, 7/7; hidden test case 5/7 is not `N == 50176`.
 
 ## Score Buckets
 
