@@ -98,6 +98,7 @@ Target remains `91.80+`; exact best is now `81.977514`.
 | `submission_1412_0.00_7.cpp` | `19922093` | `0.000000`, 7/7 | diagnostic: exact case 5 does not pass current `GY()` sphere-fit thresholds |
 | `submission_1413a_worker_boxsurface_0.00_7.cpp` | `19922128` | `0.000000`, 7/7 | worker diagnostic: exact case 5 is not a near-AABB/box-surface mesh by the tested boundary-vertex condition |
 | `submission_1413_0.00_7.cpp` | `19922144` | `0.000000`, 7/7 | diagnostic: exact case 5 does not pass current `GA/EJ` ellipsoid/PCA thresholds |
+| `submission_1414_0.00_6.cpp` | `19922151` | `0.000000`, 6/7 | diagnostic: exact case 5 satisfies sampled edge-normal smoothness/coarseness (`coarse >= 76%`, low very-sharp/bad edge rates) |
 
 ## Current Lessons
 
@@ -158,7 +159,7 @@ Target remains `91.80+`; exact best is now `81.977514`.
 - `19922036` shows broad `FL` threshold relaxation is unsafe; `19922051` confirms case 5 is not in the hardcoded `GJ/FL` ring face order despite `N-2 = 65*769`.
 - `19922074` shows exact-N/M broad re-enabling of skipped branches is also unsafe; prefer narrow shape diagnostics (`GY/GI`, valence, sampled normal ratios) before implementing more exact-case logic.
 - `19922093` shows current `GY()` sphere-fit is false on exact case 5; next primitive probe should be `GA/EJ` ellipsoid/PCA, not `GI` sphere tuning.
-- `19922128` excludes a near-AABB/box-surface interpretation, and `19922144` excludes current `GA/EJ` ellipsoid/PCA; case 5 is likely a non-primitive genus-0 surface where local topology/valence/smoothness, not global primitive fitting, must drive the next exact branch.
+- `19922128` excludes a near-AABB/box-surface interpretation, and `19922144` excludes current `GA/EJ` ellipsoid/PCA; `19922151` confirms sampled normal smoothness. Case 5 is likely a non-primitive smooth genus-0 surface where local topology/valence/smooth exact decimation, not global primitive fitting, must drive the next exact branch.
 - WorkerF macro5k candidate returned `80.634329`; macro5k is not a breakthrough branch in this form.
 - Broad09 r12grid W2+B16 returned `81.709845`; avoid this structural branch unless redesigned around a much narrower detector.
 - Broad19 boxgrid failclosed returned `81.934570`; failclosed structural branches still mostly preserve plateau rather than improve compression.

@@ -126,4 +126,5 @@ Current target: Kattis score >= 91.80. Current retained root-submission best by 
 - Diagnostic `1412` (`19922093`) scored `0.000000`, 7/7; exact case 5 does not pass current `GY()` sphere-fit thresholds, so plain sphere primitive `GI` is not the hidden route.
 - Worker diagnostic `19922128` scored `0.000000`, 7/7; exact case 5 is not a near-AABB/box-surface mesh under the tested 92% boundary-vertex condition.
 - Diagnostic `1413` (`19922144`) scored `0.000000`, 7/7; exact case 5 does not pass current `GA/EJ` ellipsoid/PCA thresholds either.
-- Current case-5 state after diagnostics is exact: `N == 49987`, `M == 99970`, genus-0, but not `FL/GJ` face order, not `GY` sphere-fit, not `GA/EJ` ellipsoid-fit, and not box-surface. Next useful probes: valence distribution and sampled normal smoothness ratios.
+- Diagnostic `1414` (`19922151`) scored `0.000000`, 6/7; exact case 5 satisfies the sampled edge-normal smooth/coarse predicate (`coarse >= 76%`, low very-sharp/bad edge rates).
+- Current case-5 state after diagnostics is exact: `N == 49987`, `M == 99970`, genus-0, not `FL/GJ` face order, not `GY` sphere-fit, not `GA/EJ` ellipsoid-fit, not box-surface, but smooth/coarse by sampled adjacent-face normals. Next useful probes: valence distribution and smooth exact-case decimation parameters.
