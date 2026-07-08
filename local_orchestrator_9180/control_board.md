@@ -28,7 +28,9 @@ Current target: Kattis score >= 91.80. Current retained root-submission best by 
 - Latest checked `1381` did not improve: S9 full C5T structural shrink returned `81.934570`.
 - Latest fetched `1382` from Kattis `19921509` regressed: unknown concurrent source returned `75.613142`, 7/7.
 - Latest checked `1384` regressed: workerF macro5k candidate returned `80.634329`, 7/7.
+- Latest fetched `1385` from Kattis `19921584` scored `0.000000`, 7/7; unknown concurrent source passed validity but failed visual threshold.
 - Latest checked `1386` regressed: broad09 r12grid W2+B16 returned `81.709845`, 7/7.
+- Latest checked `1387` did not improve: broad19 boxgrid failclosed returned `81.934570`.
 
 ## Score Buckets
 
@@ -93,4 +95,6 @@ Current target: Kattis score >= 91.80. Current retained root-submission best by 
 - S9 full C5T also hit `81.934570`; C5T structural shrink is not sufficient as currently guarded.
 - Unknown concurrent `19921509` is valid but much worse (`75.613142`); keep only as a negative comparison source.
 - Macro5k candidate is valid but below best (`80.634329`); do not use this macro branch as a new base.
+- Unknown concurrent `19921584` scored 0 despite 7/7 validity; blacklist unless later diff finds a removable bad branch.
 - Broad09 r12grid W2+B16 is valid but below best (`81.709845`); structural r12grid branch is not enough in this form.
+- Broad19 boxgrid failclosed hits the standard `81.934570` plateau; boxgrid branch is no breakthrough in this guard setup.
