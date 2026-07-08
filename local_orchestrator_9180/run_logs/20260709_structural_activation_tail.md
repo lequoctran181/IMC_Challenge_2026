@@ -53,3 +53,11 @@ Next local work should stay on the active `1448` base and target exact `N == 499
 | `submission_1527_68.11_6.cpp` | `19924223` | `68.105741`, `6/7` | Original packed `1491` route plus the positive `1448` micro S3B16 pass. |
 
 Conclusion: do not use packed `1491/1499` as a replacement base for the current `1448` high-water tail. Even conservative-looking transplants fail hidden cases, and the exact polar `GJ/FL` branch currently collapses into the same `68.105` 6/7 bucket. The next batch should return to the byte-tight `1448` base and use exact diagnostics/guards before any new output branch.
+
+## Output precision probe
+
+| Submission | Kattis | Result | Change |
+| --- | --- | --- | --- |
+| `submission_1528_68.11_6.cpp` | `19924247` | `68.113410`, `6/7` | Removed unused `<cstdint>`, printed `%.17g` when `N < 60000` or the active mesh had at most half the original vertices. |
+
+Conclusion: output precision is not a free improvement. The high-precision small/mid-output branch breaks one hidden case despite leaving geometry unchanged, so do not submit the remaining precision variants without a narrower reason.
