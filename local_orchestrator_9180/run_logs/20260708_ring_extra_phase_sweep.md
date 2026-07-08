@@ -29,5 +29,7 @@ An extra low-score `S3B16` pass in the existing placeholder is narrowly useful:
 - `submission_1450_81.95_7.cpp` / `19922913`: count 2, stride +11 phase 3, score `81.945906`, `7/7`.
 - `submission_1451_68.11_6.cpp` / `19922935`: count 2, stride +13 phase 5, score `68.113076`, `6/7`.
 - `submission_1456_81.95_7.cpp` / `19922974`: phase0 count 2 with threshold `.0020`, score `81.946573`, `7/7`.
+- `submission_1461_71.11_6.cpp` / `19923162`: packed/shaved equivalent-looking route, score `71.113706`, `6/7`.
+- `submission_1462_81.95_7.cpp` / `19923173`: phase0 count 2 with threshold `.0012`, score `81.946573`, `7/7`.
 
-Conclusion: the safe window is extremely narrow. Only the original phase0 threshold `.0015` extra pass improved the exact best; relaxing phase0 to `.0020` stays valid but loses the gain.
+Conclusion: the safe window is extremely narrow. Only the original phase0 threshold `.0015` extra pass improved the exact best; relaxing phase0 to `.0020` or lowering it to `.0012` stays valid but loses the gain. The packed/shaved source should not be used as a base because it failed despite matching the visible route.
