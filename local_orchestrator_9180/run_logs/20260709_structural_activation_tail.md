@@ -102,3 +102,13 @@ Submitted the balanced broadened variant:
 | `submission_1540_43.09_5.cpp` | `19924376` | `43.094425`, `5/7` | For `5000 < N < 25000`, outputs original through `IJ()` before the normal pipeline. |
 
 Conclusion: broadening the existing periodic-grid recognizer is accepted and proxy-positive, but on the hidden set it falls into the same `81.946573` bucket rather than improving the `1448` high-water mark. Do not use W2G broadening as the active base. It remains useful evidence that a hidden periodic-grid target either is not in the broadened range, does not dominate score, or is offset by a small hidden regression.
+
+## Same-size S3B16 count probe
+
+| Submission | Kattis | Result | Change |
+| --- | --- | --- | --- |
+| `submission_1541_68.11_6.cpp` | `19924394` | `68.113743`, `6/7` | Same-size edit on the active `1448` source: second `S3B16::T(10,-9,...)` changed to `S3B16::T(11,-9,...)`. |
+
+Local proxy note: this was the only `queue16_exact_same_size/` variant that improved the synthetic exact case5 proxy, moving `1133/2262` to `1132/2260`, while preserving the official sample output. Kattis still drops one hidden case, so the proxy gain is a hidden cliff rather than a safe improvement.
+
+Conclusion: do not increase the second S3B16 count above `10` on the current high-water base. Same-size edits are safer than source shaving, but S3 count/phase perturbations remain too brittle unless guarded by a stronger hidden-aligned detector.
