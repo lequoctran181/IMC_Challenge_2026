@@ -77,6 +77,7 @@ Target remains `91.80+`; exact best is now `81.977514`.
 | `submission_1390_0.00_6.cpp` | `19921631` | `0.000000`, 6/7 | N/M diagnostic: hidden test case 5/7 satisfies `49843 <= N < 50625` |
 | `submission_1392_0.00_6.cpp` | `19921651` | `0.000000`, 6/7 | N/M diagnostic: hidden test case 5/7 satisfies `49843 <= N < 50234` |
 | `submission_1393_81.93_7.cpp` | `19921667` | `81.934570`, 7/7 | S11_04 skip-MIDEC tight; no improvement |
+| `submission_1394_81.94_7.cpp` | `19921695` | `81.941905`, 7/7 | BROAD31 AB19 + 1339 B16; valid but below best |
 
 ## Current Lessons
 
