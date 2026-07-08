@@ -72,6 +72,8 @@ Target remains `91.80+`; exact best is now `81.977514`.
 | `submission_1385_0.00_7.cpp` | `19921584` | `0.000000`, 7/7 | diagnostic: S14 lower guard did not trigger on any hidden case, so it printed the original mesh on all tests |
 | `submission_1386_81.71_7.cpp` | `19921559` | `81.709845`, 7/7 | broad09 r12grid W2+B16; valid but below best |
 | `submission_1387_81.93_7.cpp` | `19921587` | `81.934570`, 7/7 | broad19 boxgrid failclosed; no improvement |
+| `submission_1388_81.93_7.cpp` | `19921614` | `81.934570`, 7/7 | broad28 torus_snap; no improvement |
+| `submission_1389_81.69_7.cpp` | `19921619` | `81.690173`, 7/7 | workerM1 boundary60000; valid but below best |
 
 ## Current Lessons
 
