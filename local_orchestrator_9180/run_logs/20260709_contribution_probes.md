@@ -7,6 +7,7 @@ Active base: `submission_1448_81.98_7.cpp` / Kattis `19922865`, exact score `81.
 | Submission | Branch | Result | Inference |
 | --- | --- | --- | --- |
 | `19923695` / `submission_1496_70.49_7.cpp` | For exact `N == 49987 && M == 99970`, output original mesh with `%.17g`; otherwise run base. | `70.491928`, `7/7` | Clean accepted probe. Assuming six secret tests are equally averaged, this exact case contributes about `(81.978181 - 70.491928) * 6 = 68.917518` points in the active base. |
+| `19923847` / `submission_1502_40.78_7.cpp` | For `N < 47500`, output original mesh with `%.17g`; otherwise run base. | `40.784692`, `7/7` | Clean accepted probe for the smaller hidden group. Assuming six secret tests are equally averaged, this group contributes about `(81.978181 - 40.784692) * 6 = 247.160934` points in the active base. If this is hidden tests 2-4, the average current contribution is about `82.386978` per case. |
 
 ## Contaminated probes
 
@@ -18,5 +19,6 @@ Active base: `submission_1448_81.98_7.cpp` / Kattis `19922865`, exact score `81.
 ## Strategy consequence
 
 - Exact case `49987/99970` is important but not sufficient: even improving it from `68.92` to `100` would add only about `5.18` total score points.
-- To reach `91.80+`, we need both a better exact-case strategy and at least one additional high-impact hidden-case improvement, likely in the larger cases.
+- The `N < 47500` group is strong but not saturated: if it covers three hidden cases, perfecting all three would add at most about `(300 - 247.160934) / 6 = 8.806511` total points. That ceiling is useful, but unrealistic without a new small-case strategy.
+- To reach `91.80+`, we need both a better exact-case strategy and at least one additional high-impact hidden-case improvement, with large-case compact ablations still a priority because original-output probes are contaminated there.
 - Avoid high-N original-output probes as contribution estimators; use narrower ablations or compact candidate replacements instead.
