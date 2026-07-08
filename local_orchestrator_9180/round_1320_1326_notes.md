@@ -103,6 +103,7 @@ Target remains `91.80+`; exact best is now `81.977514`.
 | `submission_1416_57.29_5.cpp` | `19922198` | `57.286878`, 5/7 | exact `N==49987` extra B16 pass before regular mid B16; unsafe, do not repeat without stricter guard |
 | `submission_1417_0.00_6.cpp` | `19922232` | `0.000000`, 6/7 | diagnostic: exact case 5 satisfies stricter sampled-normal/current generic smoothness gate |
 | `submission_1418_68.11_6.cpp` | `19922248` | `68.112743`, 6/7 | exact-enabled generic `W2C` midpoint collapse for `N==49987`; unsafe/too expensive as-is |
+| `submission_1419_0.00_7.cpp` | `19922280` | `0.000000`, 7/7 | diagnostic: exact case 5 is not mostly valence-6 under `v6>=68%, v567>=92%` |
 
 ## Current Lessons
 
@@ -163,7 +164,7 @@ Target remains `91.80+`; exact best is now `81.977514`.
 - `19922036` shows broad `FL` threshold relaxation is unsafe; `19922051` confirms case 5 is not in the hardcoded `GJ/FL` ring face order despite `N-2 = 65*769`.
 - `19922074` shows exact-N/M broad re-enabling of skipped branches is also unsafe; prefer narrow shape diagnostics (`GY/GI`, valence, sampled normal ratios) before implementing more exact-case logic.
 - `19922093` shows current `GY()` sphere-fit is false on exact case 5; next primitive probe should be `GA/EJ` ellipsoid/PCA, not `GI` sphere tuning.
-- `19922128` excludes a near-AABB/box-surface interpretation, and `19922144` excludes current `GA/EJ` ellipsoid/PCA; `19922151` and `19922232` confirm sampled normal smoothness, including the stricter current generic gate. `19922181` shows plain exact `MIDEC AH .12` drops to `81.945906`, `19922198` shows an extra exact-B16 pass is unsafe, and `19922248` shows generic exact-W2C is unsafe. Case 5 needs a more fail-closed smooth local pass or valence-aware branch rather than simply widening existing post-passes.
+- `19922128` excludes a near-AABB/box-surface interpretation, and `19922144` excludes current `GA/EJ` ellipsoid/PCA; `19922151` and `19922232` confirm sampled normal smoothness, including the stricter current generic gate. `19922181` shows plain exact `MIDEC AH .12` drops to `81.945906`, `19922198` shows an extra exact-B16 pass is unsafe, `19922248` shows generic exact-W2C is unsafe, and `19922280` excludes mostly-valence-6 regularity. Case 5 needs a more fail-closed smooth local pass or weaker valence/topology diagnostics rather than simply widening existing post-passes.
 - WorkerF macro5k candidate returned `80.634329`; macro5k is not a breakthrough branch in this form.
 - Broad09 r12grid W2+B16 returned `81.709845`; avoid this structural branch unless redesigned around a much narrower detector.
 - Broad19 boxgrid failclosed returned `81.934570`; failclosed structural branches still mostly preserve plateau rather than improve compression.
