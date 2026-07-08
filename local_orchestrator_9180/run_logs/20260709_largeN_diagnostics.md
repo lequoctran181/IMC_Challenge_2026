@@ -5,6 +5,7 @@ Active base for diagnostics: `submission_1339_81.98_7.cpp` with `#include<cstdin
 | Submission | Predicate | Result | Inference |
 | --- | --- | --- | --- |
 | `19923887` / `submission_1503_38.78_4.cpp` | `N > 260000` | `38.782696`, `4/7` | The predicate hits three judged groups. The earlier assumption that only two high-N groups existed is too simple for this scoreboard; split `N > 260000` further before designing large-case branches. |
+| `19923909` / `submission_1505_67.76_6.cpp` | `N > 400000` | `67.759788`, `6/7` | The predicate hits one judged group. Combined with `N > 260000` hitting three groups, this implies two judged groups are in `260000 < N <= 400000`. |
 
 Prepared but not yet submitted:
 
@@ -17,4 +18,9 @@ Prepared but not yet submitted:
 - `d08_n_600001_800000.cpp`: `600000 < N <= 800000`
 - `d09_n_800001_1100000.cpp`: `800000 < N <= 1100000`
 
-Next diagnostic priority: submit `N > 400000`; if it hits fewer than three groups, submit `260000 < N <= 400000`. If it still hits three groups, continue with `N > 600000`.
+External/fetched while polling:
+
+- `19923905` / `submission_1506_68.11_6.cpp`: `68.114410`, `6/7`.
+- `19923923` / `submission_1507_71.11_6.cpp`: `71.114040`, `6/7`.
+
+Next diagnostic priority: submit `260000 < N <= 400000` as a direct confirmation of the two-group band, then split it at `N > 320000` or by `M` thresholds if confirmed.
