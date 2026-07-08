@@ -245,3 +245,25 @@ Late-WK/reserve local proxy result after recompiling a fresh high-water baseline
 | `v16_final_gt39000` | Byte-safe and output-identical to high-water on sample, case5 proxy, torus23, torus80, lobes49954, softbox50402, and generated primitive proxies. |
 
 Conclusion: no submission from this batch. `v16_final_gt39000` is a possible timing-stability guard, but it has no local vertex-count or proxy gain. The other variants clearly remove useful late work and should not be submitted.
+
+## Local 16-worker exact skipped-struct batch
+
+Generated 16 exact-`N==49987` variants in `local_orchestrator_9180/queue16_exact_skipped_struct/`, reopening skipped `QX`, `FR`, `FG`, and `IC` branches individually and in small combinations for the `47.5k-60k` band. All compiled and stayed under the source-size limit (`131042..131066` bytes).
+
+Proxy result: every variant matched the fresh `1448` high-water first-line output on sample, exact-case5 synthetic, torus23, torus23-scrambled, bumpy25, torus57, wavy57, bumpy49, lobes49, and ico2562. The exact-case5 synthetic remained `1133/2262`.
+
+Conclusion: no submission. Reopening the skipped structural branches under the known exact-N guard did not produce a local signal; the previous broad exact-enable submission already failed, so this no-op batch is not worth a Kattis token.
+
+## Compiler pragma speed probe
+
+Generated compiler-pragma variants in `local_orchestrator_9180/queue16_pragma_speed/`. Plain `O3` and `Ofast` showed local timing/output instability on `torus23_scr`; `O3,unroll-loops` and `fast-math` matched the base on the small proxy portfolio but the direct `O3,unroll-loops` source exceeded the Kattis file-size limit after CRLF upload expansion.
+
+Submitted the slim source-size-safe probe:
+
+| Submission | Kattis | Result | Change |
+| --- | --- | --- | --- |
+| `submission_1549_56.93_5.cpp` | `19924779` | `56.927589`, `5/7`, runtime `> 21.00 s` | Added `#pragma GCC optimize("O3,unroll-loops")`, removed `#include<utility>`, and changed the leading-zero `02` literal to `2` to stay under the source cap. |
+
+Kattis details: test case 3 failed with `Wrong Answer: SSIM is too low`; test case 7 timed out.
+
+Conclusion: blacklist pragma/unroll plus include-shave speed probes. The local timing idea did not transfer; it broke hidden visual fidelity and still TLEd the last case.

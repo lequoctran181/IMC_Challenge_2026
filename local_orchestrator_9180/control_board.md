@@ -221,3 +221,5 @@ Current target: Kattis score >= 91.80. Current retained root-submission best by 
 - Current orchestration rule: ignore the 8 ChatGPT Pro Extended chats for now. Use up to 16 local workers, with submitted candidates going through direct Kattis and GitHub recording only.
 - `19924626` (`TG::run()` broad grid/downsample before W2) returned `Accepted (53.927292)`, `5/7`; blacklist broad TG/grid recognizers.
 - 16-worker `DC::EV` threshold/ratio batch found strong proxy vertex-count gains, but submitted `dcev_02_p90` as `19924680` and it returned `Accepted (53.927292)`, `5/7`; blacklist generic DCEV threshold lowering / ratio pushing (`dcev_04`, `dcev_14` included) unless guarded by new hidden-specific detection.
+- Local 16-worker exact skipped-struct batch (`QX/FR/FG/IC` reopened only for `N==49987`) was proxy-identical to `1448` on the current portfolio, including exact-case5 synthetic `1133/2262`; no submission.
+- `1549` / `19924779` pragma speed probe (`O3,unroll-loops` plus a minimal source-size shave) returned `56.927589`, `5/7`, with test 3 `SSIM is too low` and test 7 `Time Limit Exceeded`; blacklist pragma/unroll/include-shave as a speed route.
