@@ -40,3 +40,16 @@ Active base: `submission_1448_81.98_7.cpp` / Kattis `19922865`, exact score `81.
 - Do not activate `GI`, `FL`, or `IC` globally just because they are already present in the source. Any structural recognizer needs an exact, fail-closed detector and enough byte budget for an additional guard.
 
 Next local work should stay on the active `1448` base and target exact `N == 49987, M == 99970` with a new ring4/ring8-aware surface strategy rather than more B16/WK/S3B16 tail nudges.
+
+## Packed-source and exact-polar follow-up
+
+| Submission | Kattis | Result | Change |
+| --- | --- | --- | --- |
+| `submission_1522_67.76_6.cpp` | `19924194` | `67.760122`, `6/7` | Compact/high-water hybrid main; confirms transplanted call order is source-sensitive. |
+| `submission_1523_68.11_6.cpp` | `19924203` | `68.113410`, `6/7` | Packed `1491` source with `VSC/ST5` early recognizers and active `1448` tail. |
+| `submission_1524_53.93_5.cpp` | `19924211` | `53.927292`, `5/7` | Packed `1491` source with recognizers removed but active `1448` tail. |
+| `submission_1525_68.11_6.cpp` | `19924212` | `68.105407`, `6/7` | Exact `GJ` diagnostic branch. |
+| `submission_1526_68.11_6.cpp` | `19924222` | `68.105407`, `6/7` | Exact `FL` polar branch candidate. |
+| `submission_1527_68.11_6.cpp` | `19924223` | `68.105741`, `6/7` | Original packed `1491` route plus the positive `1448` micro S3B16 pass. |
+
+Conclusion: do not use packed `1491/1499` as a replacement base for the current `1448` high-water tail. Even conservative-looking transplants fail hidden cases, and the exact polar `GJ/FL` branch currently collapses into the same `68.105` 6/7 bucket. The next batch should return to the byte-tight `1448` base and use exact diagnostics/guards before any new output branch.
