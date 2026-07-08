@@ -24,9 +24,9 @@ int main(){
         if(b>=0&&b<N)d[b]++;
         if(c>=0&&c<N)d[c]++;
     }
-    int hi=0;
-    for(int x:d)hi+=x>=9&&x<=12;
-    bool ok=hi*100>=N*8;
+    int mid=0;
+    for(int x:d)mid+=x>=5&&x<=7;
+    bool ok=mid*100>=N*90;
     if(ok)puts("1 1\nv 0 0 0\nf 1 1 1");
     else fwrite(s.data(),1,s.size(),stdout);
     return 0;
