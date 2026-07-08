@@ -20,6 +20,8 @@ Active base: `submission_1448_81.98_7.cpp` / Kattis `19922865`, exact score `81.
 | external/parallel `diag_case5_short_mid75.cpp` | `19923551` | `0.000000`, `7/7` | False: exact case 5 does not have shortest AABB extent / middle extent `>= .75`. |
 | `local_orchestrator_9180/diag_case5_cross_flat50.cpp` | `19923559` | `0.000000`, `7/7` | False: exact case 5 does not have shortest AABB extent / middle extent `<= .50`. |
 | `local_orchestrator_9180/diag_case5_two_planes70.cpp` | `19923561` | `0.000000`, `7/7` | False: fewer than 70% of vertices are near the two extreme planes of the shortest AABB axis. |
+| `local_orchestrator_9180/diag_case5_cyl_radial_cv25.cpp` | `19923574` | `0.000000`, `7/7` | False: radius around the longest AABB axis does not have coefficient of variation `< .25`. |
+| external/parallel `diag_case5_normals_thin_area45.cpp` | `19923579` | `0.000000`, `7/7` | False: area-weighted fraction of face normals with `|n_short_axis| > .75` is not above `.45`. |
 
 ## Interpretation
 
@@ -27,9 +29,11 @@ Active base: `submission_1448_81.98_7.cpp` / Kattis `19922865`, exact score `81.
 - Its middle axis is bounded: `.40 <= middle / longest < .60`.
 - Its shortest axis is moderately smaller than its middle axis: `.50 < shortest / middle < .70`.
 - It is not a two-layer/top-bottom shell along the shortest axis under the 70% near-extreme test.
+- It is not a simple straight tube/capsule around the longest AABB axis under the radial-CV `< .25` test.
+- Face normals are not concentrated along the shortest axis, so it is not a mostly-flat plate/sheet in normal space either.
 - It is not the already-tested sphere, cubic shell, axis-aligned ellipsoid, or radial shell family.
 - It is also not a lat-long sphere-like mesh with two high-degree poles.
-- This is not a broad flat sheet (`middle / longest >= .80` is false), not a round tube/capsule cross-section (`shortest / middle >= .70` is false), not an ultra-flat ribbon (`shortest / middle <= .50` is false), and not a simple two-plane shell. It now looks like a moderately flattened elongated smooth body.
+- This is not a broad flat sheet (`middle / longest >= .80` is false), not a round tube/capsule cross-section (`shortest / middle >= .70` is false), not an ultra-flat ribbon (`shortest / middle <= .50` is false), not a simple two-plane shell, and not a straight constant-radius tube. It now looks like a moderately flattened elongated smooth freeform body.
 - The next useful split is thin-axis normal concentration or whether the object is approximately a height-field over the long/middle plane.
 
 ## Candidate Guidance
