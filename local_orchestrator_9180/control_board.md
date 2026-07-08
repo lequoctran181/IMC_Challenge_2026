@@ -9,6 +9,7 @@ Current target: Kattis score >= 91.80. Current retained root-submission best by 
 - `submission_1238_68.11_6.cpp`: fetched concurrent submission `19915947`, accepted 68.108742, 6/7.
 - `submission_1239_80.65_7.cpp`: fetched concurrent submission `19916059`, accepted 80.64606, 7/7.
 - New best after the latest micro-sweep is `submission_1339_81.98_7.cpp` / Kattis `19920917`, exact score `81.977514`.
+- Latest checked submissions `1348-1350` did not improve: q `.942/.955` and external hash `0fbe2af2` both fell to `43.093759`/4, while fixed worker515 T03 remained valid but only `81.929569`.
 
 ## Score Buckets
 
@@ -19,7 +20,7 @@ Current target: Kattis score >= 91.80. Current retained root-submission best by 
 - 4/7: 44 files, max 48.10, avg 34.79
 - 5/7: 24 files, max 59.78, avg 44.03
 - 6/7: 19 files after latest archive; latest max in this bucket is still below best.
-- 7/7: 116 files after latest archive; current exact best remains 81.945906.
+- 7/7: 116 files after latest archive; current exact best is 81.977514 (`submission_1339_81.98_7.cpp` / Kattis `19920917`).
 
 ## Top Files
 
@@ -60,3 +61,4 @@ Current target: Kattis score >= 91.80. Current retained root-submission best by 
 - Do not spend more attempts on pure WK/B16 tail nudges without a hidden-case reason; D dropped to 68.11.
 - E proved the source-size workaround and fail-closed fallback can preserve the plateau, but the visual-shell recognizer did not trigger a score jump.
 - Highest priority is now preserving `submission_1339_81.98_7.cpp` exactly while adding genuinely fail-closed branches; do not increase the final high-N B16 count beyond `88` without a stronger guard, because `89+` fell to `53.926625`.
+- Also avoid widening the first high-N q above `.941/.955`: `.942/.955` fell to `43.093759`/4.

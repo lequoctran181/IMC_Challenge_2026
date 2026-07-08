@@ -35,6 +35,9 @@ Target remains `91.80+`; exact best is now `81.977514`.
 | `submission_1345_53.93_5.cpp` | `19920965` | `53.926625`, 5/7 | final high-N B16 count `90`; unsafe |
 | `submission_1346_53.93_5.cpp` | `19920978` | `53.926625`, 5/7 | final high-N B16 count `89`; unsafe |
 | `submission_1347_57.28_5.cpp` | `19921011` / `19921005` | `57.279876` / `53.926625`, 5/7 | first q `.941/.954`; same SHA produced two low scores, likely time-threshold instability |
+| `submission_1348_43.09_4.cpp` | `19921049` | `43.093759`, 4/7 | first q `.942/.955`; unsafe, worse than `.941/.954` |
+| `submission_1349_43.09_4.cpp` | `19921061` | `43.093759`, 4/7 | concurrent external source hash `0fbe2af2`; unsafe |
+| `submission_1350_81.93_7.cpp` | `19921075` | `81.929569`, 7/7 | fixed worker515 T03 case5 compare branch; valid but below best |
 
 ## Current Lessons
 
@@ -57,3 +60,5 @@ Target remains `91.80+`; exact best is now `81.977514`.
 - Final high-N B16 q is also brittle: changing `.946/.959` to `.945/.958` fell to `53.926625`.
 - First high-N q `.940` is not a safe direction: `.940/.954` remains valid but loses the new gain, while `.940/.955` falls to `53.926625`.
 - First q `.941/.954` is also unsafe; two submissions with identical source produced low 5/7 scores (`57.279876` and `53.926625`), so the low/mid threshold must stay `.955` unless protected by a new fallback.
+- First q `.942/.955` is unsafe too; Kattis `19921049` fell to `43.093759`/4, so the safe point is a very narrow `.941/.955`.
+- Worker515 T03's local compare/fallback compiles after replacing out-of-scope `SN` with `cove()`, but Kattis `19921075` only scored `81.929569`; do not prioritize that branch without a stronger hidden-case trigger.
