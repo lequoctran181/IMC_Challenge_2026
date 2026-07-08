@@ -112,3 +112,13 @@ Conclusion: broadening the existing periodic-grid recognizer is accepted and pro
 Local proxy note: this was the only `queue16_exact_same_size/` variant that improved the synthetic exact case5 proxy, moving `1133/2262` to `1132/2260`, while preserving the official sample output. Kattis still drops one hidden case, so the proxy gain is a hidden cliff rather than a safe improvement.
 
 Conclusion: do not increase the second S3B16 count above `10` on the current high-water base. Same-size edits are safer than source shaving, but S3 count/phase perturbations remain too brittle unless guarded by a stronger hidden-aligned detector.
+
+## W2 order A/B
+
+| Submission | Kattis | Result | Change |
+| --- | --- | --- | --- |
+| `submission_1542_53.93_5.cpp` | `19924458` | `53.927292`, `5/7` | Same-size edit: `if(!W2G::run())W2C::run();` changed to `if(!W2C::run())W2G::run();`. |
+
+Local proxy note: this variant was byte-identical to the active base on sample, exact-case5 proxy, torus23, torus80, torus57, and wavy90 outputs, and it was locally faster on several proxy runs. Hidden Kattis still collapses to the `53.927292` bucket, so the current W2G-before-W2C order is a hidden-sensitive route dependency.
+
+Conclusion: preserve W2G before W2C. Do not use proxy-identical timing/order changes as submission candidates unless they are tied to a hidden-aligned diagnostic; local proxy equality is not enough for this source.
