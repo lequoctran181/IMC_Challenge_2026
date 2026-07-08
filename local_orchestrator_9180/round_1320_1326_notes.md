@@ -144,6 +144,7 @@ Target remains `91.80+`; exact best is now `81.977514`.
 | `submission_1457_68.11_6.cpp` | `19923038` | `68.113410`, 6/7 | moved positive micro filler after the second mid-band B16; unsafe, order must remain before mid2 |
 | `submission_1458_68.11_6.cpp` | `19923069` | `68.113410`, 6/7 | micro filler ring cap `5 -> 6`; unsafe, cap must stay exactly 5 |
 | `submission_1459_56.93_5.cpp` | `19923097` | `56.927589`, 5/7 | pass-order/MIDEC-vs-tail tournament variant; unsafe, do not reuse this tournament shape |
+| `submission_1460_57.28_5.cpp` | `19923123` | `57.280543`, 5/7 | high-N extra guarded B16 tail; unsafe, broad/high-N B16 additions remain dangerous |
 
 ## Current Lessons
 
