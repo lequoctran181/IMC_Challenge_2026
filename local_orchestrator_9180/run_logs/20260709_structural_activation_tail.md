@@ -61,3 +61,11 @@ Conclusion: do not use packed `1491/1499` as a replacement base for the current 
 | `submission_1528_68.11_6.cpp` | `19924247` | `68.113410`, `6/7` | Removed unused `<cstdint>`, printed `%.17g` when `N < 60000` or the active mesh had at most half the original vertices. |
 
 Conclusion: output precision is not a free improvement. The high-precision small/mid-output branch breaks one hidden case despite leaving geometry unchanged, so do not submit the remaining precision variants without a narrower reason.
+
+## Byte-bank shrink probe
+
+| Submission | Kattis | Result | Change |
+| --- | --- | --- | --- |
+| `submission_1533_43.09_4.cpp` | `19924299` | `43.094425`, `4/7` | Submitted `shrink_best_safe.cpp`, a 129742-byte renamed/shaved variant that compiled and matched the official sample output hash. |
+
+Conclusion: local sample-hash equivalence is not enough for minified/renamed bases. The shrink family is unsafe on hidden cases and should not be used as the development base unless a future shrink is verified by stronger hidden-aligned probes.
