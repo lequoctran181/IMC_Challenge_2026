@@ -133,3 +133,13 @@ Conclusion: preserve W2G before W2C. Do not use proxy-identical timing/order cha
 Local proxy note for `19924498`: exact-case5 proxy improved from `1133/2262` to `1131/2258` and proxy SSIM512 improved from `0.938971` to `0.939191`, while torus57, torus23, torus80, wavy90, and sample first-line outputs stayed at the base counts. Kattis still drops to `6/7`.
 
 Conclusion: the exact `N==49987` S3 extra-patch direction is hidden-unsafe even when local proxy count and SSIM both improve. Stop S3 count/phase attempts for this exact case unless a new detector explains the hidden failure directly.
+
+## 1543 byte-bank broad-B16 probe
+
+| Submission | Kattis | Result | Change |
+| --- | --- | --- | --- |
+| `submission_1545_53.92_5.cpp` | `19924517` | `53.922624`, `5/7` | Started from the smaller outside/new `1543` source and added both broad B16 calls from the high-water `1448` tail. |
+
+Local proxy note: the candidate stayed proxy-identical to `1543` on sample, exact-case5, torus57, torus80, and the other quick structural checks, with source size `130756` bytes. Hidden Kattis still collapsed to the same low `53.92` bucket as other order/tail-sensitive perturbations.
+
+Conclusion: do not transplant the broad B16 tail across byte-bank bases. The `1543` source is useful as a smaller reference, but the high-water `1448` route dependencies do not survive this direct graft.
