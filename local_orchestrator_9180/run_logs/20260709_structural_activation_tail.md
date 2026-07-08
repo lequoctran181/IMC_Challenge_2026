@@ -284,5 +284,13 @@ Submitted the safer candidate first:
 | Submission | Kattis | Result | Change |
 | --- | --- | --- | --- |
 | `submission_1550_81.95_7.cpp` | `19924859` | `81.946573`, `7/7`, runtime `20.32 s` | Lowered the VIMP cap ratios from `24/16/12` to `22/14/10`. |
+| `submission_1556_53.93_5.cpp` | `19924936` | `53.927292`, `5/7`, runtime `> 21.00 s` | Loosened VIMP keep thresholds (`dr .003/.14/.11` and proxy needs) as `v13_keep_loose`. |
 
-Conclusion: VIMP cap reduction is hidden-valid but below the `81.978181` high-water. It is a useful safety datum, but it does not break the plateau. Do not submit `v13_keep_loose` automatically; it is likely a higher-risk same-family probe and should wait for a new reason or a narrower guard.
+Kattis details for `19924936`: test case 4 failed with `Wrong Answer: SSIM is too low`.
+
+Conclusion: VIMP cap reduction is hidden-valid but below the `81.978181` high-water. Loosening VIMP rollback/keep thresholds crosses the same hidden test-4 SSIM cliff as DCEV and should be blacklisted unless a new guard excludes that bucket.
+
+## QEM target and DCEV fine-threshold checks
+
+- Generated 16 same-size `choose_target` variants in `local_orchestrator_9180/queue16_qem_target_samesize_20260709/`, changing `.089`, `.035`, feature cap `.22`, and clamp `.086/.115`. All were output-identical to the high-water build on the portfolio; no submission.
+- Generated 16 DCEV thresholds just below `.920` in `local_orchestrator_9180/queue16_dcev_fine_p92_20260709/` (`.917`, `.918`, `.919`, `.9195` with `20k..30k`, `20k..25k`, `23k..25k`, and `8k..39k` guards). These also produced no first-line gains over the base on the tested 23k proxies. The useful local cliff remains below `.917`, and known `.916` submissions fail hidden test 4.

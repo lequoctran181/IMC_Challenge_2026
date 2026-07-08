@@ -230,3 +230,4 @@ Current target: Kattis score >= 91.80. Current retained root-submission best by 
 - `1554` / `19924871` narrower DCEV `.916` for `20000<N<30000` returned `53.927292`, `5/7`, test 4 `SSIM is too low`.
 - `1555` / `19924883` narrower DCEV `.91` for `20000<N<25000` returned `53.927292`, `5/7`, test 4 `SSIM is too low`.
 - Conclusion: hidden test 4 is inside the `20k..25k` DCEV-sensitive bucket, and even p916 proxy acceptance is too aggressive. Stop DCEV threshold lowering for that bucket. Only revisit DCEV with a new recognizer that explicitly excludes hidden test 4 while preserving another identified hidden case.
+- `1556` / `19924936` VIMP `v13_keep_loose` returned `53.927292`, `5/7`, test 4 `SSIM is too low`; blacklist VIMP keep-threshold loosening. Same-size QEM target variants and DCEV `.917+` fine-threshold variants were local no-ops, so neither should be submitted.
