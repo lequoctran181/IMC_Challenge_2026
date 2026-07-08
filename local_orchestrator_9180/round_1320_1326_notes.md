@@ -50,6 +50,10 @@ Target remains `91.80+`; exact best is now `81.977514`.
 | `submission_1360_81.93_7.cpp` | `19921250` | `81.934570`, 7/7 | S5 case6 strict candidate; no improvement |
 | `submission_1361_81.95_7.cpp` | `19921195` | `81.945906`, 7/7 | concurrent worker source, tracked by commit `090389c`; ties old exact best |
 | fetched only | `19921249` | `57.279876`, 5/7 | concurrent external source hash `4ec90e9f`; unsafe |
+| `submission_1362_81.93_7.cpp` | `19921274` | `81.934570`, 7/7 | S5 highN 650-1200 ultrastrict; no improvement |
+| `submission_1363_81.93_7.cpp` | `19921275` | `81.934570`, 7/7 | S15 B16 200-650 ultraguard; no improvement |
+| fetched only | `19921293` | `57.279876`, 5/7 | concurrent external source hash `796fd47b`; unsafe |
+| `submission_1364_81.93_7.cpp` | `19921296` | `81.934570`, 7/7 | S14 midfloor; no improvement |
 
 ## Current Lessons
 
@@ -76,3 +80,4 @@ Target remains `91.80+`; exact best is now `81.977514`.
 - Worker515 T03's local compare/fallback compiles after replacing out-of-scope `SN` with `cove()`, but Kattis `19921075` only scored `81.929569`; do not prioritize that branch without a stronger hidden-case trigger.
 - S14/S7 case5 and pipeline-selector variants mostly collapse to the old `81.934570` plateau; S10 recombines are mixed, with `S10_03`/`S10_08` at `81.938237` and `S10_05` unsafe at `70.491928`.
 - S5 case6 late/strict did not improve (`81.934570`), concurrent `1361` only tied old exact best `81.945906`, and external `19921249` fell to `57.279876`.
+- S5 highN/S15 ultraguard/S14 midfloor variants also did not improve (`81.934570`); external `19921293` fell to `57.279876`.
