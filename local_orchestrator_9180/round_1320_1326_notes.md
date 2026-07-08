@@ -57,6 +57,7 @@ Target remains `91.80+`; exact best is now `81.977514`.
 | `submission_1365_81.93_7.cpp` | `19921311` | `81.934570`, 7/7 | S14 looseguard; no improvement |
 | `submission_1366_81.93_7.cpp` | `19921326` | `81.934570`, 7/7 | S14 tightguard; no improvement |
 | `submission_1367_81.93_7.cpp` | `19921340` | `81.934570`, 7/7 | S14 upper-exact guard; no improvement |
+| `submission_1372_81.95_7.cpp` | `19921359` | `81.945906`, 7/7 | fetched unknown-source Kattis candidate; ties older exact-best bucket, below `1339` |
 
 ## Current Lessons
 
@@ -86,3 +87,4 @@ Target remains `91.80+`; exact best is now `81.977514`.
 - S5 highN/S15 ultraguard/S14 midfloor variants also did not improve (`81.934570`); external `19921293` fell to `57.279876`.
 - S14 guard variants (`midfloor`, `looseguard`, `tightguard`) all return the same `81.934570` plateau.
 - S14 upper-exact guard also returned `81.934570`; stop spending attempts on S14 guard-only parameter changes unless they are paired with a new hidden-case discriminator.
+- Unknown-source Kattis `19921359` scored `81.945906`; it is valid but lacks the narrow `1339` gain, so use it only as a comparison source rather than a new base.
