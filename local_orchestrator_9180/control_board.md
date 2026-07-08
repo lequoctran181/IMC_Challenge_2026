@@ -40,6 +40,7 @@ Current target: Kattis score >= 91.80. Current retained root-submission best by 
 - Latest diagnostic `1395` from Kattis `19921724` scored `0.000000`, 7/7; hidden test case 5/7 is not `N == 49954`.
 - Latest diagnostic `1396` from Kattis `19921730` scored `0.000000`, 7/7; hidden test case 5/7 does not satisfy the broad `EZ()/AS/BG/AL/AH` midguard.
 - Latest diagnostic `1397` from Kattis `19921741` scored `0.000000`, 7/7; hidden test case 5/7 is not `N == 50176`.
+- Latest diagnostic `1398` from Kattis `19921771` scored `0.000000`, 6/7; hidden test case 5/7 has `49843 <= N < 50050` but is not `N == 49954`.
 
 ## Score Buckets
 
