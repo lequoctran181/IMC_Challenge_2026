@@ -60,6 +60,8 @@ Target remains `91.80+`; exact best is now `81.977514`.
 | `submission_1372_81.95_7.cpp` | `19921359` | `81.945906`, 7/7 | fetched unknown-source Kattis candidate; ties older exact-best bucket, below `1339` |
 | `submission_1373_81.93_7.cpp` | `19921376` | `81.934570`, 7/7 | S11_01 proxy-aware S7_04 selector; no improvement |
 | `submission_1374_81.93_7.cpp` | `19921384` | `81.934570`, 7/7 | S11_03 safe S7_04 selector; no improvement |
+| `submission_1375_81.93_7.cpp` | `19921399` | `81.934570`, 7/7 | S11_05 clean B16-before-WK selector; no improvement |
+| `submission_1376_81.95_7.cpp` | `19921400` | `81.945906`, 7/7 | concurrent worker source; ties older exact-best bucket, below `1339` |
 
 ## Current Lessons
 
@@ -93,3 +95,5 @@ Target remains `91.80+`; exact best is now `81.977514`.
 - `19921359` extends W2G-like grid detection to larger N but does not improve; this suggests output quality/target geometry, not just detector coverage, is the blocker for large-N structural branches.
 - S11_01 S7_04 proxy-aware selector returned `81.934570`; S11 variants may still test clean order selectors, but the pre-MIDEC/WK swap idea has weak signal.
 - S11_03 safe S7_04 selector also returned `81.934570`; keep remaining S11 attempts focused on distinct clean order/skip variants rather than more S7_04 guard tuning.
+- S11_05 clean B16-before-WK selector returned `81.934570`; order tournaments are not showing lift unless they unlock a genuinely different hidden bucket.
+- Concurrent `1376` scored `81.945906`; it is useful as another valid comparison point but does not challenge `1339`.

@@ -19,6 +19,8 @@ Current target: Kattis score >= 91.80. Current retained root-submission best by 
 - Latest fetched `1372` from Kattis `19921359` scored `81.945906`, 7/7; valid but still below the `81.977514` best.
 - Latest checked `1373` did not improve: S11_01 proxy-aware S7_04 selector returned `81.934570`.
 - Latest checked `1374` did not improve: S11_03 safe S7_04 selector also returned `81.934570`.
+- Latest checked `1375` did not improve: S11_05 clean B16-before-WK selector returned `81.934570`.
+- Latest checked `1376` tied the older exact-best bucket: Kattis `19921400` scored `81.945906`, 7/7, still below `1339`.
 
 ## Score Buckets
 
@@ -75,3 +77,4 @@ Current target: Kattis score >= 91.80. Current retained root-submission best by 
 - Unknown-source Kattis `19921359` tied the older exact-best bucket (`81.945906`) but did not recover the new `1339` gain; keep `1339` as the only trusted root for score-improving edits.
 - The `19921359` source broadened W2G-style grid detection to larger N but still scored only `81.945906`; treat large-N W2G detector expansion as low priority unless paired with a different output surface.
 - S11 S7_04 proxy-aware and safe variants both hit `81.934570`; deprioritize S7_04 swap unless the next result shows a different bucket.
+- S11_05 clean B16-before-WK also hit `81.934570`; mid-band order selectors remain no-gain so far.
