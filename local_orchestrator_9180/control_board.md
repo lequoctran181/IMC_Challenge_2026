@@ -34,6 +34,7 @@ Current target: Kattis score >= 91.80. Current retained root-submission best by 
 - Latest checked `1388` did not improve: broad28 torus_snap returned `81.934570`, 7/7.
 - Latest checked `1389` regressed: workerM1 boundary60000 returned `81.690173`, 7/7.
 - Latest diagnostic `1390` from Kattis `19921631` scored `0.000000`, 6/7; it proves hidden test case 5/7 has `49843 <= N < 50625`, but the earlier S14 smooth lower guard is false there.
+- Latest diagnostic `1392` from Kattis `19921651` scored `0.000000`, 6/7; it narrows hidden test case 5/7 further to `49843 <= N < 50234`.
 
 ## Score Buckets
 
@@ -102,3 +103,4 @@ Current target: Kattis score >= 91.80. Current retained root-submission best by 
 - Broad09 r12grid W2+B16 is valid but below best (`81.709845`); structural r12grid branch is not enough in this form.
 - Broad19 boxgrid failclosed hits the standard `81.934570` plateau; boxgrid branch is no breakthrough in this guard setup.
 - Coordination update: pause management of the 8 ChatGPT Pro Extended chats; operate with the local lane ceiling raised from 12 to 16. `submission_1391_broad12_codex128_PENDING.cpp` returned `70.530987`, 7/7 as Kattis `19921635`; broad12/codex128 is a negative branch. The S11 skip-MIDEC tight candidate was copied to `submission_1392_s11_04_skip_midec_tight_PENDING.cpp` for the next token.
+- Diagnostic update: the next token was used on N/M split `19921651`, not the pending S11 candidate; the S11 file remains pending.
