@@ -80,3 +80,25 @@ Conclusion: local sample-hash equivalence is not enough for minified/renamed bas
 | `submission_1537_53.93_6.cpp` | `19924324` | `53.927292`, `6/7` | For `25000 <= N < 39000`, outputs the original mesh via `IJ()` before the normal pipeline. |
 
 Conclusion: even the minimal include/symbol shave is hidden-unsafe and must not be used as a byte-bank base. The `N < 5001` recognizer activation has a real but limited signal, landing in the known `81.946573` bucket below `1448`; keep it as a clue for small-case specialists, not as the active base. Original-output branches for small ranges are contaminated and should not be used for contribution estimates or production routing.
+
+## Local 16-worker W2G broadening batch
+
+Base: `submission_1448_81.98_7.cpp`. Generated 16 small variants in `/tmp/imc_9180_main/queue16_w2g_20260709`; all compiled, stayed within the observed source-size envelope, and matched the official sample output hash.
+
+Proxy findings:
+
+| Variant group | Proxy result |
+| --- | --- |
+| `w01..w04` broaden W2G from the narrow `23125..23500` range to larger `M == 2N` grids | On `synthetic_torus80640`, output improved from `2016/4032` to `1260/2520`. |
+| W2G LOD/proxy-only tweaks | No proxy vertex-count gain over base on the tested torus/grid inputs. |
+| W2C fallback tweaks | No proxy vertex-count gain over base on the tested torus/grid inputs. |
+
+Submitted the balanced broadened variant:
+
+| Submission | Kattis | Result | Change |
+| --- | --- | --- | --- |
+| `submission_1538_43.09_4.cpp` | `19924348` | `43.094425`, `4/7` | Outside submission; source tail resembles the active base but hidden score collapses, so do not use as a base. |
+| `submission_1539_81.95_7.cpp` | `19924373` | `81.946573`, `7/7` | W2G fail-closed range broadened to `8000 <= N <= 490000` and factor dimensions up to `700`. |
+| `submission_1540_43.09_5.cpp` | `19924376` | `43.094425`, `5/7` | For `5000 < N < 25000`, outputs original through `IJ()` before the normal pipeline. |
+
+Conclusion: broadening the existing periodic-grid recognizer is accepted and proxy-positive, but on the hidden set it falls into the same `81.946573` bucket rather than improving the `1448` high-water mark. Do not use W2G broadening as the active base. It remains useful evidence that a hidden periodic-grid target either is not in the broadened range, does not dominate score, or is offset by a small hidden regression.

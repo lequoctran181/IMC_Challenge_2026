@@ -40,5 +40,6 @@ Conclusion: the only trusted original-output contribution probes remain `1992369
 | --- | --- | --- | --- |
 | `19924321` / `submission_1536_43.09_5.cpp` | For `5000 <= N < 25000`, output original through low-precision `IJ()`. | `43.094425`, `5/7` | Contaminated; this breaks hidden validity/score behavior and does not give a clean range contribution. |
 | `19924324` / `submission_1537_53.93_6.cpp` | For `25000 <= N < 39000`, output original through low-precision `IJ()`. | `53.927292`, `6/7` | Contaminated; one hidden case still fails and the score should not be treated as a contribution estimate. |
+| `19924376` / `submission_1540_43.09_5.cpp` | For `5000 < N < 25000`, output original through low-precision `IJ()`. | `43.094425`, `5/7` | Reconfirms the same contaminated range as `19924321`; not a clean contribution probe. |
 
 Conclusion: do not use original-output `IJ()` for small-range ablations. It is useful only as a failure detector, not as a score-mass measuring tool.
