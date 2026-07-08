@@ -69,3 +69,14 @@ Conclusion: output precision is not a free improvement. The high-precision small
 | `submission_1533_43.09_4.cpp` | `19924299` | `43.094425`, `4/7` | Submitted `shrink_best_safe.cpp`, a 129742-byte renamed/shaved variant that compiled and matched the official sample output hash. |
 
 Conclusion: local sample-hash equivalence is not enough for minified/renamed bases. The shrink family is unsafe on hidden cases and should not be used as the development base unless a future shrink is verified by stronger hidden-aligned probes.
+
+## Follow-up verdicts after local-worker limit raised to 16
+
+| Submission | Kattis | Result | Change |
+| --- | --- | --- | --- |
+| `submission_1534_53.93_5.cpp` | `19924307` | `53.927292`, `5/7` | Less invasive `highwater_19922865_shaved.cpp`, 130958 bytes, same active `1448` main. |
+| `submission_1535_81.95_7.cpp` | `19924308` | `81.946573`, `7/7` | Activates the existing `IC/GI/FL` structural recognizers only for `N < 5001` before the normal pipeline. |
+| `submission_1536_43.09_5.cpp` | `19924321` | `43.094425`, `5/7` | For `5000 <= N < 25000`, outputs the original mesh via `IJ()` before the normal pipeline. |
+| `submission_1537_53.93_6.cpp` | `19924324` | `53.927292`, `6/7` | For `25000 <= N < 39000`, outputs the original mesh via `IJ()` before the normal pipeline. |
+
+Conclusion: even the minimal include/symbol shave is hidden-unsafe and must not be used as a byte-bank base. The `N < 5001` recognizer activation has a real but limited signal, landing in the known `81.946573` bucket below `1448`; keep it as a clue for small-case specialists, not as the active base. Original-output branches for small ranges are contaminated and should not be used for contribution estimates or production routing.

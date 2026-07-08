@@ -33,3 +33,12 @@ Active base: `submission_1448_81.98_7.cpp` / Kattis `19922865`, exact score `81.
 | `19924284` / `submission_1532_37.43_5.cpp` | For `N < 5000`, output original through high-precision `IJ()`. | `37.431440`, `5/7` | Also contaminated; very small/sample-like original-output branches are unsafe diagnostics. |
 
 Conclusion: the only trusted original-output contribution probes remain `19923695` exact case5 high precision and `19923847` broad `N < 47500` high precision. Finer original-output splits are affected by runtime/output/format fragility and should not steer route design directly.
+
+## Additional small-range original-output probes
+
+| Submission | Branch | Result | Interpretation |
+| --- | --- | --- | --- |
+| `19924321` / `submission_1536_43.09_5.cpp` | For `5000 <= N < 25000`, output original through low-precision `IJ()`. | `43.094425`, `5/7` | Contaminated; this breaks hidden validity/score behavior and does not give a clean range contribution. |
+| `19924324` / `submission_1537_53.93_6.cpp` | For `25000 <= N < 39000`, output original through low-precision `IJ()`. | `53.927292`, `6/7` | Contaminated; one hidden case still fails and the score should not be treated as a contribution estimate. |
+
+Conclusion: do not use original-output `IJ()` for small-range ablations. It is useful only as a failure detector, not as a score-mass measuring tool.
