@@ -67,6 +67,7 @@ Target remains `91.80+`; exact best is now `81.977514`.
 | `submission_1379_81.93_7.cpp` | `19921458` | `81.934570`, 7/7 | S7_09 late-W5 guarded B16; no improvement |
 | `submission_1380_81.86_7.cpp` | `19921466` | `81.858216`, 7/7 | S7_08 largeN W5L473 tail; valid but below best |
 | `submission_1381_81.93_7.cpp` | `19921493` | `81.934570`, 7/7 | S9 full C5T structural shrink; no improvement |
+| `submission_1382_75.61_7.cpp` | `19921509` | `75.613142`, 7/7 | unknown concurrent source; valid but harmful |
 
 ## Current Lessons
 
@@ -107,3 +108,4 @@ Target remains `91.80+`; exact best is now `81.977514`.
 - S7_09 late-W5 guarded B16 returned `81.934570`; late-W5 alone is not enough to produce a new hidden bucket.
 - S7_08 largeN W5L473 returned `81.858216`; broad large-N W5L473 is not the needed jump without a better hidden-case discriminator.
 - S9 full C5T structural shrink returned `81.934570`; C5T should be paused unless redesigned with a new target surface or discriminator.
+- Unknown concurrent `19921509` returned `75.613142`; do not use it as a base unless later diff analysis reveals an isolated positive branch.
