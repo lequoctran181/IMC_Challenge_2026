@@ -62,6 +62,7 @@ Target remains `91.80+`; exact best is now `81.977514`.
 | `submission_1374_81.93_7.cpp` | `19921384` | `81.934570`, 7/7 | S11_03 safe S7_04 selector; no improvement |
 | `submission_1375_81.93_7.cpp` | `19921399` | `81.934570`, 7/7 | S11_05 clean B16-before-WK selector; no improvement |
 | `submission_1376_81.95_7.cpp` | `19921400` | `81.945906`, 7/7 | concurrent worker source; ties older exact-best bucket, below `1339` |
+| `submission_1377_81.93_7.cpp` | `19921428` | `81.934570`, 7/7 | S11_06 wide B16-before-WK selector; no improvement |
 
 ## Current Lessons
 
@@ -97,3 +98,4 @@ Target remains `91.80+`; exact best is now `81.977514`.
 - S11_03 safe S7_04 selector also returned `81.934570`; keep remaining S11 attempts focused on distinct clean order/skip variants rather than more S7_04 guard tuning.
 - S11_05 clean B16-before-WK selector returned `81.934570`; order tournaments are not showing lift unless they unlock a genuinely different hidden bucket.
 - Concurrent `1376` scored `81.945906`; it is useful as another valid comparison point but does not challenge `1339`.
+- S11_06 wide B16-before-WK selector returned `81.934570`; stop prioritizing S11 order-selector variants after the pending wide-gain result unless it breaks the bucket.
