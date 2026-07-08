@@ -122,3 +122,14 @@ Conclusion: do not increase the second S3B16 count above `10` on the current hig
 Local proxy note: this variant was byte-identical to the active base on sample, exact-case5 proxy, torus23, torus80, torus57, and wavy90 outputs, and it was locally faster on several proxy runs. Hidden Kattis still collapses to the `53.927292` bucket, so the current W2G-before-W2C order is a hidden-sensitive route dependency.
 
 Conclusion: preserve W2G before W2C. Do not use proxy-identical timing/order changes as submission candidates unless they are tied to a hidden-aligned diagnostic; local proxy equality is not enough for this source.
+
+## Exact-N S3 filter probe
+
+| Submission | Kattis | Result | Change |
+| --- | --- | --- | --- |
+| `submission_1543_81.93_7.cpp` | `19924488` | `81.934570`, `7/7` | Outside/new submission observed while polling; lower than the high-water `81.978181`. |
+| `submission_1544_68.11_6.cpp` | `19924498` | `68.112743`, `6/7` | Source-size-safe exact-N S3 gate: for `N==49987`, second S3 pass used count `11`, phase `7`, with base `.0055` score threshold; other N kept base count/phase. |
+
+Local proxy note for `19924498`: exact-case5 proxy improved from `1133/2262` to `1131/2258` and proxy SSIM512 improved from `0.938971` to `0.939191`, while torus57, torus23, torus80, wavy90, and sample first-line outputs stayed at the base counts. Kattis still drops to `6/7`.
+
+Conclusion: the exact `N==49987` S3 extra-patch direction is hidden-unsafe even when local proxy count and SSIM both improve. Stop S3 count/phase attempts for this exact case unless a new detector explains the hidden failure directly.
