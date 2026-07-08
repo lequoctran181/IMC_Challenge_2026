@@ -195,3 +195,11 @@ Local proxy result:
 | `m13..m15` S3 plus extra call | no vertex-count gain over `m01` | no vertex-count gain over `m01` | unchanged |
 
 Conclusion: no submission. This confirms the already-submitted `1448` marker replacement remains the best local marker use; extra calls either no-op on the proxy set or stay in the already-risky S3/B16 family.
+
+## Local 16-worker same-size timing batch
+
+Generated 16 variants from `submission_1448_81.98_7.cpp`, changing only same-length timing constants in the active `main` tail: early/mid/final `B16` end times, both S3 end times, the loop `WK` time, and the final `WK` time. All variants stayed at `131030` bytes and compiled.
+
+Local proxy result: every variant produced byte-identical output to the active `1448` base on sample, exact-case5 synthetic, torus23, torus80, lobes49954, and softbox50402. Runtime differences were local-load noise, not associated with output changes.
+
+Conclusion: no submission. Same-size timing tweaks did not expose any local simplification gain and would only add hidden timeout risk.
