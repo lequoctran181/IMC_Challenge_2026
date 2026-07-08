@@ -25,6 +25,8 @@ Active base: `submission_1448_81.98_7.cpp` / Kattis `19922865`, exact score `81.
 | `local_orchestrator_9180/diag_case5_face_span2048.cpp` | `19923585` | `0.000000`, `7/7` | False: fewer than 95% of sampled faces have max vertex index span `<= 2048`. |
 | standalone PCA ellipsoid remesh | `19923618` | `0.000000`, `6/7` | Exact case 5 was hit, but a PCA AABB ellipsoid with `lat=24`, `lon=48` is not a valid/SSIM-scoring replacement. |
 | exact case original via `IJ()` | `19923641` | `45.825898`, `5/7` | Not a clean contribution measurement: exact original output through the base `IJ()` formatter is unsafe/noisy, likely because it prints only `%.10g` or because the selector hits more than one fragile case. |
+| exact case original via high-precision `IJ()` | `19923695` | `70.491928`, `7/7` | Clean contribution probe: with `%.17g` original output for exact `N == 49987 && M == 99970`, all tests remain accepted. Assuming the six secret tests are equally averaged, the active simplifier's contribution on this exact case is about `(81.978181 - 70.491928) * 6 = 68.917518` points. |
+| packed `UC5::out()` exact hook | `19923703` | `68.105407`, `6/7` | External packed-family exact-case output hook is unsafe; do not use `UC5::out()` without a stronger validator. |
 
 ## Interpretation
 
@@ -37,6 +39,7 @@ Active base: `submission_1448_81.98_7.cpp` / Kattis `19922865`, exact score `81.
 - Face vertex indices are not highly local within a span of 2048, so a naive index-order grid/downsample is unlikely.
 - A coarse PCA-aligned ellipsoid remesh triggers on exact case 5 but fails the scoring/validity path, so the object is not safely replaceable by a simple ellipsoid primitive.
 - The first exact-original contribution probe is contaminated; rerun with higher-precision original printing before using its score delta to estimate case 5 contribution.
+- The high-precision original-output rerun is the trusted contribution estimate. It shows this exact case is worth roughly `68.92` points in the current base, so even a perfect replacement on this case alone can add only about `31.08 / 6 = 5.18` total points. The 91.80+ path must also identify and improve another weak hidden case.
 - It is not the already-tested sphere, cubic shell, axis-aligned ellipsoid, or radial shell family.
 - It is also not a lat-long sphere-like mesh with two high-degree poles.
 - This is not a broad flat sheet (`middle / longest >= .80` is false), not a round tube/capsule cross-section (`shortest / middle >= .70` is false), not an ultra-flat ribbon (`shortest / middle <= .50` is false), not a simple two-plane shell, and not a straight constant-radius tube. It now looks like a moderately flattened elongated smooth freeform body.
