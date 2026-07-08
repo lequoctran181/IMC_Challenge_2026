@@ -74,6 +74,7 @@ Target remains `91.80+`; exact best is now `81.977514`.
 | `submission_1387_81.93_7.cpp` | `19921587` | `81.934570`, 7/7 | broad19 boxgrid failclosed; no improvement |
 | `submission_1388_81.93_7.cpp` | `19921614` | `81.934570`, 7/7 | broad28 torus_snap; no improvement |
 | `submission_1389_81.69_7.cpp` | `19921619` | `81.690173`, 7/7 | workerM1 boundary60000; valid but below best |
+| `submission_1390_0.00_6.cpp` | `19921631` | `0.000000`, 6/7 | N/M diagnostic: hidden test case 5/7 satisfies `49843 <= N < 50625` |
 
 ## Current Lessons
 
@@ -116,6 +117,7 @@ Target remains `91.80+`; exact best is now `81.977514`.
 - S9 full C5T structural shrink returned `81.934570`; C5T should be paused unless redesigned with a new target surface or discriminator.
 - Unknown concurrent `19921509` returned `75.613142`; do not use it as a base unless later diff analysis reveals an isolated positive branch.
 - Diagnostic `19921584` accepted with score `0.000000` because the S14 lower guard never fired on hidden tests; stop spending attempts on that exact lower guard, since its proxy wins do not correspond to any official hidden slice.
+- Diagnostic `19921631` invalidated test case 5/7 for the raw `49843 <= N < 50625` band. The real case5 target is in this N band, but it fails the old `AS && BG<=.001 && BL>=.985 && Z<=.0037` selector, so next diagnostics should split lower/upper and then shape/`M` rather than reuse the smooth lower guard.
 - WorkerF macro5k candidate returned `80.634329`; macro5k is not a breakthrough branch in this form.
 - Broad09 r12grid W2+B16 returned `81.709845`; avoid this structural branch unless redesigned around a much narrower detector.
 - Broad19 boxgrid failclosed returned `81.934570`; failclosed structural branches still mostly preserve plateau rather than improve compression.

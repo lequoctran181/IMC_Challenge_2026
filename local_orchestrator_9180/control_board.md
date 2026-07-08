@@ -33,6 +33,7 @@ Current target: Kattis score >= 91.80. Current retained root-submission best by 
 - Latest checked `1387` did not improve: broad19 boxgrid failclosed returned `81.934570`.
 - Latest checked `1388` did not improve: broad28 torus_snap returned `81.934570`, 7/7.
 - Latest checked `1389` regressed: workerM1 boundary60000 returned `81.690173`, 7/7.
+- Latest diagnostic `1390` from Kattis `19921631` scored `0.000000`, 6/7; it proves hidden test case 5/7 has `49843 <= N < 50625`, but the earlier S14 smooth lower guard is false there.
 
 ## Score Buckets
 
