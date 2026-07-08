@@ -203,3 +203,25 @@ Generated 16 variants from `submission_1448_81.98_7.cpp`, changing only same-len
 Local proxy result: every variant produced byte-identical output to the active `1448` base on sample, exact-case5 synthetic, torus23, torus80, lobes49954, and softbox50402. Runtime differences were local-load noise, not associated with output changes.
 
 Conclusion: no submission. Same-size timing tweaks did not expose any local simplification gain and would only add hidden timeout risk.
+
+## B92 periodic structural probe
+
+Ran the packed high-water B92 structural recognizer batch from `local_orchestrator_9180/queue16_highwater_struct_b92` with 16 local workers. `B92pack_qnet_dsu.cpp` failed local compilation because the packed source omitted the `unordered_set` include. The remaining candidates compiled and preserved the high-water output on sample, exact-case5, torus23-scrambled, lobes49954, softbox50402, generated sphere, generated ellipsoid, and generated torus7680.
+
+Local proxy signal:
+
+| Candidate | Changed proxy | High-water | Candidate |
+| --- | --- | --- | --- |
+| `B92pack_idx_periodic.cpp` | synthetic torus80 | `2016/4032` | `1023/2046` |
+| `B92pack_combo_grid_sphere.cpp` | synthetic torus80 | `2016/4032` | `1023/2046` |
+| `B92pack_idx_periodic_safe.cpp` | synthetic torus80 | `2016/4032` | `1599/3198` |
+| `B92pack_combo_all.cpp` | synthetic torus80 | `2016/4032` | `1599/3198` |
+| `B92pack_star_strict.cpp` | generated cylinder12962 | `181/358` | `98/192` |
+
+Submitted the highest local torus80-gain probe:
+
+| Submission | Kattis | Result | Change |
+| --- | --- | --- | --- |
+| `submission_1547_53.93_5.cpp` | `19924626` | `53.927292`, `5/7`, runtime `> 21.00 s` | Added the packed `TG::run()` periodic-grid recognizer before the high-water tail. |
+
+Conclusion: do not use the packed B92/TG periodic recognizer as an active route. The torus80 local gain is real, but Kattis hidden behavior collapses to the familiar `53.927292` / `5/7` bucket, likely through timeout or recognizer misfire on one of the large official cases.
