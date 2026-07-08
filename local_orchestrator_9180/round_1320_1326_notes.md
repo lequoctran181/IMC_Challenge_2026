@@ -92,6 +92,10 @@ Target remains `91.80+`; exact best is now `81.977514`.
 | `submission_1406_0.00_7.cpp` | `19921928` | `0.000000`, 7/7 | N/M diagnostic: hidden test case 5/7 is not `N == 49986`, so exact `N == 49987` |
 | `submission_1407_0.00_7.cpp` | `19921977` | `0.000000`, 7/7 | N/M diagnostic: exact `N == 49987`, but not `M == 2*N` (`M != 99974`) |
 | `submission_1408_0.00_6.cpp` | `19921998` | `0.000000`, 6/7 | N/M diagnostic: hidden test case 5/7 is exactly `N == 49987`, `M == 99970` (`M == 2*N-4`) |
+| `submission_1409_56.93_5.cpp` | `19922036` | `56.926922`, 5/7 | lowering `FL` sphere-ring thresholds is unsafe; this path times out/fails hidden cases |
+| `submission_1410_0.00_7.cpp` | `19922051` | `0.000000`, 7/7 | diagnostic: exact case 5 does not match `GJ/FL` face-order sphere grid `R=769,V=65` |
+| `submission_1411_53.94_5.cpp` | `19922074` | `53.942895`, 5/7 | exact-enabling broad skipped branches for the 47.5k-60k band is unsafe |
+| `submission_1412_0.00_7.cpp` | `19922093` | `0.000000`, 7/7 | diagnostic: exact case 5 does not pass current `GY()` sphere-fit thresholds |
 
 ## Current Lessons
 
@@ -149,6 +153,9 @@ Target remains `91.80+`; exact best is now `81.977514`.
 - Diagnostic `19921928` excludes exact `N == 49986`; hidden test case 5/7 has exact `N == 49987`.
 - Diagnostic `19921977` excludes `M == 2*N` for exact `N == 49987`; next test is `M == 2*N-4`.
 - Diagnostic `19921998` confirms exact `N == 49987`, `M == 99970`; case 5/7 is sphere-like genus 0, so new attempts should use fail-closed exact-N/M branches rather than broad N-band guards.
+- `19922036` shows broad `FL` threshold relaxation is unsafe; `19922051` confirms case 5 is not in the hardcoded `GJ/FL` ring face order despite `N-2 = 65*769`.
+- `19922074` shows exact-N/M broad re-enabling of skipped branches is also unsafe; prefer narrow shape diagnostics (`GY/GI`, valence, sampled normal ratios) before implementing more exact-case logic.
+- `19922093` shows current `GY()` sphere-fit is false on exact case 5; next primitive probe should be `GA/EJ` ellipsoid/PCA, not `GI` sphere tuning.
 - WorkerF macro5k candidate returned `80.634329`; macro5k is not a breakthrough branch in this form.
 - Broad09 r12grid W2+B16 returned `81.709845`; avoid this structural branch unless redesigned around a much narrower detector.
 - Broad19 boxgrid failclosed returned `81.934570`; failclosed structural branches still mostly preserve plateau rather than improve compression.
