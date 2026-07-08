@@ -225,3 +225,23 @@ Submitted the highest local torus80-gain probe:
 | `submission_1547_53.93_5.cpp` | `19924626` | `53.927292`, `5/7`, runtime `> 21.00 s` | Added the packed `TG::run()` periodic-grid recognizer before the high-water tail. |
 
 Conclusion: do not use the packed B92/TG periodic recognizer as an active route. The torus80 local gain is real, but Kattis hidden behavior collapses to the familiar `53.927292` / `5/7` bucket, likely through timeout or recognizer misfire on one of the large official cases.
+
+## Local 16-worker late-WK/reserve batch
+
+Generated 16 variants from the exact high-water `submission_1448_81.98_7.cpp` source in `/tmp/imc_9180_main/latewk_gate_20260709`. The variants only changed late `WK` gating/reserve constants or late `B16/S3B16` end times, preserving the original source layout and staying under the source-size limit.
+
+Important parsing/detail update from Kattis:
+
+- `19924626` (`B92pack_idx_periodic`) failed `5/7`: test 4 `Wrong Answer` with validator message `SSIM is too low`, and test 7 `Time Limit Exceeded`.
+- Most `53.927`/`68.113` bucket submissions fail test 4 by SSIM; the `53.927` family often also TLEs test 7.
+- `19924324` is notable as a diagnostic source that only TLEs test 7, but it uses the known unsafe include/symbol shave and an original-output branch, so it is not a production base.
+
+Late-WK/reserve local proxy result after recompiling a fresh high-water baseline:
+
+| Variant group | Result |
+| --- | --- |
+| Narrow/disable final `WK` variants | Usually worsen torus23/cylinder and sometimes case5 or primitive proxies. |
+| Earlier late-loop/reserve variants | Worsen case5, lobes, sphere, or ellipsoid proxies in several cases. |
+| `v16_final_gt39000` | Byte-safe and output-identical to high-water on sample, case5 proxy, torus23, torus80, lobes49954, softbox50402, and generated primitive proxies. |
+
+Conclusion: no submission from this batch. `v16_final_gt39000` is a possible timing-stability guard, but it has no local vertex-count or proxy gain. The other variants clearly remove useful late work and should not be submitted.
