@@ -48,8 +48,7 @@ Submissions:
 
 - `19930417`: `diag_invalid_high1_377084_tiny.cpp`
   - Result: `Accepted (66.802644)`, 6/7
-  - Inferred high1 contribution: `6 * 81.978181 - 6 * 66.802644 = 91.053222`
-  - Decision: high1 is already near the target range; do not spend the next local batch on aggressive high1 rewrites.
+  - Decision: this is the least contaminated large-case invalid probe observed so far, but use it only as a rough signal; Kattis partial-score arithmetic is not reliable unless the full failing test list is known.
 - `19930429`: `diag_invalid_high2_1009118_tiny.cpp`, submitted and waiting for final judgement.
   - Result: `Accepted (53.927292)`, 5/7
   - Decision: contaminated / not a clean one-case contribution probe. The clean expectation from prior arithmetic was about `67.855279`, 6/7.
@@ -82,14 +81,12 @@ Same-layout follow-up using the cleaner `19930417` source layout:
 - `19930542`: `up35292.cpp`
   - Result: `Accepted (53.927292)`, 5/7, runtime `>21.00s`
   - Detail: only `secret/3` invalid.
-  - Decision: clean enough to identify `secret/3` as the exact `N==35292 && M==70580` upper-mid case. The current high-water contribution of this case is about `81.978181 - 53.927292 = 28.050889` absolute score points, making it the highest-leverage exact branch target found so far.
+  - Decision: identifies `secret/3` as the exact `N==35292 && M==70580` upper-mid case and confirms this case is the recurring fragile guard target. Do not use the score drop as a clean contribution estimate because the `5/7` verdict can hide a second failing group.
 - `19930556`: `case49987.cpp`
   - Result: `Accepted (42.472647)`, 4/7, runtime `>21.00s`
   - Detail: `secret/3` SSIM too low and `secret/4` invalid.
   - Decision: contaminated; not a clean case5 contribution probe.
 
-Conclusion: direct early invalid branches are only clean for high1 and upper35 in the observed source shape. The next high-leverage route should target an exact `N==35292` solver/output branch; it is a safe guard for other hidden cases, but the output for `secret/3` itself must be valid and high-SSIM.
+Conclusion: direct early invalid branches are too contaminated for precise contribution arithmetic. The stable operational lesson is stronger: `secret/3` is exact `N==35292 && M==70580` and is the recurring fragile case that many high2/highbig attempts break. The next high-leverage route remains high2/highbig, but every candidate needs an explicit plan to preserve or conservatively protect upper35.
 
-If `19930417` returns exactly 6/7 with total score `T`, infer high1 contribution using:
-
-`C_high1 = 6 * 81.978181 - 6 * T`
+Only infer a case contribution from `81.978181 - T` when the detail page proves exactly one hidden group failed and there is no hidden TLE/second failure. Otherwise treat the score drop as contaminated.

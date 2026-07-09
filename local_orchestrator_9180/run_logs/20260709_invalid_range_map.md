@@ -129,7 +129,7 @@ Current clean hidden range map, excluding the sample:
   - It does not pass the active W2G face-order detector.
 - `25000 <= N < 40000`: one case.
   - Refined: `N == 35292 && M == 70580` (`2N-4` sphere topology).
-  - Same-layout high-water invalid probe `19930542` failed only this case and scored `53.927292`, so the current high-water contribution of this exact case is about `28.050889` absolute points.
+  - Same-layout high-water invalid probe `19930542` targeted this case and scored `53.927292`, but the `5/7` verdict is not clean enough for contribution arithmetic. Treat it as a guard/mapping probe, not a precise score-component probe.
 - `N == 49987 && M == 99970`: one case from earlier exact diagnostics.
 - `N == 377084 && M == 754688`: one case; probes narrowed it directly to exact delta `+520`. Since `M = 2N+520`, the closed triangular manifold has `chi = N - M/2 = -260`, so an orientable interpretation has genus `131`.
 - `N == 1009118 && M == 2018232`: one case (`2N-4` sphere-topology mesh).
