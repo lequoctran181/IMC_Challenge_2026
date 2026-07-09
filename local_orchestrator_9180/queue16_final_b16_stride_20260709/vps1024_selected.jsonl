@@ -1,0 +1,9 @@
+{"name": "base_case5", "rc": 0, "score": "0.919648640353\\n", "time": 0.51, "err": ""}
+{"name": "fb09_case5", "rc": 0, "score": "0.916461142294\\n", "time": 0.51, "err": ""}
+{"name": "base_wavy57", "rc": 0, "score": "0.920763985793\\n", "time": 0.78, "err": ""}
+{"name": "fb10_wavy57", "rc": 0, "score": "0.916106028113\\n", "time": 0.76, "err": ""}
+{"name": "base_torus400k", "rc": 0, "score": "0.859560683842\\n", "time": 1.32, "err": ""}
+{"name": "fb12_torus400k", "rc": 0, "score": "0.858121992011\\n", "time": 1.31, "err": ""}
+{"name": "fb07_torus400k", "rc": 0, "score": "0.859745948927\\n", "time": 1.17, "err": ""}
+{"name": "fb09_torus400k", "rc": 0, "score": "0.858759164100\\n", "time": 1.15, "err": ""}
+{"name": "fb10_torus400k", "rc": 0, "score": "0.860341009110\\n", "time": 1.08, "err": ""}
