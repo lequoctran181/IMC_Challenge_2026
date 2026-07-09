@@ -324,3 +324,32 @@ Submitted:
 Kattis details for `19925043`: test case 4 fails with `Wrong Answer: SSIM is too low`.
 
 Conclusion: the apparent local gains from making VIMP run deeper in the `N<60k` route cross the same hidden test-4 cliff; blacklist reserve/need/timing unlocks unless an exact exclusion guard for that hidden case is discovered. Plain high-N VIMP ratio changes are valid but lower than the high-water, matching the earlier `24 -> 22` result bucket, so further ratio/cap sweeps are unlikely to be productive.
+
+## Test4 Guard / Late-WK Gate Batch
+
+Generated 16 same-size variants in `local_orchestrator_9180/queue16_test4_guard_20260709/`, replacing the final `if(N<50625&&es()<18.9)WK::run();` guard with same-length lower-bound gates such as `N>25000`, `N>30000`, and `N>39000`. Templates included the base high-water, `lg06`, `lg11`, `lg16`, and `lg02`.
+
+Local result: all 16 variants converged to the same first-line/hash family on the proxy portfolio:
+
+- `case5`: `1146/2288 -> 1133/2262`
+- `torus23scr`: `1907/3814 -> 1282/2564`
+- `wavy57`: `3127/6254 -> 2257/4514`
+- `torus57` and `bumpy200`: unchanged
+
+The minimal candidate `tg15_base_gt30000` had encouraging 1024 proxy scores:
+
+| Proxy | Base 1024 | `tg15` 1024 |
+| --- | --- | --- |
+| `case5` | `0.920120518336` | `0.919648640353` |
+| `torus23scr` | `0.904797675533` | `0.927135874027` |
+| `wavy57` | `0.904439224114` | `0.920763985793` |
+
+Submitted:
+
+| Submission | Kattis | Result | Change |
+| --- | --- | --- | --- |
+| `submission_1562_53.93_5.cpp` | `19925104` | `53.927292`, `5/7`, runtime `>21s` | `tg15_base_gt30000`, only final late-WK guard changed from `N<50625` to `N>30000`. |
+
+Kattis details: test case 4 fails with `Wrong Answer: SSIM is too low`.
+
+Conclusion: local torus23/wavy proxies are not representative of hidden test 4. The late-WK guard/timing unlock family should be blacklisted despite attractive local 1024 proxy scores. Future work needs a new hidden-test4 proxy/recognizer or exact diagnostic, not more timing unlocks.
