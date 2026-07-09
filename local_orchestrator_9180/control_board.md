@@ -11,6 +11,7 @@ Current target: Kattis score >= 91.80. Current retained root-submission best by 
 - New best after the latest micro-sweep is `submission_1339_81.98_7.cpp` / Kattis `19920917`, exact score `81.977514`.
 - Latest checked submissions `1348-1350` did not improve: q `.942/.955` and external hash `0fbe2af2` both fell to `43.093759`/4, while fixed worker515 T03 remained valid but only `81.929569`.
 - Local worker ceiling is now 16 candidate lanes; Pro Extended chat workers are paused.
+- Small-case exact mapping is now `N == 4098 && M == 8192` (`2N-4`, likely 64x64 polar sphere topology). Local proxy `range_proxies_20260709/exact_small_uvsphere_4098.obj` shows active `best1448` already reaches `261 518` at `vps_eval@512 = 0.900038755001`; direct polar downsample needs `386+` vertices to clear 0.9, and the 16-lane small detail-chase sweep either tied `261` or regressed to `762`, so no small-case candidate was submitted from that batch.
 - Latest checked submissions `1351-1358` also did not improve: most S14/S7 selectors tie the old `81.934570` plateau, `S10_03` and `S10_08` reach `81.938237`, and `S10_05` falls to `70.491928`.
 - Latest checked `1359-1360` and concurrent `1361` also did not improve: S5 case6 late/strict returned `81.934570`, `1361` tied old exact best `81.945906`, and external `19921249` fell to `57.279876`.
 - Latest checked `1362-1364` also did not improve: all returned `81.934570`; external `19921293` fell to `57.279876`.
