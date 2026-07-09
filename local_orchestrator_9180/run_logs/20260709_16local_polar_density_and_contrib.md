@@ -90,3 +90,16 @@ Same-layout follow-up using the cleaner `19930417` source layout:
 Conclusion: direct early invalid branches are too contaminated for precise contribution arithmetic. The stable operational lesson is stronger: `secret/3` is exact `N==35292 && M==70580` and is the recurring fragile case that many high2/highbig attempts break. The next high-leverage route remains high2/highbig, but every candidate needs an explicit plan to preserve or conservatively protect upper35.
 
 Only infer a case contribution from `81.978181 - T` when the detail page proves exactly one hidden group failed and there is no hidden TLE/second failure. Otherwise treat the score drop as contaminated.
+
+## H2Q with upper35 guard
+
+Generated in `local_orchestrator_9180/batch_h2q_upperguard_20260710`.
+
+- `19930640`: `ug_after_gn.cpp`, H2Q target `90000` plus exact `N==35292 && M==70580` return after `GN()`.
+  - Result: `Accepted (67.793400)`, `6/7`, runtime `>21.00s`.
+  - Detail page had no validator feedback block. Interpretation: upper35 protection improved the previous H2Q collapse, but highbig/test7 still fails or times out.
+- `19930662`: `ug_after_gn_h2q_t130.cpp`, lighter H2Q target `130000` with the same upper35 guard.
+  - Result: `Accepted (67.752453)`, `6/7`, runtime `>21.00s`.
+  - Detail page had no validator feedback block. Interpretation: lighter target did not rescue test7; the failure is likely highbig runtime/validator, not upper35.
+
+Conclusion: the upper guard after `GN()` is useful, but H2Q still cannot produce a valid judged highbig output under the time limit. Next highbig attempt should reduce or time-cap the post-pass more aggressively, or fall back to a smaller same-mechanism tweak that keeps test7 valid.
