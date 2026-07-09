@@ -23,12 +23,14 @@ Kattis submissions:
 - `19927819` / `submission_1574_42.47_4.cpp`: IK-only `.35`, no pth lowering, shaved literals. Result `42.472647`, `4/7`, `>21s`.
 - `19927853` / `submission_1575_55.59_5.cpp`: IK-only `.24`, no pth lowering, shaved literals, plus `N==35292` pth guard. Result `55.589391`, `5/7`, `>21s`; detail page still reports test case 4/7 `SSIM is too low`.
 - `19927876` / `submission_1576_55.59_5.cpp`: IK-only `.24`, no pth lowering, shaved literals, plus `N==35292` pth `2.` skip-DC guard. Result `55.589391`, `5/7`, `>21s`.
+- `19927901` / `submission_1577_55.59_5.cpp`: IK-only `.24`, no pth lowering, shaved literals, plus `N==35292` VIMP skip. Result `55.589391`, `5/7`, `>21s`.
 
 Interpretation:
 - The local reconstructed Lucy mesh is useful for finding compression opportunities, but its `vps_eval` margin does not transfer cleanly to Kattis.
 - Lowering the DC acceptance threshold is unsafe.
 - Exact `IK` ratio changes around the active `N>=30000 && N<=120000` branch are unstable on Kattis even when non-Lucy behavior is intended to remain unchanged.
 - Raising the active pth for exact `N==35292`, even to `2.`, did not rescue test 4 in this source shape.
+- Skipping VIMP only for exact `N==35292` also did not rescue this source shape.
 - Do not repeat exact-IK `.12/.24/.35` variants as submitted here.
 
 Next safer direction:
