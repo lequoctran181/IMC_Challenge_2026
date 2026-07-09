@@ -296,3 +296,4 @@ Current target: Kattis score >= 91.80. Current retained root-submission best by 
   - `1601` / `19929039` (`submission_1601_0.00_6.cpp`) tested exact `35292/70580` with `d5+d6+d7 > .90` and returned `6/7`, so hidden exact35 is also regular-valence.
   - `1602` / `19929047` (`submission_1602_0.00_7.cpp`) tested exact `35292/70580` with `smooth > .90` and returned `7/7`, so hidden exact35 has `smooth <= .90`.
   - `1603` / `19929056` (`submission_1603_0.00_6.cpp`) tested exact `35292/70580` with `radcv > .25` and returned `6/7`, so hidden exact35 has high radial variation. Current exact35 fingerprint is regular-valence, high-radial, not very smooth, non-radial-sphere (`1591`) and not boxy/axis-clustered (`1592`).
+  - `1604` / `19929067` (`submission_1604_0.00_7.cpp`) tested exact `35292/70580` with `d4+d8 > .05` and returned `7/7`, so hidden exact35 has `d4+d8 <= .05`: even more valence-6 regular than exact23/case5.
