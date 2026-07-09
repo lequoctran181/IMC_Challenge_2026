@@ -75,3 +75,8 @@ Do not resubmit:
   - Local upper35 returns original `35292/70580`; local case5 polar proxy remains `4610/9216`.
   - Kattis result: `Accepted (53.927292)`, `6/7`, runtime `>21.00s`, no compact feedback block.
   - Decision: returning original for upper35 sacrifices too much score and does not produce a useful valid-total route. Close direct-polar upper-guard variants unless a source-shape-preserving way to keep high-water upper35 compression is found.
+
+- `19930766`: `fl24_cover_upper_after_gn_vimpcaplow.cpp`, same as `19930740` plus the previously Kattis-valid same-length VIMP cap lowering `24/16/12 -> 22/14/10`.
+  - Local gates: upper35 unchanged (`1942/3880`, VPS512 `0.946045615133`); case5 polar direct unchanged (`4610/9216`, VPS512 `0.961738389820`); Nefertiti proxy output `150190/300376` in about `19.2s`.
+  - Kattis result: `Accepted (67.760455)`, `6/7`, runtime `>21.00s`, no compact feedback block.
+  - Decision: safe VIMP cap lowering does not rescue the direct-polar upper-guard plateau. Close this combination.
