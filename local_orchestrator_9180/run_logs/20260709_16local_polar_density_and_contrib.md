@@ -103,3 +103,8 @@ Generated in `local_orchestrator_9180/batch_h2q_upperguard_20260710`.
   - Detail page had no validator feedback block. Interpretation: lighter target did not rescue test7; the failure is likely highbig runtime/validator, not upper35.
 
 Conclusion: the upper guard after `GN()` is useful, but H2Q still cannot produce a valid judged highbig output under the time limit. Next highbig attempt should reduce or time-cap the post-pass more aggressively, or fall back to a smaller same-mechanism tweak that keeps test7 valid.
+
+- `19930685`: `tc145_l186_rb192.cpp`, H2Q target `145000`, loop cap `18.6`, rollback if elapsed exceeds `19.2`, with the same upper35-after-GN guard.
+  - Local Nefertiti proxy: `149601/299198` in about `19.9s` on first run.
+  - Kattis result: `Accepted (67.752453)`, `6/7`, runtime `>21.00s`, no feedback block.
+  - Decision: even a very light/time-capped H2Q remains on the same 6/7 plateau; close H2Q post-pass variants unless a substantially cheaper highbig mechanism or a guaranteed rollback-to-base before output is implemented.
