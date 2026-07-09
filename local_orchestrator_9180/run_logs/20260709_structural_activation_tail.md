@@ -353,3 +353,15 @@ Submitted:
 Kattis details: test case 4 fails with `Wrong Answer: SSIM is too low`.
 
 Conclusion: local torus23/wavy proxies are not representative of hidden test 4. The late-WK guard/timing unlock family should be blacklisted despite attractive local 1024 proxy scores. Future work needs a new hidden-test4 proxy/recognizer or exact diagnostic, not more timing unlocks.
+
+## Final Broad-B16 Direction Follow-Up
+
+The earlier final-B16 stride sweep had one unsubmitted local winner, `fb12_stm7.cpp`, changing the final broad call from stride `13` to stride `-7` without changing source size (`131030` bytes). Local proxy summary ranked it highest in the batch (`torus23scr 1907 -> 1282`, `wavy57 2304 -> 2257`, `torus400k 826 -> 817`), but it belongs to the same final-B16 stride/direction family as the failed `fb07_st17`.
+
+Submitted:
+
+| Submission | Kattis | Result | Change |
+| --- | --- | --- | --- |
+| `submission_1577_53.92_5.cpp` | `19927875` | `53.924958`, `5/7`, runtime pending page showed the familiar long-run behavior | `fb12_stm7`, final broad `B16::R(...,88,13,...)` changed to `B16::R(...,88,-7,...)`. |
+
+Conclusion: close the final broad-B16 stride/direction sweep completely. The strongest negative-direction local proxy winner still collapses on hidden tests, so do not submit `fb14_stm13`, `fb15_stm17`, or related stride variants without a new independent hidden-test4 guard.
