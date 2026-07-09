@@ -42,13 +42,15 @@ All candidates were based on fetched high-water source `fetched_sources/kattis_1
 | `19930659` | `highwater_direct_fl24_cover.cpp` | 4610 vertices, VPS 0.9617, cover=0 on proxy | `Accepted (68.11341)`, 6/7 |
 | `19930676` | `highwater_direct_fl32x224_cover.cpp` | 7170 vertices, VPS 0.9801 | `Accepted (53.927292)`, 5/7 |
 | `19930686` | `highwater_direct_fl40x256.cpp` | 10242 vertices, VPS 0.9859, no cover | `Accepted (53.927292)`, 5/7 |
+| `19930707` | `highwater_direct_fl24_stride8.cpp` | 10859 vertices, VPS 0.9617, stride-8 unused cover | `Accepted (53.927292)`, 5/7 |
 
 ## Interpretation
 
 - Direct no-cover polar remesh is not safe on hidden case5.
 - Adding cover improves from 5/7 to 6/7 for 24x192, so at least one failure mode was likely vertex-Hausdorff or a nearby validity issue.
 - Denser cover with brute-force cover check likely hurts runtime and fell into the `53.927292` bucket.
-- This route is not enough as implemented. Future work should avoid brute-force cover and either:
+- Uniform stride cover also fell into the `53.927292` bucket, so the direct-polar proxy is too optimistic for hidden case5.
+- This route is not enough as implemented. Future work should avoid direct proxy-only polar remesh and either:
   - implement a compact spatial hash cover inside the replaced `FL()` body, or
   - use direct polar only as an exact-shape diagnostic, then improve the standard high-water pipeline elsewhere.
 
@@ -58,5 +60,5 @@ Do not resubmit:
 
 - direct polar no-cover at 24x192 or 40x256
 - direct polar brute-force cover at 32x224
+- direct polar stride-8 cover at 24x192
 - existing `FL();` hook without replacing `FL()` body
-
