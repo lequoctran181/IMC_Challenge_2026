@@ -108,3 +108,12 @@ Conclusion: the upper guard after `GN()` is useful, but H2Q still cannot produce
   - Local Nefertiti proxy: `149601/299198` in about `19.9s` on first run.
   - Kattis result: `Accepted (67.752453)`, `6/7`, runtime `>21.00s`, no feedback block.
   - Decision: even a very light/time-capped H2Q remains on the same 6/7 plateau; close H2Q post-pass variants unless a substantially cheaper highbig mechanism or a guaranteed rollback-to-base before output is implemented.
+
+## H2S mild scan with upper35 guard
+
+Generated in `local_orchestrator_9180/batch_h2s_mild_upperguard_20260710`.
+
+- Local Nefertiti outputs were unstable: cap3000 `95856/191708`, cap5000 `2335/4666`, cap8000 `90856/181708`, cap10000 `88856/177708`, cap15000 `135190/270376`.
+- `19930708`: submitted `h2s_cap15000_ug.cpp` because it had the mildest useful local output and `vps_eval512 = 0.917495885621`.
+  - Kattis result: `Accepted (67.752453)`, `6/7`, runtime `20.51s`; detail HTML contains WA/SSIM but no compact feedback block.
+  - Decision: H2S, like H2Q, remains on the highbig 6/7 plateau. Close H2S/H2Q post-pass families for now; future highbig work needs a different mechanism or a judge-safe way to restore test7.
