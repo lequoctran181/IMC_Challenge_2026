@@ -38,3 +38,8 @@ High2 summary: both first and second high-N B16 edits are at a brittle boundary.
 ## Pivot
 
 Do not spend more submissions on large-case micro-edits in the current pipeline. The large hidden cases are close to time/SSIM cliffs, and exact guards alone do not make same-mechanism loosenings safe. Next work should use a different mechanism: either a real visual-mesh plus hidden vertex-cover strategy, or exact small/medium sphere-topology branches with a stronger rollback criterion.
+
+## Follow-up transplant check
+
+- `19927783` / `visual_shell_hybrid_full_highwater.cpp` combined the old `VSC::run()` visual-shell branch from `19915979` with the full current high-water fallback main. It was `129335` bytes, compiled/sample-passed, and matched high-water first-line output on selected proxies (`case5`, `low23_sphere_23201`, `upper35_wavy_35292`, `torus23_scr`, `wavy57`), but Kattis returned `53.927292`, `5/7`. Do not use old-base VSC transplants; proxy first-line equivalence is not enough.
+- `19927803` / `shrink_best_safe.cpp` returned `53.927292`, `5/7`. This proves the source-layout/compaction route is unsafe on the judge even when local sample/proxy checks pass. Do not use shrink bases as submit foundations; future edits should either patch the exact high-water source with very small byte-neutral changes or add a tightly guarded independent branch with its own fallback.
