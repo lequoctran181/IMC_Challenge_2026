@@ -35,6 +35,39 @@ predicate-hit signal than earlier full-pipeline fail-closed probes.
 | `19926174` | `N > 360000 && N <= 370000` | `Accepted (0)`, `7/7` | The `320k..400k` hidden case is in 370001-380000. |
 | `19926230` | `N > 370000 && N <= 375000` | `Accepted (0)`, `7/7` | The `320k..400k` hidden case is in 375001-380000. |
 | `19926290` | `N > 375000 && N <= 377500` | `Accepted (0)`, `6/7` | The `320k..400k` hidden case is in this lower half. |
+| `19926309` | `N > 375000 && N <= 376250` | `Accepted (0)`, `7/7` | The first high-N case is not in this lower half; it is above 376250. |
+| `19926324` | `N > 376250 && N <= 376875` | `Accepted (0)`, `7/7` | The first high-N case is not in this lower half; it is above 376875. |
+| `19926376` | `N > 376875 && N <= 377188` | `Accepted (0)`, `6/7` | The first high-N case is in this lower half. |
+| `19926464` | `N > 376875 && N <= 377032` | `Accepted (0)`, `7/7` | The first high-N case is not in this lower half; it is above 377032. |
+| `19926582` | `N > 377032 && N <= 377110` | `Accepted (0)`, `6/7` | The first high-N case is in this lower half. |
+| `19926615` | `N > 377032 && N <= 377071` | `Accepted (0)`, `7/7` | The first high-N case is not in this lower half; it is above 377071. |
+| `19926647` | `N > 377071 && N <= 377091` | `Accepted (0)`, `6/7` | The first high-N case is in this lower half. |
+| `19926672` | `N > 377071 && N <= 377090` | `Accepted (0)`, `6/7` | The first high-N case is in this slightly narrower range. |
+| `19926698` | `N > 377071 && N <= 377081` | `Accepted (0)`, `7/7` | The first high-N case is not in this lower half; it is above 377081. |
+| `19926703` | `N > 377071 && N <= 377081` | `Accepted (0)`, `7/7` | Duplicate confirmation of `19926698`. |
+| `19926731` | `N > 377081 && N <= 377086` | `Accepted (0)`, `6/7` | The first high-N case is in this range. |
+| `19926751` | `N > 377081 && N <= 377084` | `Accepted (0)`, `6/7` | The first high-N case is in this range. |
+| `19926784` | `N == 377082` | `Accepted (0)`, `7/7` | The first high-N case is not 377082. |
+| `19926786` | `N == 377082` | `Accepted (0)`, `7/7` | Duplicate confirmation of `19926784`; exact `N` is now 377083 or 377084. |
+| `19926826` | `N == 377083` | `Accepted (0)`, `7/7` | The first high-N case is not 377083, so it is exactly 377084. |
+| `19926841` | `N == 377084 && M == 2*N-4` | `Accepted (0)`, `7/7` | The first high-N case is not `2N-4`; try `2N` next. |
+| `19926858` | `N == 377084 && M == 2*N` | `Accepted (0)`, `7/7` | The first high-N case is not `2N`; face count still pending. |
+| `19926867` | `N == 377084 && M < 2*N` | `Accepted (0)`, `7/7` | The first high-N case has more than `2N` faces. |
+| `19926875` | `N == 377084 && M > 2*N && M <= 2*N+1024` | `Accepted (0)`, `6/7` | The first high-N face count is in `(2N, 2N+1024]`. |
+| `19926877` | `N == 377084 && M > 2*N && M <= 2*N+512` | `Accepted (0)`, `7/7` | The first high-N face count is above `2N+512`. |
+| `19926880` | `N == 377084 && M == 2*N+4` | `Accepted (0)`, `7/7` | Other local manager probe; already excluded by `19926877`. |
+| `19926904` | `N == 377084 && M > 2*N+512 && M <= 2*N+768` | `Accepted (0)`, `6/7` | The first high-N face count is in `(2N+512, 2N+768]`. |
+| `19926917` | `N == 377084 && M > 2*N+512 && M <= 2*N+640` | `Accepted (0)`, `6/7` | The first high-N face count is in `(2N+512, 2N+640]`. |
+| `19926920` | `N == 377084 && M > 2*N+512 && M <= 2*N+576` | `Accepted (0)`, `6/7` | The first high-N face count is in `(2N+512, 2N+576]`. |
+| `19926933` | `N == 377084 && M > 2*N+512 && M <= 2*N+544` | `Accepted (0)`, `6/7` | The first high-N face count is in `(2N+512, 2N+544]`. |
+| `19926987` | `N == 377084 && M > 2*N+512 && M <= 2*N+528` | `Accepted (0)`, `6/7` | The first high-N face count is in `(2N+512, 2N+528]`. |
+| `19926989` | `N == 377084 && M > 2*N+512 && M <= 2*N+528` | `Accepted (0)`, `6/7` | Duplicate probe from another local manager. |
+| `19927003` | `N == 377084 && M > 2*N+512 && M <= 2*N+528` | `Accepted (0)`, `6/7` | Duplicate probe from another local manager. |
+| `19927005` | `N == 377084 && M > 2*N+512 && M <= 2*N+520` | `Accepted (0)`, `6/7` | The first high-N face count is in `(2N+512, 2N+520]`. |
+| `19927014` | `N == 377084 && M > 2*N+512 && M <= 2*N+516` | `Accepted (0)`, `7/7` | The first high-N face count is above `2N+516`. |
+| `19927016` | `N == 377084 && M > 2*N+512 && M <= 2*N+516` | `Accepted (0)`, `7/7` | Duplicate probe from another local manager. |
+| `19927067` | `N == 377084 && M > 2*N+516 && M <= 2*N+518` | `Accepted (0)`, `7/7` | Other local manager probe; excludes deltas `+517` and `+518`. |
+| `19927100` | `N == 377084 && M > 2*N+518 && M <= 2*N+519` | `Accepted (0)`, `7/7` | Other local manager probe; excludes delta `+519`, so exact delta is `+520`. |
 | `19925177` | `N > 400000` | `Accepted (0)`, `6/7` | Exactly one hidden high-N case above 400k. |
 | `19926084` | `N > 400000 && N <= 750000` | `Accepted (0)`, `7/7` | The second high-N case is not in this slice; it is above 750000. |
 | `19926095` | `N > 750000 && N <= 925000` | `Accepted (0)`, `7/7` | The second high-N case is not in this slice; it is above 925000. |
@@ -46,6 +79,18 @@ predicate-hit signal than earlier full-pipeline fail-closed probes.
 | `19926263` | `N > 1007031 && N <= 1009765` | `Accepted (0)`, `6/7` | The second high-N case is in this slice. |
 | `19926274` | `N > 1007031 && N <= 1008398` | `Accepted (0)`, `7/7` | The second high-N case is not in this lower half; it is above 1008398. |
 | `19926298` | `N > 1008398 && N <= 1009081` | `Accepted (0)`, `7/7` | The second high-N case is not in this lower half; it is above 1009081. |
+| `19926311` | `N > 1009081 && N <= 1009423` | `Accepted (0)`, `6/7` | The second high-N case is in this slice. |
+| `19926334` | `N > 1009081 && N <= 1009252` | `Accepted (0)`, `6/7` | The second high-N case is in this lower half. |
+| `19926362` | `N > 1009081 && N <= 1009166` | `Accepted (0)`, `6/7` | The second high-N case is in this lower half; source fetched from the other local manager. |
+| `19926397` | `N > 1009081 && N <= 1009124` | `Accepted (0)`, `6/7` | The second high-N case is in this lower half. |
+| `19926419` | `N > 1009081 && N <= 1009102` | `Accepted (0)`, `7/7` | The second high-N case is not in this lower half; it is above 1009102. |
+| `19926442` | `N > 1009102 && N <= 1009113` | `Accepted (0)`, `7/7` | The second high-N case is not in this lower half; it is above 1009113. |
+| `19926490` | `N > 1009113 && N <= 1009119` | `Accepted (0)`, `6/7` | The second high-N case is in this lower half. |
+| `19926492` | `N > 1009113 && N <= 1009119` | `Accepted (0)`, `6/7` | Duplicate confirmation of `19926490` from another local manager. |
+| `19926526` | `N > 1009113 && N <= 1009116` | `Accepted (0)`, `7/7` | The second high-N case is not in this lower half; it is above 1009116. |
+| `19926534` | `N > 1009116 && N <= 1009118` | `Accepted (0)`, `6/7` | The second high-N case is either 1009117 or 1009118. |
+| `19926557` | `N == 1009117` | `Accepted (0)`, `7/7` | The second high-N case is not 1009117, so it is exactly 1009118. |
+| `19926561` | `N == 1009118 && M == 2*N-4` | `Accepted (0)`, `6/7` | The second high-N case has exact face count `M == 2018232`. |
 | `19925270` | `N >= 23125 && N < 23500` | `Accepted (0)`, `6/7` | The `20000 <= N < 25000` hidden case is in the existing W2G/W2C special-case band. |
 | `19925320` | `N >= 25000 && N < 32000` | `Accepted (0)`, `7/7` | The `25000 <= N < 40000` hidden case is in the upper subrange, not this lower half. |
 | `19925330` | current-source W2G face-order detector for `23125 <= N < 23500` | `Accepted (0)`, `7/7` | The `20k..25k` hidden case does not pass the active W2G detector; W2C/patch behavior is the relevant route. |
@@ -85,8 +130,8 @@ Current clean hidden range map, excluding the sample:
 - `25000 <= N < 40000`: one case.
   - Refined: `N == 35292 && M == 70580` (`2N-4` sphere topology).
 - `N == 49987 && M == 99970`: one case from earlier exact diagnostics.
-- `375000 < N <= 377500`: one case.
-- `1009081 < N <= 1009765`: one case.
+- `N == 377084 && M == 754688`: one case; probes narrowed it directly to exact delta `+520`. Since `M = 2N+520`, the closed triangular manifold has `chi = N - M/2 = -260`, so an orientable interpretation has genus `131`.
+- `N == 1009118 && M == 2018232`: one case (`2N-4` sphere-topology mesh).
 
 This supersedes earlier large-N notes that inferred a case in
 `260000 < N <= 320000`; those were contaminated by full-pipeline timeout or
