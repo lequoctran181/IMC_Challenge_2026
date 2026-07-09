@@ -12,3 +12,13 @@
 {"name": "vg21_Hcap9_wavy57", "rc": 0, "time": 0.59, "score": "0.912842187285\\n", "err": ""}
 {"name": "vg22_Hcap8_case5", "rc": 0, "time": 0.37, "score": "0.916370914932\\n", "err": ""}
 {"name": "vg22_Hcap8_wavy57", "rc": 0, "time": 0.56, "score": "0.913430304041\\n", "err": ""}
+{"name": "vg23_Hcap7_case5", "score": "0.917001617408\\n", "rc": 0, "time": 0.43}
+{"name": "vg23_Hcap7_wavy57", "score": "0.915140279125\\n", "rc": 0, "time": 0.7}
+{"name": "vg24_Hcap6_case5", "score": "0.917985451757\\n", "rc": 0, "time": 0.45}
+{"name": "vg24_Hcap6_wavy57", "score": "0.916588261237\\n", "rc": 0, "time": 0.67}
+{"name": "vg25_Hcap5_case5", "score": "0.918752822307\\n", "rc": 0, "time": 0.43}
+{"name": "vg25_Hcap5_wavy57", "score": "0.917932056229\\n", "rc": 0, "time": 0.64}
+{"name": "vg26_Hcap4_case5", "score": "0.918678738034\\n", "rc": 0, "time": 0.46}
+{"name": "vg26_Hcap4_wavy57", "score": "0.918840008224\\n", "rc": 0, "time": 0.66}
+{"name": "vg27_Hcap2_case5", "score": "0.919526237095\\n", "rc": 0, "time": 0.41}
+{"name": "vg27_Hcap2_wavy57", "score": "0.920263288670\\n", "rc": 0, "time": 0.59}
