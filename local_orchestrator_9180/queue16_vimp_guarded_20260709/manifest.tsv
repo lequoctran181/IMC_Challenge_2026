@@ -24,4 +24,4 @@ vg23_Hcap7	VIMP cap small-ratio 12->7 only under H=(45k<N<60k)	131008
 vg24_Hcap6	VIMP cap small-ratio 12->6 only under H=(45k<N<60k)	131008
 vg25_Hcap5	VIMP cap small-ratio 12->5 only under H=(45k<N<60k)	131008
 vg26_Hcap4	VIMP cap small-ratio 12->4 only under H=(45k<N<60k); submitted 1567/19925341	131008
-vg27_Hcap2	VIMP cap small-ratio 12->2 only under H=(45k<N<60k)	131008
+vg27_Hcap2	VIMP cap small-ratio 12->2 only under H=(45k<N<60k); submitted 1568/19925361 => 56.658765, 5/7	131008
