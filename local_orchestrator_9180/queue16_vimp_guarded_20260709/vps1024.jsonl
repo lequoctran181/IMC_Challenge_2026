@@ -1,0 +1,14 @@
+{"name": "vg11_case5", "rc": 0, "time": 0.37, "stdout": "0.913908321244\\n", "stderr": ""}
+{"name": "vg11_torus23scr", "rc": 0, "time": 0.87, "stdout": "0.927135874027\\n", "stderr": ""}
+{"name": "vg11_wavy57", "rc": 0, "time": 0.54, "stdout": "0.907182152779\\n", "stderr": ""}
+{"name": "base_case5", "rc": 0, "time": 0.36, "stdout": "0.919648640353\\n", "stderr": ""}
+{"name": "base_torus23scr", "rc": 0, "time": 0.87, "stdout": "0.927135874027\\n", "stderr": ""}
+{"name": "base_wavy57", "rc": 0, "time": 0.53, "stdout": "0.920763985793\\n", "stderr": ""}
+{"name": "vg19_Hcap11_case5", "rc": 0, "time": 0.4, "score": "0.915291259108\\n", "err": ""}
+{"name": "vg19_Hcap11_wavy57", "rc": 0, "time": 0.61, "score": "0.908949512419\\n", "err": ""}
+{"name": "vg20_Hcap10_case5", "rc": 0, "time": 0.4, "score": "0.915629558130\\n", "err": ""}
+{"name": "vg20_Hcap10_wavy57", "rc": 0, "time": 0.59, "score": "0.910868298733\\n", "err": ""}
+{"name": "vg21_Hcap9_case5", "rc": 0, "time": 0.42, "score": "0.916275655778\\n", "err": ""}
+{"name": "vg21_Hcap9_wavy57", "rc": 0, "time": 0.59, "score": "0.912842187285\\n", "err": ""}
+{"name": "vg22_Hcap8_case5", "rc": 0, "time": 0.37, "score": "0.916370914932\\n", "err": ""}
+{"name": "vg22_Hcap8_wavy57", "rc": 0, "time": 0.56, "score": "0.913430304041\\n", "err": ""}
