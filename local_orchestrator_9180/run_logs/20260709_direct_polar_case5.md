@@ -62,3 +62,11 @@ Do not resubmit:
 - direct polar brute-force cover at 32x224
 - direct polar stride-8 cover at 24x192
 - existing `FL();` hook without replacing `FL()` body
+
+## Upper35 guard follow-up
+
+- `19930740`: `fl24_cover_upper_after_gn.cpp`, starting from `19930659` (`FL24` direct polar + cover) and adding `if(N==35292&&M==70580){JD();return 0;}` immediately after `GN()` in `main`.
+  - Local upper35 proxies matched high-water outputs (`closed_bunnylike`: `1942/3880`, VPS512 `0.946045615133`; Stanford bunny: `6000/11996`, VPS512 `0.941070708967`).
+  - Local case5 polar proxy still used direct branch: `4610/9216`, VPS512 `0.961738389820`.
+  - Kattis result: `Accepted (67.760455)`, `6/7`, runtime `>21.00s`, no compact feedback block.
+  - Interpretation: the upper35 failure from direct-polar was likely fixed, but the source/pipeline still falls into a 6/7 highbig/runtime plateau. Try an even lower-overhead upper guard before `FL()` only if it keeps source under the limit.
