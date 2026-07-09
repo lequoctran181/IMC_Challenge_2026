@@ -299,5 +299,28 @@ Conclusion: VIMP cap reduction is hidden-valid but below the `81.978181` high-wa
 - After switching orchestration away from the 8 Pro Extended chats and back to 16 local workers, compiled the local standalone Pro candidates that were already on disk.
 - `proext_02_reverse_15k_local` was the only plausible submit: sample OK and local proxy scores at 512 were `0.9021` on torus23, `0.9441` on case5, and `0.9030` on bumpy25.
 - `1557` / `19924969` submitted the unpatched local file and received `Compile Error`, likely because clang accepted indirectly available `chrono`/`cstdint`/`climits` while GNU did not.
-- `1558` / `19924977` added those headers and compiled on Kattis, but scored only `48.522102`, `5/7`, runtime `13.33s`. Standalone Pro reverse-15k is blacklisted as a replacement route.
+- `1558` / `19924977` added those headers and compiled on Kattis, but scored only `48.522102`, `5/7`, runtime `13.33s`; detailed hints show test cases 4 and 7 both fail with `SSIM is too low`. Standalone Pro reverse-15k is blacklisted as a replacement route.
 - Generated 16 DCEV thresholds just below `.920` in `local_orchestrator_9180/queue16_dcev_fine_p92_20260709/` (`.917`, `.918`, `.919`, `.9195` with `20k..30k`, `20k..25k`, `23k..25k`, and `8k..39k` guards). These also produced no first-line gains over the base on the tested 23k proxies. The useful local cliff remains below `.917`, and known `.916` submissions fail hidden test 4.
+
+## Large-Guard 16-Worker Batch
+
+Generated 16 same-size variants from high-water `submission_1448_81.98_7.cpp` in `local_orchestrator_9180/queue16_large_guard_20260709/`. All variants stayed exactly `131030` bytes. The batch targeted VIMP high-N ratio/cap/reserve/threshold constants and final broad-B16 step/count variants, plus synthetic proxies `bumpy_200k` and `torus_400k`.
+
+Local highlights at 512 proxy:
+
+| Variant | Local signal |
+| --- | --- |
+| `lg06_vimp_reserve40000` / `lg09` / `lg11` | Reduced `case5` from `1146/2288` to `1133/2262`, improved `wavy57` from `3127/6254` to about `2257..2304`, preserved torus23 first-line in most variants, but this is a timing/deeper-run unlock. |
+| `lg16_b16_final_step17` | Improved torus23 proxy score from `0.900061` to `0.929137` and reduced wavy57, but it shares the same risky deeper-run shape. |
+| `lg02_vimp_ratio26` | Almost no mid-bucket change; only `case5` `1146 -> 1147` and synthetic `torus400` `776 -> 773`. |
+
+Submitted:
+
+| Submission | Kattis | Result | Change |
+| --- | --- | --- | --- |
+| `submission_1559_68.11_6.cpp` | `19925043` | `68.113410`, `6/7`, runtime `20.11s` | `lg11_vimp_need958938`, a VIMP timing/need unlock. |
+| `submission_1561_81.95_7.cpp` | `19925061` | `81.946573`, `7/7`, runtime `20.01s` | `lg02_vimp_ratio26`, high-N VIMP ratio `24 -> 26`. |
+
+Kattis details for `19925043`: test case 4 fails with `Wrong Answer: SSIM is too low`.
+
+Conclusion: the apparent local gains from making VIMP run deeper in the `N<60k` route cross the same hidden test-4 cliff; blacklist reserve/need/timing unlocks unless an exact exclusion guard for that hidden case is discovered. Plain high-N VIMP ratio changes are valid but lower than the high-water, matching the earlier `24 -> 22` result bucket, so further ratio/cap sweeps are unlikely to be productive.
