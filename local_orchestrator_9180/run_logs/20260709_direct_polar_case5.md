@@ -70,3 +70,8 @@ Do not resubmit:
   - Local case5 polar proxy still used direct branch: `4610/9216`, VPS512 `0.961738389820`.
   - Kattis result: `Accepted (67.760455)`, `6/7`, runtime `>21.00s`, no compact feedback block.
   - Interpretation: the upper35 failure from direct-polar was likely fixed, but the source/pipeline still falls into a 6/7 highbig/runtime plateau. Try an even lower-overhead upper guard before `FL()` only if it keeps source under the limit.
+
+- `19930755`: `fl24_cover_upper_original_after_jc.cpp`, same direct-polar `FL24` cover branch, but exact `N==35292 && M==70580` returns original input immediately after `JC()` and before `FL()`.
+  - Local upper35 returns original `35292/70580`; local case5 polar proxy remains `4610/9216`.
+  - Kattis result: `Accepted (53.927292)`, `6/7`, runtime `>21.00s`, no compact feedback block.
+  - Decision: returning original for upper35 sacrifices too much score and does not produce a useful valid-total route. Close direct-polar upper-guard variants unless a source-shape-preserving way to keep high-water upper35 compression is found.
