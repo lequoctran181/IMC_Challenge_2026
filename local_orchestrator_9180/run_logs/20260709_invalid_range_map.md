@@ -32,11 +32,18 @@ predicate-hit signal than earlier full-pipeline fail-closed probes.
 | `19925100` | `320000 < N <= 400000` | `Accepted (0)`, `6/7` | Exactly one hidden high-N case in this range. |
 | `19926042` | `N > 320000 && N <= 360000` | `Accepted (0)`, `7/7` | The `320k..400k` hidden case is not in this lower half; it is in 360001-400000. |
 | `19926053` | `N > 360000 && N <= 380000` | `Accepted (0)`, `6/7` | The `320k..400k` hidden case is in this lower half. |
+| `19926174` | `N > 360000 && N <= 370000` | `Accepted (0)`, `7/7` | The `320k..400k` hidden case is in 370001-380000. |
+| `19926230` | `N > 370000 && N <= 375000` | `Accepted (0)`, `7/7` | The `320k..400k` hidden case is in 375001-380000. |
 | `19925177` | `N > 400000` | `Accepted (0)`, `6/7` | Exactly one hidden high-N case above 400k. |
 | `19926084` | `N > 400000 && N <= 750000` | `Accepted (0)`, `7/7` | The second high-N case is not in this slice; it is above 750000. |
 | `19926095` | `N > 750000 && N <= 925000` | `Accepted (0)`, `7/7` | The second high-N case is not in this slice; it is above 925000. |
 | `19926108` | `N > 925000 && N <= 1012500` | `Accepted (0)`, `6/7` | The second high-N case is in this slice. |
 | `19926146` | `N > 925000 && N <= 968750` | `Accepted (0)`, `7/7` | The second high-N case is not in this lower half; it is above 968750. |
+| `19926173` | `N > 968750 && N <= 990625` | `Accepted (0)`, `7/7` | The second high-N case is in 990626-1012500. |
+| `19926211` | `N > 990625 && N <= 1001562` | `Accepted (0)`, `7/7` | The second high-N case is not in this lower slice; it is above 1001562. |
+| `19926240` | `N > 1001562 && N <= 1007031` | `Accepted (0)`, `7/7` | The second high-N case is not in this lower slice; it is above 1007031. |
+| `19926263` | `N > 1007031 && N <= 1009765` | `Accepted (0)`, `6/7` | The second high-N case is in this slice. |
+| `19926274` | `N > 1007031 && N <= 1008398` | `Accepted (0)`, `7/7` | The second high-N case is not in this lower half; it is above 1008398. |
 | `19925270` | `N >= 23125 && N < 23500` | `Accepted (0)`, `6/7` | The `20000 <= N < 25000` hidden case is in the existing W2G/W2C special-case band. |
 | `19925320` | `N >= 25000 && N < 32000` | `Accepted (0)`, `7/7` | The `25000 <= N < 40000` hidden case is in the upper subrange, not this lower half. |
 | `19925330` | current-source W2G face-order detector for `23125 <= N < 23500` | `Accepted (0)`, `7/7` | The `20k..25k` hidden case does not pass the active W2G detector; W2C/patch behavior is the relevant route. |
@@ -76,8 +83,8 @@ Current clean hidden range map, excluding the sample:
 - `25000 <= N < 40000`: one case.
   - Refined: `N == 35292 && M == 70580` (`2N-4` sphere topology).
 - `N == 49987 && M == 99970`: one case from earlier exact diagnostics.
-- `360000 < N <= 380000`: one case.
-- `968750 < N <= 1012500`: one case.
+- `375000 < N <= 380000`: one case.
+- `1008398 < N <= 1009765`: one case.
 
 This supersedes earlier large-N notes that inferred a case in
 `260000 < N <= 320000`; those were contaminated by full-pipeline timeout or
