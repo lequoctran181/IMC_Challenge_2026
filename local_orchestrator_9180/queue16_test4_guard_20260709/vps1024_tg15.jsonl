@@ -1,6 +1,0 @@
-{"exe": "tg15_base_gt30000", "input": "case5", "rc": 0, "text": "0.919648640353\\n", "time": 0.37}
-{"exe": "tg15_base_gt30000", "input": "wavy57", "rc": 0, "text": "0.920763985793\\n", "time": 0.55}
-{"exe": "base", "input": "case5", "rc": 0, "text": "0.920120518336\\n", "time": 0.37}
-{"exe": "tg15_base_gt30000", "input": "torus23scr", "rc": 0, "text": "0.927135874027\\n", "time": 0.87}
-{"exe": "base", "input": "wavy57", "rc": 0, "text": "0.904439224114\\n", "time": 0.54}
-{"exe": "base", "input": "torus23scr", "rc": 0, "text": "0.904797675533\\n", "time": 0.87}

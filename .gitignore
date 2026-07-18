@@ -1,0 +1,30 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+
+# Local build products
+build/
+bin/
+*.o
+*.out
+*.dSYM/
+
+# Large mesh inputs and generated render caches are intentionally not public
+*.obj
+*.ply
+*.stl
+*.off
+*.gltf
+*.glb
+qa/
+render_*/
+cache/
+tmp/
+
+# Editor and environment noise
+.idea/
+.vscode/
+.venv/
+venv/
+*.swp
+*~
