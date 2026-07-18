@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use this artifact, please cite the accompanying IMC Challenge article."
+title: "Certified Perceptual Mesh Simplification under a 21-Second and 128-KiB Budget"
+type: software
+authors:
+  - name: "NEU.AddictedTribes"
+year: 2026
+version: 1.0.0
+date-released: 2026-07-18
+repository-code: "https://github.com/lequoctran181/IMC_Challenge_2026"
+url: "https://github.com/lequoctran181/IMC_Challenge_2026"
+license: MIT
+keywords:
+  - mesh simplification
+  - quadric error metrics
+  - structural similarity
+  - renderer-aware optimization
+  - computational geometry
+  - IMC Challenge
