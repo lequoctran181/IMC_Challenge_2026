@@ -9,12 +9,15 @@ import argparse
 from copy import deepcopy
 from pathlib import Path
 
+from latex2mathml.converter import convert as latex_to_mathml
+from mathml2omml import convert as mathml_to_omml
 from docx import Document
 from docx.enum.section import WD_SECTION
 from docx.enum.table import WD_CELL_VERTICAL_ALIGNMENT, WD_ROW_HEIGHT_RULE, WD_TABLE_ALIGNMENT
-from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_BREAK, WD_LINE_SPACING
-from docx.oxml import OxmlElement
-from docx.oxml.ns import qn
+from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_BREAK, WD_LINE_SPACING, WD_TAB_ALIGNMENT
+from docx.opc.constants import RELATIONSHIP_TYPE
+from docx.oxml import OxmlElement, parse_xml
+from docx.oxml.ns import nsdecls, qn
 from docx.shared import Inches, Pt, RGBColor
 
 
@@ -29,6 +32,7 @@ LIGHT_BLUE = "DCE6F1"
 LIGHT_GRAY = "F2F2F2"
 MID_GRAY = "666666"
 BULLET_NUM_ID = None
+EQUATION_NUMBER = 0
 
 
 def set_cell_shading(cell, fill: str) -> None:
@@ -152,7 +156,42 @@ def set_run_font(run, size=10.5, bold=False, italic=False, color="000000", font=
     run.font.color.rgb = RGBColor.from_string(color)
 
 
-INLINE_RE = re.compile(r"(`[^`]+`|\*\*[^*]+\*\*|\*[^*]+\*)")
+INLINE_RE = re.compile(
+    r"(\\\(.+?\\\)|\[[^\]]+\]\(https?://[^)]+\)|`[^`]+`|\*\*[^*]+\*\*|\*[^*]+\*)"
+)
+
+
+def add_hyperlink(paragraph, text: str, url: str, *, size=10.5, color=BLUE) -> None:
+    """Add an external Word hyperlink without exposing a raw URL in the prose."""
+    relation_id = paragraph.part.relate_to(url, RELATIONSHIP_TYPE.HYPERLINK, is_external=True)
+    hyperlink = OxmlElement("w:hyperlink")
+    hyperlink.set(qn("r:id"), relation_id)
+    run = OxmlElement("w:r")
+    run_properties = OxmlElement("w:rPr")
+    fonts = OxmlElement("w:rFonts")
+    for key in ("ascii", "hAnsi", "eastAsia"):
+        fonts.set(qn(f"w:{key}"), "Times New Roman")
+    run_properties.append(fonts)
+    color_node = OxmlElement("w:color")
+    color_node.set(qn("w:val"), color)
+    run_properties.append(color_node)
+    size_node = OxmlElement("w:sz")
+    size_node.set(qn("w:val"), str(round(size * 2)))
+    run_properties.append(size_node)
+    run.append(run_properties)
+    text_node = OxmlElement("w:t")
+    text_node.text = text
+    run.append(text_node)
+    hyperlink.append(run)
+    paragraph._p.append(hyperlink)
+
+
+def latex_to_omml(latex: str):
+    """Convert LaTeX to a native, editable Word OMML equation object."""
+    mathml = latex_to_mathml(latex)
+    omml_text = mathml_to_omml(mathml)
+    omml_text = omml_text.replace("<m:oMath>", f"<m:oMath {nsdecls('m')}>", 1)
+    return parse_xml(omml_text)
 
 
 def add_inline(paragraph, text: str, size=10.5, italic=False, color="000000") -> None:
@@ -162,7 +201,13 @@ def add_inline(paragraph, text: str, size=10.5, italic=False, color="000000") ->
             run = paragraph.add_run(text[cursor:match.start()])
             set_run_font(run, size=size, italic=italic, color=color)
         token = match.group(0)
-        if token.startswith("`"):
+        if token.startswith("\\("):
+            paragraph._p.append(latex_to_omml(token[2:-2]))
+        elif token.startswith("["):
+            link = re.fullmatch(r"\[([^\]]+)\]\((https?://[^)]+)\)", token)
+            if link:
+                add_hyperlink(paragraph, link.group(1), link.group(2), size=size, color=BLUE)
+        elif token.startswith("`"):
             run = paragraph.add_run(token[1:-1])
             set_run_font(run, size=max(8.2, size - 1), font="Courier New", color=color)
         elif token.startswith("**"):
@@ -226,7 +271,7 @@ def add_heading(doc, text: str, level: int) -> None:
         fmt.space_before = Pt(10)
         fmt.space_after = Pt(8)
         run = p.add_run(text)
-        set_run_font(run, size=28, bold=True, color=NAVY)
+        set_run_font(run, size=18, bold=True, color=NAVY)
     elif level == 2:
         fmt.alignment = WD_ALIGN_PARAGRAPH.LEFT
         fmt.space_before = Pt(8)
@@ -242,13 +287,20 @@ def add_heading(doc, text: str, level: int) -> None:
 
 
 def add_equation(doc, text: str) -> None:
+    global EQUATION_NUMBER
+    EQUATION_NUMBER += 1
     p = doc.add_paragraph()
-    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p.alignment = WD_ALIGN_PARAGRAPH.LEFT
     p.paragraph_format.space_before = Pt(4)
-    p.paragraph_format.space_after = Pt(5)
+    p.paragraph_format.space_after = Pt(6)
     p.paragraph_format.keep_together = True
-    run = p.add_run(text)
-    set_run_font(run, size=11, italic=True, font="Cambria Math")
+    p.paragraph_format.tab_stops.add_tab_stop(Inches(2.82), WD_TAB_ALIGNMENT.CENTER)
+    p.paragraph_format.tab_stops.add_tab_stop(Inches(5.62), WD_TAB_ALIGNMENT.RIGHT)
+    lead = p.add_run("\t")
+    set_run_font(lead, size=10.5)
+    p._p.append(latex_to_omml(text))
+    tail = p.add_run(f"\t({EQUATION_NUMBER})")
+    set_run_font(tail, size=9.5, color=MID_GRAY)
 
 
 def add_reference(doc, text: str) -> None:
@@ -314,6 +366,11 @@ def add_table(doc, rows: list[list[str]]) -> None:
         ("Case", "Original V", "Final V'", "Retained", "Compression", "Score loss"): [1.00, 1.00, 0.80, 0.85, 1.00, 1.00],
         ("Submission / stage", "Official score", "Key change", "Output-count evidence"): [1.25, 1.00, 1.90, 1.50],
         ("Branch", "Base target / stage", "Normal term", "Additional term", "Offline tail"): [0.90, 1.20, 1.10, 1.20, 1.25],
+        ("Case", "Input vertices", "Final vertices", "Retained", "Dominant bottleneck and final strategy"): [0.95, 0.90, 0.80, 0.85, 2.15],
+        ("Case", "Original vertices", "Final vertices", "Retained", "Reduction", "Score loss"): [0.90, 0.85, 0.85, 1.15, 1.00, 0.90],
+        ("Submission or stage", "Official score", "Main change", "Output-count evidence"): [1.15, 1.10, 1.95, 1.45],
+        ("Branch", "Accepted frontier observation", "Rejected neighboring observation", "Interpretation"): [1.05, 1.35, 1.45, 1.80],
+        ("Branch", "Base stage", "Normal term", "Additional mechanism", "Offline tail"): [0.95, 1.10, 1.20, 1.20, 1.20],
     }
     widths = prescribed.get(header)
     if widths is None:
@@ -353,7 +410,8 @@ def add_table(doc, rows: list[list[str]]) -> None:
                 else WD_ALIGN_PARAGRAPH.CENTER
             )
             text = values[c_idx] if c_idx < len(values) else ""
-            add_inline(p, text, size=8.6 if cols >= 6 else 9.0, color="FFFFFF" if r_idx == 0 else "000000")
+            table_font_size = 8.2 if cols >= 6 else 9.0
+            add_inline(p, text, size=table_font_size, color="FFFFFF" if r_idx == 0 else "000000")
             for run in p.runs:
                 if r_idx == 0:
                     run.bold = True
@@ -373,7 +431,8 @@ def parse_table(lines: list[str], start: int) -> tuple[list[list[str]], int]:
 
 
 def build() -> None:
-    global BULLET_NUM_ID
+    global BULLET_NUM_ID, EQUATION_NUMBER
+    EQUATION_NUMBER = 0
     doc = Document(str(TEMPLATE))
     remove_template_body(doc)
     section = doc.sections[0]
@@ -414,8 +473,11 @@ def build() -> None:
     cover = True
     repeated_title_seen = False
     compact_bullets = False
-    top_sections = {"Abstract", "Keywords", "Introduction", "Assumptions and Symbols", "Main Text", "Test Result Description", "References and Appendices"}
-    page_break_sections = {"Main Text"}
+    top_sections = {
+        "Abstract", "1. Introduction", "2. Related Literature", "3. Methodology",
+        "4. Results and Discussions", "5. Conclusion", "References",
+    }
+    page_break_sections = {"3. Methodology", "4. Results and Discussions"}
 
     while i < len(lines):
         raw = lines[i]
@@ -449,7 +511,7 @@ def build() -> None:
             continue
         if line.startswith("### "):
             heading = line[4:].strip()
-            compact_bullets = heading.startswith("Appendix D.")
+            compact_bullets = heading.startswith("Appendix C.")
             add_heading(doc, heading, 2)
             i += 1
             continue
@@ -525,6 +587,19 @@ def build() -> None:
             set_run_font(r1, size=18, bold=True, color=NAVY)
             r2 = p.add_run(value)
             set_run_font(r2, size=18, italic=True)
+            i += 1
+            continue
+        if cover and line.startswith("GitHub repository:"):
+            p = doc.add_paragraph()
+            p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            p.paragraph_format.space_before = Pt(16)
+            p.paragraph_format.space_after = Pt(4)
+            label, value = line.split(":", 1)
+            r1 = p.add_run(label + ": ")
+            set_run_font(r1, size=11, bold=True, color=NAVY)
+            match = re.search(r"\[([^\]]+)\]\((https?://[^)]+)\)", value)
+            if match:
+                add_hyperlink(p, match.group(1), match.group(2), size=11, color=BLUE)
             i += 1
             continue
 

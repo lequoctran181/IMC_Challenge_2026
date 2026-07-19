@@ -4,19 +4,21 @@
 
 *Hybrid QEM, cluster-normal memory, renderer-aware topology replay, and fail-closed optimization*
 
-- [`IMC_Challenge_Round2_NEU_AddictedTribes.pdf`](IMC_Challenge_Round2_NEU_AddictedTribes.pdf): final submission-ready article, 20 A4 pages.
-- [`IMC_Challenge_Round2_NEU_AddictedTribes.docx`](IMC_Challenge_Round2_NEU_AddictedTribes.docx): editable organizer-template version.
+- [`IMC_Challenge_Round2_NEU_AddictedTribes.pdf`](IMC_Challenge_Round2_NEU_AddictedTribes.pdf): final submission-ready article, 28 A4 pages.
+- [`IMC_Challenge_Round2_NEU_AddictedTribes.docx`](IMC_Challenge_Round2_NEU_AddictedTribes.docx): editable organizer-template version with native Word Equation objects.
 - [`figures/`](figures/): publication-resolution diagrams used in the article.
 - [`manuscript.md`](manuscript.md): complete text source.
 - [`source/`](source/): deterministic figure and DOCX builders.
 
-The article follows the organizer's template geometry and evaluates the method through the requested abstract, assumptions and symbols, problem analysis, model building, model solving, model summary, test description, references, and appendices. Its result claims trace to the immutable release record in [`../release/final/`](../release/final/).
+The article follows the organizer's template geometry while using the requested five-part scientific structure: Introduction, Related Literature, Methodology, Results and Discussions, and Conclusion. Within those parts it explicitly covers every organizer rubric item—abstract, assumptions and symbols, problem analysis, model building, model solving, model summary, test description, references, and appendices. It also documents controlled hidden-constraint discovery, isolated score decoding, invariant fingerprints, acceptance-frontier reconstruction, and the fail-closed deployment workflow. Its result claims trace to the immutable release record in [`../release/final/`](../release/final/).
+
+All mathematical displays and inline symbols in the released DOCX are editable native Office Math (OMML), with true subscripts and superscripts rather than visible underscore notation. Public sources and the official GitHub artifact are linked directly from the article.
 
 Artifact integrity:
 
 ```text
-PDF  052ba91e04601eab90635b24b6e317b591e51d01d634e074a7875dd2296a5014
-DOCX 2e3b5f4c094d5acae21a78ae74dcfbd1acc0ea565f039d12b2761a1f684c3238
+PDF  b473094cf814930f0fef166b58574aad5a299e377fc5b3d4f8e6337d0c766b36
+DOCX 0636fd9e81eff3d72eb269e032e3925ba216c6867e71e7bd73833dd69ab65ada
 ```
 
 The original blank organizer template is not redistributed. The DOCX retains its A4 page system, typography hierarchy, and opaque custom properties while replacing all placeholders with the team's work.

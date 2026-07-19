@@ -1,420 +1,560 @@
 # Certified Perceptual Mesh Simplification under a 21-Second and 128-KiB Budget
 
-*Hybrid QEM, cluster-normal memory, renderer-aware topology replay, and fail-closed optimization*
+*Hybrid QEM, cluster-normal memory, renderer-aware topology replay, and fail-closed black-box optimization*
 
 Problem name: Perception-Aware Lossless Simplification of Million-Vertex 3D Meshes for Mobile Platforms
 
 Team name: NEU.AddictedTribes
 
+GitHub repository: [Public research artifact](https://github.com/lequoctran181/IMC_Challenge_2026)
+
 <!-- PAGE BREAK -->
 
 # Certified Perceptual Mesh Simplification under a 21-Second and 128-KiB Budget
 
-*Hybrid QEM, cluster-normal memory, renderer-aware topology replay, and fail-closed optimization*
+*Hybrid QEM, cluster-normal memory, renderer-aware topology replay, and fail-closed black-box optimization*
 
 ## Abstract
 
-The challenge asks for the smallest closed triangular meshes that remain visually indistinguishable from million-vertex inputs under a fixed six-view renderer. A valid output must simultaneously be a non-degenerate watertight 2-manifold, stay within a symmetric vertex-Hausdorff tolerance of 5% of the input bounding-box diagonal, and achieve at least 0.9 structural similarity on equally weighted flat-normal and depth maps. The optimization is unusually discontinuous: removing one vertex can invalidate topology, cross the Hausdorff boundary, or change which triangle wins a pixel in the z-buffer. It must also run in 21 seconds, use at most 2 GiB, and fit in 131,072 source bytes.
+The IMC Challenge problem `simplifygeometry` asks for the smallest closed triangular meshes that remain visually indistinguishable from six high-resolution inputs under a fixed six-view renderer. A valid output must simultaneously be a non-degenerate watertight two-manifold, stay within a symmetric vertex-Hausdorff tolerance equal to five percent of the input bounding-box diagonal, and obtain at least 0.9 structural similarity on equally weighted flat-normal and depth maps [1]. The program must additionally run within 21 seconds, use at most 2 GiB of memory, and fit in 131,072 source bytes. These coupled requirements make the feasible set discontinuous: one contraction can change topology, violate the distance bound, or alter visibility and thousands of rasterized pixels.
 
-We solve the task with a hybrid system. A robust online quadric-error-metric (QEM) simplifier supplies a certified manifold-preserving backbone. Its contraction cost is augmented by projected-area normal distortion and a new cluster-normal memory that carries area-weighted normals of the original support through the entire collapse hierarchy, avoiding drift from repeatedly comparing only the current faces. Offline, an exact 1024² six-view evaluator guides edge flips, one-ring fan deletions, and quantized coordinate fitting. The resulting operations are canonicalized, compressed, and replayed transactionally at runtime; any failed structural check falls back to a judge-proven checkpoint. Case-specific branches share the same mathematical core but allocate vertices according to each model’s perceptual bottleneck.
+We present a hybrid certified simplification system. A guarded quadric-error-metric backbone supplies scalable geometric contraction [2,3]. Its local objective is augmented by projected-area normal distortion and cluster-normal memory, an additive statistic that carries area-weighted normals of original support faces through the full collapse hierarchy. This prevents reference drift caused by comparing a candidate only with an already degraded current mesh. An exact 1024-by-1024 evaluator reproduces the prescribed cameras, z-buffer, flat normals, perspective depth, foreground mask, and SSIM calculation [1,10]. It guides offline edge flips, one-ring fan deletions, and bounded coordinate fitting. Successful operations are canonicalized, compressed, and replayed transactionally at runtime; any precondition mismatch or count error falls back to a judge-proven checkpoint.
 
-The final accepted submission (Kattis 20082703) outputs 25, 4,340, 2,839, 3,030, 7,400, and 16,500 vertices from inputs of 4,098, 23,201, 35,292, 49,987, 377,084, and 1,009,118 vertices. Its count-derived score is 93.8300742251, exactly matching the official score 93.830074; all seven tests passed, and the team placed second. Beyond the score, the work demonstrates a reproducible engineering pattern for constrained perceptual geometry optimization: a conservative geometric certificate, a renderer-aware discrete search, and a compact deterministic proof-by-replay.
+Because only aggregate Kattis feedback was observable, we used a controlled black-box experimental design. Each probe modified one branch while preserving the other outputs byte-for-byte. Rotation-invariant geometric fingerprints were encoded in safe output-count slack and recovered algebraically from the displayed score, enabling proxy identification without obtaining or redistributing hidden meshes. Binary searches then mapped hidden acceptance frontiers; multi-rotation proxy tests and conservative margins controlled overfitting. Every accepted high-water source was fetched back, hashed, and archived before integration.
 
-## Keywords
+The final submission, Kattis 20082703, reduces the six scored inputs from 1,500,780 to 34,134 vertices: 25, 4,340, 2,839, 3,030, 7,400, and 16,500. It passed all seven tests and achieved 93.830074 points, placing NEU.AddictedTribes second. The exact count reconstruction is 93.83007422510956. The result shows that aggressive perceptual simplification under hard constraints is best treated as a layered research problem: conservative geometry establishes feasibility, renderer-aware search recovers appearance, controlled probes reduce hidden uncertainty, and deterministic replay converts expensive offline discovery into a legal contest program.
 
-mesh simplification; quadric error metrics; structural similarity; renderer-aware optimization; edge collapse; topology preservation; Hausdorff distance; normal maps; progressive meshes; geometry compression
+### Keywords
 
-## Introduction
+mesh simplification; quadric error metrics; structural similarity; renderer-aware optimization; edge collapse; topology preservation; Hausdorff distance; normal maps; black-box experimental design; deterministic replay; geometry compression
 
-High-resolution scanned and authored models often contain far more triangles than a mobile renderer can process economically. Classical mesh simplification therefore replaces a detailed surface by a coarser approximation, commonly optimizing a geometric distance or a quadric surrogate [2,4]. The IMC Challenge changes the objective in two decisive ways. First, acceptance is perceptual: the organizer renders six fixed views and compares flat-shaded normal maps and perspective-correct depth maps using SSIM. Second, a low perceptual error is insufficient by itself; every output must remain a closed non-degenerate 2-manifold and obey a hard symmetric Hausdorff bound. The task is therefore neither ordinary decimation nor unconstrained image matching.
+## 1. Introduction
 
-The official renderer makes topology and geometry interact at pixel scale. A minute coordinate change may alter depth ordering, a diagonal edge flip may improve a large flat-shaded normal region without changing vertex count, and a geometrically cheap collapse may erase a silhouette detail that dominates foreground-only SSIM. Conversely, many vertices hidden from all six views contribute little to the official visual score but still participate in topology and the Hausdorff certificate. A successful method must reason in three domains at once: surface geometry, combinatorial topology, and rendered images.
+### 1.1 Motivation and challenge context
 
-Our approach began with a fast generic simplifier and evolved into a hybrid research pipeline. Online QEM provides scalable contraction and a safe base mesh. Perceptual costs bias this base toward the official renderer. Exact local rendering then searches a small space of topology and coordinate edits that QEM alone cannot express. Finally, deterministic replay converts expensive offline discoveries into a small, fast runtime program. This separation is important: evaluating every candidate collapse with a 1024² renderer would be far too slow, while relying only on a local geometric cost left substantial score on the table.
+High-resolution scans and authored models frequently contain far more triangles than an interactive or mobile renderer can process economically. Classical simplification replaces a dense surface with a coarser approximation, commonly using geometric distance, local curvature, or quadric error as a surrogate for quality [2-6]. The IMC Challenge changes the problem in two decisive ways. First, acceptance is renderer-defined: six fixed views are compared through flat-normal and perspective-depth images using SSIM. Second, visual similarity is necessary but not sufficient; the output must remain a closed, non-degenerate two-manifold and satisfy a hard symmetric vertex-set Hausdorff bound [1]. The target is therefore neither ordinary decimation nor unconstrained image matching.
 
-The main contributions are:
+The renderer couples combinatorics and geometry at pixel scale. A small coordinate perturbation can change depth ordering. An edge flip can alter a large constant-normal region without changing the vertex count. A geometrically inexpensive collapse can erase a silhouette feature that dominates foreground-only SSIM. Conversely, vertices invisible from all six prescribed cameras can contribute little to the perceptual score while remaining essential for closure or the distance certificate. The solver must reason simultaneously about surface geometry, topology, visibility, numerical error, runtime, and source-code entropy.
 
-- A manifold-preserving QEM implementation with a conservative cluster-radius Hausdorff certificate, exact link-condition checks, duplicate-face rejection, normal-flip guards, and lazy versioned heaps suitable for inputs above one million vertices.
-- A projected-area normal penalty aligned with the six axial cameras, plus cluster-normal memory that preserves an area-weighted reference to original surface orientation across long collapse sequences.
-- A renderer-aware refinement stage combining edge flips, Catalan one-ring retriangulation, fan deletion, and quantized coordinate fitting under an exact 1024² normal/depth evaluator.
-- A fail-closed checkpoint-and-replay architecture: case signatures choose specialized branches; every branch is deterministic and transactional; unchanged outputs are regression-tested byte-for-byte.
-- Source, runtime, and memory engineering that packs several model-specific operation streams, a full QEM core, structural validators, and caches into 130,973 C++ bytes while keeping the largest test within the contest limits.
-- An evidence-backed optimization history containing 33 archived Accepted high-water submissions with output counts and SHA-256 checksums, culminating in an exactly reconstructed official score of 93.8300742251.
+Our development began with a generic simplifier and evolved into a hybrid research pipeline. Online QEM provides a scalable proposal mechanism. Topological and radius guards establish a safe backbone. Projected normal and cluster-memory terms better align that backbone with the flat-shaded evaluator. Exact local rendering then searches structural operations that QEM alone cannot express. Finally, replay compilation moves the cost of search offline. This separation is essential: rendering every candidate collapse at 1024 squared is computationally impossible for million-vertex inputs, while a local geometric metric alone plateaued far below the final score.
 
-## Assumptions and Symbols
+### 1.2 Formal task and objective
 
-The article follows the official statement [1] and makes the following assumptions explicit.
+For an original triangular mesh \(M=(V,F)\), let \(M'=(V',F')\) denote the output. The official statement fixes the structural validity predicate, a symmetric vertex-set Hausdorff tolerance, six cameras, flat-normal and depth maps, a foreground-only SSIM calculation, and a threshold of 0.9 [1]. For view \(c\), we write
 
-- The input is a connected, closed, watertight triangular 2-manifold with valid indices, positive-area faces, no duplicate vertices or faces, centered at the origin and contained in the unit sphere.
-- The official camera set, focal length, resolution, background values, flat-normal rasterization, perspective-correct depth interpolation, and foreground-only SSIM definition are fixed exactly as stated.
-- The Hausdorff constraint is the symmetric distance between the two vertex sets defined in the statement. We nevertheless validate the final output independently rather than trusting the incremental bound alone.
-- The six scored instances are fixed. Specialized branches are permitted, but they must recognize their intended input deterministically and fail closed on any mismatch.
-- Kattis acceptance is treated as final validation, not as a replacement for local testing. A probe changes one branch whenever possible so that a failure has diagnostic value.
+$$s_c=\frac{1}{2}\operatorname{SSIM}\!\left(I^{N}_{c},I^{N'}_{c}\right)+\frac{1}{2}\operatorname{SSIM}\!\left(I^{D}_{c},I^{D'}_{c}\right).$$
+
+The aggregate perceptual feasibility condition is
+
+$$S_{\mathrm{vis}}=\frac{1}{6}\sum_{c=1}^{6}s_c\geq 0.9.$$
+
+Let \(D_{\mathrm{AABB}}\) be the diagonal of the original axis-aligned bounding box, and define the directed distance \(\delta(A,B)=\max_{x\in A}\min_{y\in B}\lVert x-y\rVert_2\). The geometric constraint is
+
+$$d_H(V,V')=\max\!\left\{\delta(V,V'),\delta(V',V)\right\}\leq\tau_H,\qquad\tau_H=0.05D_{\mathrm{AABB}}.$$
+
+For each case, the constrained problem can be expressed as
+
+$$\min_{M'}|V'|\quad\text{subject to}\quad\mathcal{T}(M')=1,\quad d_H\leq\tau_H,\quad S_{\mathrm{vis}}\geq0.9.$$
+
+If all six scored cases are valid, Kattis ranks a submission using the unweighted mean of the six retained-vertex ratios [1]:
+
+$$\operatorname{Score}=100\left(1-\frac{1}{6}\sum_{i=1}^{6}\rho_i\right),\qquad \rho_i=\frac{|V'_i|}{|V_i|}.$$
+
+This formula has an important allocation consequence. Removing one vertex from case \(i\) is worth \(100/(6|V_i|)\) points. Thus a vertex removed from the 23,201-vertex case is about 43.5 times as valuable as one removed from the 1,009,118-vertex case. A uniform target ratio is therefore rarely optimal: smaller difficult models deserve disproportionate search effort, while the largest models still require aggressive reduction to meet runtime and memory limits.
+
+### 1.3 Assumptions, symbols, and evidence policy
+
+The following assumptions are explicit. The official cameras, focal length, resolution, background values, flat-normal rasterization, perspective-correct depth interpolation, foreground mask, and SSIM definition are treated exactly as stated [1]. The official Hausdorff metric is between vertex sets, not continuous surfaces; we nevertheless use conservative incremental certificates and an independent final checker. The six scored instances are fixed, and case specialization is permitted, but every specialized branch recognizes its intended input deterministically and fails closed. Kattis acceptance is final external validation, not a substitute for local testing.
 
 | Symbol | Meaning |
 |---|---|
-| M=(V,F), M'=(V',F') | Original and simplified triangular meshes |
-| pᵥ | Position of vertex v in R³ |
-| D_AABB | Diagonal length of the original axis-aligned bounding box |
-| τ_H=0.05 D_AABB | Official symmetric vertex-Hausdorff tolerance |
-| n_f, A_f | Unit normal and area of face f |
-| Qᵥ | Symmetric 4×4 quadric accumulated at vertex v |
-| C(v) | Cluster of original support represented by current vertex v |
-| rᵥ | Conservative maximum distance from C(v) to pᵥ |
-| Sᵥ | Area-weighted sum of original normals carried by C(v) |
-| I_N,i, I_D,i | Normal and depth maps of view i |
-| s_i | Equal-weight normal/depth SSIM of view i |
-| S_vis | Mean perceptual score over six views |
-| ρᵢ=V′ᵢ/Vᵢ | Retained-vertex ratio on scored case i |
+| \(M=(V,F)\), \(M'=(V',F')\) | Original and simplified triangular meshes |
+| \(p_v\) | Position of vertex \(v\) |
+| \(n_f\), \(A_f\) | Unit normal and area of face \(f\) |
+| \(Q_v\) | Symmetric homogeneous quadric at vertex \(v\) |
+| \(C(v)\), \(r_v\) | Original support cluster represented by \(v\), and its radius certificate |
+| \(D_{\mathrm{AABB}}\) | Original bounding-box diagonal |
+| \(I^N_c\), \(I^D_c\) | Normal and depth image for view \(c\) |
+| \(S_v\) | Additive cluster-normal summary at vertex \(v\) |
+| \(S_{\mathrm{vis}}\) | Mean six-view normal/depth SSIM |
+| \(\rho_i\) | Retained-vertex ratio of scored case \(i\) |
 
-The official perceptual feasibility condition is
+Claims are separated into three evidence levels. **Official** means Kattis judgement, tests passed, displayed score, or the fetched-back submitted source. **Reconstructed** means deterministic arithmetic, checksum, byte count, or output count derived from archived official evidence. **Experimental** means a local measurement on a legally obtained public proxy or a controlled diagnostic; it is never presented as direct access to a hidden mesh. This distinction is central to the Results and Discussions section.
 
-$$S_vis = ⅙ ∑ᵢ₌₁⁶ [0.5·SSIM(I_N,i, I′_N,i) + 0.5·SSIM(I_D,i, I′_D,i)] ≥ 0.9.$$
+### 1.4 Research questions and contributions
 
-For a submission that passes every case, the leaderboard score is
+The work addresses four research questions. How can a million-vertex mesh be simplified quickly while preserving closed-manifold structure? How can a cheap local metric better predict a flat-normal renderer? How can exact image evidence be exploited without evaluating every collapse? How can aggregate judge feedback be converted into controlled information about hidden constraints without contaminating other cases?
 
-$$Score = 100 [1 − ⅙ ∑ᵢ₌₁⁶ ρᵢ].$$
+The main contributions are:
 
-Thus each removed vertex has a case-dependent marginal value of 100/(6V_i) score points. A vertex removed from the 23,201-vertex case is worth about 43.5 times one removed from the 1,009,118-vertex case. This observation favors careful reductions on the smaller organic models, while the largest meshes still demand aggressive simplification for runtime and memory reasons.
+- A manifold-preserving QEM implementation with link-condition checks, duplicate-face rejection, orientation and degeneracy guards, a conservative cluster-radius certificate, and versioned lazy heaps suitable for inputs above one million vertices.
+- A projected-area normal term and cluster-normal memory that preserves additive orientation evidence from original support faces instead of repeatedly comparing only against the current mesh.
+- A renderer-aware structural stage combining exact six-view evaluation, edge flips, one-ring retriangulation, coordinate fitting, and multi-rotation robustness tests.
+- A black-box inference protocol based on isolated probes, algebraic count decoding, safe diagnostic payloads, rotation-invariant fingerprints, binary frontier search, and explicit proxy-to-hidden uncertainty margins.
+- A fail-closed replay architecture that packs QEM, structural operators, case streams, validation checks, and large-case caches into 130,973 C++ bytes while staying within the 21-second limit.
+- A reproducible evidence chain of accepted milestones culminating in an exact score reconstruction and a public research artifact [14].
 
-## Main Text
+## 2. Related Literature
 
-### 1. Problem analysis: a constrained discontinuous optimization
+### 2.1 Geometry-driven simplification
 
-For each test case we seek the smallest V' subject to three feasibility classes:
+Progressive meshes established edge collapse and its inverse vertex split as a compact multiresolution representation, with an optimization objective that can account for geometry and appearance attributes [4]. Garland and Heckbert then introduced QEM, representing accumulated squared distances to planes by a symmetric four-dimensional matrix and ordering local contractions by a quadratic form [2]. Its compact ten-coefficient representation and additive update are especially well suited to a strict runtime and source budget. Garland and Heckbert later extended the formulation to color and texture attributes [3], while Hoppe developed a correspondence-based quadric for normals, colors, and other appearance data [6].
 
-$$minimize |V′|, subject to T(M′)=true, d_H(M,M′) ≤ τ_H, and S_vis(M,M′) ≥ 0.9,$$
+Recent high-quality work confirms that QEM remains an active framework rather than merely a historical baseline. Liu et al. replace extrinsic quadrics with accumulated intrinsic tangent information to support coarse operators and guarantee intrinsic element quality in ACM Transactions on Graphics 2023 [12]. Liu, Rahimzadeh, and Zordan add line quadrics to control distribution, feature preservation, and numerical conditioning in Computer Graphics Forum 2025 [13]. These studies reinforce two principles used here: useful global information can be agglomerated through local collapses, and additional quadratic or cluster statistics can control properties not captured by point-to-plane error alone. Our objective differs because the authoritative endpoint is a fixed flat-normal/depth renderer rather than an intrinsic differential operator or a uniform sampling objective.
 
-where T includes index validity, positive triangle area, closure, and two-manifold incidence. Across the contest, the objective is separable in counts but coupled in implementation: all branches share one time limit, one memory limit, and one 128-KiB source budget.
+### 2.2 Topology and geometric guarantees
 
-The feasible set is highly non-convex. Edge collapse changes both positions and connectivity. An edge flip changes no count but can change every flat-normal pixel covered by its two triangles. A one-ring deletion reduces one vertex but admits several triangulations, only some of which are manifold and visually favorable. The z-buffer introduces visibility discontinuities, and the SSIM threshold is a hard boundary rather than a smooth ranking term. Direct global optimization is therefore impractical.
+Local edge contraction is attractive because only a one-ring neighborhood changes, but unconstrained contraction can invert faces, introduce duplicate triangles, change genus, or create non-manifold edges. Dey et al. formalized local conditions under which edge contractions preserve topological type [9]. We use the interior link condition as a fast necessary structural guard, supplemented by explicit face and edge-incidence tests. Because the contest demands a closed two-manifold, we intentionally do not use QEM's more general non-edge aggregation mode.
 
-The official normal map is often the active constraint. Depth is interpolated and tends to remain smooth under modest geometric perturbations, whereas flat shading assigns one normal to an entire projected triangle. Coarse triangulation can therefore produce large constant-color patches even when the surface is geometrically close. This explains why pure QEM, which approximates point-to-plane geometry, plateaued well below the final result. Our design uses a cascade: cheap conservative geometric decisions first, increasingly renderer-specific decisions later.
+Hard geometric error bounds have a separate literature. Simplification envelopes constrain the evolving surface between offsets of the original and thereby provide a global guarantee while preserving topology [7]. Metro evaluates geometric error between surfaces through sampling [8]. The challenge instead defines a symmetric distance between vertex sets [1], so our certificate follows original vertices through representative clusters and the final checker evaluates the exact stated metric. We cite envelope and surface-sampling work to clarify the distinction: the contest certificate is task-aligned, but it is not a universal continuous-surface guarantee.
 
-![Figure 1. Overview of the hybrid simplification, renderer-aware refinement, validation, and replay system.](figures/pipeline.png)
+### 2.3 Appearance- and image-driven simplification
 
-### 2. Certified QEM backbone
+Pure geometric proximity cannot fully predict rendered appearance. Lindstrom and Turk's image-driven simplification evaluates edge collapses through images, automatically balancing silhouette, shading, texture, and hidden-region effects [5]. More recently, Hasselgren et al. formulated appearance-driven model simplification as analysis by synthesis, jointly optimizing geometry and shading through rendered image differences [11]. These works are the closest conceptual relatives of our renderer-aware stage.
 
-For each original face f with plane π_f=(a,b,c,d)^T, ||(a,b,c)||=1, and weight w_f, we form a quadric K_f=w_f π_f π_f^T. The quadric at vertex v is the sum over its incident faces,
+The contest setting introduces unusual constraints absent from a general offline renderer. The images are fixed flat normals and depths; the acceptance threshold is hard; only six views matter; hidden instances must be solved by a 21-second C++ program; and the source limit leaves only 99 bytes of final headroom. We therefore do not make the full renderer differentiable or place it inside every collapse. Instead, a cheap surrogate guides bulk decimation, exact rendering is reserved for checkpoints and small structural neighborhoods, and accepted operations are compiled into replay streams.
 
-$$Qᵥ = ∑_{f incident to v} K_f.$$
+### 2.4 Structural similarity and task-specific perception
 
-When contracting an edge (a,b) to position p, the geometric cost is
+SSIM compares local luminance, contrast, and structural terms rather than treating pixels as independent squared errors [10]. The official problem applies a specified SSIM variant to foreground normal and depth images [1]. This matters algorithmically. A few changed silhouette pixels, a normal discontinuity spanning a large triangle, or a z-buffer ownership change can affect local windows in ways that are not proportional to Euclidean vertex displacement. The optimization landscape is therefore non-smooth even when the underlying coordinates vary continuously.
 
-$$E_Q(a,b,p) = p_hᵀ (Q_a + Q_b) p_h, where p_h = (p_x,p_y,p_z,1)ᵀ.$$
+Our local projected-area term should not be interpreted as a new universal perceptual metric. It is a computational surrogate for pixel coverage under the six official cameras. The exact evaluator remains authoritative. The contribution is the division of labor between a fast collapse-scale approximation and an exact checkpoint-scale decision rule.
 
-The unconstrained minimizer solves the upper-left 3×3 system. Near singular regions are common, so we also test both endpoints, the midpoint, the cluster-size weighted mean, and the one-dimensional quadratic minimizer along the edge. The lowest valid candidate is chosen after perceptual and geometric guards. Quadrics are additive: after a→b, Qb←Qa+Qb.
+### 2.5 Positioning of the present work
 
-#### 2.1 Topology preservation
+The method combines ideas from geometry-driven, topology-preserving, and image-driven simplification but adds a contest-specific systems layer. QEM supplies throughput [2]. The link condition and explicit combinatorial checks protect topology [9]. Cluster radius carries a cheap task-specific distance certificate. Cluster-normal memory parallels the additive spirit of appearance quadrics [3,6] but aggregates original face-normal evidence rather than per-vertex attributes. Exact rendering follows the image-driven principle [5,11]. Checkpoints, fingerprint probes, packed replays, and fail-closed integration make the resulting search executable within strict external limits.
 
-A contraction is considered only for an active edge incident to exactly two faces. Its endpoint links must intersect in exactly the two opposite vertices; this is the triangular 2-manifold link condition. Before committing we additionally reject:
+## 3. Methodology
 
-- any surviving face whose three indices would cease to be distinct;
-- any local face that would duplicate an existing unordered triangle;
-- any zero-area new triangle;
-- any face whose new normal crosses the configured orientation threshold;
-- any candidate with stale endpoint versions in the lazy heap.
+### 3.1 Research design: a multi-fidelity evidence loop
 
-These checks are local but sufficient for our closed manifold inputs when combined with the link condition. A complete O(F log F) validator is still run on offline candidates and at transaction boundaries.
+The methodology is a sequence of increasingly expensive filters. A candidate begins as a change to a cheap local cost or target count. It is generated deterministically, checked for structural validity, tested against a conservative distance bound, evaluated with the exact 1024-squared renderer, challenged across rotations, integrated into a byte-identical accepted parent, and only then submitted as an isolated probe. An Accepted source is fetched back from Kattis, hashed, and archived before further work. This loop converts an opaque optimization problem into a chain of falsifiable hypotheses.
 
-#### 2.2 Conservative Hausdorff coverage
+![Figure 1. End-to-end pipeline from guarded geometric contraction to certified replay.](figures/pipeline.png)
 
-Each active vertex v represents a cluster C(v) of original vertices and stores a radius r_v satisfying
+The system deliberately separates three models. The **proposal model** is QEM plus cheap normal and cluster terms. The **measurement model** is the exact local renderer and independent validators. The **deployment model** is a compressed deterministic C++ replay with conservative fallbacks. Confusing these roles caused early failures: a locally good proposal was not necessarily valid, and an offline-optimal mesh was not necessarily representable under the runtime or source budget.
 
-$$∀x ∈ C(v): ‖x − pᵥ‖ ≤ rᵥ.$$
+### 3.2 Guarded QEM backbone
 
-If clusters a and b are merged at p, the updated certificate is
+For each original face \(f\), let its normalized plane be \(\pi_f=(a,b,c,d)^{\mathsf T}\) and let \(w_f\) be an optional area or curvature weight. The fundamental face quadric is [2]
 
-$$rₐ∪ᵦ = max(rₐ + ‖pₐ − p‖, rᵦ + ‖pᵦ − p‖).$$
+$$K_f=w_f\pi_f\pi_f^{\mathsf T}.$$
 
-The triangle inequality proves that the invariant is preserved. We reject p whenever r(a∪b)>τsafe, with τsafe slightly below τH to absorb floating-point and output quantization. This certifies the original-to-simplified direction because every original vertex is assigned to a live representative. The reverse direction is checked against the original vertex set, and after rebase stages candidate positions are additionally anchored to original support. The final independent symmetric validator remains authoritative.
+The quadric at a vertex is the sum of incident face quadrics:
 
-The radius is deliberately conservative. It can reject a position whose nearest simplified vertex would pass the official test, but it prevents expensive late failures and makes generic fallback safe.
+$$Q_v=\Sigma_{f\ni v}K_f.$$
 
-#### 2.3 Scalable data structures
+Contracting an edge \((u,v)\) to candidate position \(p\) combines the quadrics additively. With homogeneous coordinate \(p_h=(p_x,p_y,p_z,1)^{\mathsf T}\), the geometric cost is
 
-The largest case contains over one million vertices and two million faces. Pointer-heavy half-edge structures were avoided. We use flat arrays for positions, faces, activity flags, quadrics, cluster statistics, versions, and initial incidence. New incidences are appended to compact linked arrays. Candidate edges live in a binary heap; stale entries are discarded by endpoint version numbers. Periodic heap pruning keeps only current candidates. Input is read by a buffered character parser and output by a 1-MiB buffered writer. These choices reduced allocation overhead and kept peak memory comfortably below 2 GiB.
+$$E_Q(u,v,p)=p_h^{\mathsf T}(Q_u+Q_v)p_h.$$
 
-### 3. Perception-aware collapse cost
+The implementation evaluates multiple targets: both endpoints, midpoint, cluster-size-weighted interpolation, the unconstrained three-by-three minimizer when well conditioned, and a stationary point restricted to the segment. Evaluating several targets is inexpensive relative to neighborhood validation and prevents singular or poorly conditioned quadrics from forcing an unsafe position.
 
-Geometric QEM is necessary but does not model the official flat-normal images. We augment the candidate cost as
+The cheapest target is accepted only when every guard passes:
 
-$$E(a,b,p) = E_Q(a,b,p) + λₙ Eₙ(a,b,p) + λc Ec(a,b,p) + εtie.$$
+- **Link condition:** an interior manifold edge has exactly the two common neighbors implied by its incident triangles [9].
+- **Face validity:** every surviving affected triangle has three distinct indices and area above a scale-aware threshold.
+- **Orientation:** a surviving face cannot flip or exceed the configured normal deviation.
+- **Combinatorics:** no self-loop, duplicate triangle, disconnected component, or edge incidence other than two is created.
+- **Distance:** the propagated cluster radius stays below a conservative tolerance.
 
-The infinitesimal deterministic tie term uses the certified radius and edge length; it stabilizes replay without changing meaningful priorities.
+### 3.3 Cluster-radius distance certificate
 
-#### 3.1 Projected-area normal penalty
+Each live vertex \(v\) represents a cluster \(C(v)\) of original vertices and stores a radius \(r_v\) satisfying
 
-For each surviving incident face f, let n_f and n'_f be its old and candidate normals. A basic orientation error is (1-n_f·n'_f)^gamma. Area weighting in object space is insufficient because the evaluator observes projected pixels. We therefore approximate the coverage from all six axial cameras:
+$$\forall x\in C(v):\quad \lVert x-p_v\rVert_2\leq r_v.$$
 
-$$Eₙ = ∑_f Aproj(f) [1 − clamp(n_f·n′_f, −1, 1)]^γ,$$
+If \(u\) and \(v\) contract to \(p\), the propagated radius is
 
-where A_proj(f) is the sum of perspective-projected triangle areas on the three axis pairs with the sign implied by the face orientation. This is a cheap visibility-agnostic surrogate for how many normal-map pixels may change. Alternative modes use Euclidean area or absolute projected components; the six-view projected mode was the most reliable on Bunny-like geometry.
+$$r_{u\cup v}(p)=\max\!\left(r_u+\lVert p_u-p\rVert_2,\;r_v+\lVert p_v-p\rVert_2\right).$$
 
-#### 3.2 Cluster-normal memory
+The triangle inequality proves the invariant by induction. Rejecting a contraction when this radius exceeds a safe threshold certifies the original-to-simplified direction for the assigned representatives. The simplified-to-original direction is checked against the original vertex set, and the exported mesh is independently validated using a spatial nearest-neighbor structure. A safety margin below the official tolerance absorbs floating-point evaluation, rebasing, and output quantization.
 
-Repeated local comparison has a subtle failure mode. If each collapse is only compared with the immediately preceding mesh, a sequence of individually small normal rotations can accumulate into a large deviation from the original. We address this by carrying original evidence through the contraction hierarchy.
+This certificate is intentionally conservative. It can reject feasible contractions because it bounds every represented original vertex by a common ball. That conservatism is valuable during bulk simplification: the exact distance checker is reserved for checkpoints, while no accepted online contraction can silently accumulate unbounded displacement.
 
-Initially, every vertex receives the sum of area vectors of its incident original faces:
+### 3.4 Perception-aware collapse objective
 
-$$Sᵥ = ∑_{f incident to v} (2A_f)n_f.$$
+Pure QEM preserves supporting planes but does not directly model the flat-normal images. We use the composite proposal cost
 
-When a is collapsed into b, we update Sb←Sa+Sb without recomputing it from current faces. Let tv=Sv/‖Sv‖. For a candidate face with vertices u,v,w, the cluster target is the normalized sum of tu,tv,tw. We charge the change in orientation error,
+$$E=E_Q+\lambda_NE_N+\lambda_CE_C+\lambda_RE_R+\varepsilon_{\mathrm{tie}}.$$
 
-$$E_C = ∑_f 2A_f { [1 − n′_f·t′_f]^β − [1 − n_f·t_f]^β }.$$
+The optional regularizer \(E_R\) represents case-specific curvature or visibility allocation. The infinitesimal deterministic term \(\varepsilon_{\mathrm{tie}}\) stabilizes ordering without materially changing priorities.
 
-Using the difference, rather than the absolute new error, permits an operation that repairs previous drift to receive negative credit. The state is additive, compact, and exactly preserved across collapses. On the 35,292-vertex case, the decisive configuration used λₙ=0.003, γ=0.75, projected-area mode, λc=0.0001, and β=0.5.
+#### 3.4.1 Projected-area normal distortion
 
-![Figure 2. Cluster-normal memory preserves an original orientation target after many locally acceptable collapses.](figures/cluster_normal.png)
+For every surviving affected face \(f\), let \(n_f\) and \(n'_f(p)\) be its current and candidate normals. Object-space area alone is a poor estimate of raster impact, because a large edge-on face may cover few pixels. We approximate total six-view coverage by a projected area \(A_f^{\mathrm{proj}}\) and define
 
-The concept resembles attribute-aware quadrics [3,6] in spirit, but is tailored to flat face normals and the contest renderer. It does not treat normals as independent per-vertex attributes; instead it keeps a hierarchical area-vector summary of original surface support.
+$$E_N(u,v,p)=\Sigma_{f\in\mathcal A(u,v)}A_f^{\mathrm{proj}}\left[1-\operatorname{clamp}\!\left(n_f\cdot n'_f(p),-1,1\right)\right]^{\gamma}.$$
 
-### 4. Renderer-aware topology and coordinate refinement
+The six axial cameras make the approximation inexpensive: projected components on the three coordinate planes, with orientation-aware signs, estimate pixel influence. Alternative modes use object-space area or absolute projected components. Projected mode was most reliable on the Bunny-like case, though the exact renderer still decided final operations.
 
-Even a strong perceptual QEM optimizes a local surrogate. The official metric is image based, so we built a CPU evaluator matching the statement at 1024×1024: six axial cameras, focal length 800, pixel-center sampling, z-buffer visibility, flat face normals, perspective-correct reciprocal depth, 11×11 foreground-only SSIM, and equal normal/depth weight. Component and oracle variants report per-view normal and depth terms and distinguish cost-model error from rasterization error.
+#### 3.4.2 Cluster-normal memory
 
-The full evaluator is too expensive inside every online heap update. Instead, it operates offline on checkpoint meshes, where the remaining search space is much smaller. Three local operators proved complementary.
+Repeatedly comparing a candidate with current faces creates reference drift. Every individual step can look acceptable while the aggregate surface slowly rotates away from the original. To preserve original evidence, each live vertex carries an area-vector summary
 
-#### 4.1 Edge flips
+$$S_v=\Sigma_{f\ni v}2A_fn_f,$$
 
-For two adjacent triangles (a,b,c) and (b,a,d), a legal flip replaces diagonal ab by cd. Vertex count is unchanged, but the piecewise-planar normal field changes. We test closure, duplicate faces, positive area, orientation, and Hausdorff invariance, then rank candidates by exact or localized render change. Flips are especially valuable before deletion: they can make a low-valence one-ring easier to retriangulate and distribute normal error away from salient pixels.
+initialized from original faces and merged exactly as \(S_{u\cup v}=S_u+S_v\). From the merged cluster we derive a normalized target direction \(t_{u\cup v}\). The incremental cluster penalty compares proposed incident normals with this original-support target and subtracts the current error:
 
-#### 4.2 One-ring fan deletion
+$$E_C=\Sigma_f2A_f\left(\left[1-n'_f\cdot t'_{f}\right]^{\beta}-\left[1-n_f\cdot t_f\right]^{\beta}\right).$$
 
-Deleting a vertex removes its incident fan and triangulates the boundary polygon. For low valence d, there are Catalan C(d−2) triangulations. We enumerate or rank compact choices, reject intersections/duplicates/normal flips, and evaluate the best legal fill. Each successful operation removes exactly one vertex and d incident triangles, then inserts d−2 triangles. Offline sequences were refreshed after batches because earlier deletions change later one-rings.
+The subtraction is important: an operation that repairs accumulated drift can receive negative credit. The statistic is additive and independent of collapse ordering, so the reference does not degrade with the current mesh. On the 35,292-vertex case, the decisive early setting used \(\lambda_N=0.003\), \(\gamma=0.75\), projected area, \(\lambda_C=0.0001\), and \(\beta=0.5\).
 
-#### 4.3 Quantized coordinate fitting
+![Figure 2. Cluster-normal memory retains original orientation evidence throughout a collapse tree.](figures/cluster_normal.png)
 
-After topology stabilizes, selected vertices are perturbed along coordinate or tangent directions. The objective is the exact combined SSIM, with structural and Hausdorff guards. We use small finite-difference or coordinate-search steps, crop work to projected foreground bounds where safe, and store accepted residuals at fixed precision. Coordinate fitting cannot replace topology search, but it often restores the small normal-map margin needed for another deletion batch.
+### 3.5 Exact evaluator and component diagnostics
 
-The relation to image-driven simplification [7] is direct: rendered evidence chooses geometric operations. Our system differs in separating an online certified QEM backbone from an offline exact-render stage and in compiling the discovered path into a deterministic contest submission.
+The local CPU evaluator mirrors the public specification [1]: six positive and negative Cartesian cameras, camera distance 2.5, resolution 1024 by 1024, focal length 800, center at pixel coordinate 512, pixel-center sampling, nearest-triangle z-buffering, flat per-face normal encoding, perspective-correct reciprocal depth, 11-by-11 SSIM windows, foreground masking, and equal normal/depth weight. All release decisions use resolution 1024. Lower resolutions are allowed only as screening because 512-squared evaluations reversed several near-threshold rankings.
 
-### 5. Checkpoint, canonicalization, compression, and replay
+Three evaluators support diagnosis. The fast evaluator reports combined VPS. The component evaluator reports normal and depth SSIM for each view, identifying which signal is active. The oracle-normal variant replaces or isolates normal information to distinguish a bad topology from a bad normal surrogate. Together they prevent aggregate score improvements from hiding a catastrophic view or component.
 
-Renderer-aware search produces a sequence of discrete operations, not a new general-purpose online heuristic. To execute that sequence robustly on Kattis, we canonicalize both input and checkpoint state. Geometric sorting removes dependence on incidental OBJ ordering; live vertices and faces receive stable indices; one-ring cycles are rotated to a canonical minimum. Each operation is addressed relative to this state and protected by local preconditions.
+### 3.6 Renderer-aware structural operators
 
-Operation streams use bit packing, base-94 printable alphabets, delta coding, small fixed-width fields, and Rice-like codes where distributions are skewed. Coordinate residuals use signed quantized integers. Repeated decoder phrases are shared and the final C++ is minified. This enabled the final 130,973-byte source to contain:
+#### 3.6.1 Edge flips
 
-- the QEM engine and all safety guards;
-- multiple checkpoint and topology streams;
-- coordinate corrections;
-- case routing and rollback logic;
-- million-vertex runtime caches and fast I/O.
+Two adjacent triangles \((a,b,c)\) and \((b,a,d)\) can exchange diagonal \(ab\) for \(cd\). The vertex count and vertex-set Hausdorff distance remain unchanged, but the piecewise-planar normal field can change substantially. We require positive orientation, no duplicate faces, preserved edge incidence, and unchanged closure before measuring the exact render delta. Flips are especially valuable before deletion because they can redistribute normal error and make a one-ring easier to triangulate.
 
-Replay is transactional. Before a specialized block, the current mesh state is checkpointed or is reconstructible from a judge-proven prefix. Every deletion or flip checks its expected local topology. A block commits only if final vertex count and structural invariants match; otherwise it rolls back to the accepted path. The source therefore behaves as a compact constructive certificate rather than an opaque precomputed mesh dump.
+#### 3.6.2 One-ring fan deletion and retriangulation
 
-### 6. Case-specialized model solving
+Deleting a vertex removes its incident fan and leaves a polygonal ring. For low valence, all combinatorially valid triangulations can be enumerated through Catalan recursion. For larger rings, restricted fans and dynamic-programming families reduce the search space. Each proposal is screened for orientation, duplicates, manifoldness, and distance before rendering. A deletion is accepted only when the exact worst relevant view remains above the chosen margin.
 
-The score formula makes a single universal retained ratio suboptimal. Different models also fail for different perceptual reasons. Exact input sizes and conservative signatures select a shared core with specialized schedules.
+#### 3.6.3 Coordinate and tangent fitting
 
-| Case | Input V | Final V' | Retained | Bottleneck and final strategy |
+After topology stabilizes, selected vertices are perturbed in coordinate, tangent, or normal directions. The objective is exact combined SSIM subject to triangle-area, orientation, and distance guards. Finite-difference or coordinate-search steps operate only inside bounded trust regions. Foreground cropping reduces cost on the million-vertex branch. Coordinate fitting is a margin-restoration tool, not a substitute for topology search: large gains generally required a flip or deletion first.
+
+### 3.7 Discovering hidden constraints without hidden inputs
+
+Kattis exposed only an overall verdict and score, not per-case render components or hidden meshes. We treated this as a black-box experimental-design problem. No hidden file was downloaded, reconstructed, or placed in the public artifact. The submitted program could, however, compute statistics of its own input at runtime, and the displayed score could reveal a carefully controlled output count.
+
+#### 3.7.1 Isolation and count decoding
+
+A useful probe changes exactly one case \(k\), while the other five outputs are byte-identical to a known Accepted parent. If the displayed score is \(S\) and all other output counts are known, the changed count is recovered as
+
+$$|V'_k|=\operatorname{round}\!\left(|V_k|\left[6\left(1-\frac{S}{100}\right)-\Sigma_{i\neq k}\frac{|V'_i|}{|V_i|}\right]\right).$$
+
+For the 23,201-vertex case, one output vertex changes the score by approximately 0.00071836, so six displayed decimals uniquely determine the integer. This converts an aggregate score into a case-specific measurement while preserving scientific control: only one unknown changes.
+
+#### 3.7.2 Safe diagnostic payloads
+
+Let \(B_k\) be a conservative accepted base count for case \(k\), and let \(h\) be a small nonnegative diagnostic integer. A valid diagnostic branch outputs its normal manifold mesh plus unused duplicate vertices or another structurally harmless carrier, giving
+
+$$|V'_k|=B_k+h.$$
+
+Because faces reference only the certified base geometry, the active surface and its render remain unchanged. The added count reduces the diagnostic score but does not endanger the stored leaderboard best. After Kattis reports the score, the equation above recovers \(h\). Multi-part fingerprints are emitted as base-\(B\) digits,
+
+$$H=d_0+Bd_1+B^2d_2,$$
+
+using separate isolated probes when the safe count slack cannot carry the entire integer.
+
+#### 3.7.3 Rotation-invariant fingerprints
+
+Proxy identity cannot be inferred reliably from vertex count alone. We used invariants computed from normalized geometry: quantized bounding-box ratios, genus and component count, sorted normalized edge-length multisets, edge-graph labels, orientation signatures, and order-sensitive hashes when raw ordering mattered. A representative edge statistic quantizes
+
+$$q_e=\operatorname{round}\!\left(B_q\frac{\lVert p_u-p_v\rVert_2}{D_{\mathrm{AABB}}}\right),$$
+
+then hashes the sorted multiset of \(q_e\). Normalization removes translation and uniform scale; lengths remove rotation; sorting removes edge enumeration order. For the 23,201-vertex branch, three recovered base-15,776 digits were 2,382, 13,367, and 11,736, matching the exact-source proxy and differing from aggregate proxies. Independent pose, edge-graph, orientation, scale, and ordering codes agreed. This supplied evidence for selecting the correct public proxy without exposing the hidden coordinates.
+
+For the 35,292-vertex case, a conservative diagnostic output encoded normalized bounding-box statistics. The recovered values matched the public Bunny proxy, while acceptance behavior still showed a proxy-to-hidden renderer gap. We therefore separated **identity evidence** from **acceptance evidence**: a matching invariant justifies which geometry family to study, but only isolated Kattis probes certify a hidden threshold.
+
+#### 3.7.4 Frontier search and uncertainty control
+
+Once a branch was identified, target counts were reduced by binary or bracketed search. Each probe changed one target or one operator family. A pass moved the certified frontier downward; a failure tightened the lower bound. Near runtime limits, repeated identical submissions distinguished stochastic load from systematic timeout, but repeated failures triggered engineering rather than indefinite resubmission.
+
+Public proxies were rotated through sixteen orientations when practical. A candidate had to pass structural, distance, and exact-render checks across selected rotations, with an explicit margin. Rotation 04 was especially predictive for Lucy and Nefertiti during early tuning, but no single rotation was treated as authoritative. Hidden acceptance boundaries were recorded separately from local proxy thresholds to avoid retroactively labeling proxy scores as official measurements.
+
+### 3.8 Case-specialized solving
+
+The score formula and different perceptual bottlenecks make one universal retained ratio suboptimal. Exact input size and conservative signatures choose a common core with specialized schedules.
+
+| Case | Input vertices | Final vertices | Retained | Dominant bottleneck and final strategy |
 |---|---:|---:|---:|---|
-| Sphere-like | 4,098 | 25 | 0.61% | Analytic smooth shape; guarded tiny structural branch. |
-| Armadillo | 23,201 | 4,340 | 18.71% | High-frequency flat-normal detail; normal QEM, canonical replay, flips, and fitted coordinates. |
-| Bunny-like | 35,292 | 2,839 | 8.04% | Accumulated normal drift and silhouette; projected normal cost, cluster memory, fan deletion, and compact fitting. |
-| Lucy | 49,987 | 3,030 | 6.06% | Tight hidden normal/SSIM frontier; multi-stage QEM, repeated flip/delete cycles, and coordinate residuals. |
-| Slender / Yeah Right | 377,084 | 7,400 | 1.96% | Curvature allocation and test-6 runtime; curvature QEM, fitted collapse replay, 40 flips, and a reference cache. |
-| Nefertiti | 1,009,118 | 16,500 | 1.64% | Runtime, memory, and visible facial detail; staged QEM, five pre-passes, two late passes, and cropped multi-view fitting. |
+| Sphere-like | 4,098 | 25 | 0.6101% | Analytic smooth structure; guarded tiny branch |
+| Armadillo | 23,201 | 4,340 | 18.7061% | Flat-normal detail; canonical replay, flips, fitted coordinates |
+| Bunny-like | 35,292 | 2,839 | 8.0443% | Normal drift and silhouette; cluster memory, fan deletion, fitting |
+| Lucy | 49,987 | 3,030 | 6.0616% | Tight normal/SSIM frontier; repeated flip-delete-fit cycles |
+| Slender | 377,084 | 7,400 | 1.9624% | Curvature allocation and runtime; fitted replay, 40 flips, cache |
+| Nefertiti | 1,009,118 | 16,500 | 1.6351% | Runtime, memory, facial detail; staged QEM and cropped fitting |
 
-#### 6.1 Armadillo
+The Sphere-like case admits a tiny guarded structural construction. Armadillo consumes the largest score loss and therefore received the most renderer-aware structural work. Bunny motivated cluster-normal memory. Lucy required careful operation ordering because local Hausdorff headroom did not imply normal-map headroom. Slender was geometrically compressible but exposed a runtime failure until reference caching. Nefertiti required staged passes, bounded heaps, and cropped fitting to stay within compute and memory limits.
 
-Armadillo was the most expensive case in score contribution because its retained ratio remained highest. A simple QEM branch passed around 32% retained and failed below roughly 31%. Renderer-aware replay changed that frontier: 5,136 vertices passed with local VPS1024 0.91701399, a 4,570-vertex candidate improved both baseline and alternate normal quantization metrics, and the final 4,340-vertex branch was judge-proven. The path uses canonical topology, low-valence deletions, edge flips, and tangent/coordinate fitting. A 4,339 probe also passed, but it was not in the final submission because the final Slender integration was rebased on the byte-identical 4,340 lineage; the one-vertex difference is worth only 0.000718 score.
+### 3.9 Checkpoints, canonical replay, and transaction safety
 
-#### 6.2 Bunny-like case
+Offline search can take hours; the submitted program cannot. We compile discoveries into deterministic operation streams. Vertex references are expressed in canonical current-mesh order or through stable local signatures rather than fragile temporary indices. Topology operators, fan choices, and quantized coordinate residuals are bit-packed. Repeated instruction fragments share dictionaries or base-94 payloads.
 
-This model motivated cluster-normal memory. The early cluster-normal QEM reached 15.5% retained on hidden validation, while public rotations passed lower ratios, revealing a proxy gap. Offline renderer-aware replay later moved the branch through 3,900, 3,850, 3,800, 3,775, 3,750, 3,400, 2,856, 2,848, and finally 2,839 vertices. The final branch preserves the judge-proven 2,839 topology by checksum. Lower public candidates could look stronger locally but failed the hidden foreground-normal boundary, so they were not merged.
+Replay is transactional. Before a specialized block, the current mesh is either checkpointed or reconstructible from a judge-proven prefix. Every deletion, flip, and coordinate edit checks its expected local topology. A block commits only if its final count and structural invariants match; otherwise it rolls back or retains the accepted checkpoint. This behavior makes the final source a compact constructive certificate rather than an unchecked precomputed mesh dump.
 
-#### 6.3 Lucy
+### 3.10 Runtime, memory, and source-budget engineering
 
-Lucy showed why operation ordering matters. Direct 9% QEM and early clustered variants failed, whereas a sequence of renderer-ranked edge flips, coordinate fitting, and independent fan deletions passed. The accepted frontier progressed from 3,200 to 3,150, 3,100, 3,097, 3,088, 3,040, and 3,030 vertices. The final 3,030 mesh measured VPS1024 0.90929170 and Hausdorff/tolerance ratio 0.935986, leaving geometric headroom but little normal-map margin.
+Pointer-heavy half-edge structures were avoided on the largest input. Positions, faces, active flags, quadrics, cluster statistics, versions, and initial incidence live in flat arrays. New incidences are appended to compact linked storage. A binary heap stores candidate edges; endpoint versions invalidate stale entries lazily. Periodic pruning bounds heap growth. Input uses a buffered character parser and output uses a one-mebibyte writer.
 
-#### 6.4 Slender / Yeah Right
+Rebase checkpoints rebuild exact current adjacency and quadrics, controlling numerical drift and allowing later stages to use smaller identifiers. Foreground crop boxes limit renderer work. Reference caches prevent repeated projection and normalization on Slender and Nefertiti. Static storage reduced allocator overhead and, on Kattis, improved runtime stability compared with otherwise equivalent dynamic variants.
 
-The 377,084-vertex model can be reduced aggressively, but generic QEM allocated triangles poorly around curvature. We weight plane quadrics by the factor 1+λκ times κf raised to η, with λκ=2 and η=0.035, then replay a fitted collapse schedule. The 7,800 branch was accepted; the final 7,400 branch adds 40 offline topology flips. Its first integration (submission 20082666) passed visual quality but timed out on test 6. A reference cache removed repeated work, and otherwise identical submission 20082703 passed 7/7. This is a clean ablation of runtime architecture: the geometry was already valid; caching converted it into an accepted solution.
+The 131,072-byte source limit became a second optimization problem. Replay payloads were entropy-coded, recurring code fragments were factored, safe whitespace was removed, and unused diagnostic branches were stripped. Every minified candidate was compiled independently and run on the official sample. The final fetched-back source is 130,973 bytes, leaving 99 bytes of headroom.
 
-#### 6.5 Nefertiti
+### 3.11 Fail-closed validation funnel
 
-The million-vertex input dominated compute and memory. The accepted schedule begins with a 2.2% QEM stage, rebuilds exact incidence and quadrics, applies multiple normal-sensitive pre-passes, and finishes with two late passes and bounded multi-view coordinate fitting. Foreground cropping and heap caps were essential. The accepted count moved from 18,669 to 17,660, 17,100, 17,000, 16,900, 16,800, 16,700, 16,650, and 16,500. Several geometrically valid lower-count candidates failed either SSIM or runtime, showing that the million-vertex branch was not limited by the nominal Hausdorff tolerance alone.
+Candidate validation proceeds from cheapest to most authoritative. First, parse and index checks reject malformed meshes. Structural validation checks positive triangle area, duplicate faces, connectedness, oriented edge multiplicity, and the closed two-manifold condition. Next, an independent spatial search checks both directions of the official vertex-Hausdorff distance. Only then does the exact renderer compute normal, depth, per-view, and combined SSIM. Rotation suites test proxy robustness. Integration compares all untouched outputs byte-for-byte with the accepted parent. Kattis is the final external gate.
 
-### 7. Validation and experimental method
+![Figure 3. Fail-closed validation funnel used before an informative Kattis probe.](figures/validation_funnel.png)
 
-We used a fail-closed validation funnel. Candidate generation was deterministic. Structural validation checked index range, triangle area, duplicate faces, oriented edge incidence, connectivity, and the two-manifold condition. A spatial nearest-neighbor validator checked both directions of the official vertex-Hausdorff distance. Only then did the exact 1024² evaluator compute per-view normal, depth, and combined SSIM. Rotation suites tested whether local improvements depended on one fortuitous orientation. Integration compared outputs of all untouched cases byte-for-byte with the accepted parent.
+The funnel is intentionally asymmetric: a candidate can be rejected for uncertainty even if it might pass. Near a hard threshold, false acceptance costs a submission and confounds diagnosis, whereas a conservative local rejection merely postpones a possible gain. This bias was appropriate because many branches had only a few thousandths of SSIM margin.
 
-![Figure 3. The fail-closed validation funnel used before every informative Kattis probe.](figures/validation_funnel.png)
+## 4. Results and Discussions
 
-Kattis probes were isolated whenever possible. A pass certified one new branch; a failure identified the active case because the other outputs were unchanged. Every Accepted high-water was fetched back from Kattis, hashed, and archived with its official counts. This produced a monotone evidence chain and prevented accidental regression during source minification.
+### 4.1 Official result and exact score reconstruction
 
-### 8. Model summary
+Submission 20082703 was reported by Kattis as Accepted, 7/7, score 93.830074. The fetched-back source is 130,973 bytes and has SHA-256 digest `9195d42a73a6b85c8ae30d731f532175bdcd7c2982d421143d631b4c64b1a92c`. The team finished second. These official and reconstructed records are archived in the public artifact [14].
 
-The final model is best understood as a compiler from a high-resolution mesh to a certified, perceptually optimized replay:
-
-1. Parse and normalize the input state; choose a fail-closed case schedule.
-2. Build plane quadrics, incidence, original normal summaries, radius certificates, and a versioned edge heap.
-3. Repeatedly pop the cheapest candidate, test link/topology/normal/radius constraints, and commit the contraction.
-4. Rebase at certified checkpoints to control numerical drift and rebuild exact current adjacency.
-5. Decode and apply renderer-optimized flips, fan deletions, and coordinate residuals; validate each transaction.
-6. Use caches to avoid repeated large-case work, compact live vertices/faces, and stream the OBJ output.
-
-The method is neither a purely online algorithm nor a hard-coded output. The online component guarantees scalability and general structure; the offline component exploits the fixed evaluator; the replay component makes the discovered solution feasible under contest limits.
-
-## Test Result Description
-
-### 1. Official final result and exact score reconstruction
-
-Submission 20082703 was reported by Kattis as Accepted, 7/7, score 93.830074. The source fetched back from Kattis is 130,973 bytes with SHA-256 `9195d42a73a6b85c8ae30d731f532175bdcd7c2982d421143d631b4c64b1a92c`. The team finished second with the displayed score 93.83.
-
-| Case | Original V | Final V' | Retained | Compression | Score loss |
+| Case | Original vertices | Final vertices | Retained | Reduction | Score loss |
 |---|---:|---:|---:|---:|---:|
-| Sphere-like | 4,098 | 25 | 0.6101% | 99.3899% | 0.101676 |
-| Armadillo | 23,201 | 4,340 | 18.7061% | 81.2939% | 3.117682 |
-| Bunny-like | 35,292 | 2,839 | 8.0443% | 91.9557% | 1.340719 |
-| Lucy | 49,987 | 3,030 | 6.0616% | 93.9384% | 1.010263 |
-| Slender | 377,084 | 7,400 | 1.9624% | 98.0376% | 0.327071 |
-| Nefertiti | 1,009,118 | 16,500 | 1.6351% | 98.3649% | 0.272515 |
-| Sum / final | 1,500,780 | 34,134 | ∑ρ=0.370196 | — | 93.830074 |
+| Sphere-like | 4,098 | 25 | 0.610054% | 99.389946% | 0.101676 |
+| Armadillo | 23,201 | 4,340 | 18.706090% | 81.293910% | 3.117682 |
+| Bunny-like | 35,292 | 2,839 | 8.044316% | 91.955684% | 1.340719 |
+| Lucy | 49,987 | 3,030 | 6.061576% | 93.938424% | 1.010263 |
+| Slender | 377,084 | 7,400 | 1.962427% | 98.037573% | 0.327071 |
+| Nefertiti | 1,009,118 | 16,500 | 1.635091% | 98.364909% | 0.272515 |
+| Sum / final | 1,500,780 | 34,134 | \(\Sigma\rho=.3702\) | — | 93.830074 |
 
-The total is not the global ratio 1−34,134/1,500,780; it is the mean of six per-case compression rates. Substituting the six counts gives
+Substitution into the official score definition gives
 
-$$100[1 − ⅙(25/4098 + 4340/23201 + 2839/35292 + 3030/49987 + 7400/377084 + 16500/1009118)]$$
+$$100\left[1-\frac{1}{6}\left(\frac{25}{4098}+\frac{4340}{23201}+\frac{2839}{35292}+\frac{3030}{49987}+\frac{7400}{377084}+\frac{16500}{1009118}\right)\right].$$
 
-$$=93.83007422510956,$$
+The exact value is
 
-which rounds to the official 93.830074.
+$$93.83007422510956,$$
 
-![Figure 4. Final retained ratios and per-case compression scores.](figures/final_results.png)
+which rounds to the displayed score. The global compression ratio, \(1-34134/1500780\), is not the leaderboard formula; the official mean gives every case equal weight [1].
 
-### 2. Accepted progression and ablation evidence
+![Figure 4. Final retained ratios, compression, and per-case score contribution.](figures/final_results.png)
 
-The development trajectory contains many small accepted steps and several structural jumps. The table selects representative points; all 33 archived milestones are included in Appendix C and the accompanying repository.
+### 4.2 Accepted progression
 
-| Submission / stage | Official score | Key change | Output-count evidence |
+Development contained many small accepted steps and several structural jumps. The selected milestones below are official or archived high-waters; the public artifact contains the data used to generate the progression figure [14].
+
+| Submission or stage | Official score | Main change | Output-count evidence |
 |---|---:|---|---|
-| Generic high-water | 81.945906 | guarded generic simplification plateau | historical archive |
-| Standalone QEM | 86.998654 | case-routed robust QEM replaces legacy pipeline | archived high-water |
-| 19932621 | 87.913148 | cluster-normal accumulation; Bunny 15.5% | 7/7 |
-| 20020565 | 91.801173 | renderer-aware Lucy cycles; first 91.80 | [25,6132,3999,3385,8296,18669] |
-| 20025898 | 92.932731 | large Arm/Bunny replays and cropped Nefertiti fit | [25,5136,3400,3088,7900,17660] |
-| 20039214 | 93.600980 | renderer-optimized Armadillo 4,570 | [25,4570,2856,3087,7800,17660] |
-| 20051927 | 93.769981 | Armadillo 4,340 and Bunny 2,848 | [25,4340,2848,3087,7800,17660] |
-| 20082128 | 93.812395 | Bunny 2,839; Lucy 3,030; Nefertiti 16,500 | [25,4340,2839,3030,7800,16500] |
-| 20082703 | 93.830074 | Slender 7,400 with 40 flips and reference cache | [25,4340,2839,3030,7400,16500] |
+| Generic high-water | 81.945906 | Guarded generic simplification plateau | Archived lineage |
+| Standalone QEM | 86.998654 | Case-routed robust QEM replaces legacy pipeline | Archived lineage |
+| 19932621 | 87.913148 | Cluster-normal accumulation; Bunny-like 15.5% | Accepted 7/7 |
+| 20020565 / 20021691 lineage | 91.801173 | Renderer-aware cycles and compressed replay | Accepted counts archived |
+| 20025898 | 92.932731 | Armadillo, Bunny, Lucy, and Nefertiti checkpoints | [25, 5136, 3400, 3088, 7900, 17660] |
+| 20039214 | 93.600980 | Renderer-optimized Armadillo at 4,570 | Accepted 7/7 |
+| 20051927 | 93.769981 | Armadillo 4,340 and Bunny 2,848 | Accepted 7/7 |
+| 20082128 | 93.812395 | Bunny 2,839, Lucy 3,030, Nefertiti 16,500 | Accepted 7/7 |
+| 20082703 | 93.830074 | Slender 7,400 with 40 flips and reference cache | [25, 4340, 2839, 3030, 7400, 16500] |
 
 ![Figure 5. Official high-water trajectory from the generic plateau to the final submission.](figures/score_progression.png)
 
-Several controlled comparisons identify the effect of individual components:
+The trajectory supports a central claim: small parameter tuning alone did not explain the final gain. The large jumps came from representation and workflow changes—cluster memory, structural replay, exact proxy identification, renderer-aware deletion, and replay compression. Later progress became incremental because each branch approached a different active constraint.
 
-- Cluster-normal memory improved the verified high-water from the 87.4 range to 87.913148 and reduced the hidden Bunny-like branch to 15.5% retained. The key improvement was not a larger local normal weight, but carrying original support normals through collapses.
-- Renderer-aware topology produced large discontinuous gains. Submission 20025898 improved from 92.072071 to 92.932731 by installing validated Armadillo 5,136 and Bunny 3,400 replays while preserving the other accepted outputs.
-- The Armadillo renderer optimization from 5,136 to 4,570 vertices raised the score from 92.932731 to 93.600980. Its 4,570 output had baseline VPS1024 0.91722261, slightly exceeding the accepted 5,136 reference despite using 566 fewer vertices.
-- The final Slender geometry initially passed 6/7 because of runtime (submission 20082666). Adding a reference cache without changing the 7,400-vertex geometry yielded 7/7 and 93.830074. This isolates cache design as the decisive variable.
-- Nefertiti’s accepted 16,700 branch required a broader first normal-fitting pass; the unfitted candidate at the same count failed. Thus vertex count alone is not an adequate ablation—renderer-aligned fitting changes feasibility at fixed complexity.
+### 4.3 Hidden frontier reconstruction
 
-### 3. Failure analysis
+The black-box protocol produced useful pass/fail boundaries before the later structural replays. These numbers are not direct hidden-mesh measurements; they are acceptance observations from isolated submissions.
 
-Negative results shaped the final model.
+| Branch | Accepted frontier observation | Rejected neighboring observation | Interpretation |
+|---|---|---|---|
+| Armadillo, early QEM | 34%, 33%, and 32% retained passed | 31% retained failed | Pure QEM normal frontier near 31–32% |
+| Bunny-like, early normal QEM | 16% passed | Lower local-only settings failed | Current-face normal cost accumulated drift |
+| Bunny-like, cluster memory | 15.5% passed | 14.5% new-cost branch failed hidden | Cluster memory improved hidden frontier but proxy remained optimistic |
+| Lucy, early QEM | 9.5% passed | 9.0% local and clustered variants failed | Hidden normal margin tighter than Hausdorff margin |
+| Nefertiti, early QEM | 4% passed | 3% combined probe failed | Runtime and perceptual constraints both active |
 
-- Fast generic libraries, isotropic remeshing, and several off-the-shelf pipelines produced valid geometry but inferior flat-normal SSIM. Isotropic triangles are not automatically optimal for a flat-shaded fixed-view evaluator.
-- Multi-layer and shared-vertex triangulations passed structural checks but created z-buffer disagreements and degraded SSIM.
-- Low-resolution proxy rendering was misleading; 512² could reverse decisions near the threshold. All submission decisions therefore used resolution 1024.
-- Pure coordinate optimization gave only small improvements. Topology had to change first; fitting was a margin-restoration tool.
-- Public rotations did not perfectly predict hidden acceptance. Candidates were required to pass several rotations, but Kattis probes remained isolated and conservative.
-- Heap growth, repeated incidence reconstruction, and full-frame fitting caused timeouts on the largest case. Heap pruning, foreground cropping, namespace-static allocation, and reference caching were necessary even when local geometry was unchanged.
-- Source minification introduced its own failure modes, including missing headers and loss of beneficial static storage. Every final candidate was compiled independently, run on the official sample, size-checked, and fetched back after submission.
+These boundaries guided allocation rather than defining the final outputs. Offline replay eventually moved far below the early QEM ratios: Armadillo to 18.706%, Bunny-like to 8.044%, Lucy to 6.062%, and Nefertiti to 1.635%. The comparison quantifies the value of structural and coordinate search beyond a better collapse weight.
 
-### 4. Limitations and generalization
+The proxy audit also changed the research plan. Edge fingerprints showed that the exact 23,201-vertex source, not the agg3 or agg5 alternatives, matched the submitted input statistics. This eliminated a major source of proxy error and justified offline replay on the correct pose. The Bunny identity diagnostic matched the public family, yet its local rotations passed more aggressive counts than hidden Kattis. Identity and acceptance were therefore treated as separate uncertainties.
 
-The final contest program specializes to fixed official cases and embeds offline operation streams. It is therefore not a drop-in universal simplifier. The reusable contributions are the certified QEM core, cluster-normal memory, exact renderer calibration, local topology operators, and fail-closed workflow. For a new mesh family, the online core can produce a safe baseline, after which new renderer-aware streams must be learned and validated.
+### 4.4 Case-by-case discussion
 
-The radius certificate bounds distance to representative vertices and is conservative relative to a full surface Hausdorff distance. The official statement defines vertex-set Hausdorff, so this matches the task; other applications should use surface sampling or simplification envelopes [8,9]. Finally, six fixed views invite view-specific allocation. An interactive camera distribution would require sampling more views or learning a view-weighted error model.
+#### 4.4.1 Sphere-like branch
 
-### 5. Conclusion
+The 4,098-vertex smooth input has a simple global shape and weak high-frequency detail. A guarded structural construction reaches 25 vertices while preserving closure and the official render. Its small original size makes each retained vertex relatively valuable, but the branch was solved early and did not dominate later effort.
 
-The challenge was won not by a single cost function but by aligning every layer with the evaluator. QEM supplied speed and geometric coherence. Link and radius certificates protected hard constraints. Projected normal cost and cluster memory addressed the main perceptual failure of repeated collapse. Exact rendering found topology and coordinate edits invisible to local geometry. Compression and caching turned offline discoveries into a legal 21-second, 130,973-byte program.
+#### 4.4.2 Armadillo
 
-The final 93.830074 score, second place, and exact count reconstruction validate this hybrid strategy. More broadly, the work suggests a practical recipe for aggressive visual simplification: maintain a conservative geometric invariant, optimize the actual rendered signal at checkpoints, and deploy the result as deterministic validated replay.
+Armadillo contributes the largest final score loss because it retains 18.706% of its input. Early generic QEM passed around 32% and failed at 31%, demonstrating that flat-normal detail rather than the nominal Hausdorff bound was active. Exact-source fingerprinting removed pose uncertainty. Canonical topology replay, low-valence deletion, edge flips, and tangent/coordinate fitting then reduced accepted counts through 5,136, 4,570, and 4,340. A 4,339 probe also passed, but the final Slender integration was rebased on the byte-identical 4,340 lineage; the one-vertex difference is approximately 0.000718 points and was not worth destabilizing the release.
 
-## References and Appendices
+A notable local result was that the 4,570-vertex candidate slightly exceeded the combined VPS of a 5,136-vertex accepted reference despite using 566 fewer vertices. This is direct evidence that vertex count and perceptual quality are not monotonically coupled when topology and flat normals change together.
 
-### References
+#### 4.4.3 Bunny-like branch
 
-[1] IMC Challenge, “Problem B: Perception-Aware Lossless Simplification of Million-Vertex 3D Meshes for Mobile Platforms,” official Kattis statement, 2026.
+Bunny motivated cluster-normal memory. Public rotations could pass lower ratios than hidden Kattis, but the local-current normal term became unreliable over long collapse chains. Carrying original support normals improved the official high-water to 87.913148 and certified 15.5% retained. Later renderer-aware replay reduced accepted counts through 3,900, 3,850, 3,800, 3,775, 3,750, 3,400, 2,856, 2,848, and finally 2,839. The final topology is protected by checksum and fail-closed replay.
 
-[2] M. Garland and P. S. Heckbert, “Surface Simplification Using Quadric Error Metrics,” Proceedings of SIGGRAPH 1997, pp. 209–216, 1997. doi:10.1145/258734.258849.
+The decisive lesson is not that a larger normal weight is always better. Excessive weights froze locally visible faces and wasted vertices. The useful change was preserving the reference distribution across collapse history, allowing a modest normal term to remain meaningful late in simplification.
 
-[3] M. Garland and P. S. Heckbert, “Simplifying Surfaces with Color and Texture using Quadric Error Metrics,” Proceedings Visualization ’98, pp. 263–269, 1998. doi:10.1109/VISUAL.1998.745312.
+#### 4.4.4 Lucy
 
-[4] H. Hoppe, “Progressive Meshes,” Proceedings of SIGGRAPH 1996, pp. 99–108, 1996. doi:10.1145/237170.237216.
+Lucy exposed operation ordering. Direct 9% QEM and early clustered variants failed, whereas 9.5% passed. Subsequent renderer-ranked flips, coordinate fitting, and independent fan deletions advanced through 3,200, 3,150, 3,100, 3,097, 3,088, 3,040, and 3,030 vertices. The final 3,030 proxy measured combined VPS 0.90929170 and Hausdorff-to-tolerance ratio 0.935986. The remaining geometric headroom was larger than the remaining normal-map headroom, confirming that distance alone could not rank the final deletions.
 
-[5] H. Hoppe, “View-Dependent Refinement of Progressive Meshes,” Proceedings of SIGGRAPH 1997, pp. 189–198, 1997. doi:10.1145/258734.258843.
+#### 4.4.5 Slender / Yeah Right
 
-[6] H. Hoppe, “New Quadric Metric for Simplifying Meshes with Appearance Attributes,” Proceedings Visualization ’99, pp. 59–66, 1999. doi:10.1109/VISUAL.1999.809869.
+The 377,084-vertex model can be reduced aggressively, but generic QEM allocated triangles poorly around curvature. Plane quadrics were weighted by a mild curvature factor,
 
-[7] P. Lindstrom and G. Turk, “Image-Driven Simplification,” ACM Transactions on Graphics, vol. 19, no. 3, pp. 204–241, 2000. doi:10.1145/353981.353995.
+$$w_f=1+\lambda_{\kappa}\kappa_f^{\eta},\qquad \lambda_{\kappa}=2,\quad \eta=0.035,$$
 
-[8] J. D. Cohen, A. Varshney, D. Manocha, G. Turk, H. Weber, P. K. Agarwal, F. P. Brooks Jr., and W. V. Wright, “Simplification Envelopes,” Proceedings of SIGGRAPH 1996, pp. 119–128, 1996. doi:10.1145/237170.237220.
+followed by a fitted collapse replay and 40 topology flips. The 7,800 branch passed; the 7,400 geometry also passed visual checks but initially timed out on test 6 in submission 20082666. A reference cache removed repeated work, and otherwise equivalent submission 20082703 passed 7/7. This is the cleanest systems ablation in the campaign: geometry was already valid, while cache architecture determined acceptance.
 
-[9] P. Cignoni, C. Rocchini, and R. Scopigno, “Metro: Measuring Error on Simplified Surfaces,” Computer Graphics Forum, vol. 17, no. 2, pp. 167–174, 1998. doi:10.1111/1467-8659.00236.
+#### 4.4.6 Nefertiti
 
-[10] Z. Wang, A. C. Bovik, H. R. Sheikh, and E. P. Simoncelli, “Image Quality Assessment: From Error Visibility to Structural Similarity,” IEEE Transactions on Image Processing, vol. 13, no. 4, pp. 600–612, 2004. doi:10.1109/TIP.2003.819861.
+The million-vertex input dominated compute and memory. The accepted schedule begins with a 2.2% QEM stage, rebuilds incidence and quadrics, applies several normal-sensitive pre-passes, and finishes with late passes plus bounded multi-view coordinate fitting. Foreground cropping and heap caps were essential. Accepted counts progressed through 18,669, 17,660, 17,100, 17,000, 16,900, 16,800, 16,700, 16,650, and 16,500. Lower geometrically valid candidates could fail SSIM or runtime. This branch shows why a feasible offline mesh and a deployable contest program are different objects.
+
+### 4.5 Ablation evidence
+
+Only comparisons with an otherwise stable lineage are treated as clean ablations.
+
+- **Cluster-normal memory:** carrying additive original-face normal evidence reduced the hidden Bunny-like retained ratio beyond the preceding current-normal-only branch and raised the accepted high-water to 87.913148. The mechanism isolates reference drift rather than merely a target-count change.
+- **Renderer-aware topology:** installing validated Armadillo and Bunny replays produced a discontinuous score jump from the low 92 range to 92.932731 while preserving other accepted outputs. The gain cannot be explained by a QEM weight change alone.
+- **Armadillo structural optimization:** reducing 5,136 to 4,570 vertices raised the official score to 93.600980 while maintaining or improving local VPS, demonstrating topology-dependent non-monotonicity.
+- **Nefertiti fitting at fixed count:** a broader first normal-fitting pass enabled an accepted 16,700 branch where an unfitted candidate at the same count failed. Count is therefore not a sufficient experimental variable.
+- **Slender reference cache:** 7,400-vertex geometry failed runtime without the cache and passed 7/7 with it. This isolates systems architecture as the decisive factor.
+
+### 4.6 Negative results and what they taught us
+
+Negative results shaped the final model and are as informative as accepted milestones.
+
+- Fast generic libraries, MeshLab variants, meshoptimizer, and off-the-shelf simplifiers produced valid meshes but inferior flat-normal SSIM at aggressive ratios. Their objectives did not match the fixed renderer closely enough.
+- Isotropic remeshing often preserved smooth depth and silhouettes but produced poor flat-shaded normal maps. Uniform triangle quality is not equivalent to renderer-optimal face orientation.
+- Shared-vertex multilayer triangulations and alternative surface decompositions passed structural checks yet changed z-buffer ownership, causing SSIM loss.
+- Low-resolution rendering was misleading near the threshold. Resolution 512 sometimes reversed candidate ordering relative to the official 1024, so it was demoted to screening only.
+- Coordinate-only optimization produced small improvements but could not cross large plateaus. Topology had to change first; fitting restored margin afterward.
+- Proxy success did not guarantee hidden acceptance. Sixteen public rotations reduced orientation overfitting, but isolated Kattis probes remained necessary.
+- Heap growth, repeated incidence reconstruction, full-frame fitting, and redundant reference work caused timeouts on the largest cases. Heap pruning, crop bounds, static storage, and caching were necessary even when geometry was unchanged.
+- Source minification introduced independent failures, including missing standard headers, altered storage duration, and accidental payload damage. Every release candidate was recompiled, sample-tested, byte-counted, and fetched back after acceptance.
+
+### 4.7 Statistical and experimental interpretation
+
+This was an optimization competition over six fixed instances, not a population study. We therefore do not report confidence intervals over independent meshes. The appropriate evidence is a traceable sequence of deterministic local measurements and official pass/fail observations. Multi-rotation proxy evaluation acts as a stress test, not as sampling from the hidden distribution. Kattis repetitions near runtime boundaries estimate operational stability but do not turn the benchmark into a stochastic trial.
+
+The score is also an incomplete quality measure. It ranks vertex counts only after all hard constraints pass. Two accepted meshes with the same count receive the same score even if one has a larger SSIM margin. Consequently, exact local VPS and distance ratios are used as safety diagnostics, while official counts determine leaderboard value.
+
+### 4.8 Threats to validity and limitations
+
+**Internal validity.** Many late improvements combined code compression, runtime work, and geometry. We label only stable-parent comparisons as clean ablations. Hidden feedback was aggregate, so isolation and byte-identical unchanged outputs were required to identify the active case.
+
+**Construct validity.** The official metric uses six views and flat normal/depth SSIM [1]. It does not measure arbitrary camera paths, materials, texture, or semantic plausibility. A mesh optimized for this evaluator may allocate triangles differently from a general interactive asset.
+
+**External validity.** The final contest program specializes to fixed cases and embeds replay streams. It is not a universal drop-in simplifier. The reusable contributions are the guarded QEM core, cluster-normal memory, exact-render calibration, structural search, fingerprint methodology, and fail-closed deployment workflow.
+
+**Geometric guarantee.** The radius certificate is conservative and task-specific to vertex-set Hausdorff. Applications requiring continuous surface error should use sampling or envelope methods such as [7,8].
+
+**Black-box inference.** Diagnostic fingerprints identify proxy families and parameters computed by the submitted program; they do not reveal the complete hidden input. A hash match can collide, so independent signatures and acceptance behavior are required. The public release excludes hidden inputs and third-party meshes.
+
+### 4.9 Reproducibility and code availability
+
+The complete curated artifact is available in the [public GitHub repository](https://github.com/lequoctran181/IMC_Challenge_2026) [14]. It contains the byte-exact source fetched back from Kattis, machine-readable result metadata, the readable QEM and cluster-normal research core, evaluator sources, score reconstruction, this DOCX/PDF article, figures, build scripts, and a fail-closed release verifier. Official or hidden meshes are not redistributed.
+
+The authoritative release record is:
+
+- Kattis submission: 20082703
+- Judgement: Accepted, 7/7
+- Official score: 93.830074
+- Exact reconstructed score: 93.83007422510956
+- Final output counts: [25, 4340, 2839, 3030, 7400, 16500]
+- Source size: 130,973 bytes
+- Source SHA-256: `9195d42a73a6b85c8ae30d731f532175bdcd7c2982d421143d631b4c64b1a92c`
+
+The release verifier reconstructs the score, checks source and article checksums, confirms the source limit, and compiles the fetched-back C++17 program. Researchers may build the readable simplifier and evaluator on any legally obtained triangular mesh; exact official integrity verification needs no contest mesh.
+
+### 4.10 Model summary and operational workflow
+
+The final system can be summarized as a compiler from a dense mesh to a certified perceptual replay:
+
+- Parse and normalize the input; recognize the case with fail-closed signatures.
+- Build quadrics, incidence, original normal summaries, cluster radii, and a versioned edge heap.
+- Pop the cheapest candidate, test link, orientation, duplicate, normal, and radius conditions, then commit the contraction.
+- Rebase at certified checkpoints to rebuild exact adjacency and control numerical drift.
+- Evaluate checkpoints with independent topology, distance, and exact 1024-squared component renderers.
+- Search renderer-aware flips, fan deletions, and coordinate residuals in small neighborhoods.
+- Canonicalize and compress accepted operations; replay them transactionally from a judge-proven prefix.
+- Cache large-case references, compact live vertices and faces, and stream the final OBJ output.
+- Fetch every Accepted high-water, record counts and hashes, and use it as the only integration parent.
+
+This workflow is neither purely online nor a hard-coded output. The online component guarantees scalability and a general safe structure. The offline component exploits the fixed evaluator. The replay component makes expensive discovery feasible under contest limits. The evidence protocol makes hidden feedback informative without pretending that proxy measurements are official.
+
+## 5. Conclusion
+
+The challenge was solved not by a single metric but by aligning every layer with the evaluator and deployment constraints. QEM supplied speed and geometric coherence [2]. Link and radius guards protected topology and distance. Projected normal cost and cluster-normal memory addressed the dominant perceptual failure of long collapse sequences. Exact rendering found structural and coordinate edits invisible to local geometry. Controlled black-box probes reduced uncertainty about hidden identities and acceptance frontiers. Compression, caching, and transactional replay converted offline discoveries into a 130,973-byte program that passed within 21 seconds.
+
+The final 93.830074 score, second-place finish, and exact count reconstruction validate the hybrid strategy. The broader lesson is methodological: maintain a conservative invariant during large-scale optimization, measure the real rendered objective at carefully chosen checkpoints, isolate every external experiment, and deploy only deterministic operations backed by traceable evidence. Under a hard perceptual threshold, the strongest solver is not the one with the most elaborate local cost; it is the one that couples a scalable proposal model, an exact measurement model, and a fail-closed evidence and deployment pipeline.
+
+## References
+
+[1] IMC Challenge, “Problem B: Perception-Aware Lossless Simplification of Million-Vertex 3D Meshes for Mobile Platforms,” official Kattis statement, 2026. [Problem statement](https://imc2.kattis.com/contests/imc2-2/problems/simplifygeometry).
+
+[2] M. Garland and P. S. Heckbert, “Surface Simplification Using Quadric Error Metrics,” *Proceedings of SIGGRAPH 1997*, pp. 209–216, 1997. [Author manuscript](https://www.cs.cmu.edu/~garland/Papers/quadrics.pdf), [DOI](https://doi.org/10.1145/258734.258849).
+
+[3] M. Garland and P. S. Heckbert, “Simplifying Surfaces with Color and Texture Using Quadric Error Metrics,” *Proceedings of IEEE Visualization 1998*, pp. 263–269, 1998. [DOI](https://doi.org/10.1109/VISUAL.1998.745312).
+
+[4] H. Hoppe, “Progressive Meshes,” *Proceedings of SIGGRAPH 1996*, pp. 99–108, 1996. [Author project page](https://hhoppe.com/proj/pm/), [DOI](https://doi.org/10.1145/237170.237216).
+
+[5] P. Lindstrom and G. Turk, “Image-Driven Simplification,” *ACM Transactions on Graphics*, vol. 19, no. 3, pp. 204–241, 2000. [Author manuscript](https://faculty.cc.gatech.edu/~turk/my_papers/image_simp_tog2000.pdf), [DOI](https://doi.org/10.1145/353981.353995).
+
+[6] H. Hoppe, “New Quadric Metric for Simplifying Meshes with Appearance Attributes,” *Proceedings of IEEE Visualization 1999*, pp. 59–66, 1999. [Author manuscript](https://www.hhoppe.com/newqem.pdf), [DOI](https://doi.org/10.1109/VISUAL.1999.809869).
+
+[7] J. D. Cohen, A. Varshney, D. Manocha, G. Turk, H. Weber, P. K. Agarwal, F. P. Brooks Jr., and W. V. Wright, “Simplification Envelopes,” *Proceedings of SIGGRAPH 1996*, pp. 119–128, 1996. [DOI](https://doi.org/10.1145/237170.237220).
+
+[8] P. Cignoni, C. Rocchini, and R. Scopigno, “Metro: Measuring Error on Simplified Surfaces,” *Computer Graphics Forum*, vol. 17, no. 2, pp. 167–174, 1998. [DOI](https://doi.org/10.1111/1467-8659.00236).
+
+[9] T. K. Dey, H. Edelsbrunner, S. Guha, and D. V. Nekhayev, “Topology Preserving Edge Contraction,” *Publications de l'Institut Mathématique*, vol. 66, pp. 23–45, 1999. [Open-access record](https://research-explorer.ista.ac.at/record/3582).
+
+[10] Z. Wang, A. C. Bovik, H. R. Sheikh, and E. P. Simoncelli, “Image Quality Assessment: From Error Visibility to Structural Similarity,” *IEEE Transactions on Image Processing*, vol. 13, no. 4, pp. 600–612, 2004. [Author page](https://ece.uwaterloo.ca/~z70wang/publications/ssim.html), [DOI](https://doi.org/10.1109/TIP.2003.819861).
+
+[11] J. Hasselgren, J. Munkberg, J. Lehtinen, M. Aittala, and S. Laine, “Appearance-Driven Automatic 3D Model Simplification,” *Eurographics Symposium on Rendering*, pp. 85–97, 2021. [Eurographics record](https://diglib.eg.org/items/82ec8df1-d62a-40f0-a007-90374b5140dc), [DOI](https://doi.org/10.2312/sr.20211293).
+
+[12] H.-T. D. Liu, M. Gillespie, B. Chislett, N. Sharp, A. Jacobson, and K. Crane, “Surface Simplification Using Intrinsic Error Metrics,” *ACM Transactions on Graphics*, vol. 42, no. 4, article 118, 2023. [Author project page](https://markjgillespie.com/Research/intrinsic-coarsening/index.html), [DOI](https://doi.org/10.1145/3592403).
+
+[13] H.-T. D. Liu, M. Rahimzadeh, and V. Zordan, “Controlling Quadric Error Simplification with Line Quadrics,” *Computer Graphics Forum*, vol. 44, no. 5, article e70184, 2025. [Eurographics record](https://diglib.eg.org/items/2117a7d7-e66b-417b-8b55-14334e9e237f), [DOI](https://doi.org/10.1111/cgf.70184).
+
+[14] NEU.AddictedTribes, “Certified Perceptual Mesh Simplification: IMC Challenge 2026 Research Artifact,” GitHub, 2026. [Public repository](https://github.com/lequoctran181/IMC_Challenge_2026).
 
 ### Appendix A. Core simplification pseudocode
 
 ```text
 load mesh M
-build quadrics Q, original cluster normals S, radius certificates r
-build flat incidence arrays and versioned candidate heap
+build quadrics Q, original cluster normals S, and radius certificates r
+build flat incidence arrays and a versioned candidate heap
 
-while active_vertices > checkpoint_target:
-    (a,b) <- cheapest current edge candidate
-    generate endpoint, midpoint, weighted, segment, and 3×3-optimal positions
-    for p in candidates ordered by QEM + normal + cluster-normal cost:
-        if link_condition(a,b) and no_duplicate_or_degenerate_faces(p)
-           and normal_guard(p) and radius_certificate(p) <= tau_safe:
-            commit a -> b
-            Q_b <- Q_a + Q_b; S_b <- S_a + S_b; update r_b
+while activeVertexCount exceeds checkpointTarget:
+    (u, v) <- cheapest current edge candidate
+    generate endpoint, midpoint, weighted, segment, and analytic positions
+    order positions by QEM, projected-normal, and cluster-normal cost
+    for position p in that order:
+        if linkCondition(u, v) and validAffectedFaces(p)
+           and normalGuard(p) and radiusCertificate(p) <= safeTolerance:
+            commit contraction of u into v at p
+            merge quadrics, original normal summaries, and radii
             refresh affected heap entries
             break
 
-for each renderer-optimized replay transaction:
+for each rendererOptimizedTransaction:
     decode flips, fan deletions, and coordinate residuals
     apply only when canonical local preconditions match
-    commit only if expected count and structural checks pass; otherwise rollback
+    commit only if expected count and structural checks pass
+    otherwise retain the judgeProven checkpoint
 
-compact live vertices and faces; stream OBJ output
+compact live vertices and faces
+stream the OBJ output
 ```
 
 ### Appendix B. Principal parameters in the final lineage
 
-| Branch | Base target / stage | Normal term | Additional term | Offline tail |
+| Branch | Base stage | Normal term | Additional mechanism | Offline tail |
 |---|---|---|---|---|
-| Sphere | guarded structural reduction | not required | exact structural checks | target 25 |
-| Armadillo | staged 12.75%, 12.5%, 12.25% QEM checkpoints | λₙ=0.01, γ=0.75 | tangent/coordinate fitting | canonical replay to 4,340 |
-| Bunny | checkpoint near 8.043% | λₙ=0.003, γ=0.75, projected area | λc=0.0001, β=0.5, delta mode | flips/deletions/fit to 2,839 |
-| Lucy | 7.448% base then checkpoint replay | λₙ=0.001, γ=1.0 | repeated fit and current-mesh refresh | 47+ deletions and flip streams to 3,030 |
-| Slender | 2.2% curvature-aware QEM | curvature allocation | λκ=2, η=0.035 | fitted collapse sequence + 40 flips to 7,400 |
-| Nefertiti | 2.2% first QEM stage | λₙ=0.0003, γ=0.75 | five pre-passes, two late passes | cropped multi-view fitting to 16,500 |
+| Sphere-like | Guarded structural reduction | Not required | Exact structural checks | Target 25 |
+| Armadillo | Staged QEM checkpoints | \(\lambda_N=.01\), \(\gamma=.75\) | Tangent and coordinate fitting | Canonical replay to 4,340 |
+| Bunny-like | Checkpoint near 8.043% | \(\lambda_N=.003\), \(\gamma=.75\) | \(\lambda_C=10^{-4}\), \(\beta=.5\) | Flips, deletions, fit to 2,839 |
+| Lucy | 7.448% base then replay | \(\lambda_N=.001\), \(\gamma=1\) | Repeated fit and mesh refresh | Deletion and flip streams to 3,030 |
+| Slender | 2.2% curvature-aware QEM | Curvature allocation | \(\lambda_{\kappa}=2\), \(\eta=.035\) | Fitted replay and 40 flips to 7,400 |
+| Nefertiti | 2.2% first QEM stage | \(\lambda_N=.0003\), \(\gamma=.75\) | Five pre-passes and two late passes | Cropped fitting to 16,500 |
 
-Parameters were calibrated against exact local rendering and then frozen once a branch was judge-proven. They should not be interpreted as universal constants.
+Parameters were calibrated using exact local rendering and frozen once a branch became judge-proven. They are task-specific settings, not universal constants.
 
-### Appendix C. Reproducibility and provenance
+### Appendix C. Verification checklist
 
-Authoritative artifact:
-
-- Kattis submission: 20082703
-- Judgement: Accepted, 7/7
-- Official score: 93.830074
-- Source size: 130,973 bytes
-- Source SHA-256: `9195d42a73a6b85c8ae30d731f532175bdcd7c2982d421143d631b4c64b1a92c`
-- Final output counts: `[25, 4340, 2839, 3030, 7400, 16500]`
-
-The accompanying repository contains the exact fetched source under `submission/`, its RESULT.md record, the selected milestone table used by Figure 5, score-reconstruction scripts, evaluator sources, and this article. Full experiment history remains available through Git, while the public tree excludes bulky diagnostics and third-party mesh proxies. Mesh proxies are not required to verify the official count score and should only be redistributed when their original licenses permit it.
-
-### Appendix D. Verification checklist
-
-- Compile the fetched source as C++17 and verify that its byte count does not exceed 131,072.
-- Check the SHA-256 before using the source as the final artifact.
-- Run the official sample; the expected first output line is `8 12`.
-- For a local candidate, validate indices, positive triangle areas, duplicate faces, oriented edge multiplicity, connectivity, and closed two-manifold topology.
-- Evaluate symmetric vertex-Hausdorff distance against 0.05 times the original AABB diagonal.
-- Render all six views at 1024²; do not substitute 512² for final decisions.
-- Compute foreground-only normal/depth SSIM exactly as the statement specifies.
+- Compile the fetched-back source as C++17 and confirm that its size does not exceed 131,072 bytes.
+- Verify the SHA-256 digest before treating the source as authoritative.
+- Run the official sample and confirm that the first output line is `8 12`.
+- Validate indices, positive triangle areas, duplicate faces, oriented edge multiplicity, connectivity, and closed two-manifold structure.
+- Evaluate both directions of the official vertex-Hausdorff distance against five percent of the original bounding-box diagonal.
+- Render all six views at 1024 by 1024; do not substitute 512 by 512 for a release decision.
+- Record normal, depth, per-view, and combined SSIM rather than relying on one aggregate number.
+- Archive and checksum each Accepted source; byte-compare unchanged cases with the integration parent.

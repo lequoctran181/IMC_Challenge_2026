@@ -92,6 +92,8 @@ The fail-closed sequence used in the project was:
 
 The official threshold is 0.9, but candidates near the threshold were treated as unsafe because proxy mismatch, floating-point ordering, and runtime variance can consume a small apparent margin.
 
+The isolation, score-count decoding, invariant fingerprint, and frontier-search protocol is documented separately in [`HIDDEN_CONSTRAINT_WORKFLOW.md`](HIDDEN_CONSTRAINT_WORKFLOW.md). Its tables preserve whether each claim is an official observation, a local measurement, or an inference.
+
 ## 5. Reproducibility boundaries
 
 - The final source contains case-aware packed replay data learned from public proxy research and official accept/reject feedback.

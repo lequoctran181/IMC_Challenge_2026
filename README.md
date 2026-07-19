@@ -48,6 +48,7 @@ The main research contribution is the bridge between local geometric simplificat
 | [`paper/`](paper/) | Final Round 2 PDF/DOCX and publication figures |
 | [`docs/ALGORITHM.md`](docs/ALGORITHM.md) | Mathematical model and complete method |
 | [`docs/RESULTS.md`](docs/RESULTS.md) | Official result, milestones, and ablations |
+| [`docs/HIDDEN_CONSTRAINT_WORKFLOW.md`](docs/HIDDEN_CONSTRAINT_WORKFLOW.md) | Controlled score decoding, invariant fingerprints, and frontier reconstruction |
 | [`docs/REPRODUCIBILITY.md`](docs/REPRODUCIBILITY.md) | One-command checks and evaluator usage |
 | [`release/final/`](release/final/) | Machine-readable release record and checksums |
 | [`src/research/`](src/research/) | Readable experimental QEM/cluster-normal core |
@@ -76,6 +77,7 @@ The code is released under the [MIT License](LICENSE). If this artifact helps yo
 
 - [Algorithm and mathematical model](docs/ALGORITHM.md)
 - [Results and experiment lineage](docs/RESULTS.md)
+- [Hidden-constraint discovery and evidence protocol](docs/HIDDEN_CONSTRAINT_WORKFLOW.md)
 - [Reproducibility and integrity](docs/REPRODUCIBILITY.md)
 - [Repository map and archival policy](docs/REPO_MAP.md)
 - [Official problem statement](https://imc2.kattis.com/contests/imc2-2/problems/simplifygeometry)
