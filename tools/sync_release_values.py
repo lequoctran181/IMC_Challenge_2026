@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate count-derived publication blocks from release/final/result.json."""
+"""Generate publication blocks from the immutable submission record."""
 
 from __future__ import annotations
 
@@ -11,13 +11,15 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-RECORD = ROOT / "release" / "final" / "result.json"
+RECORD = ROOT / "release" / "final" / "submission_record.json"
+PUBLICATION = ROOT / "release" / "article-v1.0.0" / "publication_manifest.json"
 GENERATED_DATA = ROOT / "paper" / "source" / "data" / "release_values.json"
 CASE_NAMES = ["Sphere-like sample", "Armadillo", "Bunny-like", "Lucy", "Slender", "Nefertiti"]
 
 
 def values() -> dict:
     record = json.loads(RECORD.read_text(encoding="utf-8"))
+    publication = json.loads(PUBLICATION.read_text(encoding="utf-8"))
     inputs = record["input_vertex_counts"]
     outputs = record["output_vertex_counts"]
     ratios = [output / original for original, output in zip(inputs, outputs)]
@@ -49,7 +51,7 @@ def values() -> dict:
         "total_output_vertices": total_output,
         "global_retained_percent": global_retained,
         "global_compression_percent": global_compression,
-        "standings_snapshot": record["standings_snapshot"],
+        "standings_snapshot": publication["standings_snapshot"],
         "cases": [
             {
                 "name": name,
@@ -173,7 +175,7 @@ def main() -> int:
         for failure in failures:
             print(f"  - {failure}", file=sys.stderr)
         return 1
-    print("publication values agree with release/final/result.json")
+    print("publication values agree with the immutable submission record")
     return 0
 
 

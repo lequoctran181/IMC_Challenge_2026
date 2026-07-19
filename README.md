@@ -38,7 +38,7 @@ which matches Kattis submission **20082703** after official rounding.
 The solution is not a single decimator. It is a fail-closed hybrid pipeline:
 
 1. **Guarded quadric-error contraction.** A compact 10-coefficient QEM core evaluates endpoint, midpoint, weighted, analytic, and segment candidates while enforcing link-condition, orientation, duplicate-face, and degeneracy guards.
-2. **Cluster-normal memory.** Every surviving vertex carries the additive area-weighted normal sum of all original faces absorbed into its cluster. Collapse cost is therefore measured against original surface evidence, not only the progressively degraded mesh.
+2. **Cluster-normal memory.** Every surviving vertex carries an additive area-vector sum over the original vertex-face incidences absorbed into its cluster, preserving incidence multiplicity exactly. Collapse cost is therefore measured against original surface evidence, not only the progressively degraded mesh.
 3. **Renderer-aware optimization.** A specification-matching local implementation covers the six cameras, flat face normals, perspective depth, visibility, and SSIM windowing. Offline topology flips, fan retriangulation, and coordinate fitting target the pixels that matter; Kattis remains the external hidden-test arbiter.
 4. **Conservative geometric certification.** A cluster-radius recurrence provides a fast Hausdorff upper bound; independent topology, exact distance, normal-map, depth-map, and combined-SSIM checks reject unsafe candidates.
 5. **Deterministic replay under hard limits.** Expensive search happens offline. The accepted 130,973-byte C++17 submission replays canonicalized, bit-packed edits with checkpoints and reference caches inside the 21-second and 131,072-byte limits.
@@ -52,12 +52,13 @@ The main research contribution is the bridge between local geometric simplificat
 | [`paper/`](paper/) | Round 2 PDF/DOCX and publication figures |
 | [`docs/ALGORITHM.md`](docs/ALGORITHM.md) | Mathematical model and complete method |
 | [`docs/RESULTS.md`](docs/RESULTS.md) | Submission result, milestones, and ablations |
-| [`docs/HIDDEN_CONSTRAINT_WORKFLOW.md`](docs/HIDDEN_CONSTRAINT_WORKFLOW.md) | Controlled score decoding, invariant fingerprints, and frontier reconstruction |
+| [`docs/HIDDEN_CONSTRAINT_WORKFLOW.md`](docs/HIDDEN_CONSTRAINT_WORKFLOW.md) | Controlled score decoding, invariant fingerprints, and hidden-test acceptance boundary estimation |
 | [`docs/EVIDENCE_LEDGER.md`](docs/EVIDENCE_LEDGER.md) | Claim-to-evidence ledger and evidence-strength vocabulary |
 | [`evidence/`](evidence/) | Archived machine-readable and text evidence for reported external observations |
 | [`docs/REPRODUCIBILITY.md`](docs/REPRODUCIBILITY.md) | One-command checks and evaluator usage |
 | [`paper/source/data/`](paper/source/data/) | Structured source of truth for tables, figures, ablations, and submission lineage |
-| [`release/final/`](release/final/) | Machine-readable release record and checksums |
+| [`release/final/`](release/final/) | Immutable submission record and curated checksums |
+| [`release/article-v1.0.0/`](release/article-v1.0.0/) | Versioned, mutable publication manifest for article hashes and figures |
 | [`src/research/`](src/research/) | Readable experimental QEM/cluster-normal core |
 | [`tools/`](tools/) | Score verifier and local perceptual evaluators |
 | [`submission/`](submission/) | Byte-exact source fetched back from Kattis and its result record |

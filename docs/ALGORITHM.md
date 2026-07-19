@@ -4,7 +4,7 @@ This chapter is the concise, web-readable counterpart of the [full Round 2 artic
 
 ## 1. Optimization problem
 
-For each input triangular mesh $M=(V,F)$, produce a closed triangular 2-manifold $M'=(V',F')$ that minimizes $|V'|$ subject to:
+For each input triangular mesh $M=(V,F)$, produce a closed triangular 2-manifold $M'=(V',F')$ that minimizes its vertex count $n(M')$ subject to:
 
 - valid indices, non-degenerate triangles, and exactly two incident faces per edge;
 - symmetric vertex-set Hausdorff distance
@@ -19,7 +19,9 @@ $$S_c=\tfrac12\operatorname{SSIM}(I^N_c,I^{N'}_c)+\tfrac12\operatorname{SSIM}(I^
 
 and the test score is the mean of $S_c$ over the six axis-aligned cameras. Among valid outputs, ranking depends only on retained vertex ratios:
 
-$$\operatorname{Score}=100\left(1-\frac16\sum_{i=1}^6\frac{|V'_i|}{|V_i|}\right).$$
+Let $N_i$ and $M_i$ denote the input and output vertex counts. Then
+
+$$\operatorname{Score}=100\left(1-\frac16\sum_{i=1}^6\frac{M_i}{N_i}\right).$$
 
 The objective is discontinuous: topology and visibility changes can modify many image pixels at once, while the score rewards each feasible removed vertex according to the case denominator. We therefore use a hierarchy of increasingly expensive models rather than attempting one monolithic optimizer.
 

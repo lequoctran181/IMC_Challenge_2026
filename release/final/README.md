@@ -15,7 +15,7 @@ The immutable fetched-back source is not duplicated here. It remains at:
 
 [`submission/submission_20082703.cpp`](../../submission/submission_20082703.cpp)
 
-`result.json` is the machine-readable record. `MANIFEST.sha256` covers the submission, paper, figures, and readable research/evaluator sources included in the publication layer.
+`submission_record.json` is the immutable machine-readable Kattis record. Mutable article hashes and the time-stamped standings context live separately in [`release/article-v1.0.0/publication_manifest.json`](../article-v1.0.0/publication_manifest.json). `MANIFEST.sha256` covers both records, the submission, paper, figures, and readable research/evaluator sources included in the publication layer.
 
 Run from the repository root:
 

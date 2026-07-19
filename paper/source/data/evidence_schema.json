@@ -16,13 +16,22 @@
     "output_counts",
     "source_sha256",
     "local_metrics",
-    "interpretation"
+    "interpretation",
+    "captured_at",
+    "source_commit",
+    "evidence_paths",
+    "evidence_sha256",
+    "candidate_output_sha256",
+    "unchanged_output_sha256",
+    "geometry_audit_path",
+    "isolation_status",
+    "artifact_limitations"
   ],
   "properties": {
     "event_id": {"type": "string", "minLength": 1},
     "evidence_level": {
       "type": "array",
-      "items": {"enum": ["official", "reconstructed", "experimental", "inference"]},
+      "items": {"enum": ["Official", "Reconstructed", "Experimental", "Inference"]},
       "uniqueItems": true
     },
     "submission_id": {"type": ["integer", "null"]},
@@ -39,6 +48,15 @@
     },
     "source_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
     "local_metrics": {"type": "object"},
-    "interpretation": {"type": "string"}
+    "interpretation": {"type": "string"},
+    "captured_at": {"type": ["string", "null"]},
+    "source_commit": {"type": ["string", "null"], "pattern": "^[0-9a-f]{7,40}$"},
+    "evidence_paths": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "evidence_sha256": {"type": "object", "additionalProperties": {"type": "string", "pattern": "^[0-9a-f]{64}$"}},
+    "candidate_output_sha256": {"type": "array", "items": {"type": "string", "pattern": "^[0-9a-f]{64}$"}, "uniqueItems": true},
+    "unchanged_output_sha256": {"type": "object", "additionalProperties": {"type": "string", "pattern": "^[0-9a-f]{64}$"}},
+    "geometry_audit_path": {"type": ["string", "null"]},
+    "isolation_status": {"enum": ["verified-counts", "not-applicable", "historical-missing-counts", "local-controlled"]},
+    "artifact_limitations": {"type": "string"}
   }
 }

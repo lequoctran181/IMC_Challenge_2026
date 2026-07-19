@@ -14,7 +14,7 @@ from mathml2omml import convert as mathml_to_omml
 from docx import Document
 from docx.enum.section import WD_SECTION
 from docx.enum.table import WD_CELL_VERTICAL_ALIGNMENT, WD_ROW_HEIGHT_RULE, WD_TABLE_ALIGNMENT
-from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_BREAK, WD_LINE_SPACING, WD_TAB_ALIGNMENT
+from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_BREAK, WD_LINE_SPACING, WD_TAB_ALIGNMENT, WD_TAB_LEADER
 from docx.opc.constants import RELATIONSHIP_TYPE
 from docx.oxml import OxmlElement, parse_xml
 from docx.oxml.ns import nsdecls, qn
@@ -33,6 +33,9 @@ LIGHT_GRAY = "F2F2F2"
 MID_GRAY = "666666"
 BULLET_NUM_ID = None
 EQUATION_NUMBER = 0
+TABLE_NUMBER = 0
+FIGURE_NUMBER = 0
+BOOKMARK_ID = 100
 
 
 def set_cell_shading(cell, fill: str) -> None:
@@ -157,8 +160,43 @@ def set_run_font(run, size=10.5, bold=False, italic=False, color="000000", font=
 
 
 INLINE_RE = re.compile(
-    r"(\\\(.+?\\\)|\[[^\]]+\]\(https?://[^)]+\)|`[^`]+`|\*\*[^*]+\*\*|\*[^*]+\*)"
+    r"(\\\(.+?\\\)|\[[^\]]+\]\(https?://[^)]+\)|`[^`]+`|\*\*[^*]+\*\*|\*[^*]+\*|(?<![A-Za-z])(?:Table|Figure)\s+\d+)"
 )
+
+
+def add_field(paragraph, instruction: str, display: str, *, bookmark: str | None = None) -> None:
+    """Append an editable Word field, optionally wrapped in a bookmark."""
+    global BOOKMARK_ID
+    if bookmark:
+        start = OxmlElement("w:bookmarkStart")
+        start.set(qn("w:id"), str(BOOKMARK_ID))
+        start.set(qn("w:name"), bookmark)
+        paragraph._p.append(start)
+    run = paragraph.add_run()
+    set_run_font(run, size=9.2)
+    begin = OxmlElement("w:fldChar")
+    begin.set(qn("w:fldCharType"), "begin")
+    instr = OxmlElement("w:instrText")
+    instr.set(qn("xml:space"), "preserve")
+    instr.text = f" {instruction} "
+    separate = OxmlElement("w:fldChar")
+    separate.set(qn("w:fldCharType"), "separate")
+    value = OxmlElement("w:t")
+    value.text = display
+    end = OxmlElement("w:fldChar")
+    end.set(qn("w:fldCharType"), "end")
+    run._r.extend([begin, instr, separate, value, end])
+    if bookmark:
+        finish = OxmlElement("w:bookmarkEnd")
+        finish.set(qn("w:id"), str(BOOKMARK_ID))
+        paragraph._p.append(finish)
+        BOOKMARK_ID += 1
+
+
+def add_cross_reference(paragraph, kind: str, number: str, *, size=10.5, color="000000") -> None:
+    lead = paragraph.add_run(kind + " ")
+    set_run_font(lead, size=size, color=color)
+    add_field(paragraph, f"REF {kind}{number} \\h", number)
 
 
 def add_hyperlink(paragraph, text: str, url: str, *, size=10.5, color=BLUE) -> None:
@@ -203,6 +241,9 @@ def add_inline(paragraph, text: str, size=10.5, italic=False, color="000000") ->
         token = match.group(0)
         if token.startswith("\\("):
             paragraph._p.append(latex_to_omml(token[2:-2]))
+        elif re.fullmatch(r"(?:Table|Figure)\s+\d+", token):
+            kind, number = token.split()
+            add_cross_reference(paragraph, kind, number, size=size, color=color)
         elif token.startswith("["):
             link = re.fullmatch(r"\[([^\]]+)\]\((https?://[^)]+)\)", token)
             if link:
@@ -335,6 +376,28 @@ def add_code(doc, lines: list[str]) -> None:
     set_run_font(run, size=8.1, font="Courier New")
 
 
+def add_caption(doc, kind: str, caption: str) -> None:
+    global TABLE_NUMBER, FIGURE_NUMBER
+    if kind == "Table":
+        TABLE_NUMBER += 1
+        number = TABLE_NUMBER
+    else:
+        FIGURE_NUMBER += 1
+        number = FIGURE_NUMBER
+    p = doc.add_paragraph()
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p.paragraph_format.space_before = Pt(4)
+    p.paragraph_format.space_after = Pt(4 if kind == "Table" else 6)
+    p.paragraph_format.keep_together = True
+    p.paragraph_format.keep_with_next = kind == "Table"
+    prefix = p.add_run(kind + " ")
+    set_run_font(prefix, size=9.2, bold=True, color=MID_GRAY)
+    add_field(p, f"SEQ {kind} \\* ARABIC", str(number), bookmark=f"{kind}{number}")
+    suffix = p.add_run(". ")
+    set_run_font(suffix, size=9.2, bold=True, color=MID_GRAY)
+    add_inline(p, caption, size=9.2, italic=True, color=MID_GRAY)
+
+
 def add_figure(doc, alt_caption: str, relative_path: str) -> None:
     p = doc.add_paragraph()
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -348,11 +411,8 @@ def add_figure(doc, alt_caption: str, relative_path: str) -> None:
     doc_pr = shape._inline.docPr
     doc_pr.set("title", alt_caption.split(".", 1)[0])
     doc_pr.set("descr", alt_caption)
-    cap = doc.add_paragraph()
-    cap.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    cap.paragraph_format.space_after = Pt(6)
-    cap.paragraph_format.keep_together = True
-    add_inline(cap, alt_caption, size=9.2, italic=True, color=MID_GRAY)
+    caption = re.sub(r"^Figure\s+\d+\.\s*", "", alt_caption)
+    add_caption(doc, "Figure", caption)
 
 
 def add_table(doc, rows: list[list[str]]) -> None:
@@ -377,7 +437,7 @@ def add_table(doc, rows: list[list[str]]) -> None:
         ("Case", "Input vertices", "Final vertices", "Retained", "Dominant bottleneck and final strategy"): [0.80, 0.90, 0.90, 0.75, 2.30],
         ("Case", "Original vertices", "Final vertices", "Retained", "Reduction", "Score loss"): [0.90, 0.85, 0.85, 1.15, 1.00, 0.90],
         ("Submission or stage", "Official score", "Main change", "Output-count evidence"): [1.15, 1.10, 1.95, 1.45],
-        ("Branch", "Accepted frontier observation", "Rejected neighboring observation", "Interpretation"): [1.05, 1.35, 1.45, 1.80],
+        ("Branch", "Accepted boundary observation", "Rejected neighboring observation", "Interpretation"): [1.05, 1.35, 1.45, 1.80],
         ("Branch", "Base stage", "Normal term", "Additional mechanism", "Offline tail"): [0.95, 1.10, 1.20, 1.20, 1.20],
         ("Stage", "Time bound", "Additional memory", "Role"): [1.35, 1.35, 1.15, 1.80],
         ("Comparison", "Controlled variable", "Before", "After", "Measured effect and evidence"): [1.05, 1.05, 0.95, 0.95, 1.65],
@@ -388,6 +448,7 @@ def add_table(doc, rows: list[list[str]]) -> None:
         ("Case / checkpoint", "Topology", "Reference to candidate", "Candidate to reference", "Hausdorff / tolerance"): [1.25, 0.75, 1.15, 1.15, 1.35],
         ("Case / checkpoint", "Normal SSIM", "Depth SSIM", "Combined SSIM", "Minimum-view combined"): [1.40, 0.95, 0.95, 1.05, 1.30],
         ("Hypothesis / intervention", "Held constant", "Baseline", "Intervention result", "Inference, evidence, and strength"): [1.15, 1.05, 1.00, 1.00, 1.45],
+        ("Variant", "Mean combined, 16 rotations", "Minimum combined", "Final support drift", "Wall time"): [1.45, 1.30, 1.15, 1.10, 0.65],
     }
     widths = prescribed.get(header)
     if widths is None:
@@ -447,9 +508,43 @@ def parse_table(lines: list[str], start: int) -> tuple[list[list[str]], int]:
     return rows, i
 
 
+def add_toc(doc) -> None:
+    add_heading(doc, "Contents", 1)
+    p = doc.add_paragraph()
+    p.paragraph_format.space_after = Pt(1)
+    add_field(p, 'TOC \\o "1-3" \\h \\z \\u', " ")
+    entries = [
+        ("Abstract", 3),
+        ("1. Introduction", 4),
+        ("2. Related Literature", 9),
+        ("3. Methodology", 11),
+        ("4. Results and Discussion", 27),
+        ("5. Conclusion", 37),
+        ("References", 38),
+        ("Appendices", 39),
+    ]
+    for title, page in entries:
+        entry = doc.add_paragraph()
+        entry.paragraph_format.left_indent = Inches(0.45)
+        entry.paragraph_format.right_indent = Inches(0.35)
+        entry.paragraph_format.space_after = Pt(4)
+        entry.paragraph_format.tab_stops.add_tab_stop(Inches(5.0), WD_TAB_ALIGNMENT.RIGHT, WD_TAB_LEADER.DOTS)
+        run = entry.add_run(f"{title}\t{page}")
+        set_run_font(run, size=11, color=NAVY)
+    note = doc.add_paragraph()
+    note.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    note.paragraph_format.space_before = Pt(12)
+    note_run = note.add_run("The native Word TOC field is retained for refresh; page references above match this released rendering.")
+    set_run_font(note_run, size=8.5, italic=True, color=MID_GRAY)
+    doc.add_page_break()
+
+
 def build() -> None:
-    global BULLET_NUM_ID, EQUATION_NUMBER
+    global BULLET_NUM_ID, EQUATION_NUMBER, TABLE_NUMBER, FIGURE_NUMBER, BOOKMARK_ID
     EQUATION_NUMBER = 0
+    TABLE_NUMBER = 0
+    FIGURE_NUMBER = 0
+    BOOKMARK_ID = 100
     doc = Document(str(TEMPLATE))
     remove_template_body(doc)
     section = doc.sections[0]
@@ -491,6 +586,12 @@ def build() -> None:
     core.last_modified_by = "NEU.AddictedTribes"
     core.keywords = "mesh simplification, QEM, SSIM, renderer-aware optimization, IMC Challenge"
     core.comments = "Round 2 article documenting Kattis submission 20082703 (Accepted 7/7; displayed score 93.830074)."
+    settings = doc.settings._element
+    update = settings.find(qn("w:updateFields"))
+    if update is None:
+        update = OxmlElement("w:updateFields")
+        settings.append(update)
+    update.set(qn("w:val"), "true")
 
     lines = MANUSCRIPT.read_text(encoding="utf-8").splitlines()
     i = 0
@@ -499,7 +600,7 @@ def build() -> None:
     compact_bullets = False
     top_sections = {
         "Abstract", "1. Introduction", "2. Related Literature", "3. Methodology",
-        "4. Results and Discussions", "5. Conclusion", "References",
+        "4. Results and Discussion", "5. Conclusion", "References",
     }
     page_break_sections: set[str] = set()
 
@@ -511,6 +612,10 @@ def build() -> None:
             continue
         if line == "<!-- PAGE BREAK -->":
             cover = False
+            i += 1
+            continue
+        if line == "<!-- TOC -->":
+            add_toc(doc)
             i += 1
             continue
         if line.startswith("<!--"):
@@ -554,6 +659,10 @@ def build() -> None:
             match = re.fullmatch(r"!\[(.+)\]\((.+)\)", line)
             if match:
                 add_figure(doc, match.group(1), match.group(2))
+            i += 1
+            continue
+        if line.startswith("**Table. ") and line.endswith("**"):
+            add_caption(doc, "Table", line[len("**Table. "):-2])
             i += 1
             continue
         if line.startswith("|"):

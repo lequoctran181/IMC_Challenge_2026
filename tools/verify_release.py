@@ -16,7 +16,8 @@ from score_from_counts import score
 
 
 ROOT = Path(__file__).resolve().parents[1]
-RECORD_PATH = ROOT / "release" / "final" / "result.json"
+RECORD_PATH = ROOT / "release" / "final" / "submission_record.json"
+PUBLICATION_PATH = ROOT / "release" / "article-v1.0.0" / "publication_manifest.json"
 
 
 def sha256(path: Path) -> str:
@@ -86,10 +87,12 @@ def verify_manifest(checks: Checks, manifest: Path) -> None:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--record", type=Path, default=RECORD_PATH)
+    parser.add_argument("--publication", type=Path, default=PUBLICATION_PATH)
     parser.add_argument("--no-compile", action="store_true")
     args = parser.parse_args()
 
     record = json.loads(args.record.read_text(encoding="utf-8"))
+    publication = json.loads(args.publication.read_text(encoding="utf-8"))
     checks = Checks()
 
     checks.require(record["submission_id"] == 20082703, "submission ID is 20082703")
@@ -108,7 +111,14 @@ def main() -> int:
     checks.require(abs(global_retained - record["global_retained_percent"]) < 5e-13, "global retained percentage agrees with counts")
     checks.require(abs(100 - global_retained - record["global_compression_percent"]) < 5e-13, "global compression percentage agrees with counts")
 
-    snapshot = record["standings_snapshot"]
+    checks.require(record["record_kind"] == "immutable_submission_record", "submission metadata is explicitly immutable")
+    checks.require(publication["record_kind"] == "mutable_publication_manifest", "article metadata is separated from submission evidence")
+    submission_link = publication["submission_record"]
+    linked_submission = ROOT / submission_link["path"]
+    checks.require(linked_submission.resolve() == args.record.resolve(), "publication manifest links the selected submission record")
+    checks.require(linked_submission.is_file() and sha256(linked_submission) == submission_link["sha256"], "publication manifest pins the submission record SHA-256")
+
+    snapshot = publication["standings_snapshot"]
     snapshot_evidence = ROOT / snapshot["evidence_path"]
     checks.require(snapshot["status"] == "unfinalized", "standings status is preserved as unfinalized")
     checks.require(snapshot["displayed_rank"] == 2 and snapshot_evidence.is_file(), "rank-2 snapshot is time-stamped evidence, separate from submission metadata")
@@ -128,15 +138,15 @@ def main() -> int:
         checks.require("93.830074" in note and "Accepted" in note and "7/7" in note, "Kattis result record agrees with release metadata")
 
     for kind in ("pdf", "docx"):
-        meta = record["article"][kind]
+        meta = publication["article"][kind]
         artifact = ROOT / meta["path"]
         checks.require(artifact.is_file(), f"article {kind.upper()} exists")
         if artifact.is_file():
             checks.require(sha256(artifact) == meta["sha256"], f"article {kind.upper()} SHA-256 is exact")
 
-    for relative in record["figures"]:
+    for relative in publication["figures"]:
         checks.require((ROOT / relative).is_file(), f"figure exists: {relative}")
-    checks.require(len(record["figures"]) == 7, "release record enumerates all seven article figures")
+    checks.require(len(publication["figures"]) == 9, "publication manifest enumerates all nine article figures")
 
     verify_manifest(checks, ROOT / "release" / "final" / "MANIFEST.sha256")
 

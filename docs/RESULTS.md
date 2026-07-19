@@ -43,12 +43,12 @@ The sample-like 4,098-vertex case is included because it is one of the six score
 
 ![Selected accepted submissions over the optimization campaign](../paper/figures/score_progression.png)
 
-## Clean ablations and negative results
+## Controlled comparisons, ablation evidence, and negative results
 
 The competition process contained many intertwined edits, so only interventions with an otherwise stable comparison are treated as clean ablations.
 
-1. **Cluster-normal memory.** Carrying additive original-face normal evidence enabled the hidden Bunny-like case at a smaller retained ratio than the preceding local-normal-only branch. This exposed accumulated-reference drift as a real failure mode.
-2. **Reference cache on Slender.** The 7,400-vertex geometry could fail the runtime test without the cache; the otherwise identical cached release passed 7/7. The final improvement therefore required systems engineering as well as geometry.
+1. **Cluster-normal memory.** In the same-parent 5,471-vertex Bunny public-proxy experiment, carrying additive original vertex-face-incidence normal evidence increased sixteen-rotation mean combined SSIM from 0.90625420 to 0.90899736 and reduced final support drift from 5.8627 to 5.0502 degrees. This is strong Experimental evidence for that proxy; hidden transfer remains Inference.
+2. **Reference cache on Slender.** Submission 20082666 in the 7,400 lineage completed 6/7, whereas cache-equipped submission 20082703 passed 7/7. Runtime causality remains Inference because the curated artifact does not contain a canonical geometry-equivalence audit for the failed source.
 3. **Structural replay.** The final Slender step reduced 400 vertices while preserving the other five output counts byte-for-byte relative to the selected lineage, isolating a score gain of exactly 0.017679526754 points under the published formula.
 
 Important approaches that did **not** survive the validation funnel:
@@ -63,10 +63,11 @@ Negative results are preserved in the worker and orchestration directories inste
 
 ## Evidence policy
 
-Claims in the article and this repository are assigned one of three evidence levels:
+Claims in the article and this repository are assigned one or more of four evidence levels:
 
-- **Official:** Kattis judgement, tests passed, score, and fetched-back source.
-- **Reconstructed:** deterministic arithmetic from official output counts or checksum/byte-size measurements.
-- **Experimental:** local evaluator results on legally obtained public proxies; these are not presented as hidden-test measurements.
+- **Official:** a Kattis judgement, displayed score, test count, or fetched-back source;
+- **Reconstructed:** deterministic arithmetic, byte count, checksum, or count-derived score;
+- **Experimental:** a controlled measurement on a legally obtained public proxy;
+- **Inference:** an interpretation not directly exposed by Kattis.
 
 No hidden mesh is included or reverse-engineered into this repository.

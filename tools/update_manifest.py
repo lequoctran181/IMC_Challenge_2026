@@ -20,7 +20,7 @@ ROOT_FILES = {
     "NOTICE.md",
     "README.md",
 }
-CURATED_TREES = ("docs", "evidence", "paper", "release/final", "src/research", "submission", "tools")
+CURATED_TREES = ("docs", "evidence", "paper", "release", "src/research", "submission", "tools")
 SUFFIXES = {".cff", ".cpp", ".hpp", ".json", ".jsonl", ".md", ".pdf", ".png", ".py", ".sha256", ".svg", ".txt", ".csv", ".docx"}
 
 

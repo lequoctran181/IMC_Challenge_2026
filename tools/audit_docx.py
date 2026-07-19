@@ -54,8 +54,24 @@ def main() -> int:
 
     drawings = document.findall(".//wp:docPr", NS)
     described = [node for node in drawings if node.get("descr", "").strip()]
-    if len(drawings) != 7 or len(described) != 7 or len(media) < 7:
-        errors.append(f"expected 7 described figures; drawings={len(drawings)}, alt={len(described)}, media={len(media)}")
+    if len(drawings) != 9 or len(described) != 9 or len(media) < 9:
+        errors.append(f"expected 9 described figures; drawings={len(drawings)}, alt={len(described)}, media={len(media)}")
+
+    fields = ["".join(node.itertext()).strip() for node in document.findall(".//w:instrText", NS)]
+    table_sequences = [value for value in fields if value.startswith("SEQ Table")]
+    figure_sequences = [value for value in fields if value.startswith("SEQ Figure")]
+    references = [value for value in fields if value.startswith("REF ")]
+    if len(table_sequences) != 17 or len(figure_sequences) != 9:
+        errors.append(f"caption fields incomplete: tables={len(table_sequences)}, figures={len(figure_sequences)}")
+    if not any(value.startswith("TOC ") for value in fields):
+        errors.append("native Word TOC field is missing")
+    if len(references) < 2:
+        errors.append(f"expected native REF cross-references; found {len(references)}")
+
+    tables = document.findall(".//w:tbl", NS)
+    repeated_headers = document.findall(".//w:tbl/w:tr[1]/w:trPr/w:tblHeader", NS)
+    if len(tables) != 17 or len(repeated_headers) != len(tables):
+        errors.append(f"table-header repetition incomplete: tables={len(tables)}, repeated={len(repeated_headers)}")
 
     equations = document.findall(".//m:oMath", NS)
     if len(equations) < 40:
@@ -63,6 +79,8 @@ def main() -> int:
     math_text = "".join(node.text or "" for node in document.findall(".//m:t", NS))
     if "_" in math_text:
         errors.append("a literal underscore is visible inside an OMML equation")
+    if "|" in math_text:
+        errors.append("a fragile ASCII vertical bar remains inside an OMML equation")
 
     visible_text = "".join(node.text or "" for node in document.findall(".//w:t", NS))
     for forbidden in ("<!--", "second-place finish", "final Round 2 placement"):
@@ -84,7 +102,7 @@ def main() -> int:
         for error in errors:
             print(f"  - {error}", file=sys.stderr)
         return 1
-    print(f"DOCX audit passed: {len(headings)} native headings, {len(drawings)} described figures, {len(equations)} OMML nodes")
+    print(f"DOCX audit passed: {len(headings)} headings, {len(drawings)} figures, {len(tables)} tables, {len(equations)} OMML nodes")
     return 0
 
 

@@ -210,7 +210,7 @@ def progression() -> None:
         ax.annotate(label, (i, all_scores[i]), xytext=(5, offset),
                     textcoords="offset points", fontsize=8.2, color=ORANGE,
                     arrowprops={"arrowstyle":"-", "color":ORANGE, "lw":.8})
-    ax.set_xlabel("Accepted high-water milestone (chronological)")
+    ax.set_xlabel("Best-so-far Accepted submission (chronological)")
     ax.set_ylabel("Official score")
     ax.set_ylim(80.5, 94.4)
     ax.grid(color="#DDDDDD", lw=.7)

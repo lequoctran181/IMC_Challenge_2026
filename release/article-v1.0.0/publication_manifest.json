@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "record_kind": "mutable_publication_manifest",
+  "publication_version": "article-v1.0.0",
+  "article_frozen_at": "2026-07-20T02:15:00+07:00",
+  "competition": "IMC Challenge 2026",
+  "problem": "simplifygeometry",
+  "team": "NEU.AddictedTribes",
+  "submission_record": {
+    "path": "release/final/submission_record.json",
+    "sha256": "ef5501aaa45332c7a80f9b379dc8beca46b9247e4cb8c2f738872451b611a19f"
+  },
+  "standings_snapshot": {
+    "displayed_rank": 2,
+    "displayed_score": 93.83,
+    "status": "unfinalized",
+    "captured_at": "2026-07-19T12:35:16.490Z",
+    "evidence_path": "evidence/leaderboard_unfinalized_2026-07-19.json",
+    "claim_scope": "Archived standings display only; the page status is preserved verbatim as unfinalized"
+  },
+  "article": {
+    "pdf": {
+      "path": "paper/IMC_Challenge_Round2_NEU_AddictedTribes.pdf",
+      "sha256": "b2f138efef8f6e869cb5476776c032a3c80e3926ae89144566d7a9d65505f103"
+    },
+    "docx": {
+      "path": "paper/IMC_Challenge_Round2_NEU_AddictedTribes.docx",
+      "sha256": "51d44f7d3b896169afe62b21af6db9b948bb8c380086abe74bdef9094162f93b"
+    }
+  },
+  "figures": [
+    "paper/figures/pipeline.png",
+    "paper/figures/cluster_normal.png",
+    "paper/figures/evidence_protocol.png",
+    "paper/figures/final_results.png",
+    "paper/figures/qualitative_slender.png",
+    "paper/figures/score_progression.png",
+    "paper/figures/validation_funnel.png",
+    "paper/figures/bunny_cluster_ablation.png",
+    "paper/figures/armadillo_structural_comparison.png"
+  ]
+}

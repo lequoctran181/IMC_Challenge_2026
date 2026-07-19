@@ -10,7 +10,7 @@ from typing import Sequence
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_RESULT = ROOT / "release" / "final" / "result.json"
+DEFAULT_RESULT = ROOT / "release" / "final" / "submission_record.json"
 
 
 def score(originals: Sequence[int], outputs: Sequence[int]) -> float:

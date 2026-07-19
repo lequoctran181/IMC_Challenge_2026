@@ -2,9 +2,9 @@
 
 The repository supports three explicitly different levels of reproducibility:
 
-1. **Level A — release integrity without meshes.** Reconstruct the score from integer counts, verify hashes and source size, compile the fetched-back source, validate the evidence ledger, and check that article values come from one release record.
+1. **Level A — release integrity without meshes.** Reconstruct the score from integer counts, verify hashes and source size, compile the fetched-back source, validate the evidence ledger, and check that article values derive from the immutable submission record while article hashes remain in a versioned publication manifest.
 2. **Level B — artifact behavior on synthetic meshes.** Build every readable executable and run failure-mode tests for topology, exact-coordinate duplicate carriers, both Hausdorff directions, evaluator identity, and invalid-face rejection.
-3. **Level C — full public-proxy experiment replication.** Run the research simplifier, validators, 1024-square evaluator, rotations, and offline search on legally obtained proxy meshes. Mesh licenses and compute make this level intentionally user-supplied; it is not required to verify the official source or score.
+3. **Level C — full public-proxy experiment replication.** Run the research simplifier, validators, 1024 × 1024 evaluator, rotations, and offline search on legally obtained proxy meshes. Mesh licenses and compute make this level intentionally user-supplied; it is not required to verify the official source or score.
 
 Official and third-party meshes are deliberately not redistributed.
 
@@ -34,7 +34,7 @@ Together these commands check:
 - source SHA-256 `9195d42a...b1a92c`;
 - PDF/DOCX checksums and publication figures;
 - C++17 compilation of the byte-exact accepted source when a compiler is available.
-- generated count tables and aggregate values against `release/final/result.json`;
+- generated count tables and aggregate values against `release/final/submission_record.json`;
 - the fixed-schema JSONL evidence ledger;
 - synthetic topology, directed-distance, duplicate-carrier, and evaluator failure modes.
 
@@ -86,11 +86,18 @@ build/vps_eval_fast reference.obj candidate.obj 1024
 Always use resolution 1024 for release evidence. Lower resolutions emit a warning, are useful only for screening, and can reverse close decisions. Invalid indices, repeated indices, zero-area faces, duplicate faces, non-finite coordinates, or trailing records cause a nonzero exit instead of being skipped. Additional tools separate component scores and measure an oracle-normal diagnostic:
 
 ```bash
-build/vps_eval_components reference.obj candidate.obj 1024
+build/vps_eval_components reference.obj candidate.obj 1024 --profile official
 build/vps_eval_oracle_normals reference.obj candidate.obj 1024
 ```
 
-The evaluator is a specification-matching local implementation of the public camera and rasterization rules; only Kattis can establish an official hidden-test result.
+The `official` profile fixes focal length 800, a uniform 11 × 11 SSIM window, and no branch-specific normalization. Ambient `FOCAL`, `GAUSSIAN`, and `NORMALIZE_ARM_RAW` variables are ignored. Experimental alternatives must be selected explicitly, for example:
+
+```bash
+build/vps_eval_components reference.obj candidate.obj 1024 \
+  --profile experimental --focal 760 --kernel gaussian
+```
+
+The evaluator is a specification-matching local implementation of the public camera and rasterization rules; only Kattis can establish an Official hidden-test result.
 
 ## 5. Verify a candidate before submission
 
@@ -106,7 +113,7 @@ For independent inspection, use:
 ```bash
 build/validate_mesh candidate.obj
 build/vertex_hausdorff reference.obj candidate.obj
-build/vps_eval_components reference.obj candidate.obj 1024
+build/vps_eval_components reference.obj candidate.obj 1024 --profile official
 ```
 
 The fail-closed sequence used in the project was:
@@ -114,7 +121,7 @@ The fail-closed sequence used in the project was:
 1. Parse output and check index bounds and finite coordinates.
 2. Reject degenerate or duplicate faces; report unused vertices and exact-coordinate groups separately.
 3. Verify every undirected edge has exactly two incident faces.
-4. Verify connectedness and orientation consistency.
+4. Verify connectedness, orientation consistency, and that every used vertex link is exactly one cycle.
 5. Measure both directed vertex-set Hausdorff distances.
 6. Render all six cameras at 1024×1024.
 7. Require normal, depth, and combined SSIM diagnostics to meet the selected margin.
@@ -122,7 +129,7 @@ The fail-closed sequence used in the project was:
 
 The official threshold is 0.9, but candidates near the threshold were treated as unsafe because proxy mismatch, floating-point ordering, and runtime variance can consume a small apparent margin.
 
-The isolation, score-count decoding, invariant fingerprint, and frontier-search protocol is documented separately in [`HIDDEN_CONSTRAINT_WORKFLOW.md`](HIDDEN_CONSTRAINT_WORKFLOW.md). Its tables preserve whether each claim is an official observation, a local measurement, or an inference.
+The isolation, score-count decoding, invariant fingerprint, and acceptance-boundary search protocol is documented separately in [`HIDDEN_CONSTRAINT_WORKFLOW.md`](HIDDEN_CONSTRAINT_WORKFLOW.md). Its tables preserve the four evidence nouns: Official, Reconstructed, Experimental, and Inference.
 
 ## 6. Reproducibility boundaries
 
@@ -134,4 +141,4 @@ The isolation, score-count decoding, invariant fingerprint, and frontier-search 
 
 ## 7. Integrity and evidence records
 
-Machine-readable metadata lives in [`release/final/result.json`](../release/final/result.json). Human-readable checksums are in [`release/final/MANIFEST.sha256`](../release/final/MANIFEST.sha256). The curated experiment trace and fixed schema live in [`paper/source/data/evidence_ledger.jsonl`](../paper/source/data/evidence_ledger.jsonl) and [`evidence_schema.json`](../paper/source/data/evidence_schema.json). Regenerate release records only when deliberately creating a new release; never overwrite the record of submission 20082703 with a rebuilt source.
+Immutable Kattis metadata lives in [`release/final/submission_record.json`](../release/final/submission_record.json). Mutable article hashes, its figure inventory, and the explicitly unfinalized standings snapshot live in [`release/article-v1.0.0/publication_manifest.json`](../release/article-v1.0.0/publication_manifest.json). Human-readable checksums are in [`release/final/MANIFEST.sha256`](../release/final/MANIFEST.sha256). The curated experiment trace and fixed schema live in [`paper/source/data/evidence_ledger.jsonl`](../paper/source/data/evidence_ledger.jsonl) and [`evidence_schema.json`](../paper/source/data/evidence_schema.json). Never overwrite the record of submission 20082703 with a rebuilt source; create a separately versioned publication manifest for article revisions.

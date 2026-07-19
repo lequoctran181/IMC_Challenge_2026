@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "scope": "Post-campaign reproducibility protocol for legally obtained public proxies; not the hidden Kattis evaluator.",
+  "tool_source_commit": "75d96e05d65a6c865ce279a8171d017b511ae96d",
+  "evaluator": {
+    "profile": "official",
+    "resolution": 1024,
+    "focal_length_at_1024": 800.0,
+    "views": ["+x", "-x", "+y", "-y", "+z", "-z"],
+    "normal_weight": 0.5,
+    "depth_weight": 0.5,
+    "foreground_mask": "union of reference and candidate foreground",
+    "ssim_window": "11 by 11 uniform",
+    "z_buffer_tie": "strict-less update; first rasterized face remains on an exact tie",
+    "command": "./build/vps_eval_components <reference.obj> <candidate.obj> 1024 --profile official"
+  },
+  "validation": {
+    "topology_command": "./build/validate_mesh <candidate.obj>",
+    "distance_command": "./build/vertex_hausdorff <reference.obj> <candidate.obj>",
+    "hausdorff_tolerance_ratio": 0.05,
+    "combined_threshold": 0.9,
+    "normal_margin": null,
+    "normal_margin_reason": "The public task does not separately threshold normal SSIM.",
+    "robust_ablation_margin": 0.001,
+    "robust_ablation_rule": "For the fixed-count Bunny ablation only, require every one of the 16 rotation-level aggregate combined scores to be at least 0.901."
+  },
+  "rotation_protocol": {
+    "count": 16,
+    "seed": 20260710,
+    "generator": "NumPy default_rng plus scipy.spatial.transform.Rotation.random; rotation 0 is identity.",
+    "normalization": "Apply the same rotation to reference and candidate; center and scale both using the rotated reference AABB center and maximum reference radius.",
+    "selection_rule": "The clean Bunny normal-reference ablation uses all 16 rotations. Recomputed release-checkpoint diagnostics use the canonical accessible proxy pose because the historical campaign did not archive a complete 16-pose output set for every late replay.",
+    "base_only_records": ["Armadillo 5,136", "Armadillo 4,570", "Lucy 3,030", "Slender 7,400", "Nefertiti 16,500"],
+    "rotations": [
+      {"index":0,"quaternion_xyzw":[0,0,0,1],"matrix":[[1,0,0],[0,1,0],[0,0,1]]},
+      {"index":1,"quaternion_xyzw":[-0.790443270348,0.296721930184,0.099590038097,-0.526533338756],"matrix":[[0.804075840919,-0.364208755226,-0.469908527979],[-0.57395865629,-0.269437478653,-0.773288371804],[0.155027426349,0.891490565129,-0.425688934981]]},
+      {"index":2,"quaternion_xyzw":[-0.459730625909,-0.4618971226,-0.704832201439,-0.280197015597],"matrix":[[-0.420274768103,0.029712747878,0.906910288788],[0.819680265237,-0.416281361168,0.393489632805],[0.389221507726,0.908750230238,0.15059759947]]},
+      {"index":3,"quaternion_xyzw":[-0.866588212422,-0.428765822106,-0.179880545247,-0.181184241384],"matrix":[[0.56760571847,0.677943774393,0.46713594073],[0.808309854914,-0.566664280935,-0.159770995992],[0.156393499891,0.468277515448,-0.869630520231]]},
+      {"index":4,"quaternion_xyzw":[0.389222593099,0.029072929785,-0.561126504718,-0.729929848327],"matrix":[[0.368583620914,-0.796534286722,-0.479248624902],[0.841797651201,0.067285637449,0.535583193749],[-0.39436382799,-0.600837559636,0.69532107555]]},
+      {"index":5,"quaternion_xyzw":[-0.048182754219,-0.52249951109,0.68811938211,-0.501163046394],"matrix":[[-0.493028046251,0.740070942686,0.457403919312],[-0.639369080597,0.04834027632,-0.767378913224],[-0.590025867557,-0.670789249673,0.449345366213]]},
+      {"index":6,"quaternion_xyzw":[-0.215326811496,-0.702190238121,-0.15800566758,-0.659998062687],"matrix":[[-0.036073843001,0.093833901083,0.994934106792],[0.510967639069,0.857337146527,-0.062330482178],[-0.858842680399,0.506130631549,-0.078873532523]]},
+      {"index":7,"quaternion_xyzw":[-0.402428051373,-0.651615273655,-0.459205878282,-0.450087946917],"matrix":[[-0.270945007017,0.111090467707,0.956163014949],[0.937822591579,0.25436324964,0.236195097233],[-0.216973707846,0.960707158929,-0.173101602783]]},
+      {"index":8,"quaternion_xyzw":[-0.356236845866,0.673229126831,0.105030770542,0.639395331288],"matrix":[[0.071462160051,-0.613970410027,0.786087460333],[-0.345345672722,0.724127693774,0.596971900044],[-0.935750782,-0.314132804274,-0.160284295132]]},
+      {"index":9,"quaternion_xyzw":[-0.40629225036,-0.55619211267,-0.658087207228,-0.304135115998],"matrix":[[-0.484856877028,0.051658231964,0.873066570125],[0.852247948393,-0.196304330041,0.484910346834],[0.196436359308,0.979181309604,0.051153882202]]},
+      {"index":10,"quaternion_xyzw":[0.95850710013,-0.035251754357,0.281125273002,-0.031464800881],"matrix":[[0.839451789389,-0.049887012211,0.54113951926],[-0.085269215161,-0.995534560241,0.040498151963],[0.536702761534,-0.080138788232,-0.83995709437]]},
+      {"index":11,"quaternion_xyzw":[-0.457384040181,0.499398566182,-0.396878225319,0.619587432208],"matrix":[[0.186177492725,0.034967653327,0.981893682851],[-0.948635388772,0.26657502811,0.170377972631],[-0.255790618225,-0.963179639324,0.082801823764]]},
+      {"index":12,"quaternion_xyzw":[0.282105774065,0.671293685597,-0.682605751376,-0.06189109876],"matrix":[[-0.833171648268,0.294257209655,-0.46822825533],[0.463246089544,-0.091068559145,-0.881538188655],[-0.302039840162,-0.951377533948,-0.060437760165]]},
+      {"index":13,"quaternion_xyzw":[-0.794239766423,0.259429785141,-0.513959610356,-0.194228985829],"matrix":[[0.337083411009,-0.61175061166,0.715636753637],[-0.212447196154,-0.789942575291,-0.575201631246],[0.917191889884,0.041855906103,-0.396241239973]]},
+      {"index":14,"quaternion_xyzw":[0.420283898436,-0.017121472707,0.906636243686,0.032848463027],"matrix":[[-0.644564846384,-0.073954972852,0.760964401793],[0.045171455667,-0.997255667298,-0.0586572556],[0.763214058046,-0.003434535205,0.646136599775]]},
+      {"index":15,"quaternion_xyzw":[0.053656202324,0.733066338479,-0.50533584969,-0.452073483362],"matrix":[[-0.585501155186,-0.378230764125,-0.717028511528],[0.535564987223,0.48351338194,-0.692376309492],[0.608570901158,-0.789402494646,-0.080530489318]]}
+    ]
+  },
+  "local_system": {
+    "evidence_level": "Experimental",
+    "model": "MacBook Pro Mac16,1",
+    "processor": "Apple M4, 10 cores (4 performance and 6 efficiency)",
+    "memory_bytes": 17179869184,
+    "operating_system": "macOS 26.5.1 (25F80)",
+    "compiler": "g++-14 (Homebrew GCC 14.4.0) 14.4.0",
+    "timing_command": "/usr/bin/time -l <command>",
+    "rss_semantics": "maximum resident set size reported by macOS time -l, in bytes"
+  }
+}
