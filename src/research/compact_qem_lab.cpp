@@ -499,6 +499,24 @@ static double clusterTargetPenalty(int a,int b,const Vec3& position,
     return penalty;
 }
 
+static pair<double,int> supportDriftDegrees(){
+    double weightedAngle=0.0,totalWeight=0.0;int undefinedTargets=0;
+    for(const Face& face:faces){
+        if(!face.active)continue;
+        Vec3 currentCross=crossv(P[face.v[1]]-P[face.v[0]],P[face.v[2]]-P[face.v[0]]);
+        double area2=normv(currentCross);if(!(area2>1e-20))continue;
+        Vec3 target;
+        for(int k=0;k<3;++k)target+=normalizedClusterNormal(face.v[k]);
+        double targetLength=normv(target);
+        if(!(targetLength>1e-20)){++undefinedTargets;continue;}
+        double cosine=dotv(currentCross,target)/(area2*targetLength);
+        cosine=max(-1.0,min(1.0,cosine));
+        weightedAngle+=area2*acos(cosine);totalWeight+=area2;
+    }
+    const double degrees=totalWeight>0?weightedAngle/totalWeight*180.0/acos(-1.0):INFINITY;
+    return {degrees,undefinedTargets};
+}
+
 static double estimateCost(int a,int b){
     PosChoice pc; if(!candidatePosition(a,b,pc)) return INF_COST;
     if(normalCostWeight<=0.0 && clusterNormalCostWeight<=0.0) return pc.cost;
@@ -717,6 +735,20 @@ static int chooseTarget(int n){
 static void simplify(){
     int target=chooseTarget(NV);
     if(activeVertices<=target) return;
+    FILE* trace=nullptr;int traceEvery=500,lastTrace=-1;
+    if(const char* path=getenv("TRACE_DRIFT_PATH")){
+        trace=fopen(path,"w");
+        if(!trace){perror(path);exit(3);}
+        if(const char* value=getenv("TRACE_DRIFT_EVERY"))traceEvery=max(1,atoi(value));
+        fprintf(trace,"collapse,active_vertices,mean_support_drift_degrees,undefined_targets\n");
+    }
+    auto emitTrace=[&](int collapses){
+        if(!trace)return;
+        auto [drift,undefinedTargets]=supportDriftDegrees();
+        fprintf(trace,"%d,%d,%.12g,%d\n",collapses,activeVertices,drift,undefinedTargets);
+        fflush(trace);lastTrace=collapses;
+    };
+    emitTrace(0);
     vector<Cand> heap; heap.reserve(initialEdges.size()+1024);
     for(unsigned long long key: initialEdges){
         int u=(int)(key>>32), v=(int)(key & 0xffffffffu);
@@ -728,7 +760,7 @@ static void simplify(){
     vector<int> ftmp, ntmp;
     CollapseInfo info;
     info.fromFaces.reserve(64); info.toFaces.reserve(64); info.nFrom.reserve(64); info.nTo.reserve(64);
-    long long pops=0, maxPops=(long long)max(1000000LL, 80LL*NF + 200LL*NV);
+    long long pops=0,collapses=0,maxPops=(long long)max(1000000LL, 80LL*NF + 200LL*NV);
     const float planarContinueCost = 1e-18f;
     while(!heap.empty()){
         pop_heap(heap.begin(), heap.end(), CandGreater());
@@ -742,6 +774,8 @@ static void simplify(){
         if(c.vf!=versionV[from] || c.vt!=versionV[to]) continue;
         if(!checkCollapse(from,to,info)) continue;
         commitCollapse(from,to,info);
+        ++collapses;
+        if(trace&&collapses%traceEvery==0)emitTrace((int)collapses);
         collectData(to, ftmp, ntmp);
         for(int nb: ntmp){
             if(nb==to || !vActive[nb]) continue;
@@ -757,6 +791,7 @@ static void simplify(){
             heap.swap(nh); make_heap(heap.begin(), heap.end(), CandGreater());
         }
     }
+    if(trace){if(lastTrace!=collapses)emitTrace((int)collapses);fclose(trace);}
 }
 
 struct FastOut{

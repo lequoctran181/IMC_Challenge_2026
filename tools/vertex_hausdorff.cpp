@@ -6,6 +6,7 @@
 #include <cstdio>
 #include <limits>
 #include <numeric>
+#include <random>
 #include <string>
 #include <vector>
 
@@ -76,7 +77,30 @@ static double directed(const std::vector<V3>& source, const std::vector<V3>& tar
     return std::sqrt(result2);
 }
 
+static int self_test() {
+    std::mt19937_64 random(20260720);
+    std::uniform_real_distribution<double> coordinate_dist(-3.0, 3.0);
+    for (int trial = 0; trial < 32; ++trial) {
+        std::vector<V3> points(3 + trial);
+        for (V3& point : points) point = {coordinate_dist(random), coordinate_dist(random), coordinate_dist(random)};
+        const KdTree tree(points);
+        for (int query_index = 0; query_index < 41; ++query_index) {
+            const V3 query{coordinate_dist(random), coordinate_dist(random), coordinate_dist(random)};
+            double brute = std::numeric_limits<double>::infinity();
+            for (const V3& point : points) brute = std::min(brute, distance2(query, point));
+            const double kd = tree.nearest_distance2(query);
+            if (kd != brute && std::abs(kd - brute) > 1e-14 * std::max(1.0, brute)) {
+                std::fprintf(stderr, "kd-tree self-test mismatch at trial %d query %d\n", trial, query_index);
+                return 2;
+            }
+        }
+    }
+    std::printf("{\"valid\":true,\"random_point_clouds\":32,\"queries_per_cloud\":41}\n");
+    return 0;
+}
+
 int main(int argc, char** argv) {
+    if (argc == 2 && std::string(argv[1]) == "--self-test") return self_test();
     if (argc != 3 && argc != 5) {
         std::fprintf(stderr, "usage: %s reference.obj candidate.obj [--tolerance-ratio 0.05]\n", argv[0]);
         return 1;

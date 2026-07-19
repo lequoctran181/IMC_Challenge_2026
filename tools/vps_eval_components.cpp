@@ -17,6 +17,8 @@ static inline double dotp(V3 a,V3 b){return a.x*b.x+a.y*b.y+a.z*b.z;}
 static inline double norm(V3 a){return sqrt(dotp(a,a));}
 
 struct R{vector<double>d;vector<V3>n;vector<unsigned char>fg;};
+static double active_focal=800.0;
+static bool active_gaussian=false;
 
 static unsigned char byte_value(double value){
     return (unsigned char)llround(max(0.0,min(255.0,value)));
@@ -105,8 +107,7 @@ static void normalize_like_arm_input(Mesh& reference,Mesh& candidate){
 
 static inline void proj(const V3&p,int view,int res,double&u,double&v,double&z){
     constexpr double D=2.5;
-    static const double base_f=[](){const char* s=getenv("FOCAL");return s?atof(s):800.0;}();
-    const double f=base_f*((double)res/1024.0), c=0.5*res;
+    const double f=active_focal*((double)res/1024.0), c=0.5*res;
     double sx,sy;
     if(view==0){sx=p.y;sy=p.z;z=D-p.x;}
     else if(view==1){sx=-p.y;sy=p.z;z=D+p.x;}
@@ -163,7 +164,7 @@ template<class G>
 static double ssim(const R&a,const R&b,const vector<unsigned char>&fg,int res,G get){
     const int rad=5;
     const double c1=(.01*255)*(.01*255),c2=(.03*255)*(.03*255);
-    if(getenv("GAUSSIAN")){
+    if(active_gaussian){
         // Diagnostic for the common 11x11, sigma=1.5 SSIM convention.  The
         // published checker currently specifies a uniform window, so this is
         // deliberately opt-in and leaves the default evaluator unchanged.
@@ -227,13 +228,88 @@ static double ssim(const R&a,const R&b,const vector<unsigned char>&fg,int res,G 
     return cnt?tot/cnt:1.0;
 }
 
+static vector<unsigned char> foreground_union(const R&a,const R&b){
+    if(a.fg.size()!=b.fg.size()) throw runtime_error("foreground buffers have different sizes");
+    vector<unsigned char> result(a.fg.size());
+    for(size_t i=0;i<result.size();++i) result[i]=a.fg[i]||b.fg[i];
+    return result;
+}
+
+static int self_test(){
+    auto close=[](double a,double b,double tolerance=1e-12){return fabs(a-b)<=tolerance;};
+    const V3 point{0.2,0.3,0.4};
+    const double expected[6][3]={{0.3,0.4,2.3},{-0.3,0.4,2.7},{-0.2,0.4,2.2},
+                                  {0.2,0.4,2.8},{0.2,0.3,2.1},{-0.2,0.3,2.9}};
+    for(int view=0;view<6;++view){
+        double u,v,z;proj(point,view,1024,u,v,z);
+        if(!close(z,expected[view][2])||
+           !close(u,800.0*expected[view][0]/expected[view][2]+512.0)||
+           !close(v,800.0*expected[view][1]/expected[view][2]+512.0))
+            throw runtime_error("camera sign convention self-test failed at view "+to_string(view));
+    }
+
+    const double saved_focal=active_focal;
+    active_focal=512.0;
+    const int res=16;R depth;
+    depth.d.assign(res*res,255);depth.n.assign(res*res,{0,0,0});depth.fg.assign(res*res,0);
+    auto unproject_view0=[&](double u,double v,double z){
+        const double f=active_focal*((double)res/1024.0),center=.5*res;
+        return V3{2.5-z,(u-center)*z/f,(v-center)*z/f};
+    };
+    const V3 a=unproject_view0(3.5,3.5,1.5),b=unproject_view0(12.5,3.5,2.0),
+             c=unproject_view0(3.5,12.5,2.5);
+    tri(depth,res,a,b,c,{1,0,0},0);
+    const double px=6.5,py=6.5;
+    const double den=(3.5-12.5)*(3.5-3.5)+(3.5-12.5)*(3.5-12.5);
+    const double w0=((3.5-12.5)*(px-3.5)+(3.5-12.5)*(py-12.5))/den;
+    const double w1=((12.5-3.5)*(px-3.5)+(3.5-3.5)*(py-12.5))/den;
+    const double w2=1.0-w0-w1;
+    const double analytic=1.0/(w0/1.5+w1/2.0+w2/2.5);
+    const int sample=6*res+6;
+    if(!depth.fg[sample]||!close(depth.d[sample],analytic,1e-11))
+        throw runtime_error("perspective reciprocal-depth interpolation self-test failed");
+    tri(depth,res,a,b,c,{0,1,0},0);
+    if(!close(depth.n[sample].x,1.0)||!close(depth.n[sample].y,0.0))
+        throw runtime_error("strict-less z-buffer tie self-test failed");
+    active_focal=saved_focal;
+
+    if(!close(normal_val({1,0,-1},0),255)||!close(normal_val({1,0,-1},1),127.5)||
+       !close(normal_val({1,0,-1},2),0))
+        throw runtime_error("normal encoding self-test failed");
+
+    R left,right;const int small=13;const size_t area=(size_t)small*small;
+    left.d.assign(area,7);right.d.assign(area,7);left.n.assign(area,{0,0,0});right.n.assign(area,{0,0,0});
+    left.fg.assign(area,0);right.fg.assign(area,0);left.fg[6*small+6]=1;
+    vector<unsigned char> mask=foreground_union(left,right);
+    const double identical=ssim(left,right,mask,small,[](const R&r,int i){return r.d[i];});
+    if(!close(identical,1.0)) throw runtime_error("zero-variance identical-window self-test failed");
+    fill(right.d.begin(),right.d.end(),9);
+    const double c1=(.01*255)*(.01*255);
+    const double expected_constant=(2*7.0*9.0+c1)/(7.0*7.0+9.0*9.0+c1);
+    const double constant=ssim(left,right,mask,small,[](const R&r,int i){return r.d[i];});
+    if(!close(constant,expected_constant,1e-12)) throw runtime_error("zero-variance SSIM formula self-test failed");
+    fill(left.fg.begin(),left.fg.end(),0);left.fg[0]=1;fill(right.fg.begin(),right.fg.end(),0);
+    mask=foreground_union(left,right);
+    if(!close(ssim(left,right,mask,small,[](const R&r,int i){return r.d[i];}),1.0))
+        throw runtime_error("SSIM border-window self-test failed");
+    printf("{\"valid\":true,\"camera_views\":6,\"reciprocal_depth\":true,\"z_tie\":\"first-wins\",\"mask\":\"union\",\"ssim_window\":11}\n");
+    return 0;
+}
+
 int main(int argc,char**argv){
-    if(argc<3||argc>8){fprintf(stderr,"usage: %s original.obj simplified.obj [resolution=1024] [--dump-prefix path --dump-view 0..5]\n",argv[0]);return 1;}
+    if(argc==2&&string(argv[1])=="--self-test"){
+        try{return self_test();}catch(const exception&e){fprintf(stderr,"self-test error: %s\n",e.what());return 2;}
+    }
+    if(argc<3){fprintf(stderr,"usage: %s original.obj simplified.obj [resolution=1024] [--profile official|experimental] [--focal value] [--kernel uniform|gaussian] [--normalize-arm-raw] [--dump-prefix path --dump-view 0..5]\n",argv[0]);return 1;}
     try{
-    int res=argc>=4?meshio::parse_resolution_or_throw(argv[3]):1024;
-    string dump_prefix;int dump_view=-1;
-    for(int i=4;i<argc;){
+    int option_index=3;
+    int res=1024;
+    if(option_index<argc&&string(argv[option_index]).rfind("--",0)!=0)
+        res=meshio::parse_resolution_or_throw(argv[option_index++]);
+    string dump_prefix,profile="official",kernel="uniform";int dump_view=-1;bool normalize_arm=false;
+    for(int i=option_index;i<argc;){
         string option=argv[i++];
+        if(option=="--normalize-arm-raw"){normalize_arm=true;continue;}
         if(i>=argc) throw runtime_error("missing value for "+option);
         if(option=="--dump-prefix") dump_prefix=argv[i++];
         else if(option=="--dump-view"){
@@ -241,17 +317,31 @@ int main(int argc,char**argv){
             if(*end!='\0'||value<0||value>5) throw runtime_error("dump view must be in 0..5");
             dump_view=(int)value;
         }
+        else if(option=="--profile") profile=argv[i++];
+        else if(option=="--focal"){
+            char*end=nullptr;active_focal=strtod(argv[i++],&end);
+            if(*end!='\0'||!(active_focal>0)||!isfinite(active_focal))throw runtime_error("focal length must be finite and positive");
+        }
+        else if(option=="--kernel") kernel=argv[i++];
         else throw runtime_error("unknown option: "+option);
     }
+    if(profile!="official"&&profile!="experimental")throw runtime_error("profile must be official or experimental");
+    if(kernel!="uniform"&&kernel!="gaussian")throw runtime_error("kernel must be uniform or gaussian");
+    if(profile=="official"&&(active_focal!=800.0||kernel!="uniform"||normalize_arm))
+        throw runtime_error("official profile fixes focal=800, kernel=uniform, and disables normalization transforms");
+    active_gaussian=kernel=="gaussian";
     if((dump_prefix.empty())!=(dump_view<0)||dump_view>5) throw runtime_error("dump requires --dump-prefix and --dump-view 0..5");
     if(res!=1024) fprintf(stderr,"warning: non-1024 resolution is screening-only, not release evidence\n");
+    if(getenv("FOCAL")||getenv("GAUSSIAN")||getenv("NORMALIZE_ARM_RAW"))
+        fprintf(stderr,"warning: ambient evaluator variables are ignored; use explicit experimental-profile options\n");
+    fprintf(stderr,"profile=%s resolution=%d focal=%.12g kernel=%s normalize_arm_raw=%s mask=union z_tie=first-wins\n",
+            profile.c_str(),res,active_focal,kernel.c_str(),normalize_arm?"true":"false");
     Mesh a=meshio::read_mesh_or_throw(argv[1]),b=meshio::read_mesh_or_throw(argv[2]);
-    if(getenv("NORMALIZE_ARM_RAW"))normalize_like_arm_input(a,b);
+    if(normalize_arm)normalize_like_arm_input(a,b);
     double total=0, normal_total=0, depth_total=0;
     for(int v=0;v<6;v++){
         R ra=render(a,v,res),rb=render(b,v,res);
-        vector<unsigned char>fg(res*res);
-        for(int i=0;i<res*res;i++)fg[i]=ra.fg[i]||rb.fg[i];
+        vector<unsigned char>fg=foreground_union(ra,rb);
         double ns=0;
         for(int ch=0;ch<3;ch++)ns+=ssim(ra,rb,fg,res,[ch](const R&r,int i){return normal_val(r.n[i],ch);});
         ns/=3;

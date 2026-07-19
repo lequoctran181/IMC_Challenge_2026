@@ -57,6 +57,7 @@ int main(int argc, char** argv) {
         const Mesh mesh = meshio::read_mesh_or_throw(argv[1]);
         std::map<std::pair<int, int>, EdgeInfo> edges;
         std::vector<unsigned char> used(mesh.p.size(), 0);
+        std::vector<std::vector<std::pair<int, int>>> vertex_link_edges(mesh.p.size());
         auto add_edge = [&](int u, int v, int face) {
             const auto key = std::minmax(u, v);
             EdgeInfo& info = edges[key];
@@ -71,6 +72,12 @@ int main(int argc, char** argv) {
             add_edge(f.a, f.b, i);
             add_edge(f.b, f.c, i);
             add_edge(f.c, f.a, i);
+            // The opposite edge of each incident triangle is an edge in the
+            // vertex link. A closed triangular 2-manifold requires every
+            // used vertex link to be exactly one simple cycle.
+            vertex_link_edges[f.a].push_back({f.b, f.c});
+            vertex_link_edges[f.b].push_back({f.c, f.a});
+            vertex_link_edges[f.c].push_back({f.a, f.b});
         }
 
         int bad_incidence = 0, bad_orientation = 0;
@@ -97,6 +104,37 @@ int main(int argc, char** argv) {
             }
         }
 
+        int bad_vertex_links = 0;
+        for (int vertex = 0; vertex < static_cast<int>(mesh.p.size()); ++vertex) {
+            if (!used[vertex]) continue;
+            std::map<int, std::vector<int>> link;
+            for (const auto [a, b] : vertex_link_edges[vertex]) {
+                link[a].push_back(b);
+                link[b].push_back(a);
+            }
+            bool single_cycle = !link.empty();
+            for (const auto& [node, neighbors] : link) {
+                if (neighbors.size() != 2 || neighbors[0] == neighbors[1]) {
+                    single_cycle = false;
+                    break;
+                }
+            }
+            if (single_cycle) {
+                std::set<int> reached;
+                std::queue<int> q;
+                q.push(link.begin()->first);
+                reached.insert(link.begin()->first);
+                while (!q.empty()) {
+                    const int node = q.front(); q.pop();
+                    for (const int neighbor : link[node]) {
+                        if (reached.insert(neighbor).second) q.push(neighbor);
+                    }
+                }
+                single_cycle = reached.size() == link.size();
+            }
+            if (!single_cycle) ++bad_vertex_links;
+        }
+
         const int used_count = static_cast<int>(std::count(used.begin(), used.end(), 1));
         const int unused_count = static_cast<int>(mesh.p.size()) - used_count;
         std::map<std::tuple<double, double, double>, int> coordinate_count;
@@ -112,7 +150,7 @@ int main(int argc, char** argv) {
         const long long chi = static_cast<long long>(used_count) -
                               static_cast<long long>(edges.size()) +
                               static_cast<long long>(mesh.f.size());
-        const bool closed_oriented = bad_incidence == 0 && bad_orientation == 0;
+        const bool closed_oriented = bad_incidence == 0 && bad_orientation == 0 && bad_vertex_links == 0;
         const bool connected_ok = allow_disconnected || components == 1;
         const bool use_ok = !require_all_used || unused_count == 0;
         const bool valid = closed_oriented && connected_ok && use_ok;
@@ -124,6 +162,7 @@ int main(int argc, char** argv) {
         std::printf("  \"faces\": %zu,\n  \"edges\": %zu,\n", mesh.f.size(), edges.size());
         std::printf("  \"bad_edge_incidence\": %d,\n  \"bad_edge_orientation\": %d,\n",
                     bad_incidence, bad_orientation);
+        std::printf("  \"bad_vertex_links\": %d,\n", bad_vertex_links);
         std::printf("  \"face_components\": %d,\n  \"euler_characteristic_used_complex\": %lld,\n",
                     components, chi);
         std::printf("  \"duplicate_coordinate_groups\": %d,\n  \"duplicate_coordinate_vertices\": %d,\n",
