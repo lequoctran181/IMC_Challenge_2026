@@ -62,6 +62,14 @@ $$\operatorname{Score}=100\left(1-\frac{1}{6}\sum_{i=1}^{6}\rho_i\right),\qquad 
 
 This formula has an important allocation consequence. Removing one vertex from case \(i\) is worth \(100/(6|V_i|)\) points. Thus a vertex removed from the 23,201-vertex case is about 43.5 times as valuable as one removed from the 1,009,118-vertex case. A uniform target ratio is therefore rarely optimal: smaller difficult models deserve disproportionate search effort, while the largest models still require aggressive reduction to meet runtime and memory limits.
 
+**Proposition 1 (exact marginal score value).** Suppose feasibility of all six outputs is unchanged. Removing one additional vertex from case \(i\) increases the leaderboard score by exactly
+
+$$\Delta_i=\frac{100}{6|V_i|},$$
+
+independently of every other output count.
+
+**Proof sketch.** The official objective is affine in each ratio \(\rho_i=|V'_i|/|V_i|\). Replacing \(|V'_i|\) by \(|V'_i|-1\) decreases \(\rho_i\) by \(1/|V_i|\), hence increases the score by \(100/(6|V_i|)\). No cross-term appears. The qualification about feasibility is essential: a single extra deletion has no leaderboard value if it causes any hard constraint to fail.
+
 ### 1.3 Assumptions, symbols, and evidence policy
 
 The following assumptions are explicit. The official cameras, focal length, resolution, background values, flat-normal rasterization, perspective-correct depth interpolation, foreground mask, and SSIM definition are treated exactly as stated [1]. The official Hausdorff metric is between vertex sets, not continuous surfaces; we nevertheless use conservative incremental certificates and an independent final checker. The six scored instances are fixed, and case specialization is permitted, but every specialized branch recognizes its intended input deterministically and fails closed. Kattis acceptance is final external validation, not a substitute for local testing.
@@ -74,10 +82,16 @@ The following assumptions are explicit. The official cameras, focal length, reso
 | \(Q_v\) | Symmetric homogeneous quadric at vertex \(v\) |
 | \(C(v)\), \(r_v\) | Original support cluster represented by \(v\), and its radius certificate |
 | \(D_{\mathrm{AABB}}\) | Original bounding-box diagonal |
+| \(L_E\) | Rotation-invariant root-mean-square edge-length scale |
+| \(\tau_H\) | Official Hausdorff tolerance, \(0.05D_{\mathrm{AABB}}\) |
 | \(I^N_c\), \(I^D_c\) | Normal and depth image for view \(c\) |
 | \(S_v\) | Additive cluster-normal summary at vertex \(v\) |
 | \(S_{\mathrm{vis}}\) | Mean six-view normal/depth SSIM |
 | \(\rho_i\) | Retained-vertex ratio of scored case \(i\) |
+| \(\lambda_N,\lambda_C,\lambda_{\kappa}\) | Normal, cluster-memory, and curvature weights |
+| \(\gamma,\beta,\eta\) | Calibrated exponents in the corresponding surrogate terms |
+| \(H,H_{\max}\) | Total lazy-heap events and maximum resident heap size |
+| \(K,R,d_{\max}\) | Exact rebase count, replay-operation count, and maximum touched one-ring size |
 
 Claims are separated into three evidence levels. **Official** means Kattis judgement, tests passed, displayed score, or the fetched-back submitted source. **Reconstructed** means deterministic arithmetic, checksum, byte count, or output count derived from archived official evidence. **Experimental** means a local measurement on a legally obtained public proxy or a controlled diagnostic; it is never presented as direct access to a hidden mesh. This distinction is central to the Results and Discussions section.
 
@@ -158,6 +172,10 @@ The cheapest target is accepted only when every guard passes:
 - **Combinatorics:** no self-loop, duplicate triangle, disconnected component, or edge incidence other than two is created.
 - **Distance:** the propagated cluster radius stays below a conservative tolerance.
 
+**Proposition 2 (local manifold preservation under a guarded contraction).** Let \(M\) be a closed orientable triangular two-manifold and let \((u,v)\) be an interior edge. If the link condition holds, all surviving affected faces remain non-degenerate and consistently oriented, and the contraction creates neither a duplicate face nor an edge of incidence other than two, then replacing \((u,v)\) by the contracted vertex preserves the closed two-manifold property in the modified neighborhood [9].
+
+**Proof sketch.** The link condition states that the intersection of the links of \(u\) and \(v\) is exactly the link of edge \((u,v)\). Consequently, identifying the two endpoints removes precisely the two incident triangles and glues the two remaining one-ring arcs without pinching an unrelated sheet. Distinct positive-area surviving faces prevent local dimension loss; consistent orientation preserves the cyclic order of the link; duplicate and incidence guards prevent multi-edges or more than two faces from sharing an edge. Outside the one-ring the complex is unchanged. The implementation additionally checks connectedness globally, making the proposition a local certificate within a fail-closed global test.
+
 ### 3.3 Cluster-radius distance certificate
 
 Each live vertex \(v\) represents a cluster \(C(v)\) of original vertices and stores a radius \(r_v\) satisfying
@@ -168,7 +186,23 @@ If \(u\) and \(v\) contract to \(p\), the propagated radius is
 
 $$r_{u\cup v}(p)=\max\!\left(r_u+\lVert p_u-p\rVert_2,\;r_v+\lVert p_v-p\rVert_2\right).$$
 
-The triangle inequality proves the invariant by induction. Rejecting a contraction when this radius exceeds a safe threshold certifies the original-to-simplified direction for the assigned representatives. The simplified-to-original direction is checked against the original vertex set, and the exported mesh is independently validated using a spatial nearest-neighbor structure. A safety margin below the official tolerance absorbs floating-point evaluation, rebasing, and output quantization.
+**Lemma 1 (cluster-radius invariant).** After any sequence of guarded contractions, every live vertex \(v\) satisfies
+
+$$\max_{x\in C(v)}\lVert x-p_v\rVert_2\leq r_v.$$
+
+**Proof sketch.** Initially \(C(v)=\{p_v\}\) and \(r_v=0\), so the claim holds. Assume it holds for clusters \(C(u)\) and \(C(v)\). For any \(x\in C(u)\), the triangle inequality gives
+
+$$\lVert x-p\rVert_2\leq\lVert x-p_u\rVert_2+\lVert p_u-p\rVert_2\leq r_u+\lVert p_u-p\rVert_2.$$
+
+The analogous inequality holds for \(x\in C(v)\). Taking the maximum over the disjoint union \(C(u)\cup C(v)\) yields exactly the recurrence above. Induction completes the proof.
+
+**Corollary 1 (directed vertex-set certificate).** If the live clusters partition the original vertex set and every live radius is at most \(\tau\), then
+
+$$\delta(V,V')\leq\tau.$$
+
+**Proof sketch.** Each original vertex belongs to one live cluster and is within its representative radius. Its nearest output vertex is no farther than that representative. Taking the maximum over original vertices proves the bound. The reverse direction \(\delta(V',V)\) is not implied and is therefore checked independently.
+
+Rejecting a contraction when its propagated radius exceeds a safe threshold thus certifies the original-to-simplified direction for assigned representatives. The exported mesh is independently validated using a spatial nearest-neighbor structure. A safety margin below the official tolerance absorbs floating-point evaluation, rebasing, and output quantization.
 
 This certificate is intentionally conservative. It can reject feasible contractions because it bounds every represented original vertex by a common ball. That conservatism is valuable during bulk simplification: the exact distance checker is reserved for checkpoints, while no accepted online contraction can silently accumulate unbounded displacement.
 
@@ -188,6 +222,16 @@ $$E_N(u,v,p)=\Sigma_{f\in\mathcal A(u,v)}A_f^{\mathrm{proj}}\left[1-\operatornam
 
 The six axial cameras make the approximation inexpensive: projected components on the three coordinate planes, with orientation-aware signs, estimate pixel influence. Alternative modes use object-space area or absolute projected components. Projected mode was most reliable on the Bunny-like case, though the exact renderer still decided final operations.
 
+**Lemma 2 (axial projection bounds).** Let a triangle have area \(A\) and unit normal \(n=(n_x,n_y,n_z)\). Ignoring occlusion, clipping, and perspective, the sum of its unsigned orthographic projected areas onto the three coordinate planes is
+
+$$A_{\mathrm{axial}}=A\left(|n_x|+|n_y|+|n_z|\right),$$
+
+and it satisfies
+
+$$A\leq A_{\mathrm{axial}}\leq3^{1/2}A.$$
+
+**Proof sketch.** Orthographic projection onto the plane normal to coordinate axis \(i\) multiplies area by \(|n_i|\). Summing the three projected areas gives the identity. Because \(n\) is a unit vector, \(\lVert n\rVert_2=1\); the norm inequalities \(\lVert n\rVert_2\leq\lVert n\rVert_1\leq3^{1/2}\lVert n\rVert_2\) give the bounds. The official perspective renderer introduces depth, visibility, and clipping, so this lemma justifies a cheap coverage surrogate rather than claiming an exact pixel count.
+
 #### 3.4.2 Cluster-normal memory
 
 Repeatedly comparing a candidate with current faces creates reference drift. Every individual step can look acceptable while the aggregate surface slowly rotates away from the original. To preserve original evidence, each live vertex carries an area-vector summary
@@ -199,6 +243,16 @@ initialized from original faces and merged exactly as \(S_{u\cup v}=S_u+S_v\). F
 $$E_C=\Sigma_f2A_f\left(\left[1-n'_f\cdot t'_{f}\right]^{\beta}-\left[1-n_f\cdot t_f\right]^{\beta}\right).$$
 
 The subtraction is important: an operation that repairs accumulated drift can receive negative credit. The statistic is additive and independent of collapse ordering, so the reference does not degrade with the current mesh. On the 35,292-vertex case, the decisive early setting used \(\lambda_N=0.003\), \(\gamma=0.75\), projected area, \(\lambda_C=0.0001\), and \(\beta=0.5\).
+
+**Proposition 3 (merge-order invariance of original normal evidence).** For any live cluster \(C\), let \(\mathcal F(C)\) be the multiset of original support-face contributions assigned to it. Repeated merges using \(S_{A\cup B}=S_A+S_B\) produce
+
+$$S_C=\Sigma_{f\in\mathcal F(C)}2A_fn_f,$$
+
+independently of the binary collapse tree used to form \(C\).
+
+**Proof sketch.** Vector addition is associative and commutative. Every leaf contribution \(2A_fn_f\) appears exactly once, and an internal merge only adds the two disjoint child sums. Any binary merge tree therefore evaluates the same finite sum. Normalization may be postponed until the current target direction is requested; it does not alter the stored additive evidence.
+
+**Corollary 2 (absence of reference drift).** If two collapse sequences absorb the same original support multiset into a live cluster, their stored reference vector and normalized target direction are identical whenever \(S_C\neq0\). Current geometry may differ, but the orientation reference cannot drift merely because the contraction order changed.
 
 ![Figure 2. Cluster-normal memory retains original orientation evidence throughout a collapse tree.](figures/cluster_normal.png)
 
@@ -214,6 +268,10 @@ Three evaluators support diagnosis. The fast evaluator reports combined VPS. The
 
 Two adjacent triangles \((a,b,c)\) and \((b,a,d)\) can exchange diagonal \(ab\) for \(cd\). The vertex count and vertex-set Hausdorff distance remain unchanged, but the piecewise-planar normal field can change substantially. We require positive orientation, no duplicate faces, preserved edge incidence, and unchanged closure before measuring the exact render delta. Flips are especially valuable before deletion because they can redistribute normal error and make a one-ring easier to triangulate.
 
+**Lemma 3 (vertex-distance invariance of an edge flip).** If an edge flip changes only the two incident faces and leaves every vertex position unchanged, then the vertex count and both directed vertex-set distances between the original input and the current output are unchanged by that flip.
+
+**Proof sketch.** The output vertex set before and after the flip is identical. Vertex count is its cardinality, while each directed distance depends only on the two vertex sets and not on face incidence. Thus all three quantities are invariant. This result explains why flips can improve flat-normal SSIM without consuming count or vertex-distance budget; the manifold and raster effects still require independent checks.
+
 #### 3.6.2 One-ring fan deletion and retriangulation
 
 Deleting a vertex removes its incident fan and leaves a polygonal ring. For low valence, all combinatorially valid triangulations can be enumerated through Catalan recursion. For larger rings, restricted fans and dynamic-programming families reduce the search space. Each proposal is screened for orientation, duplicates, manifoldness, and distance before rendering. A deletion is accepted only when the exact worst relevant view remains above the chosen margin.
@@ -226,6 +284,8 @@ After topology stabilizes, selected vertices are perturbed in coordinate, tangen
 
 Kattis exposed only an overall verdict and score, not per-case render components or hidden meshes. We treated this as a black-box experimental-design problem. No hidden file was downloaded, reconstructed, or placed in the public artifact. The submitted program could, however, compute statistics of its own input at runtime, and the displayed score could reveal a carefully controlled output count.
 
+![Figure 3. Controlled evidence protocol separating official observations, reconstructed or inferred quantities, and local proxy measurements.](figures/evidence_protocol.png)
+
 #### 3.7.1 Isolation and count decoding
 
 A useful probe changes exactly one case \(k\), while the other five outputs are byte-identical to a known Accepted parent. If the displayed score is \(S\) and all other output counts are known, the changed count is recovered as
@@ -233,6 +293,14 @@ A useful probe changes exactly one case \(k\), while the other five outputs are 
 $$|V'_k|=\operatorname{round}\!\left(|V_k|\left[6\left(1-\frac{S}{100}\right)-\Sigma_{i\neq k}\frac{|V'_i|}{|V_i|}\right]\right).$$
 
 For the 23,201-vertex case, one output vertex changes the score by approximately 0.00071836, so six displayed decimals uniquely determine the integer. This converts an aggregate score into a case-specific measurement while preserving scientific control: only one unknown changes.
+
+**Lemma 4 (unique integer recovery from a rounded score).** Let the score displayed for an isolated case-\(k\) probe differ from its exact value by at most \(\varepsilon\). Adjacent output counts for that case differ in score by
+
+$$\Delta_k=\frac{100}{6|V_k|}.$$
+
+If \(2\varepsilon<\Delta_k\), nearest-integer decoding of \(|V'_k|\) is unique.
+
+**Proof sketch.** An error of at most \(\varepsilon\) maps to an interval of possible exact scores of width \(2\varepsilon\). Adjacent integer counts generate score lattice points separated by \(\Delta_k\). When the uncertainty interval is narrower than that separation, it contains at most one lattice point, and the recovered count is unique. With six displayed decimals, \(\varepsilon\leq0.5\times10^{-6}\); even the million-vertex branch has \(\Delta_k\approx1.65\times10^{-5}\), so the condition holds for all six cases.
 
 #### 3.7.2 Safe diagnostic payloads
 
@@ -246,13 +314,33 @@ $$H=d_0+Bd_1+B^2d_2,$$
 
 using separate isolated probes when the safe count slack cannot carry the entire integer.
 
+**Lemma 5 (surface invariance of an unreferenced diagnostic carrier).** Suppose a renderer and geometric validator derive the active surface exclusively from indexed faces. Appending vertices that are referenced by no face leaves the realized triangular surface, its rasterization, and every surface-dependent predicate unchanged; only the stored vertex count and predicates that explicitly inspect unused vertices can change.
+
+**Proof sketch.** The set of indexed triangles, their coordinates, normals, depths, and connectivity are identical before and after the append operation. Every surface-derived computation therefore receives the same inputs. The qualification about unused-vertex predicates is essential: the technique is safe only after an isolated probe confirms that the official pipeline permits the carrier. Our diagnostic branches retained a conservative accepted count margin and were never confused with quality-improving submissions.
+
+**Proposition 4 (uniqueness of the diagnostic radix code).** If \(0\leq d_j<B\) for every emitted digit, then the representation
+
+$$H=\Sigma_{j=0}^{m-1}d_jB^j$$
+
+is unique.
+
+**Proof sketch.** Suppose two digit sequences encode the same integer and let \(j\) be their lowest differing position. After subtracting the encodings and dividing by \(B^j\), the leading difference \(d_j-e_j\) is nonzero with magnitude below \(B\), while every remaining term is divisible by \(B\). The sum cannot be zero modulo \(B\), a contradiction.
+
 #### 3.7.3 Rotation-invariant fingerprints
 
-Proxy identity cannot be inferred reliably from vertex count alone. We used invariants computed from normalized geometry: quantized bounding-box ratios, genus and component count, sorted normalized edge-length multisets, edge-graph labels, orientation signatures, and order-sensitive hashes when raw ordering mattered. A representative edge statistic quantizes
+Proxy identity cannot be inferred reliably from vertex count alone. We used invariants computed from normalized geometry: quantized bounding-box ratios, genus and component count, sorted normalized edge-length multisets, edge-graph labels, orientation signatures, and order-sensitive hashes when raw ordering mattered. For the rotation-invariant length channel, define
 
-$$q_e=\operatorname{round}\!\left(B_q\frac{\lVert p_u-p_v\rVert_2}{D_{\mathrm{AABB}}}\right),$$
+$$L_E=\left(\frac{1}{|E|}\Sigma_{(a,b)\in E}\lVert p_a-p_b\rVert_2^2\right)^{1/2},$$
+
+and quantize
+
+$$q_e=\operatorname{round}\!\left(B_q\frac{\lVert p_u-p_v\rVert_2}{L_E}\right),$$
 
 then hashes the sorted multiset of \(q_e\). Normalization removes translation and uniform scale; lengths remove rotation; sorting removes edge enumeration order. For the 23,201-vertex branch, three recovered base-15,776 digits were 2,382, 13,367, and 11,736, matching the exact-source proxy and differing from aggregate proxies. Independent pose, edge-graph, orientation, scale, and ordering codes agreed. This supplied evidence for selecting the correct public proxy without exposing the hidden coordinates.
+
+**Proposition 5 (similarity and enumeration invariance of the edge-length fingerprint).** Let a mesh be transformed by \(p\mapsto sRp+t\), where \(s>0\), \(R\) is orthogonal, and \(t\) is a translation. The sorted multiset of normalized edge lengths \(\lVert p_u-p_v\rVert_2/L_E\) is unchanged, up to deterministic quantization ties; it is also independent of edge enumeration.
+
+**Proof sketch.** Translation cancels in every edge difference. Orthogonality gives \(\lVert R(p_u-p_v)\rVert_2=\lVert p_u-p_v\rVert_2\). Both every edge length and the root-mean-square edge scale \(L_E\) are multiplied by \(s\), so their ratio is unchanged. Sorting removes the order in which edges were visited. Quantization makes the stored representation finite but requires deterministic rounding at bin boundaries, which the implementation fixes explicitly. Axis-aligned bounding-box ratios remain a separate pose-sensitive channel rather than part of this rotation-invariant proof.
 
 For the 35,292-vertex case, a conservative diagnostic output encoded normalized bounding-box statistics. The recovered values matched the public Bunny proxy, while acceptance behavior still showed a proxy-to-hidden renderer gap. We therefore separated **identity evidence** from **acceptance evidence**: a matching invariant justifies which geometry family to study, but only isolated Kattis probes certify a hidden threshold.
 
@@ -283,11 +371,38 @@ Offline search can take hours; the submitted program cannot. We compile discover
 
 Replay is transactional. Before a specialized block, the current mesh is either checkpointed or reconstructible from a judge-proven prefix. Every deletion, flip, and coordinate edit checks its expected local topology. A block commits only if its final count and structural invariants match; otherwise it rolls back or retains the accepted checkpoint. This behavior makes the final source a compact constructive certificate rather than an unchecked precomputed mesh dump.
 
+**Theorem 1 (fail-closed replay safety).** Let \(\mathcal I(M)\) be the conjunction of all structural, count, checksum, and checkpoint invariants required of a replay state. Assume the initial checkpoint \(M_0\) satisfies \(\mathcal I\), and every replay transaction either (i) commits a state \(M_{j+1}\) only after verifying \(\mathcal I(M_{j+1})\), or (ii) restores the preceding certified checkpoint. Then every externally visible checkpoint, including the final output, satisfies \(\mathcal I\).
+
+**Proof sketch.** Induct on the transaction index. The base state satisfies \(\mathcal I\) by assumption. For the inductive step, a successful transaction exposes a state only after its predicate is verified; a failed transaction exposes the previous certified state. Hence the next externally visible checkpoint satisfies \(\mathcal I\) in either case. The conclusion follows for every finite prefix and the final state. This theorem covers replay integrity, not perceptual acceptance; SSIM and distance remain separate gates.
+
+**Corollary 3 (prefix-safe termination).** If a timeout guard or unexpected local signature terminates specialization by returning the most recent certified checkpoint, the returned mesh still satisfies \(\mathcal I\). It may lose a prospective score improvement, but it cannot expose a partially applied operation block.
+
 ### 3.10 Runtime, memory, and source-budget engineering
 
 Pointer-heavy half-edge structures were avoided on the largest input. Positions, faces, active flags, quadrics, cluster statistics, versions, and initial incidence live in flat arrays. New incidences are appended to compact linked storage. A binary heap stores candidate edges; endpoint versions invalidate stale entries lazily. Periodic pruning bounds heap growth. Input uses a buffered character parser and output uses a one-mebibyte writer.
 
 Rebase checkpoints rebuild exact current adjacency and quadrics, controlling numerical drift and allowing later stages to use smaller identifiers. Foreground crop boxes limit renderer work. Reference caches prevent repeated projection and normalization on Slender and Nefertiti. Static storage reduced allocator overhead and, on Kattis, improved runtime stability compared with otherwise equivalent dynamic variants.
+
+Let \(V\), \(F\), and \(E\) denote the input vertex, face, and edge counts; \(H\) the total number of lazy-heap events; \(H_{\max}\) the maximum resident heap size; \(K\) the number of exact rebases; \(R\) the number of replayed local operations; and \(d_{\max}\) the maximum touched one-ring size. The implementation has the following parameterized bounds.
+
+| Stage | Time bound | Additional memory | Role |
+|---|---:|---:|---|
+| Parse, incidence, initial quadrics | \(O(V+F+E)\) | \(O(V+F+E)\) | Establish the first certified state |
+| Lazy QEM search | \(O(H\log H_{\max})\) | \(O(H_{\max})\) | Rank and invalidate collapse proposals |
+| \(K\) exact rebases | \(O(K(V+F+E))\) | Reuses base arrays | Control drift and stale topology |
+| Certified local replay | \(O(Rd_{\max})\) | \(O(d_{\max})\) scratch | Apply fitted flips, deletions, and moves |
+
+**Proposition 6 (parameterized online complexity).** Under constant-time array access and comparison-based heap operations, the online solver runs in
+
+$$O\left((K+1)(V+F+E)+H\log H_{\max}+Rd_{\max}\right)$$
+
+time and
+
+$$O\left(V+F+E+H_{\max}\right)$$
+
+memory, excluding the output buffer and constant-size rendering tiles.
+
+**Proof sketch.** Initialization and each exact rebase scan linear mesh storage. Every heap insertion or pop costs \(O(\log H_{\max})\), including stale entries, and there are \(H\) such events. A local replay operation scans at most one bounded neighborhood of size \(d_{\max}\). Summing the disjoint phase costs yields the time bound. Flat mesh arrays plus the maximum live heap dominate memory; transaction scratch is no larger than a touched neighborhood. The bound is deliberately parameterized because aggressive lazy invalidation can make \(H\) larger than \(E\), while periodic pruning controls \(H_{\max}\).
 
 The 131,072-byte source limit became a second optimization problem. Replay payloads were entropy-coded, recurring code fragments were factored, safe whitespace was removed, and unused diagnostic branches were stripped. Every minified candidate was compiled independently and run on the official sample. The final fetched-back source is 130,973 bytes, leaving 99 bytes of headroom.
 
@@ -295,7 +410,11 @@ The 131,072-byte source limit became a second optimization problem. Replay paylo
 
 Candidate validation proceeds from cheapest to most authoritative. First, parse and index checks reject malformed meshes. Structural validation checks positive triangle area, duplicate faces, connectedness, oriented edge multiplicity, and the closed two-manifold condition. Next, an independent spatial search checks both directions of the official vertex-Hausdorff distance. Only then does the exact renderer compute normal, depth, per-view, and combined SSIM. Rotation suites test proxy robustness. Integration compares all untouched outputs byte-for-byte with the accepted parent. Kattis is the final external gate.
 
-![Figure 3. Fail-closed validation funnel used before an informative Kattis probe.](figures/validation_funnel.png)
+![Figure 4. Fail-closed validation funnel used before an informative Kattis probe.](figures/validation_funnel.png)
+
+**Theorem 2 (sound composition of validation gates).** Let \(P_1,\ldots,P_m\) be required predicates, and let gate \(G_j\) be sound in the sense that acceptance by \(G_j\) implies \(P_j\). If a candidate is released only after all gates accept, then the released candidate satisfies \(P_1\land\cdots\land P_m\).
+
+**Proof sketch.** Passing the funnel means that every \(G_j\) accepted. Soundness gives \(P_j\) for each \(j\); conjunction introduction yields the result. This elementary theorem is operationally important because the gates are implemented independently. It does not claim completeness: a conservative gate may reject a valid mesh, which is consistent with the fail-closed policy.
 
 The funnel is intentionally asymmetric: a candidate can be rejected for uncertainty even if it might pass. Near a hard threshold, false acceptance costs a submission and confounds diagnosis, whereas a conservative local rejection merely postpones a possible gain. This bias was appropriate because many branches had only a few thousandths of SSIM margin.
 
@@ -325,7 +444,7 @@ $$93.83007422510956,$$
 
 which rounds to the displayed score. The global compression ratio, \(1-34134/1500780\), is not the leaderboard formula; the official mean gives every case equal weight [1].
 
-![Figure 4. Final retained ratios, compression, and per-case score contribution.](figures/final_results.png)
+![Figure 5. Final retained ratios, compression, and per-case score contribution.](figures/final_results.png)
 
 ### 4.2 Accepted progression
 
@@ -343,7 +462,7 @@ Development contained many small accepted steps and several structural jumps. Th
 | 20082128 | 93.812395 | Bunny 2,839, Lucy 3,030, Nefertiti 16,500 | Accepted 7/7 |
 | 20082703 | 93.830074 | Slender 7,400 with 40 flips and reference cache | [25, 4340, 2839, 3030, 7400, 16500] |
 
-![Figure 5. Official high-water trajectory from the generic plateau to the final submission.](figures/score_progression.png)
+![Figure 6. Official high-water trajectory from the generic plateau to the final submission.](figures/score_progression.png)
 
 The trajectory supports a central claim: small parameter tuning alone did not explain the final gain. The large jumps came from representation and workflow changes—cluster memory, structural replay, exact proxy identification, renderer-aware deletion, and replay compression. Later progress became incremental because each branch approached a different active constraint.
 
@@ -401,11 +520,17 @@ The million-vertex input dominated compute and memory. The accepted schedule beg
 
 Only comparisons with an otherwise stable lineage are treated as clean ablations.
 
-- **Cluster-normal memory:** carrying additive original-face normal evidence reduced the hidden Bunny-like retained ratio beyond the preceding current-normal-only branch and raised the accepted high-water to 87.913148. The mechanism isolates reference drift rather than merely a target-count change.
-- **Renderer-aware topology:** installing validated Armadillo and Bunny replays produced a discontinuous score jump from the low 92 range to 92.932731 while preserving other accepted outputs. The gain cannot be explained by a QEM weight change alone.
-- **Armadillo structural optimization:** reducing 5,136 to 4,570 vertices raised the official score to 93.600980 while maintaining or improving local VPS, demonstrating topology-dependent non-monotonicity.
-- **Nefertiti fitting at fixed count:** a broader first normal-fitting pass enabled an accepted 16,700 branch where an unfitted candidate at the same count failed. Count is therefore not a sufficient experimental variable.
-- **Slender reference cache:** 7,400-vertex geometry failed runtime without the cache and passed 7/7 with it. This isolates systems architecture as the decisive factor.
+| Comparison | Controlled variable | Before | After | Measured effect and evidence |
+|---|---|---:|---:|---|
+| Bunny early frontier | Original-normal memory | 16.0% retained | 15.5% retained | Lower hidden frontier; official high-water 87.913148 |
+| Armadillo proxy pair | Structural optimization | 5,136 V; VPS 0.917014 | 4,570 V; VPS 0.917223 | 566 fewer vertices and +0.00020862 VPS at 1024 resolution |
+| Nefertiti fixed count | First normal-fitting pass | 16,700 V; rejected | 16,700 V; Accepted | Feasibility changed at equal count; accepted lineage reached 93.804841 |
+| Slender same geometry | Reference cache | 20082666; TLE on test 6 | 20082703; Accepted 7/7 | Runtime architecture determined acceptance at 7,400 vertices |
+| Final Slender integration | Cached fitted replay | 7,800 V; 93.812395 | 7,400 V; 93.830074 | +0.0176795 points; five other outputs byte-identical |
+
+The Armadillo pair is a local exact-evaluator comparison rather than a Kattis quality measurement; it demonstrates that a renderer-aware topology can use fewer vertices while slightly improving proxy VPS. The Nefertiti and cache rows are official isolated observations. The last row is especially strong because five outputs are byte-identical, so the score difference reconstructs exactly from the 400-vertex Slender reduction. Larger milestone jumps, such as the transition to 92.932731, remain valuable lineage evidence but are not labeled single-variable ablations because more than one specialized replay changed.
+
+These experiments support three distinct causal claims. Additive cluster memory controls long-horizon reference drift; topology and fitting control perceptual feasibility at a fixed or lower count; and caching controls deployability without altering geometry. Keeping those claims separate prevents the score formula from being mistaken for a perceptual objective.
 
 ### 4.6 Negative results and what they taught us
 

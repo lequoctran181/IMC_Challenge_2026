@@ -23,16 +23,17 @@
   "article": {
     "pdf": {
       "path": "paper/IMC_Challenge_Round2_NEU_AddictedTribes.pdf",
-      "sha256": "b473094cf814930f0fef166b58574aad5a299e377fc5b3d4f8e6337d0c766b36"
+      "sha256": "c0e637b712124f7fd7d395a3e4bb0bd0ba8691a17929919591aa0aabaea43827"
     },
     "docx": {
       "path": "paper/IMC_Challenge_Round2_NEU_AddictedTribes.docx",
-      "sha256": "0636fd9e81eff3d72eb269e032e3925ba216c6867e71e7bd73833dd69ab65ada"
+      "sha256": "4f91a9b6fa5a951f943f1deb7f519514a06598cbf7e2900cc05376b38edf50c0"
     }
   },
   "figures": [
     "paper/figures/pipeline.png",
     "paper/figures/cluster_normal.png",
+    "paper/figures/evidence_protocol.png",
     "paper/figures/final_results.png",
     "paper/figures/score_progression.png",
     "paper/figures/validation_funnel.png"

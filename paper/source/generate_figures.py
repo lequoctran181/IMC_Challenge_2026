@@ -98,6 +98,38 @@ def cluster_normal() -> None:
     finish(fig, "cluster_normal")
 
 
+def evidence_protocol() -> None:
+    """Visualize how aggregate judge feedback becomes controlled evidence."""
+    fig, ax = plt.subplots(figsize=(10.8, 5.2))
+    ax.set_xlim(0, 1); ax.set_ylim(0, 1); ax.axis("off")
+
+    box(ax, .03, .67, .17, .18, "Accepted parent", "fetched-back source\nknown counts + hash", GREEN)
+    box(ax, .25, .67, .17, .18, "Isolated probe", "one case or one digit\nother outputs identical", BLUE)
+    box(ax, .47, .67, .17, .18, "Kattis response", "aggregate score\nverdict + tests", GREEN)
+    box(ax, .69, .67, .17, .18, "Exact decoding", "score equation → count\nrounding certificate", MID)
+    arrow(ax, (.20, .76), (.25, .76), BLUE)
+    arrow(ax, (.42, .76), (.47, .76), BLUE)
+    arrow(ax, (.64, .76), (.69, .76), MID)
+
+    box(ax, .10, .25, .22, .20, "Identity evidence", "normalized invariant digits\nproxy-family hypothesis", MID)
+    box(ax, .39, .25, .22, .20, "Acceptance evidence", "isolated pass/fail bracket\njudge-certified frontier", GREEN)
+    box(ax, .68, .25, .22, .20, "Local stress test", "licensed proxy rotations\n1024² component checks", ORANGE)
+    arrow(ax, (.76, .67), (.25, .45), MID)
+    arrow(ax, (.78, .67), (.50, .45), GREEN)
+    arrow(ax, (.61, .35), (.68, .35), ORANGE)
+    arrow(ax, (.32, .35), (.39, .35), BLUE)
+
+    box(ax, .36, .025, .33, .13, "Fail-closed integration", "commit only judge-proven\nlocally validated transactions", GREEN)
+    arrow(ax, (.50, .25), (.50, .145), GREEN)
+    arrow(ax, (.79, .25), (.62, .145), ORANGE)
+
+    ax.text(.5, .94, "Controlled hidden-constraint evidence protocol",
+            ha="center", fontsize=14, fontweight="bold", color=BLUE)
+    ax.text(.5, .885, "green = official / judge-certified     blue = reconstructed or inferred     orange = local proxy",
+            ha="center", fontsize=8.5, color=GRAY)
+    finish(fig, "evidence_protocol")
+
+
 def final_results() -> None:
     names = ["Sphere", "Armadillo", "Bunny", "Lucy", "Slender", "Nefertiti"]
     original = np.array([4098, 23201, 35292, 49987, 377084, 1009118], dtype=float)
@@ -198,6 +230,7 @@ def validation_funnel() -> None:
 if __name__ == "__main__":
     pipeline()
     cluster_normal()
+    evidence_protocol()
     final_results()
     progression()
     validation_funnel()

@@ -76,13 +76,15 @@ Vertex count alone is not an identity test. Different meshes, poses, or preproce
 - orientation and raw-order signatures when ordering mattered;
 - scale and pose checks obtained from independent codes.
 
-A representative rotation- and scale-invariant edge statistic was
+A representative rotation- and scale-invariant edge channel used the root-mean-square edge scale
 
 $$
-q_e=\operatorname{round}\!\left(B_q\frac{\lVert p_u-p_v\rVert_2}{D_{\mathrm{AABB}}}\right).
+L_E=\left(\frac{1}{|E|}\sum_{(a,b)\in E}\lVert p_a-p_b\rVert_2^2\right)^{1/2},
+\qquad
+q_e=\operatorname{round}\!\left(B_q\frac{\lVert p_u-p_v\rVert_2}{L_E}\right).
 $$
 
-Translation disappears in edge differences, uniform scale disappears after division by the bounding-box diagonal, rotation preserves Euclidean length, and sorting removes edge-enumeration order. The sorted sequence was then hashed and, when necessary, emitted as multiple count digits.
+Translation disappears in edge differences, uniform scale disappears after division by \(L_E\), rotation preserves Euclidean length, and sorting removes edge-enumeration order. Bounding-box ratios were retained as a separate pose-sensitive channel. The sorted edge sequence was then hashed and, when necessary, emitted as multiple count digits.
 
 For the 23,201-vertex branch, three recovered base-15,776 digits were 2,382, 13,367, and 11,736. They matched the exact-source public proxy and differed from aggregate alternatives. Independent pose, graph, orientation, scale, and ordering checks agreed. For the 35,292-vertex branch, normalized bounding-box diagnostics matched the public Bunny family, while official acceptance still differed from optimistic local rotations. We therefore kept two claims separate:
 

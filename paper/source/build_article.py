@@ -236,6 +236,10 @@ def paragraph_base(paragraph, *, first_line=True, after=4, before=0, line=1.08) 
 def add_body(doc, text: str, *, italic=False, first_line=True, after=4) -> None:
     p = doc.add_paragraph()
     paragraph_base(p, first_line=first_line, after=after)
+    if re.match(r"^\*\*(?:Proposition|Lemma|Theorem|Corollary)\s+\d+", text):
+        p.paragraph_format.keep_with_next = True
+    if text.startswith("**Proof sketch."):
+        p.paragraph_format.keep_together = True
     add_inline(p, text, size=10.5, italic=italic)
 
 
@@ -371,6 +375,8 @@ def add_table(doc, rows: list[list[str]]) -> None:
         ("Submission or stage", "Official score", "Main change", "Output-count evidence"): [1.15, 1.10, 1.95, 1.45],
         ("Branch", "Accepted frontier observation", "Rejected neighboring observation", "Interpretation"): [1.05, 1.35, 1.45, 1.80],
         ("Branch", "Base stage", "Normal term", "Additional mechanism", "Offline tail"): [0.95, 1.10, 1.20, 1.20, 1.20],
+        ("Stage", "Time bound", "Additional memory", "Role"): [1.35, 1.35, 1.15, 1.80],
+        ("Comparison", "Controlled variable", "Before", "After", "Measured effect and evidence"): [1.05, 1.05, 0.95, 0.95, 1.65],
     }
     widths = prescribed.get(header)
     if widths is None:
@@ -378,7 +384,7 @@ def add_table(doc, rows: list[list[str]]) -> None:
         weights = [min(30, max(6, value)) for value in maxlens]
         total = sum(weights)
         widths = [5.65 * value / total for value in weights]
-    descriptive_headers = {"Meaning", "Bottleneck and final strategy", "Key change", "Output-count evidence", "Base target / stage", "Normal term", "Additional term", "Offline tail"}
+    descriptive_headers = {"Meaning", "Bottleneck and final strategy", "Key change", "Output-count evidence", "Base target / stage", "Normal term", "Additional term", "Offline tail", "Role", "Comparison", "Controlled variable", "Before", "After", "Measured effect and evidence"}
     # Word/LibreOffice honor the table grid before per-cell preferred widths.
     # Update both so wide narrative columns do not collapse into narrow strips.
     grid_cols = table._tbl.tblGrid.gridCol_lst

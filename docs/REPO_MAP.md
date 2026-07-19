@@ -5,7 +5,7 @@ The project grew through a time-limited optimization campaign. This map distingu
 ## Publication layer
 
 - `README.md`: public entry point and result summary.
-- `paper/`: final PDF/DOCX and the five figures used by the article.
+- `paper/`: final PDF/DOCX and the six figures used by the article.
 - `docs/`: mathematical model, results, hidden-constraint evidence protocol, reproducibility, and this map.
 - `release/final/`: immutable record of the final Accepted submission.
 - `src/research/`: readable research implementation of guarded QEM and cluster-normal memory.
@@ -23,7 +23,7 @@ submission/
 
 ## Experimental provenance
 
-The public tree is deliberately curated: hundreds of intermediate submissions, diagnostic generators, worker handoffs, and proxy-specific reports were removed from the default branch to keep the research artifact reviewable. They remain recoverable from Git history before the publication commit. The selected milestone data needed to reproduce Figure 5 is retained under `paper/source/data/`.
+The public tree is deliberately curated: hundreds of intermediate submissions, diagnostic generators, worker handoffs, and proxy-specific reports were removed from the default branch to keep the research artifact reviewable. They remain recoverable from Git history before the publication commit. The selected milestone data needed to reproduce Figure 6 is retained under `paper/source/data/`.
 
 This policy preserves provenance without presenting transient contest orchestration as maintained public API. The controlled black-box workflow used to interpret aggregate Kattis feedback is preserved in `docs/HIDDEN_CONSTRAINT_WORKFLOW.md`. It distinguishes official observations, local proxy measurements, and inferences; it does not contain or reconstruct hidden mesh coordinates.
 

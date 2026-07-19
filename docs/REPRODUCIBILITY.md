@@ -29,7 +29,7 @@ The verifier checks:
 - score reconstruction to numerical tolerance;
 - exact source size of 130,973 bytes;
 - source SHA-256 `9195d42a...b1a92c`;
-- PDF/DOCX checksums and presence of all five article figures;
+- PDF/DOCX checksums and presence of all six article figures;
 - C++17 compilation of the byte-exact accepted source when a compiler is available.
 
 Use `python3 tools/verify_release.py --no-compile` on a machine without a C++ compiler.
