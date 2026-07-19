@@ -100,10 +100,22 @@ def main() -> int:
     checks.require(abs(reconstructed - record["reconstructed_score"]) < 5e-13, "score reconstructs from the six count ratios")
     checks.require(abs(reconstructed - record["official_score"]) < 5e-7, "reconstructed score matches official rounding")
     print(f"       reconstructed score: {reconstructed:.14f}")
+    total_input = sum(record["input_vertex_counts"])
+    total_output = sum(record["output_vertex_counts"])
+    global_retained = 100 * total_output / total_input
+    checks.require(total_input == record["total_input_vertices"] == 1_498_780, "aggregate input count is exact")
+    checks.require(total_output == record["total_output_vertices"] == 34_134, "aggregate output count is exact")
+    checks.require(abs(global_retained - record["global_retained_percent"]) < 5e-13, "global retained percentage agrees with counts")
+    checks.require(abs(100 - global_retained - record["global_compression_percent"]) < 5e-13, "global compression percentage agrees with counts")
+
+    snapshot = record["standings_snapshot"]
+    snapshot_evidence = ROOT / snapshot["evidence_path"]
+    checks.require(snapshot["status"] == "unfinalized", "standings status is preserved as unfinalized")
+    checks.require(snapshot["displayed_rank"] == 2 and snapshot_evidence.is_file(), "rank-2 snapshot is time-stamped evidence, separate from submission metadata")
 
     source_meta = record["source"]
     source = ROOT / source_meta["path"]
-    checks.require(source.is_file(), "authoritative fetched-back source exists")
+    checks.require(source.is_file(), "immutable fetched-back source exists")
     if source.is_file():
         checks.require(source.stat().st_size == source_meta["bytes"], "source byte size is exact")
         checks.require(source.stat().st_size <= source_meta["limit_bytes"], "source satisfies the 131,072-byte limit")
@@ -124,6 +136,7 @@ def main() -> int:
 
     for relative in record["figures"]:
         checks.require((ROOT / relative).is_file(), f"figure exists: {relative}")
+    checks.require(len(record["figures"]) == 7, "release record enumerates all seven article figures")
 
     verify_manifest(checks, ROOT / "release" / "final" / "MANIFEST.sha256")
 

@@ -1,0 +1,2832 @@
+- banner:
+  - link "The Second IMC Challenge sponsored by Huawei logo":
+    - /url: /
+    - img "The Second IMC Challenge sponsored by Huawei logo"
+  - heading "The Second IMC Challenge sponsored by Huawei" [level=4]
+  - text: 
+  - navigation "Main":
+    - list:
+      - link " Standings":
+        - /url: /contests/imc2-2/standings
+        - generic: 
+        - generic: Standings
+      - link " Problems":
+        - /url: /contests/imc2-2/problems
+        - generic: 
+        - generic: Problems
+      - link " Info":
+        - /url: /info
+        - generic: 
+        - generic: Info
+      - link "? Help":
+        - /url: https://support.kattis.com
+        - generic: "?"
+        - generic: Help
+- navigation "Breadcrumbs":
+  - list:
+    - link "Contests":
+      - /url: /contests
+    - text: /
+    - link "The Second IMC Challenge sponsored by Huawei":
+      - /url: /contests/imc2-2
+    - text: /
+    - listitem: Standings
+- text:      
+- generic: 
+- generic: Contest is over
+- generic: 
+- text: 
+- text: Anh Lê Quốc Trần
+- generic: 
+- text: 
+- text: 
+- link " 2":
+  - /url: /contests/imc2-2/standings
+  - generic: 
+  - generic: "2"
+- link "NEU.AddictedTribes":
+  - /url: /contests/imc2-2/teams/923690
+- generic: 
+- text: "93.83"
+- generic: 
+- text: "43152"
+- generic: 
+- main:
+  - generic: 
+  - generic: Unfinalized results!
+  - generic: These are not the finalized results, the scoreboard will be updated.
+  - text: 
+  - heading "The Second IMC Challenge sponsored by Huawei" [level=1]
+  - generic: "Role: Contestant"
+  - navigation:
+    - link "Contest":
+      - /url: /contests/imc2-2
+    - link "Standings":
+      - /url: /contests/imc2-2/standings
+    - link "Problems":
+      - /url: /contests/imc2-2/problems
+    - link "Teams":
+      - /url: /contests/imc2-2/teams
+    - link "Clarifications":
+      - /url: /contests/imc2-2/clars
+    - link "Rules":
+      - /url: /contests/imc2-2/rules
+  - heading "Standings" [level=1]
+  - link "Where's my team?":
+    - /url: "#me"
+  - generic: 
+  - text: Full score
+  - generic: 
+  - text: Partial score
+  - generic: 
+  - text: Attempted
+  - generic: "?"
+  - text: Pending judgement
+  - table:
+    - rowgroup:
+      - row "Team B (100) Score Time":
+        - columnheader
+        - columnheader "Team"
+        - columnheader "B (100)":
+          - link "B (100)":
+            - /url: /contests/imc2-2/problems/simplifygeometry
+        - columnheader "Score"
+        - columnheader "Time"
+    - rowgroup:
+      - row "1 希望ヶ峰学園 CG研究会  94.25 1263 tries 94.25 42426":
+        - cell "1"
+        - cell "希望ヶ峰学園 CG研究会":
+          - link "希望ヶ峰学園 CG研究会":
+            - /url: /contests/imc2-2/teams/922295
+        - cell " 94.25 1263 tries":
+          - generic: 
+          - text: "94.25"
+          - text: 1263 tries
+        - cell "94.25"
+        - cell "42426"
+      - row "2 NEU.AddictedTribes  93.83 2655 tries 93.83 43152":
+        - cell "2"
+        - cell "NEU.AddictedTribes":
+          - link "NEU.AddictedTribes":
+            - /url: /contests/imc2-2/teams/923690
+        - cell " 93.83 2655 tries":
+          - generic: 
+          - text: "93.83"
+          - text: 2655 tries
+        - cell "93.83"
+        - cell "43152"
+      - row "3 no people  93.67 422 tries 93.67 42911":
+        - cell "3"
+        - cell "no people":
+          - link "no people":
+            - /url: /contests/imc2-2/teams/920318
+        - cell " 93.67 422 tries":
+          - generic: 
+          - text: "93.67"
+          - text: 422 tries
+        - cell "93.67"
+        - cell "42911"
+      - row "4 Time for the Moon Night  93.53 1302 tries 93.53 41691":
+        - cell "4"
+        - cell "Time for the Moon Night":
+          - link "Time for the Moon Night":
+            - /url: /contests/imc2-2/teams/919092
+        - cell " 93.53 1302 tries":
+          - generic: 
+          - text: "93.53"
+          - text: 1302 tries
+        - cell "93.53"
+        - cell "41691"
+      - row "5 Problem  92.91 623 tries 92.91 43086":
+        - cell "5"
+        - cell "Problem":
+          - link "Problem":
+            - /url: /contests/imc2-2/teams/923297
+        - cell " 92.91 623 tries":
+          - generic: 
+          - text: "92.91"
+          - text: 623 tries
+        - cell "92.91"
+        - cell "43086"
+      - row "6 Vamos Argentina!  92.89 2223 tries 92.89 43144":
+        - cell "6"
+        - cell "Vamos Argentina!":
+          - link "Vamos Argentina!":
+            - /url: /contests/imc2-2/teams/923669
+        - cell " 92.89 2223 tries":
+          - generic: 
+          - text: "92.89"
+          - text: 2223 tries
+        - cell "92.89"
+        - cell "43144"
+      - row "7 Nuggie  92.38 4727 tries 92.38 42213":
+        - cell "7"
+        - cell "Nuggie":
+          - link "Nuggie":
+            - /url: /contests/imc2-2/teams/919551
+        - cell " 92.38 4727 tries":
+          - generic: 
+          - text: "92.38"
+          - text: 4727 tries
+        - cell "92.38"
+        - cell "42213"
+      - row "8 Zazmuz  92.33 10123 tries 92.33 42493":
+        - cell "8"
+        - cell "Zazmuz":
+          - link "Zazmuz":
+            - /url: /contests/imc2-2/teams/922010
+        - cell " 92.33 10123 tries":
+          - generic: 
+          - text: "92.33"
+          - text: 10123 tries
+        - cell "92.33"
+        - cell "42493"
+      - row "9 Sheeesh---  91.75 609 tries 91.75 43178":
+        - cell "9"
+        - cell "Sheeesh---":
+          - link "Sheeesh---":
+            - /url: /contests/imc2-2/teams/922513
+        - cell " 91.75 609 tries":
+          - generic: 
+          - text: "91.75"
+          - text: 609 tries
+        - cell "91.75"
+        - cell "43178"
+      - row "10 TMNG  91.62 1382 tries 91.62 43142":
+        - cell "10"
+        - cell "TMNG":
+          - link "TMNG":
+            - /url: /contests/imc2-2/teams/924529
+        - cell " 91.62 1382 tries":
+          - generic: 
+          - text: "91.62"
+          - text: 1382 tries
+        - cell "91.62"
+        - cell "43142"
+      - row "11 SPBU-AMCP  91.55 2974 tries 91.55 42108":
+        - cell "11"
+        - cell "SPBU-AMCP":
+          - link "SPBU-AMCP":
+            - /url: /contests/imc2-2/teams/919879
+        - cell " 91.55 2974 tries":
+          - generic: 
+          - text: "91.55"
+          - text: 2974 tries
+        - cell "91.55"
+        - cell "42108"
+      - row "12 MeOwnHero  91.55 1050 tries 91.55 43188":
+        - cell "12"
+        - cell "MeOwnHero":
+          - link "MeOwnHero":
+            - /url: /contests/imc2-2/teams/923584
+        - cell " 91.55 1050 tries":
+          - generic: 
+          - text: "91.55"
+          - text: 1050 tries
+        - cell "91.55"
+        - cell "43188"
+      - row "13 turneja  91.36 1785 tries 91.36 41961":
+        - cell "13"
+        - cell "turneja":
+          - link "turneja":
+            - /url: /contests/imc2-2/teams/921009
+        - cell " 91.36 1785 tries":
+          - generic: 
+          - text: "91.36"
+          - text: 1785 tries
+        - cell "91.36"
+        - cell "41961"
+      - row "14 miao  91.34 4174 tries 91.34 43029":
+        - cell "14"
+        - cell "miao":
+          - link "miao":
+            - /url: /contests/imc2-2/teams/922026
+        - cell " 91.34 4174 tries":
+          - generic: 
+          - text: "91.34"
+          - text: 4174 tries
+        - cell "91.34"
+        - cell "43029"
+      - row "15 G-Block  91.3 2687 tries 91.3 41981":
+        - cell "15"
+        - cell "G-Block":
+          - link "G-Block":
+            - /url: /contests/imc2-2/teams/922681
+        - cell " 91.3 2687 tries":
+          - generic: 
+          - text: "91.3"
+          - text: 2687 tries
+        - cell "91.3"
+        - cell "41981"
+      - row "16 mulmutnab  91.02 2397 tries 91.02 42870":
+        - cell "16"
+        - cell "mulmutnab":
+          - link "mulmutnab":
+            - /url: /contests/imc2-2/teams/921620
+        - cell " 91.02 2397 tries":
+          - generic: 
+          - text: "91.02"
+          - text: 2397 tries
+        - cell "91.02"
+        - cell "42870"
+      - row "17 300iq  90.94 1217 tries 90.94 43196":
+        - cell "17"
+        - cell "300iq":
+          - link "300iq":
+            - /url: /contests/imc2-2/teams/923582
+        - cell " 90.94 1217 tries":
+          - generic: 
+          - text: "90.94"
+          - text: 1217 tries
+        - cell "90.94"
+        - cell "43196"
+      - row "18 q1w2e3r4  90.91 2980 tries 90.91 38045":
+        - cell "18"
+        - cell "q1w2e3r4":
+          - link "q1w2e3r4":
+            - /url: /contests/imc2-2/teams/923691
+        - cell " 90.91 2980 tries":
+          - generic: 
+          - text: "90.91"
+          - text: 2980 tries
+        - cell "90.91"
+        - cell "38045"
+      - row "19 Y Ddraig Goch  90.89 2041 tries 90.89 42615":
+        - cell "19"
+        - cell "Y Ddraig Goch":
+          - link "Y Ddraig Goch":
+            - /url: /contests/imc2-2/teams/919059
+        - cell " 90.89 2041 tries":
+          - generic: 
+          - text: "90.89"
+          - text: 2041 tries
+        - cell "90.89"
+        - cell "42615"
+      - row "20 Proof By Intimidation  90.8 2383 tries 90.8 43019":
+        - cell "20"
+        - cell "Proof By Intimidation":
+          - link "Proof By Intimidation":
+            - /url: /contests/imc2-2/teams/921417
+        - cell " 90.8 2383 tries":
+          - generic: 
+          - text: "90.8"
+          - text: 2383 tries
+        - cell "90.8"
+        - cell "43019"
+      - row "21 Loko  90.79 1717 tries 90.79 42052":
+        - cell "21"
+        - cell "Loko":
+          - link "Loko":
+            - /url: /contests/imc2-2/teams/923581
+        - cell " 90.79 1717 tries":
+          - generic: 
+          - text: "90.79"
+          - text: 1717 tries
+        - cell "90.79"
+        - cell "42052"
+      - row "22 hung  90.59 202 tries 90.59 43189":
+        - cell "22"
+        - cell "hung":
+          - link "hung":
+            - /url: /contests/imc2-2/teams/926802
+        - cell " 90.59 202 tries":
+          - generic: 
+          - text: "90.59"
+          - text: 202 tries
+        - cell "90.59"
+        - cell "43189"
+      - row "23 genius  90.57 23 tries 90.57 43189":
+        - cell "23"
+        - cell "genius":
+          - link "genius":
+            - /url: /contests/imc2-2/teams/926857
+        - cell " 90.57 23 tries":
+          - generic: 
+          - text: "90.57"
+          - text: 23 tries
+        - cell "90.57"
+        - cell "43189"
+      - row "24 91++  90.56 59 tries 90.56 42968":
+        - cell "24"
+        - cell "91++":
+          - link "91++":
+            - /url: /contests/imc2-2/teams/926939
+        - cell " 90.56 59 tries":
+          - generic: 
+          - text: "90.56"
+          - text: 59 tries
+        - cell "90.56"
+        - cell "42968"
+      - row "25 CVmaxxing  90.56 4369 tries 90.56 43011":
+        - cell "25"
+        - cell "CVmaxxing":
+          - link "CVmaxxing":
+            - /url: /contests/imc2-2/teams/921631
+        - cell " 90.56 4369 tries":
+          - generic: 
+          - text: "90.56"
+          - text: 4369 tries
+        - cell "90.56"
+        - cell "43011"
+      - row "26 PKA  90.56 11 tries 90.56 43189":
+        - cell "26"
+        - cell "PKA":
+          - link "PKA":
+            - /url: /contests/imc2-2/teams/926877
+        - cell " 90.56 11 tries":
+          - generic: 
+          - text: "90.56"
+          - text: 11 tries
+        - cell "90.56"
+        - cell "43189"
+      - row "26 trung  90.56 43 tries 90.56 43189":
+        - cell "26"
+        - cell "trung":
+          - link "trung":
+            - /url: /contests/imc2-2/teams/926823
+        - cell " 90.56 43 tries":
+          - generic: 
+          - text: "90.56"
+          - text: 43 tries
+        - cell "90.56"
+        - cell "43189"
+      - row "28 SLSCM  90.55 8 tries 90.55 43189":
+        - cell "28"
+        - cell "SLSCM":
+          - link "SLSCM":
+            - /url: /contests/imc2-2/teams/926876
+        - cell " 90.55 8 tries":
+          - generic: 
+          - text: "90.55"
+          - text: 8 tries
+        - cell "90.55"
+        - cell "43189"
+      - row "29 mastermind  90.54 7 tries 90.54 43186":
+        - cell "29"
+        - cell "mastermind":
+          - link "mastermind":
+            - /url: /contests/imc2-2/teams/926859
+        - cell " 90.54 7 tries":
+          - generic: 
+          - text: "90.54"
+          - text: 7 tries
+        - cell "90.54"
+        - cell "43186"
+      - row "30 Chrono  90.51 2457 tries 90.51 42255":
+        - cell "30"
+        - cell "Chrono":
+          - link "Chrono":
+            - /url: /contests/imc2-2/teams/919044
+        - cell " 90.51 2457 tries":
+          - generic: 
+          - text: "90.51"
+          - text: 2457 tries
+        - cell "90.51"
+        - cell "42255"
+      - row "31 diverge  90.51 324 tries 90.51 43187":
+        - cell "31"
+        - cell "diverge":
+          - link "diverge":
+            - /url: /contests/imc2-2/teams/926752
+        - cell " 90.51 324 tries":
+          - generic: 
+          - text: "90.51"
+          - text: 324 tries
+        - cell "90.51"
+        - cell "43187"
+      - row "32 BEST  90.39 949 tries 90.39 42328":
+        - cell "32"
+        - cell "BEST":
+          - link "BEST":
+            - /url: /contests/imc2-2/teams/922244
+        - cell " 90.39 949 tries":
+          - generic: 
+          - text: "90.39"
+          - text: 949 tries
+        - cell "90.39"
+        - cell "42328"
+      - row "33 cherry  89.9 505 tries 89.9 43199":
+        - cell "33"
+        - cell "cherry":
+          - link "cherry":
+            - /url: /contests/imc2-2/teams/923672
+        - cell " 89.9 505 tries":
+          - generic: 
+          - text: "89.9"
+          - text: 505 tries
+        - cell "89.9"
+        - cell "43199"
+      - row "34 Haumea  89.86 1179 tries 89.86 42934":
+        - cell "34"
+        - cell "Haumea":
+          - link "Haumea":
+            - /url: /contests/imc2-2/teams/920451
+        - cell " 89.86 1179 tries":
+          - generic: 
+          - text: "89.86"
+          - text: 1179 tries
+        - cell "89.86"
+        - cell "42934"
+      - row "35 Meow  89.78 4405 tries 89.78 42066":
+        - cell "35"
+        - cell "Meow":
+          - link "Meow":
+            - /url: /contests/imc2-2/teams/923746
+        - cell " 89.78 4405 tries":
+          - generic: 
+          - text: "89.78"
+          - text: 4405 tries
+        - cell "89.78"
+        - cell "42066"
+      - row "36 err404  89.7 542 tries 89.7 31323":
+        - cell "36"
+        - cell "err404":
+          - link "err404":
+            - /url: /contests/imc2-2/teams/923693
+        - cell " 89.7 542 tries":
+          - generic: 
+          - text: "89.7"
+          - text: 542 tries
+        - cell "89.7"
+        - cell "31323"
+      - row "37 NJUORLab  89.55 307 tries 89.55 43080":
+        - cell "37"
+        - cell "NJUORLab":
+          - link "NJUORLab":
+            - /url: /contests/imc2-2/teams/926747
+        - cell " 89.55 307 tries":
+          - generic: 
+          - text: "89.55"
+          - text: 307 tries
+        - cell "89.55"
+        - cell "43080"
+      - row "38 All in AI  89.48 1763 tries 89.48 42922":
+        - cell "38"
+        - cell "All in AI":
+          - link "All in AI":
+            - /url: /contests/imc2-2/teams/919878
+        - cell " 89.48 1763 tries":
+          - generic: 
+          - text: "89.48"
+          - text: 1763 tries
+        - cell "89.48"
+        - cell "42922"
+      - row "39 Hefesto  89.24 436 tries 89.24 42959":
+        - cell "39"
+        - cell "Hefesto":
+          - link "Hefesto":
+            - /url: /contests/imc2-2/teams/921787
+        - cell " 89.24 436 tries":
+          - generic: 
+          - text: "89.24"
+          - text: 436 tries
+        - cell "89.24"
+        - cell "42959"
+      - row "40 It's MyGO!!!!!  89.23 422 tries 89.23 31714":
+        - cell "40"
+        - cell "It's MyGO!!!!!":
+          - link "It's MyGO!!!!!":
+            - /url: /contests/imc2-2/teams/920607
+        - cell " 89.23 422 tries":
+          - generic: 
+          - text: "89.23"
+          - text: 422 tries
+        - cell "89.23"
+        - cell "31714"
+      - row "41 Groo~~  88.97 524 tries 88.97 32494":
+        - cell "41"
+        - cell "Groo~~":
+          - link "Groo~~":
+            - /url: /contests/imc2-2/teams/922239
+        - cell " 88.97 524 tries":
+          - generic: 
+          - text: "88.97"
+          - text: 524 tries
+        - cell "88.97"
+        - cell "32494"
+      - row "42 Victor Hulthe  88.82 1880 tries 88.82 39695":
+        - cell "42"
+        - cell "Victor Hulthe":
+          - link "Victor Hulthe":
+            - /url: /contests/imc2-2/teams/924479
+        - cell " 88.82 1880 tries":
+          - generic: 
+          - text: "88.82"
+          - text: 1880 tries
+        - cell "88.82"
+        - cell "39695"
+      - row "43 RUDN  88.82 415 tries 88.82 42054":
+        - cell "43"
+        - cell "RUDN":
+          - link "RUDN":
+            - /url: /contests/imc2-2/teams/921971
+        - cell " 88.82 415 tries":
+          - generic: 
+          - text: "88.82"
+          - text: 415 tries
+        - cell "88.82"
+        - cell "42054"
+      - row "44 SCRART-NUMEON  88.72 40 tries 88.72 43184":
+        - cell "44"
+        - cell "SCRART-NUMEON":
+          - link "SCRART-NUMEON":
+            - /url: /contests/imc2-2/teams/919070
+        - cell " 88.72 40 tries":
+          - generic: 
+          - text: "88.72"
+          - text: 40 tries
+        - cell "88.72"
+        - cell "43184"
+      - row "45 dancer_team  88.65 102 tries 88.65 18934":
+        - cell "45"
+        - cell "dancer_team":
+          - link "dancer_team":
+            - /url: /contests/imc2-2/teams/919069
+        - cell " 88.65 102 tries":
+          - generic: 
+          - text: "88.65"
+          - text: 102 tries
+        - cell "88.65"
+        - cell "18934"
+      - row "46 Genesphere  88.58 165 tries 88.58 38904":
+        - cell "46"
+        - cell "Genesphere":
+          - link "Genesphere":
+            - /url: /contests/imc2-2/teams/920907
+        - cell " 88.58 165 tries":
+          - generic: 
+          - text: "88.58"
+          - text: 165 tries
+        - cell "88.58"
+        - cell "38904"
+      - row "47 Manthan  88.46 82 tries 88.46 36491":
+        - cell "47"
+        - cell "Manthan":
+          - link "Manthan":
+            - /url: /contests/imc2-2/teams/926751
+        - cell " 88.46 82 tries":
+          - generic: 
+          - text: "88.46"
+          - text: 82 tries
+        - cell "88.46"
+        - cell "36491"
+      - row "48 CyberCrown  88.41 1275 tries 88.41 35538":
+        - cell "48"
+        - cell "CyberCrown":
+          - link "CyberCrown":
+            - /url: /contests/imc2-2/teams/923331
+        - cell " 88.41 1275 tries":
+          - generic: 
+          - text: "88.41"
+          - text: 1275 tries
+        - cell "88.41"
+        - cell "35538"
+      - row "49 🦧🦧🦧  88.34 67 tries 88.34 35948":
+        - cell "49"
+        - cell "🦧🦧🦧":
+          - link "🦧🦧🦧":
+            - /url: /contests/imc2-2/teams/919236
+        - cell " 88.34 67 tries":
+          - generic: 
+          - text: "88.34"
+          - text: 67 tries
+        - cell "88.34"
+        - cell "35948"
+      - row "50 CodeMasters  88.25 234 tries 88.25 38588":
+        - cell "50"
+        - cell "CodeMasters":
+          - link "CodeMasters":
+            - /url: /contests/imc2-2/teams/926619
+        - cell " 88.25 234 tries":
+          - generic: 
+          - text: "88.25"
+          - text: 234 tries
+        - cell "88.25"
+        - cell "38588"
+      - row "51 Out of time  88.16 136 tries 88.16 16771":
+        - cell "51"
+        - cell "Out of time":
+          - link "Out of time":
+            - /url: /contests/imc2-2/teams/919572
+        - cell " 88.16 136 tries":
+          - generic: 
+          - text: "88.16"
+          - text: 136 tries
+        - cell "88.16"
+        - cell "16771"
+      - row "52 Virtuose  88.01 120 tries 88.01 29951":
+        - cell "52"
+        - cell "Virtuose":
+          - link "Virtuose":
+            - /url: /contests/imc2-2/teams/923698
+        - cell " 88.01 120 tries":
+          - generic: 
+          - text: "88.01"
+          - text: 120 tries
+        - cell "88.01"
+        - cell "29951"
+      - row "53 Team Gauss  87.86 375 tries 87.86 42858":
+        - cell "53"
+        - cell "Team Gauss":
+          - link "Team Gauss":
+            - /url: /contests/imc2-2/teams/919170
+        - cell " 87.86 375 tries":
+          - generic: 
+          - text: "87.86"
+          - text: 375 tries
+        - cell "87.86"
+        - cell "42858"
+      - row "54 AC  87.85 228 tries 87.85 17665":
+        - cell "54"
+        - cell "AC":
+          - link "AC":
+            - /url: /contests/imc2-2/teams/919073
+        - cell " 87.85 228 tries":
+          - generic: 
+          - text: "87.85"
+          - text: 228 tries
+        - cell "87.85"
+        - cell "17665"
+      - row "55 paiu  87.84 66 tries 87.84 33273":
+        - cell "55"
+        - cell "paiu":
+          - link "paiu":
+            - /url: /contests/imc2-2/teams/920508
+        - cell " 87.84 66 tries":
+          - generic: 
+          - text: "87.84"
+          - text: 66 tries
+        - cell "87.84"
+        - cell "33273"
+      - row "56 Divide & Messi  87.63 296 tries 87.63 22816":
+        - cell "56"
+        - cell "Divide & Messi":
+          - link "Divide & Messi":
+            - /url: /contests/imc2-2/teams/923231
+        - cell " 87.63 296 tries":
+          - generic: 
+          - text: "87.63"
+          - text: 296 tries
+        - cell "87.63"
+        - cell "22816"
+      - row "57 XuanxuChem  87.62 751 tries 87.62 29689":
+        - cell "57"
+        - cell "XuanxuChem":
+          - link "XuanxuChem":
+            - /url: /contests/imc2-2/teams/920749
+        - cell " 87.62 751 tries":
+          - generic: 
+          - text: "87.62"
+          - text: 751 tries
+        - cell "87.62"
+        - cell "29689"
+      - row "58 sunshine  87.58 56 tries 87.58 32110":
+        - cell "58"
+        - cell "sunshine":
+          - link "sunshine":
+            - /url: /contests/imc2-2/teams/923263
+        - cell " 87.58 56 tries":
+          - generic: 
+          - text: "87.58"
+          - text: 56 tries
+        - cell "87.58"
+        - cell "32110"
+      - row "59 Nagibator  87.49 162 tries 87.49 24939":
+        - cell "59"
+        - cell "Nagibator":
+          - link "Nagibator":
+            - /url: /contests/imc2-2/teams/923379
+        - cell " 87.49 162 tries":
+          - generic: 
+          - text: "87.49"
+          - text: 162 tries
+        - cell "87.49"
+        - cell "24939"
+      - row "60 Work Hard  86.85 237 tries 86.85 38334":
+        - cell "60"
+        - cell "Work Hard":
+          - link "Work Hard":
+            - /url: /contests/imc2-2/teams/924443
+        - cell " 86.85 237 tries":
+          - generic: 
+          - text: "86.85"
+          - text: 237 tries
+        - cell "86.85"
+        - cell "38334"
+      - row "61 reidemeister-moves  86.31 31 tries 86.31 37995":
+        - cell "61"
+        - cell "reidemeister-moves":
+          - link "reidemeister-moves":
+            - /url: /contests/imc2-2/teams/919122
+        - cell " 86.31 31 tries":
+          - generic: 
+          - text: "86.31"
+          - text: 31 tries
+        - cell "86.31"
+        - cell "37995"
+      - row "62 Meshpert  86.21 430 tries 86.21 27950":
+        - cell "62"
+        - cell "Meshpert":
+          - link "Meshpert":
+            - /url: /contests/imc2-2/teams/924252
+        - cell " 86.21 430 tries":
+          - generic: 
+          - text: "86.21"
+          - text: 430 tries
+        - cell "86.21"
+        - cell "27950"
+      - row "63 AST  85.88 231 tries 85.88 26078":
+        - cell "63"
+        - cell "AST":
+          - link "AST":
+            - /url: /contests/imc2-2/teams/921336
+        - cell " 85.88 231 tries":
+          - generic: 
+          - text: "85.88"
+          - text: 231 tries
+        - cell "85.88"
+        - cell "26078"
+      - row "64 Warawreh  85.78 53 tries 85.78 42051":
+        - cell "64"
+        - cell "Warawreh":
+          - link "Warawreh":
+            - /url: /contests/imc2-2/teams/923719
+        - cell " 85.78 53 tries":
+          - generic: 
+          - text: "85.78"
+          - text: 53 tries
+        - cell "85.78"
+        - cell "42051"
+      - row "65 Miki  85.3 88 tries 85.3 27209":
+        - cell "65"
+        - cell "Miki":
+          - link "Miki":
+            - /url: /contests/imc2-2/teams/924275
+        - cell " 85.3 88 tries":
+          - generic: 
+          - text: "85.3"
+          - text: 88 tries
+        - cell "85.3"
+        - cell "27209"
+      - row "66 Mace's Team  85.08 1581 tries 85.08 26122":
+        - cell "66"
+        - cell "Mace's Team":
+          - link "Mace's Team":
+            - /url: /contests/imc2-2/teams/919046
+        - cell " 85.08 1581 tries":
+          - generic: 
+          - text: "85.08"
+          - text: 1581 tries
+        - cell "85.08"
+        - cell "26122"
+      - row "67 abf  84.87 468 tries 84.87 25862":
+        - cell "67"
+        - cell "abf":
+          - link "abf":
+            - /url: /contests/imc2-2/teams/923794
+        - cell " 84.87 468 tries":
+          - generic: 
+          - text: "84.87"
+          - text: 468 tries
+        - cell "84.87"
+        - cell "25862"
+      - row "68 icecuber  84.55 58 tries 84.55 713":
+        - cell "68"
+        - cell "icecuber":
+          - link "icecuber":
+            - /url: /contests/imc2-2/teams/922020
+        - cell " 84.55 58 tries":
+          - generic: 
+          - text: "84.55"
+          - text: 58 tries
+        - cell "84.55"
+        - cell "713"
+      - row "69 the muse  84.52 180 tries 84.52 39889":
+        - cell "69"
+        - cell "the muse":
+          - link "the muse":
+            - /url: /contests/imc2-2/teams/924352
+        - cell " 84.52 180 tries":
+          - generic: 
+          - text: "84.52"
+          - text: 180 tries
+        - cell "84.52"
+        - cell "39889"
+      - row "70 Jerrubal  84.5 15 tries 84.5 19887":
+        - cell "70"
+        - cell "Jerrubal":
+          - link "Jerrubal":
+            - /url: /contests/imc2-2/teams/919063
+        - cell " 84.5 15 tries":
+          - generic: 
+          - text: "84.5"
+          - text: 15 tries
+        - cell "84.5"
+        - cell "19887"
+      - row "71 永雏塔菲研究中心  84.37 69 tries 84.37 1698":
+        - cell "71"
+        - cell "永雏塔菲研究中心":
+          - link "永雏塔菲研究中心":
+            - /url: /contests/imc2-2/teams/921652
+        - cell " 84.37 69 tries":
+          - generic: 
+          - text: "84.37"
+          - text: 69 tries
+        - cell "84.37"
+        - cell "1698"
+      - row "72 Research Institute of Basic Problems  83.22 453 tries 83.22 42808":
+        - cell "72"
+        - cell "Research Institute of Basic Problems":
+          - link "Research Institute of Basic Problems":
+            - /url: /contests/imc2-2/teams/926754
+        - cell " 83.22 453 tries":
+          - generic: 
+          - text: "83.22"
+          - text: 453 tries
+        - cell "83.22"
+        - cell "42808"
+      - row "73 Abvazo  83.04 771 tries 83.04 41620":
+        - cell "73"
+        - cell "Abvazo":
+          - link "Abvazo":
+            - /url: /contests/imc2-2/teams/922024
+        - cell " 83.04 771 tries":
+          - generic: 
+          - text: "83.04"
+          - text: 771 tries
+        - cell "83.04"
+        - cell "41620"
+      - row "74 SYSU-WongLab  82.66 1101 tries 82.66 40606":
+        - cell "74"
+        - cell "SYSU-WongLab":
+          - link "SYSU-WongLab":
+            - /url: /contests/imc2-2/teams/921834
+        - cell " 82.66 1101 tries":
+          - generic: 
+          - text: "82.66"
+          - text: 1101 tries
+        - cell "82.66"
+        - cell "40606"
+      - row "75 CV  81.97 75 tries 81.97 21383":
+        - cell "75"
+        - cell "CV":
+          - link "CV":
+            - /url: /contests/imc2-2/teams/923692
+        - cell " 81.97 75 tries":
+          - generic: 
+          - text: "81.97"
+          - text: 75 tries
+        - cell "81.97"
+        - cell "21383"
+      - row "76 🌐Linked VERSE  81.24 152 tries 81.24 19855":
+        - cell "76"
+        - cell "🌐Linked VERSE":
+          - link "🌐Linked VERSE":
+            - /url: /contests/imc2-2/teams/923803
+        - cell " 81.24 152 tries":
+          - generic: 
+          - text: "81.24"
+          - text: 152 tries
+        - cell "81.24"
+        - cell "19855"
+      - row "77 Lionel Meshing  80.89 241 tries 80.89 42614":
+        - cell "77"
+        - cell "Lionel Meshing":
+          - link "Lionel Meshing":
+            - /url: /contests/imc2-2/teams/926775
+        - cell " 80.89 241 tries":
+          - generic: 
+          - text: "80.89"
+          - text: 241 tries
+        - cell "80.89"
+        - cell "42614"
+      - row "78 Mesh Muncher  80.31 94 tries 80.31 1909":
+        - cell "78"
+        - cell "Mesh Muncher":
+          - link "Mesh Muncher":
+            - /url: /contests/imc2-2/teams/920317
+        - cell " 80.31 94 tries":
+          - generic: 
+          - text: "80.31"
+          - text: 94 tries
+        - cell "80.31"
+        - cell "1909"
+      - row "79 Silent Roar  79.06 10 tries 79.06 33472":
+        - cell "79"
+        - cell "Silent Roar":
+          - link "Silent Roar":
+            - /url: /contests/imc2-2/teams/923748
+        - cell " 79.06 10 tries":
+          - generic: 
+          - text: "79.06"
+          - text: 10 tries
+        - cell "79.06"
+        - cell "33472"
+      - row "80 Rigorous_sigmas  78.86 47 tries 78.86 42913":
+        - cell "80"
+        - cell "Rigorous_sigmas":
+          - link "Rigorous_sigmas":
+            - /url: /contests/imc2-2/teams/921724
+        - cell " 78.86 47 tries":
+          - generic: 
+          - text: "78.86"
+          - text: 47 tries
+        - cell "78.86"
+        - cell "42913"
+      - row "81 Goddag  78.65 348 tries 78.65 22871":
+        - cell "81"
+        - cell "Goddag":
+          - link "Goddag":
+            - /url: /contests/imc2-2/teams/922452
+        - cell " 78.65 348 tries":
+          - generic: 
+          - text: "78.65"
+          - text: 348 tries
+        - cell "78.65"
+        - cell "22871"
+      - row "82 xxx_husaria_xxx  77.83 295 tries 77.83 40657":
+        - cell "82"
+        - cell "xxx_husaria_xxx":
+          - link "xxx_husaria_xxx":
+            - /url: /contests/imc2-2/teams/923405
+        - cell " 77.83 295 tries":
+          - generic: 
+          - text: "77.83"
+          - text: 295 tries
+        - cell "77.83"
+        - cell "40657"
+      - row "83 KUBG Team  77.78 1333 tries 77.78 42992":
+        - cell "83"
+        - cell "KUBG Team":
+          - link "KUBG Team":
+            - /url: /contests/imc2-2/teams/918892
+        - cell " 77.78 1333 tries":
+          - generic: 
+          - text: "77.78"
+          - text: 1333 tries
+        - cell "77.78"
+        - cell "42992"
+      - row "84 ButNotToday  77.26 129 tries 77.26 3075":
+        - cell "84"
+        - cell "ButNotToday":
+          - link "ButNotToday":
+            - /url: /contests/imc2-2/teams/922117
+        - cell " 77.26 129 tries":
+          - generic: 
+          - text: "77.26"
+          - text: 129 tries
+        - cell "77.26"
+        - cell "3075"
+      - row "85 Battle for Glory  75.5 50 tries 75.5 40161":
+        - cell "85"
+        - cell "Battle for Glory":
+          - link "Battle for Glory":
+            - /url: /contests/imc2-2/teams/924398
+        - cell " 75.5 50 tries":
+          - generic: 
+          - text: "75.5"
+          - text: 50 tries
+        - cell "75.5"
+        - cell "40161"
+      - row "86 PawsMakeClickClick  74.84 634 tries 74.84 33169":
+        - cell "86"
+        - cell "PawsMakeClickClick":
+          - link "PawsMakeClickClick":
+            - /url: /contests/imc2-2/teams/919086
+        - cell " 74.84 634 tries":
+          - generic: 
+          - text: "74.84"
+          - text: 634 tries
+        - cell "74.84"
+        - cell "33169"
+      - row "87 Art.ogo  74.77 64 tries 74.77 10393":
+        - cell "87"
+        - cell "Art.ogo":
+          - link "Art.ogo":
+            - /url: /contests/imc2-2/teams/923046
+        - cell " 74.77 64 tries":
+          - generic: 
+          - text: "74.77"
+          - text: 64 tries
+        - cell "74.77"
+        - cell "10393"
+      - row "88 galoisenjoyer  73.37 62 tries 73.37 35867":
+        - cell "88"
+        - cell "galoisenjoyer":
+          - link "galoisenjoyer":
+            - /url: /contests/imc2-2/teams/920444
+        - cell " 73.37 62 tries":
+          - generic: 
+          - text: "73.37"
+          - text: 62 tries
+        - cell "73.37"
+        - cell "35867"
+      - row "89 Adia  72.95 15 tries 72.95 42522":
+        - cell "89"
+        - cell "Adia":
+          - link "Adia":
+            - /url: /contests/imc2-2/teams/926861
+        - cell " 72.95 15 tries":
+          - generic: 
+          - text: "72.95"
+          - text: 15 tries
+        - cell "72.95"
+        - cell "42522"
+      - row "90 Power  72.67 197 tries 72.67 36383":
+        - cell "90"
+        - cell "Power":
+          - link "Power":
+            - /url: /contests/imc2-2/teams/922021
+        - cell " 72.67 197 tries":
+          - generic: 
+          - text: "72.67"
+          - text: 197 tries
+        - cell "72.67"
+        - cell "36383"
+      - row "91 卡拉比丘似了喵  72.48 19 tries 72.48 203":
+        - cell "91"
+        - cell "卡拉比丘似了喵":
+          - link "卡拉比丘似了喵":
+            - /url: /contests/imc2-2/teams/922043
+        - cell " 72.48 19 tries":
+          - generic: 
+          - text: "72.48"
+          - text: 19 tries
+        - cell "72.48"
+        - cell "203"
+      - row "92 Elduque's Gaussian fans 😎  71.65 69 tries 71.65 40974":
+        - cell "92"
+        - cell "Elduque's Gaussian fans 😎":
+          - link "Elduque's Gaussian fans 😎":
+            - /url: /contests/imc2-2/teams/921915
+        - cell " 71.65 69 tries":
+          - generic: 
+          - text: "71.65"
+          - text: 69 tries
+        - cell "71.65"
+        - cell "40974"
+      - row "93 Festival  70.17 12 tries 70.17 8284":
+        - cell "93"
+        - cell "Festival":
+          - link "Festival":
+            - /url: /contests/imc2-2/teams/922946
+        - cell " 70.17 12 tries":
+          - generic: 
+          - text: "70.17"
+          - text: 12 tries
+        - cell "70.17"
+        - cell "8284"
+      - row "94 Colo Colo  69.1 1088 tries 69.1 27437":
+        - cell "94"
+        - cell "Colo Colo":
+          - link "Colo Colo":
+            - /url: /contests/imc2-2/teams/920147
+        - cell " 69.1 1088 tries":
+          - generic: 
+          - text: "69.1"
+          - text: 1088 tries
+        - cell "69.1"
+        - cell "27437"
+      - row "95 xceland  68.98 114 tries 68.98 28167":
+        - cell "95"
+        - cell "xceland":
+          - link "xceland":
+            - /url: /contests/imc2-2/teams/919016
+        - cell " 68.98 114 tries":
+          - generic: 
+          - text: "68.98"
+          - text: 114 tries
+        - cell "68.98"
+        - cell "28167"
+      - row "96 Onedirection  66.67 13 tries 66.67 18573":
+        - cell "96"
+        - cell "Onedirection":
+          - link "Onedirection":
+            - /url: /contests/imc2-2/teams/923694
+        - cell " 66.67 13 tries":
+          - generic: 
+          - text: "66.67"
+          - text: 13 tries
+        - cell "66.67"
+        - cell "18573"
+      - row "97 🙂  64.78 24 tries 64.78 24198":
+        - cell "97"
+        - cell "🙂":
+          - link "🙂":
+            - /url: /contests/imc2-2/teams/923632
+        - cell " 64.78 24 tries":
+          - generic: 
+          - text: "64.78"
+          - text: 24 tries
+        - cell "64.78"
+        - cell "24198"
+      - row "98 TheCodeBros  63.67 111 tries 63.67 34795":
+        - cell "98"
+        - cell "TheCodeBros":
+          - link "TheCodeBros":
+            - /url: /contests/imc2-2/teams/923580
+        - cell " 63.67 111 tries":
+          - generic: 
+          - text: "63.67"
+          - text: 111 tries
+        - cell "63.67"
+        - cell "34795"
+      - row "99 JDit  63.5 66 tries 63.5 24703":
+        - cell "99"
+        - cell "JDit":
+          - link "JDit":
+            - /url: /contests/imc2-2/teams/919047
+        - cell " 63.5 66 tries":
+          - generic: 
+          - text: "63.5"
+          - text: 66 tries
+        - cell "63.5"
+        - cell "24703"
+      - row "100 kessoku  59.68 74 tries 59.68 5376":
+        - cell "100"
+        - cell "kessoku":
+          - link "kessoku":
+            - /url: /contests/imc2-2/teams/919575
+        - cell " 59.68 74 tries":
+          - generic: 
+          - text: "59.68"
+          - text: 74 tries
+        - cell "59.68"
+        - cell "5376"
+      - row "101 quadric  56.62 36 tries 56.62 42799":
+        - cell "101"
+        - cell "quadric":
+          - link "quadric":
+            - /url: /contests/imc2-2/teams/919880
+        - cell " 56.62 36 tries":
+          - generic: 
+          - text: "56.62"
+          - text: 36 tries
+        - cell "56.62"
+        - cell "42799"
+      - row "102 STry  56.59 80 tries 56.59 14672":
+        - cell "102"
+        - cell "STry":
+          - link "STry":
+            - /url: /contests/imc2-2/teams/922055
+        - cell " 56.59 80 tries":
+          - generic: 
+          - text: "56.59"
+          - text: 80 tries
+        - cell "56.59"
+        - cell "14672"
+      - row "103 Mot Doi Liem Khiet  54.25 3 tries 54.25 6201":
+        - cell "103"
+        - cell "Mot Doi Liem Khiet":
+          - link "Mot Doi Liem Khiet":
+            - /url: /contests/imc2-2/teams/921671
+        - cell " 54.25 3 tries":
+          - generic: 
+          - text: "54.25"
+          - text: 3 tries
+        - cell "54.25"
+        - cell "6201"
+      - row "104 INTERN_NAHI_MILA  52.81 7 tries 52.81 40189":
+        - cell "104"
+        - cell "INTERN_NAHI_MILA":
+          - link "INTERN_NAHI_MILA":
+            - /url: /contests/imc2-2/teams/924540
+        - cell " 52.81 7 tries":
+          - generic: 
+          - text: "52.81"
+          - text: 7 tries
+        - cell "52.81"
+        - cell "40189"
+      - row "105 alvarOpt  52.45 20 tries 52.45 18370":
+        - cell "105"
+        - cell "alvarOpt":
+          - link "alvarOpt":
+            - /url: /contests/imc2-2/teams/923656
+        - cell " 52.45 20 tries":
+          - generic: 
+          - text: "52.45"
+          - text: 20 tries
+        - cell "52.45"
+        - cell "18370"
+      - row "106 AAASichuan  51.77 16 tries 51.77 17344":
+        - cell "106"
+        - cell "AAASichuan":
+          - link "AAASichuan":
+            - /url: /contests/imc2-2/teams/920226
+        - cell " 51.77 16 tries":
+          - generic: 
+          - text: "51.77"
+          - text: 16 tries
+        - cell "51.77"
+        - cell "17344"
+      - row "107 Yef  50.38 8 tries 50.38 13202":
+        - cell "107"
+        - cell "Yef":
+          - link "Yef":
+            - /url: /contests/imc2-2/teams/919237
+        - cell " 50.38 8 tries":
+          - generic: 
+          - text: "50.38"
+          - text: 8 tries
+        - cell "50.38"
+        - cell "13202"
+      - row "108 Fran2026  50.29 255 tries 50.29 16426":
+        - cell "108"
+        - cell "Fran2026":
+          - link "Fran2026":
+            - /url: /contests/imc2-2/teams/920149
+        - cell " 50.29 255 tries":
+          - generic: 
+          - text: "50.29"
+          - text: 255 tries
+        - cell "50.29"
+        - cell "16426"
+      - row "109 JustForFun  49 133 tries 49 40794":
+        - cell "109"
+        - cell "JustForFun":
+          - link "JustForFun":
+            - /url: /contests/imc2-2/teams/922417
+        - cell " 49 133 tries":
+          - generic: 
+          - text: "49"
+          - text: 133 tries
+        - cell "49"
+        - cell "40794"
+      - row "110 MeshDeeper  48.61 10 tries 48.61 12775":
+        - cell "110"
+        - cell "MeshDeeper":
+          - link "MeshDeeper":
+            - /url: /contests/imc2-2/teams/922533
+        - cell " 48.61 10 tries":
+          - generic: 
+          - text: "48.61"
+          - text: 10 tries
+        - cell "48.61"
+        - cell "12775"
+      - row "111 life equation  45.56 53 tries 45.56 10940":
+        - cell "111"
+        - cell "life equation":
+          - link "life equation":
+            - /url: /contests/imc2-2/teams/922944
+        - cell " 45.56 53 tries":
+          - generic: 
+          - text: "45.56"
+          - text: 53 tries
+        - cell "45.56"
+        - cell "10940"
+      - row "112 PCNSS  44.37 50 tries 44.37 38700":
+        - cell "112"
+        - cell "PCNSS":
+          - link "PCNSS":
+            - /url: /contests/imc2-2/teams/922093
+        - cell " 44.37 50 tries":
+          - generic: 
+          - text: "44.37"
+          - text: 50 tries
+        - cell "44.37"
+        - cell "38700"
+      - row "113 0v0  43.35 23 tries 43.35 3078":
+        - cell "113"
+        - cell "0v0":
+          - link "0v0":
+            - /url: /contests/imc2-2/teams/919049
+        - cell " 43.35 23 tries":
+          - generic: 
+          - text: "43.35"
+          - text: 23 tries
+        - cell "43.35"
+        - cell "3078"
+      - row "114 2  42.5 19 tries 42.5 19974":
+        - cell "114"
+        - cell "2":
+          - link "2":
+            - /url: /contests/imc2-2/teams/921736
+        - cell " 42.5 19 tries":
+          - generic: 
+          - text: "42.5"
+          - text: 19 tries
+        - cell "42.5"
+        - cell "19974"
+      - row "115 SIRISAACNEWTONHAKANUNAL  42.5 57 tries 42.5 23233":
+        - cell "115"
+        - cell "SIRISAACNEWTONHAKANUNAL":
+          - link "SIRISAACNEWTONHAKANUNAL":
+            - /url: /contests/imc2-2/teams/919051
+        - cell " 42.5 57 tries":
+          - generic: 
+          - text: "42.5"
+          - text: 57 tries
+        - cell "42.5"
+        - cell "23233"
+      - row "116 Alpha-c Creator  42.5 39 tries 42.5 36445":
+        - cell "116"
+        - cell "Alpha-c Creator":
+          - link "Alpha-c Creator":
+            - /url: /contests/imc2-2/teams/919054
+        - cell " 42.5 39 tries":
+          - generic: 
+          - text: "42.5"
+          - text: 39 tries
+        - cell "42.5"
+        - cell "36445"
+      - row "117 XianXianChaoRen  41.67 13 tries 41.67 22612":
+        - cell "117"
+        - cell "XianXianChaoRen":
+          - link "XianXianChaoRen":
+            - /url: /contests/imc2-2/teams/924134
+        - cell " 41.67 13 tries":
+          - generic: 
+          - text: "41.67"
+          - text: 13 tries
+        - cell "41.67"
+        - cell "22612"
+      - row "118 kjhk  41.67 5 tries 41.67 36557":
+        - cell "118"
+        - cell "kjhk":
+          - link "kjhk":
+            - /url: /contests/imc2-2/teams/926723
+        - cell " 41.67 5 tries":
+          - generic: 
+          - text: "41.67"
+          - text: 5 tries
+        - cell "41.67"
+        - cell "36557"
+      - row "119 romax  38.46 1 try 38.46 11724":
+        - cell "119"
+        - cell "romax":
+          - link "romax":
+            - /url: /contests/imc2-2/teams/923272
+        - cell " 38.46 1 try":
+          - generic: 
+          - text: "38.46"
+          - text: 1 try
+        - cell "38.46"
+        - cell "11724"
+      - row "120 Pi Sinus Alpha  37.09 4 tries 37.09 18842":
+        - cell "120"
+        - cell "Pi Sinus Alpha":
+          - link "Pi Sinus Alpha":
+            - /url: /contests/imc2-2/teams/921361
+        - cell " 37.09 4 tries":
+          - generic: 
+          - text: "37.09"
+          - text: 4 tries
+        - cell "37.09"
+        - cell "18842"
+      - row "121 2t  36.07 40 tries 36.07 43027":
+        - cell "121"
+        - cell "2t":
+          - link "2t":
+            - /url: /contests/imc2-2/teams/926887
+        - cell " 36.07 40 tries":
+          - generic: 
+          - text: "36.07"
+          - text: 40 tries
+        - cell "36.07"
+        - cell "43027"
+      - row "122 anuragroy  33.59 26 tries 33.59 11906":
+        - cell "122"
+        - cell "anuragroy":
+          - link "anuragroy":
+            - /url: /contests/imc2-2/teams/923209
+        - cell " 33.59 26 tries":
+          - generic: 
+          - text: "33.59"
+          - text: 26 tries
+        - cell "33.59"
+        - cell "11906"
+      - row "123 tehran  32.71 15 tries 32.71 42962":
+        - cell "123"
+        - cell "tehran":
+          - link "tehran":
+            - /url: /contests/imc2-2/teams/926935
+        - cell " 32.71 15 tries":
+          - generic: 
+          - text: "32.71"
+          - text: 15 tries
+        - cell "32.71"
+        - cell "42962"
+      - row "124 Nanoteam  32.24 10 tries 32.24 27861":
+        - cell "124"
+        - cell "Nanoteam":
+          - link "Nanoteam":
+            - /url: /contests/imc2-2/teams/919058
+        - cell " 32.24 10 tries":
+          - generic: 
+          - text: "32.24"
+          - text: 10 tries
+        - cell "32.24"
+        - cell "27861"
+      - row "125 slowfox  31.67 6 tries 31.67 8611":
+        - cell "125"
+        - cell "slowfox":
+          - link "slowfox":
+            - /url: /contests/imc2-2/teams/923019
+        - cell " 31.67 6 tries":
+          - generic: 
+          - text: "31.67"
+          - text: 6 tries
+        - cell "31.67"
+        - cell "8611"
+      - row "126 Give Your Life To Jesus  30.76 18 tries 30.76 27301":
+        - cell "126"
+        - cell "Give Your Life To Jesus":
+          - link "Give Your Life To Jesus":
+            - /url: /contests/imc2-2/teams/920329
+        - cell " 30.76 18 tries":
+          - generic: 
+          - text: "30.76"
+          - text: 18 tries
+        - cell "30.76"
+        - cell "27301"
+      - row "127 chiranko  29.47 2 tries 29.47 18452":
+        - cell "127"
+        - cell "chiranko":
+          - link "chiranko":
+            - /url: /contests/imc2-2/teams/923689
+        - cell " 29.47 2 tries":
+          - generic: 
+          - text: "29.47"
+          - text: 2 tries
+        - cell "29.47"
+        - cell "18452"
+      - row "128 Wraps Aso  29 2 tries 29 42678":
+        - cell "128"
+        - cell "Wraps Aso":
+          - link "Wraps Aso":
+            - /url: /contests/imc2-2/teams/926938
+        - cell " 29 2 tries":
+          - generic: 
+          - text: "29"
+          - text: 2 tries
+        - cell "29"
+        - cell "42678"
+      - row "129 Breaking Math  28.41 6 tries 28.41 4444":
+        - cell "129"
+        - cell "Breaking Math":
+          - link "Breaking Math":
+            - /url: /contests/imc2-2/teams/919053
+        - cell " 28.41 6 tries":
+          - generic: 
+          - text: "28.41"
+          - text: 6 tries
+        - cell "28.41"
+        - cell "4444"
+      - row "130 MSU_Amogus  25.76 10 tries 25.76 33500":
+        - cell "130"
+        - cell "MSU_Amogus":
+          - link "MSU_Amogus":
+            - /url: /contests/imc2-2/teams/926713
+        - cell " 25.76 10 tries":
+          - generic: 
+          - text: "25.76"
+          - text: 10 tries
+        - cell "25.76"
+        - cell "33500"
+      - row "131 pengzoo  23.46 39 tries 23.46 41996":
+        - cell "131"
+        - cell "pengzoo":
+          - link "pengzoo":
+            - /url: /contests/imc2-2/teams/921931
+        - cell " 23.46 39 tries":
+          - generic: 
+          - text: "23.46"
+          - text: 39 tries
+        - cell "23.46"
+        - cell "41996"
+      - row "132 Fleet Snowfluff  22.33 22 tries 22.33 1025":
+        - cell "132"
+        - cell "Fleet Snowfluff":
+          - link "Fleet Snowfluff":
+            - /url: /contests/imc2-2/teams/920170
+        - cell " 22.33 22 tries":
+          - generic: 
+          - text: "22.33"
+          - text: 22 tries
+        - cell "22.33"
+        - cell "1025"
+      - row "133 Opti & Research  20.96 226 tries 20.96 29039":
+        - cell "133"
+        - cell "Opti & Research":
+          - link "Opti & Research":
+            - /url: /contests/imc2-2/teams/919052
+        - cell " 20.96 226 tries":
+          - generic: 
+          - text: "20.96"
+          - text: 226 tries
+        - cell "20.96"
+        - cell "29039"
+      - row "134 One day, after dinner 🕊️  20 7 tries 20 30512":
+        - cell "134"
+        - cell "One day, after dinner 🕊️":
+          - link "One day, after dinner 🕊️":
+            - /url: /contests/imc2-2/teams/923274
+        - cell " 20 7 tries":
+          - generic: 
+          - text: "20"
+          - text: 7 tries
+        - cell "20"
+        - cell "30512"
+      - row "135 ABDTR  17.5 5 tries 17.5 38698":
+        - cell "135"
+        - cell "ABDTR":
+          - link "ABDTR":
+            - /url: /contests/imc2-2/teams/926784
+        - cell " 17.5 5 tries":
+          - generic: 
+          - text: "17.5"
+          - text: 5 tries
+        - cell "17.5"
+        - cell "38698"
+      - row "136 Brain Dead  16.56 1 try 16.56 42928":
+        - cell "136"
+        - cell "Brain Dead":
+          - link "Brain Dead":
+            - /url: /contests/imc2-2/teams/924539
+        - cell " 16.56 1 try":
+          - generic: 
+          - text: "16.56"
+          - text: 1 try
+        - cell "16.56"
+        - cell "42928"
+      - row "137 up  16.54 57 tries 16.54 39399":
+        - cell "137"
+        - cell "up":
+          - link "up":
+            - /url: /contests/imc2-2/teams/926804
+        - cell " 16.54 57 tries":
+          - generic: 
+          - text: "16.54"
+          - text: 57 tries
+        - cell "16.54"
+        - cell "39399"
+      - row "138 MonsieurYE  16.54 80 tries 16.54 40329":
+        - cell "138"
+        - cell "MonsieurYE":
+          - link "MonsieurYE":
+            - /url: /contests/imc2-2/teams/926785
+        - cell " 16.54 80 tries":
+          - generic: 
+          - text: "16.54"
+          - text: 80 tries
+        - cell "16.54"
+        - cell "40329"
+      - row "139 Q.E.D.  16.54 9 tries 16.54 42236":
+        - cell "139"
+        - cell "Q.E.D.":
+          - link "Q.E.D.":
+            - /url: /contests/imc2-2/teams/921985
+        - cell " 16.54 9 tries":
+          - generic: 
+          - text: "16.54"
+          - text: 9 tries
+        - cell "16.54"
+        - cell "42236"
+      - row "140 Xantharonz  16.53 5 tries 16.53 2864":
+        - cell "140"
+        - cell "Xantharonz":
+          - link "Xantharonz":
+            - /url: /contests/imc2-2/teams/919631
+        - cell " 16.53 5 tries":
+          - generic: 
+          - text: "16.53"
+          - text: 5 tries
+        - cell "16.53"
+        - cell "2864"
+      - row "141 eternal dream  16.51 5 tries 16.51 1563":
+        - cell "141"
+        - cell "eternal dream":
+          - link "eternal dream":
+            - /url: /contests/imc2-2/teams/921888
+        - cell " 16.51 5 tries":
+          - generic: 
+          - text: "16.51"
+          - text: 5 tries
+        - cell "16.51"
+        - cell "1563"
+      - row "142 BossOTG  16.49 16 tries 16.49 3502":
+        - cell "142"
+        - cell "BossOTG":
+          - link "BossOTG":
+            - /url: /contests/imc2-2/teams/922012
+        - cell " 16.49 16 tries":
+          - generic: 
+          - text: "16.49"
+          - text: 16 tries
+        - cell "16.49"
+        - cell "3502"
+      - row "143 dasari Karthikeya  16.49 1 try 16.49 8586":
+        - cell "143"
+        - cell "dasari Karthikeya":
+          - link "dasari Karthikeya":
+            - /url: /contests/imc2-2/teams/923044
+        - cell " 16.49 1 try":
+          - generic: 
+          - text: "16.49"
+          - text: 1 try
+        - cell "16.49"
+        - cell "8586"
+      - row "144 sIMCcH2026  16.34 7 tries 16.34 27657":
+        - cell "144"
+        - cell "sIMCcH2026":
+          - link "sIMCcH2026":
+            - /url: /contests/imc2-2/teams/924442
+        - cell " 16.34 7 tries":
+          - generic: 
+          - text: "16.34"
+          - text: 7 tries
+        - cell "16.34"
+        - cell "27657"
+      - row "145 HKS  16.13 1 try 16.13 42749":
+        - cell "145"
+        - cell "HKS":
+          - link "HKS":
+            - /url: /contests/imc2-2/teams/926937
+        - cell " 16.13 1 try":
+          - generic: 
+          - text: "16.13"
+          - text: 1 try
+        - cell "16.13"
+        - cell "42749"
+      - row "146 Trimesh  14.73 83 tries 14.73 32653":
+        - cell "146"
+        - cell "Trimesh":
+          - link "Trimesh":
+            - /url: /contests/imc2-2/teams/924497
+        - cell " 14.73 83 tries":
+          - generic: 
+          - text: "14.73"
+          - text: 83 tries
+        - cell "14.73"
+        - cell "32653"
+      - row "147 Dynamical Systems Engineer  12.5 6 tries 12.5 30637":
+        - cell "147"
+        - cell "Dynamical Systems Engineer":
+          - link "Dynamical Systems Engineer":
+            - /url: /contests/imc2-2/teams/924597
+        - cell " 12.5 6 tries":
+          - generic: 
+          - text: "12.5"
+          - text: 6 tries
+        - cell "12.5"
+        - cell "30637"
+      - row "148 Yerson  10 4 tries 10 19170":
+        - cell "148"
+        - cell "Yerson":
+          - link "Yerson":
+            - /url: /contests/imc2-2/teams/923638
+        - cell " 10 4 tries":
+          - generic: 
+          - text: "10"
+          - text: 4 tries
+        - cell "10"
+        - cell "19170"
+      - row "149 Immersion Moment  9.88 5 tries 9.88 30168":
+        - cell "149"
+        - cell "Immersion Moment":
+          - link "Immersion Moment":
+            - /url: /contests/imc2-2/teams/922539
+        - cell " 9.88 5 tries":
+          - generic: 
+          - text: "9.88"
+          - text: 5 tries
+        - cell "9.88"
+        - cell "30168"
+      - row "150 Human Being  2.3 2 tries 2.3 43178":
+        - cell "150"
+        - cell "Human Being":
+          - link "Human Being":
+            - /url: /contests/imc2-2/teams/922434
+        - cell " 2.3 2 tries":
+          - generic: 
+          - text: "2.3"
+          - text: 2 tries
+        - cell "2.3"
+        - cell "43178"
+      - row "151 Team  0.67 24 tries 0.67 8772":
+        - cell "151"
+        - cell "Team":
+          - link "Team":
+            - /url: /contests/imc2-2/teams/919104
+        - cell " 0.67 24 tries":
+          - generic: 
+          - text: "0.67"
+          - text: 24 tries
+        - cell "0.67"
+        - cell "8772"
+      - row "152 cephalopod  0.26 8 tries 0.26 17151":
+        - cell "152"
+        - cell "cephalopod":
+          - link "cephalopod":
+            - /url: /contests/imc2-2/teams/923585
+        - cell " 0.26 8 tries":
+          - generic: 
+          - text: "0.26"
+          - text: 8 tries
+        - cell "0.26"
+        - cell "17151"
+      - row "153 SAKAPATATE  0.1 9 tries 0.1 6208":
+        - cell "153"
+        - cell "SAKAPATATE":
+          - link "SAKAPATATE":
+            - /url: /contests/imc2-2/teams/922474
+        - cell " 0.1 9 tries":
+          - generic: 
+          - text: "0.1"
+          - text: 9 tries
+        - cell "0.1"
+        - cell "6208"
+      - row "154 _ 0 0":
+        - cell "154"
+        - cell "_":
+          - link "_":
+            - /url: /contests/imc2-2/teams/919045
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 _____ 0 0":
+        - cell "154"
+        - cell "_____":
+          - link "_____":
+            - /url: /contests/imc2-2/teams/920948
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 🐱NekoTech Utility  0 3 tries 0 0":
+        - cell "154"
+        - cell "🐱NekoTech Utility":
+          - link "🐱NekoTech Utility":
+            - /url: /contests/imc2-2/teams/920569
+        - cell " 0 3 tries":
+          - generic: 
+          - text: "0"
+          - text: 3 tries
+        - cell "0"
+        - cell "0"
+      - row "154 3arandas 0 0":
+        - cell "154"
+        - cell "3arandas":
+          - link "3arandas":
+            - /url: /contests/imc2-2/teams/922550
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 4Challenges 0 0":
+        - cell "154"
+        - cell "4Challenges":
+          - link "4Challenges":
+            - /url: /contests/imc2-2/teams/921370
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 67iq 0 0":
+        - cell "154"
+        - cell "67iq":
+          - link "67iq":
+            - /url: /contests/imc2-2/teams/921910
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 67lings 0 0":
+        - cell "154"
+        - cell "67lings":
+          - link "67lings":
+            - /url: /contests/imc2-2/teams/920775
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 7 x 7 = 49  0 1 try 0 0":
+        - cell "154"
+        - cell "7 x 7 = 49":
+          - link "7 x 7 = 49":
+            - /url: /contests/imc2-2/teams/920379
+        - cell " 0 1 try":
+          - generic: 
+          - text: "0"
+          - text: 1 try
+        - cell "0"
+        - cell "0"
+      - row "154 83 0 0":
+        - cell "154"
+        - cell "83":
+          - link "83":
+            - /url: /contests/imc2-2/teams/922322
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 acdhemtos 0 0":
+        - cell "154"
+        - cell "acdhemtos":
+          - link "acdhemtos":
+            - /url: /contests/imc2-2/teams/923827
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 ahihi 0 0":
+        - cell "154"
+        - cell "ahihi":
+          - link "ahihi":
+            - /url: /contests/imc2-2/teams/919050
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 airbender 0 0":
+        - cell "154"
+        - cell "airbender":
+          - link "airbender":
+            - /url: /contests/imc2-2/teams/922412
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 AnvayaLabs2G 0 0":
+        - cell "154"
+        - cell "AnvayaLabs2G":
+          - link "AnvayaLabs2G":
+            - /url: /contests/imc2-2/teams/924251
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 Applied mathematicians 0 0":
+        - cell "154"
+        - cell "Applied mathematicians":
+          - link "Applied mathematicians":
+            - /url: /contests/imc2-2/teams/924264
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 arduino  0 2 tries 0 0":
+        - cell "154"
+        - cell "arduino":
+          - link "arduino":
+            - /url: /contests/imc2-2/teams/920349
+        - cell " 0 2 tries":
+          - generic: 
+          - text: "0"
+          - text: 2 tries
+        - cell "0"
+        - cell "0"
+      - row "154 AscendC 0 0":
+        - cell "154"
+        - cell "AscendC":
+          - link "AscendC":
+            - /url: /contests/imc2-2/teams/921616
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 Athens Institute 0 0":
+        - cell "154"
+        - cell "Athens Institute":
+          - link "Athens Institute":
+            - /url: /contests/imc2-2/teams/920579
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 AVES 0 0":
+        - cell "154"
+        - cell "AVES":
+          - link "AVES":
+            - /url: /contests/imc2-2/teams/919477
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 BAHAD 0 0":
+        - cell "154"
+        - cell "BAHAD":
+          - link "BAHAD":
+            - /url: /contests/imc2-2/teams/921930
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 belgian bunnies 0 0":
+        - cell "154"
+        - cell "belgian bunnies":
+          - link "belgian bunnies":
+            - /url: /contests/imc2-2/teams/923277
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 Boğaziçi 0 0":
+        - cell "154"
+        - cell "Boğaziçi":
+          - link "Boğaziçi":
+            - /url: /contests/imc2-2/teams/920557
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 botinki 0 0":
+        - cell "154"
+        - cell "botinki":
+          - link "botinki":
+            - /url: /contests/imc2-2/teams/921919
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 BoxTech 0 0":
+        - cell "154"
+        - cell "BoxTech":
+          - link "BoxTech":
+            - /url: /contests/imc2-2/teams/919574
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 BrAiN_NoT_FoUnD_404 0 0":
+        - cell "154"
+        - cell "BrAiN_NoT_FoUnD_404":
+          - link "BrAiN_NoT_FoUnD_404":
+            - /url: /contests/imc2-2/teams/920595
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 bruno-team 0 0":
+        - cell "154"
+        - cell "bruno-team":
+          - link "bruno-team":
+            - /url: /contests/imc2-2/teams/920598
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 call  0 1 try 0 0":
+        - cell "154"
+        - cell "call":
+          - link "call":
+            - /url: /contests/imc2-2/teams/922118
+        - cell " 0 1 try":
+          - generic: 
+          - text: "0"
+          - text: 1 try
+        - cell "0"
+        - cell "0"
+      - row "154 catclam 0 0":
+        - cell "154"
+        - cell "catclam":
+          - link "catclam":
+            - /url: /contests/imc2-2/teams/922149
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 CG-nahi-badh-rhi-:cry 0 0":
+        - cell "154"
+        - cell "CG-nahi-badh-rhi-:cry":
+          - link "CG-nahi-badh-rhi-:cry":
+            - /url: /contests/imc2-2/teams/923369
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 cgur 0 0":
+        - cell "154"
+        - cell "cgur":
+          - link "cgur":
+            - /url: /contests/imc2-2/teams/926821
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 cotton  0 1 try 0 0":
+        - cell "154"
+        - cell "cotton":
+          - link "cotton":
+            - /url: /contests/imc2-2/teams/922230
+        - cell " 0 1 try":
+          - generic: 
+          - text: "0"
+          - text: 1 try
+        - cell "0"
+        - cell "0"
+      - row "154 Cryptobots 0 0":
+        - cell "154"
+        - cell "Cryptobots":
+          - link "Cryptobots":
+            - /url: /contests/imc2-2/teams/921407
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 Cybots  0 2 tries 0 0":
+        - cell "154"
+        - cell "Cybots":
+          - link "Cybots":
+            - /url: /contests/imc2-2/teams/919920
+        - cell " 0 2 tries":
+          - generic: 
+          - text: "0"
+          - text: 2 tries
+        - cell "0"
+        - cell "0"
+      - row "154 DDD 0 0":
+        - cell "154"
+        - cell "DDD":
+          - link "DDD":
+            - /url: /contests/imc2-2/teams/924293
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 decompress 0 0":
+        - cell "154"
+        - cell "decompress":
+          - link "decompress":
+            - /url: /contests/imc2-2/teams/918879
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 Devs 0 0":
+        - cell "154"
+        - cell "Devs":
+          - link "Devs":
+            - /url: /contests/imc2-2/teams/923232
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 donlaiq  0 4 tries 0 0":
+        - cell "154"
+        - cell "donlaiq":
+          - link "donlaiq":
+            - /url: /contests/imc2-2/teams/919752
+        - cell " 0 4 tries":
+          - generic: 
+          - text: "0"
+          - text: 4 tries
+        - cell "0"
+        - cell "0"
+      - row "154 Dotter 0 0":
+        - cell "154"
+        - cell "Dotter":
+          - link "Dotter":
+            - /url: /contests/imc2-2/teams/922555
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 dreamer 0 0":
+        - cell "154"
+        - cell "dreamer":
+          - link "dreamer":
+            - /url: /contests/imc2-2/teams/920168
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 EMI-MIS 0 0":
+        - cell "154"
+        - cell "EMI-MIS":
+          - link "EMI-MIS":
+            - /url: /contests/imc2-2/teams/923828
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 EuMarco 0 0":
+        - cell "154"
+        - cell "EuMarco":
+          - link "EuMarco":
+            - /url: /contests/imc2-2/teams/919816
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 fast 0 0":
+        - cell "154"
+        - cell "fast":
+          - link "fast":
+            - /url: /contests/imc2-2/teams/921735
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 Fast n’ Fourier 0 0":
+        - cell "154"
+        - cell "Fast n’ Fourier":
+          - link "Fast n’ Fourier":
+            - /url: /contests/imc2-2/teams/919851
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 GhostBD 0 0":
+        - cell "154"
+        - cell "GhostBD":
+          - link "GhostBD":
+            - /url: /contests/imc2-2/teams/923583
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 Haitam 0 0":
+        - cell "154"
+        - cell "Haitam":
+          - link "Haitam":
+            - /url: /contests/imc2-2/teams/920509
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 Hardy 0 0":
+        - cell "154"
+        - cell "Hardy":
+          - link "Hardy":
+            - /url: /contests/imc2-2/teams/926819
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 IMCUC_TEAM 0 0":
+        - cell "154"
+        - cell "IMCUC_TEAM":
+          - link "IMCUC_TEAM":
+            - /url: /contests/imc2-2/teams/920068
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 Impulse 0 0":
+        - cell "154"
+        - cell "Impulse":
+          - link "Impulse":
+            - /url: /contests/imc2-2/teams/923805
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 infinite six 0 0":
+        - cell "154"
+        - cell "infinite six":
+          - link "infinite six":
+            - /url: /contests/imc2-2/teams/923117
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 Infinity 0 0":
+        - cell "154"
+        - cell "Infinity":
+          - link "Infinity":
+            - /url: /contests/imc2-2/teams/919055
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 Inov_Solution 0 0":
+        - cell "154"
+        - cell "Inov_Solution":
+          - link "Inov_Solution":
+            - /url: /contests/imc2-2/teams/919754
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 JF  0 1 try 0 0":
+        - cell "154"
+        - cell "JF":
+          - link "JF":
+            - /url: /contests/imc2-2/teams/919064
+        - cell " 0 1 try":
+          - generic: 
+          - text: "0"
+          - text: 1 try
+        - cell "0"
+        - cell "0"
+      - row "154 Kardan failure 0 0":
+        - cell "154"
+        - cell "Kardan failure":
+          - link "Kardan failure":
+            - /url: /contests/imc2-2/teams/921010
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 Karur coding club 0 0":
+        - cell "154"
+        - cell "Karur coding club":
+          - link "Karur coding club":
+            - /url: /contests/imc2-2/teams/921785
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 kauboi  0 1 try 0 0":
+        - cell "154"
+        - cell "kauboi":
+          - link "kauboi":
+            - /url: /contests/imc2-2/teams/923804
+        - cell " 0 1 try":
+          - generic: 
+          - text: "0"
+          - text: 1 try
+        - cell "0"
+        - cell "0"
+      - row "154 Khelo 0 0":
+        - cell "154"
+        - cell "Khelo":
+          - link "Khelo":
+            - /url: /contests/imc2-2/teams/922418
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 Kokai 0 0":
+        - cell "154"
+        - cell "Kokai":
+          - link "Kokai":
+            - /url: /contests/imc2-2/teams/919093
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 League of Lemmas 0 0":
+        - cell "154"
+        - cell "League of Lemmas":
+          - link "League of Lemmas":
+            - /url: /contests/imc2-2/teams/923103
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 leech 0 0":
+        - cell "154"
+        - cell "leech":
+          - link "leech":
+            - /url: /contests/imc2-2/teams/922646
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 LifeLabs 0 0":
+        - cell "154"
+        - cell "LifeLabs":
+          - link "LifeLabs":
+            - /url: /contests/imc2-2/teams/924234
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 Limitless X 0 0":
+        - cell "154"
+        - cell "Limitless X":
+          - link "Limitless X":
+            - /url: /contests/imc2-2/teams/921382
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 lllteam 0 0":
+        - cell "154"
+        - cell "lllteam":
+          - link "lllteam":
+            - /url: /contests/imc2-2/teams/919085
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 lmhoang04  0 2 tries 0 0":
+        - cell "154"
+        - cell "lmhoang04":
+          - link "lmhoang04":
+            - /url: /contests/imc2-2/teams/922285
+        - cell " 0 2 tries":
+          - generic: 
+          - text: "0"
+          - text: 2 tries
+        - cell "0"
+        - cell "0"
+      - row "154 Lone_Wolf  0 1 try 0 0":
+        - cell "154"
+        - cell "Lone_Wolf":
+          - link "Lone_Wolf":
+            - /url: /contests/imc2-2/teams/922787
+        - cell " 0 1 try":
+          - generic: 
+          - text: "0"
+          - text: 1 try
+        - cell "0"
+        - cell "0"
+      - row "154 Lonewolf007 0 0":
+        - cell "154"
+        - cell "Lonewolf007":
+          - link "Lonewolf007":
+            - /url: /contests/imc2-2/teams/919060
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 Lumbd 0 0":
+        - cell "154"
+        - cell "Lumbd":
+          - link "Lumbd":
+            - /url: /contests/imc2-2/teams/919573
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 mage9  0 1 try 0 0":
+        - cell "154"
+        - cell "mage9":
+          - link "mage9":
+            - /url: /contests/imc2-2/teams/924416
+        - cell " 0 1 try":
+          - generic: 
+          - text: "0"
+          - text: 1 try
+        - cell "0"
+        - cell "0"
+      - row "154 Mahabharata 0 0":
+        - cell "154"
+        - cell "Mahabharata":
+          - link "Mahabharata":
+            - /url: /contests/imc2-2/teams/922917
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 MC2 0 0":
+        - cell "154"
+        - cell "MC2":
+          - link "MC2":
+            - /url: /contests/imc2-2/teams/921793
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 Me2Me  0 2 tries 0 0":
+        - cell "154"
+        - cell "Me2Me":
+          - link "Me2Me":
+            - /url: /contests/imc2-2/teams/919056
+        - cell " 0 2 tries":
+          - generic: 
+          - text: "0"
+          - text: 2 tries
+        - cell "0"
+        - cell "0"
+      - row "154 Mohamed Salah Al Dien mohamed 0 0":
+        - cell "154"
+        - cell "Mohamed Salah Al Dien mohamed":
+          - link "Mohamed Salah Al Dien mohamed":
+            - /url: /contests/imc2-2/teams/919594
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 Mot Doi Liem Khiet 0 0":
+        - cell "154"
+        - cell "Mot Doi Liem Khiet":
+          - link "Mot Doi Liem Khiet":
+            - /url: /contests/imc2-2/teams/921670
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 Mousa_Aboubaker  0 1 try 0 0":
+        - cell "154"
+        - cell "Mousa_Aboubaker":
+          - link "Mousa_Aboubaker":
+            - /url: /contests/imc2-2/teams/919089
+        - cell " 0 1 try":
+          - generic: 
+          - text: "0"
+          - text: 1 try
+        - cell "0"
+        - cell "0"
+      - row "154 Multidimensional Cosmology  0 3 tries 0 0":
+        - cell "154"
+        - cell "Multidimensional Cosmology":
+          - link "Multidimensional Cosmology":
+            - /url: /contests/imc2-2/teams/923208
+        - cell " 0 3 tries":
+          - generic: 
+          - text: "0"
+          - text: 3 tries
+        - cell "0"
+        - cell "0"
+      - row "154 N00b 0 0":
+        - cell "154"
+        - cell "N00b":
+          - link "N00b":
+            - /url: /contests/imc2-2/teams/923269
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 nabmutmul 0 0":
+        - cell "154"
+        - cell "nabmutmul":
+          - link "nabmutmul":
+            - /url: /contests/imc2-2/teams/920518
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 nam 0 0":
+        - cell "154"
+        - cell "nam":
+          - link "nam":
+            - /url: /contests/imc2-2/teams/926820
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 natsirt05  0 6 tries 0 0":
+        - cell "154"
+        - cell "natsirt05":
+          - link "natsirt05":
+            - /url: /contests/imc2-2/teams/922047
+        - cell " 0 6 tries":
+          - generic: 
+          - text: "0"
+          - text: 6 tries
+        - cell "0"
+        - cell "0"
+      - row "154 Navodaya 0 0":
+        - cell "154"
+        - cell "Navodaya":
+          - link "Navodaya":
+            - /url: /contests/imc2-2/teams/919048
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 Newbie 0 0":
+        - cell "154"
+        - cell "Newbie":
+          - link "Newbie":
+            - /url: /contests/imc2-2/teams/922112
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 nils 0 0":
+        - cell "154"
+        - cell "nils":
+          - link "nils":
+            - /url: /contests/imc2-2/teams/922120
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 NIN Team 0 0":
+        - cell "154"
+        - cell "NIN Team":
+          - link "NIN Team":
+            - /url: /contests/imc2-2/teams/919097
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 Nouemane 0 0":
+        - cell "154"
+        - cell "Nouemane":
+          - link "Nouemane":
+            - /url: /contests/imc2-2/teams/926765
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 Odian 0 0":
+        - cell "154"
+        - cell "Odian":
+          - link "Odian":
+            - /url: /contests/imc2-2/teams/923613
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 One_Man_Army 0 0":
+        - cell "154"
+        - cell "One_Man_Army":
+          - link "One_Man_Army":
+            - /url: /contests/imc2-2/teams/921373
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 opt 0 0":
+        - cell "154"
+        - cell "opt":
+          - link "opt":
+            - /url: /contests/imc2-2/teams/924110
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 Opt_Transport 0 0":
+        - cell "154"
+        - cell "Opt_Transport":
+          - link "Opt_Transport":
+            - /url: /contests/imc2-2/teams/920724
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 Oracle 0 0":
+        - cell "154"
+        - cell "Oracle":
+          - link "Oracle":
+            - /url: /contests/imc2-2/teams/921701
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 pakpak 0 0":
+        - cell "154"
+        - cell "pakpak":
+          - link "pakpak":
+            - /url: /contests/imc2-2/teams/921836
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 Phosporus  0 13 tries 0 0":
+        - cell "154"
+        - cell "Phosporus":
+          - link "Phosporus":
+            - /url: /contests/imc2-2/teams/926860
+        - cell " 0 13 tries":
+          - generic: 
+          - text: "0"
+          - text: 13 tries
+        - cell "0"
+        - cell "0"
+      - row "154 PiVerse 0 0":
+        - cell "154"
+        - cell "PiVerse":
+          - link "PiVerse":
+            - /url: /contests/imc2-2/teams/920784
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 Piyush 0 0":
+        - cell "154"
+        - cell "Piyush":
+          - link "Piyush":
+            - /url: /contests/imc2-2/teams/921991
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 PwnToOwn 0 0":
+        - cell "154"
+        - cell "PwnToOwn":
+          - link "PwnToOwn":
+            - /url: /contests/imc2-2/teams/921921
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 Quarks  0 5 tries 0 0":
+        - cell "154"
+        - cell "Quarks":
+          - link "Quarks":
+            - /url: /contests/imc2-2/teams/923658
+        - cell " 0 5 tries":
+          - generic: 
+          - text: "0"
+          - text: 5 tries
+        - cell "0"
+        - cell "0"
+      - row "154 Repetto 0 0":
+        - cell "154"
+        - cell "Repetto":
+          - link "Repetto":
+            - /url: /contests/imc2-2/teams/919697
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 Resonance 0 0":
+        - cell "154"
+        - cell "Resonance":
+          - link "Resonance":
+            - /url: /contests/imc2-2/teams/919943
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 Reverb 0 0":
+        - cell "154"
+        - cell "Reverb":
+          - link "Reverb":
+            - /url: /contests/imc2-2/teams/923596
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 RocketJo 0 0":
+        - cell "154"
+        - cell "RocketJo":
+          - link "RocketJo":
+            - /url: /contests/imc2-2/teams/920597
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 Rootbayf 0 0":
+        - cell "154"
+        - cell "Rootbayf":
+          - link "Rootbayf":
+            - /url: /contests/imc2-2/teams/921739
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 Ruma  0 1 try 0 0":
+        - cell "154"
+        - cell "Ruma":
+          - link "Ruma":
+            - /url: /contests/imc2-2/teams/922414
+        - cell " 0 1 try":
+          - generic: 
+          - text: "0"
+          - text: 1 try
+        - cell "0"
+        - cell "0"
+      - row "154 Ryan 0 0":
+        - cell "154"
+        - cell "Ryan":
+          - link "Ryan":
+            - /url: /contests/imc2-2/teams/926722
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 sharkie1604 0 0":
+        - cell "154"
+        - cell "sharkie1604":
+          - link "sharkie1604":
+            - /url: /contests/imc2-2/teams/924595
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 Sho 0 0":
+        - cell "154"
+        - cell "Sho":
+          - link "Sho":
+            - /url: /contests/imc2-2/teams/918834
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 skill-issue 0 0":
+        - cell "154"
+        - cell "skill-issue":
+          - link "skill-issue":
+            - /url: /contests/imc2-2/teams/921790
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 SpaceTime 0 0":
+        - cell "154"
+        - cell "SpaceTime":
+          - link "SpaceTime":
+            - /url: /contests/imc2-2/teams/921008
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 Spectralized 0 0":
+        - cell "154"
+        - cell "Spectralized":
+          - link "Spectralized":
+            - /url: /contests/imc2-2/teams/922377
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 Spherical Tensor in a Vacuum  0 1 try 0 0":
+        - cell "154"
+        - cell "Spherical Tensor in a Vacuum":
+          - link "Spherical Tensor in a Vacuum":
+            - /url: /contests/imc2-2/teams/921990
+        - cell " 0 1 try":
+          - generic: 
+          - text: "0"
+          - text: 1 try
+        - cell "0"
+        - cell "0"
+      - row "154 stonedzoo 0 0":
+        - cell "154"
+        - cell "stonedzoo":
+          - link "stonedzoo":
+            - /url: /contests/imc2-2/teams/923265
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 szuqxx 0 0":
+        - cell "154"
+        - cell "szuqxx":
+          - link "szuqxx":
+            - /url: /contests/imc2-2/teams/919860
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 team123 0 0":
+        - cell "154"
+        - cell "team123":
+          - link "team123":
+            - /url: /contests/imc2-2/teams/921781
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 test 0 0":
+        - cell "154"
+        - cell "test":
+          - link "test":
+            - /url: /contests/imc2-2/teams/918984
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 test2 0 0":
+        - cell "154"
+        - cell "test2":
+          - link "test2":
+            - /url: /contests/imc2-2/teams/918562
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 the pinocchio's 0 0":
+        - cell "154"
+        - cell "the pinocchio's":
+          - link "the pinocchio's":
+            - /url: /contests/imc2-2/teams/919742
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 TLE_on_tarawih  0 1 try 0 0":
+        - cell "154"
+        - cell "TLE_on_tarawih":
+          - link "TLE_on_tarawih":
+            - /url: /contests/imc2-2/teams/923332
+        - cell " 0 1 try":
+          - generic: 
+          - text: "0"
+          - text: 1 try
+        - cell "0"
+        - cell "0"
+      - row "154 user platz  0 1 try 0 0":
+        - cell "154"
+        - cell "user platz":
+          - link "user platz":
+            - /url: /contests/imc2-2/teams/922687
+        - cell " 0 1 try":
+          - generic: 
+          - text: "0"
+          - text: 1 try
+        - cell "0"
+        - cell "0"
+      - row "154 Vanguard Squad 0 0":
+        - cell "154"
+        - cell "Vanguard Squad":
+          - link "Vanguard Squad":
+            - /url: /contests/imc2-2/teams/921051
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 Winner 0 0":
+        - cell "154"
+        - cell "Winner":
+          - link "Winner":
+            - /url: /contests/imc2-2/teams/921856
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 WinnerWinnerChickenDinner 0 0":
+        - cell "154"
+        - cell "WinnerWinnerChickenDinner":
+          - link "WinnerWinnerChickenDinner":
+            - /url: /contests/imc2-2/teams/921416
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 yixiuge777 0 0":
+        - cell "154"
+        - cell "yixiuge777":
+          - link "yixiuge777":
+            - /url: /contests/imc2-2/teams/922542
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 Yuri vs Yaoi 0 0":
+        - cell "154"
+        - cell "Yuri vs Yaoi":
+          - link "Yuri vs Yaoi":
+            - /url: /contests/imc2-2/teams/922232
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 zoo wee 0 0":
+        - cell "154"
+        - cell "zoo wee":
+          - link "zoo wee":
+            - /url: /contests/imc2-2/teams/924640
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 做完你的做你的 0 0":
+        - cell "154"
+        - cell "做完你的做你的":
+          - link "做完你的做你的":
+            - /url: /contests/imc2-2/teams/923282
+        - cell
+        - cell "0"
+        - cell "0"
+      - row "154 论文没有问题 0 0":
+        - cell "154"
+        - cell "论文没有问题":
+          - link "论文没有问题":
+            - /url: /contests/imc2-2/teams/924276
+        - cell
+        - cell "0"
+        - cell "0"
+- contentinfo:
+  - navigation "Footer links":
+    - list:
+      - link "Contact":
+        - /url: /contact
+      - link "System Status":
+        - /url: https://status.kattis.com
+      - link "Terms of Service":
+        - /url: /contracts/current/tos
+      - link "Privacy Policy":
+        - /url: /contracts/current/privacy_policy
+- iframe

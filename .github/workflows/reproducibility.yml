@@ -16,5 +16,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Build all publication executables
+        run: make build-all
+      - name: Run synthetic topology, distance, and evaluator tests
+        run: make synthetic-validation
+      - name: Check article and repository values against the release record
+        run: make article-consistency
       - name: Verify score, checksums, and accepted source
-        run: make verify
+        run: make verify-release

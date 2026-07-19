@@ -3,7 +3,8 @@
 This directory contains the authoring pipeline for the Round 2 article.
 
 - `build_article.py` replaces the organizer-template placeholders with `../manuscript.md`, creates native Word tables and hyperlinks, converts LaTeX to editable Office Math (OMML), embeds inline figures, and applies the template-derived page/typography system.
-- `generate_figures.py` regenerates all six publication figures from explicit data and constants.
+- `generate_figures.py` regenerates the six schematic/chart figures in both 300-DPI PNG and editable SVG/PDF form.
+- `generate_qualitative_figure.py` composes a seventh, unretouched normal/depth/error montage from evaluator PPM dumps using one common crop.
 - `data/accepted_milestones.csv` is the evidence table behind the score-progression chart.
 - `requirements.txt` pins the Python authoring dependencies at compatible major versions.
 

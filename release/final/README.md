@@ -1,4 +1,4 @@
-# Final release record
+# Release record: submission 20082703
 
 This directory records the highest-scoring official artifact produced by NEU.AddictedTribes in Round 1.
 
@@ -11,7 +11,7 @@ This directory records the highest-scoring official artifact produced by NEU.Add
 | Source bytes | 130,973 / 131,072 |
 | Source SHA-256 | `9195d42a73a6b85c8ae30d731f532175bdcd7c2982d421143d631b4c64b1a92c` |
 
-The authoritative source is not duplicated here. It remains at:
+The immutable fetched-back source is not duplicated here. It remains at:
 
 [`submission/submission_20082703.cpp`](../../submission/submission_20082703.cpp)
 

@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "metric_semantics": "specification-matching local evaluator on public proxies; never hidden Kattis component scores",
+  "release_resolution": 1024,
+  "records": [
+    {
+      "case": "Armadillo",
+      "candidate_vertices": 5136,
+      "role": "Accepted-lineage local reference checkpoint",
+      "topology_valid": null,
+      "reference_to_candidate": null,
+      "candidate_to_reference": null,
+      "hausdorff_ratio_to_tolerance": null,
+      "normal_ssim": null,
+      "depth_ssim": null,
+      "combined_ssim": 0.91701399,
+      "minimum_view_combined": null,
+      "resolution": 1024,
+      "artifact_sha256": null,
+      "provenance": "campaign log; detailed component report not retained"
+    },
+    {
+      "case": "Armadillo",
+      "candidate_vertices": 4570,
+      "role": "Renderer-aware topology checkpoint",
+      "topology_valid": null,
+      "reference_to_candidate": null,
+      "candidate_to_reference": null,
+      "hausdorff_ratio_to_tolerance": null,
+      "normal_ssim": null,
+      "depth_ssim": null,
+      "combined_ssim": 0.91722261,
+      "minimum_view_combined": null,
+      "resolution": 1024,
+      "artifact_sha256": null,
+      "provenance": "campaign log; detailed component report not retained"
+    },
+    {
+      "case": "Lucy",
+      "candidate_vertices": 3030,
+      "role": "Final-lineage public-proxy candidate",
+      "topology_valid": true,
+      "reference_to_candidate": null,
+      "candidate_to_reference": null,
+      "hausdorff_ratio_to_tolerance": 0.935986,
+      "normal_ssim": null,
+      "depth_ssim": null,
+      "combined_ssim": 0.9092917,
+      "minimum_view_combined": null,
+      "resolution": 1024,
+      "artifact_sha256": null,
+      "provenance": "campaign log; only symmetric maximum ratio and aggregate combined score retained"
+    },
+    {
+      "case": "Slender",
+      "candidate_vertices": 7800,
+      "role": "Submission-20039214 public-proxy checkpoint; not the final 7400 output",
+      "topology_valid": true,
+      "reference_to_candidate": 0.05286352051723923,
+      "candidate_to_reference": 0.011120889862078886,
+      "hausdorff_ratio_to_tolerance": 0.4563843570467877,
+      "normal_ssim": 0.876859185412,
+      "depth_ssim": 0.943732689618,
+      "combined_ssim": 0.910295937515,
+      "minimum_view_combined": 0.903550008666,
+      "resolution": 1024,
+      "reference_sha256": "176a16d180fe1a69c3b5b0558e72824cbe91ca4870efa806de7108e47a28a845",
+      "artifact_sha256": "dc3c1a9b9741a03efce399a8ea497793134b3aaa72f2348866b340f83a175862",
+      "measured_at": "2026-07-19",
+      "provenance": "recomputed with released validators and evaluator; proxy files excluded from redistribution"
+    }
+  ]
+}

@@ -20,4 +20,4 @@ Names such as *Armadillo*, *Bunny*, *Lucy*, and *Nefertiti* identify experimenta
 
 Kattis, Huawei, IMC Challenge, and cited paper titles remain the property of their respective owners. The repository is an independent competition artifact and is not an official organizer publication.
 
-The [MIT License](LICENSE) applies to team-authored software. The article PDF/DOCX is supplied for scholarly reading and citation; third-party references inside it retain their original rights.
+The [MIT License](LICENSE) applies to team-authored software. The article, team-authored documentation, and team-authored figures are licensed under [CC BY 4.0](LICENSE-ARTICLE.md). Third-party references and material retain their original rights. No DOI is claimed; one should be added to the citation metadata only after an actual archival release assigns it.

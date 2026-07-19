@@ -5,7 +5,14 @@
   "problem_title": "Perception-Aware Lossless Simplification of Million-Vertex 3D Meshes for Mobile Platforms",
   "official_problem_url": "https://imc2.kattis.com/contests/imc2-2/problems/simplifygeometry",
   "team": "NEU.AddictedTribes",
-  "rank": 2,
+  "standings_snapshot": {
+    "displayed_rank": 2,
+    "displayed_score": 93.83,
+    "status": "unfinalized",
+    "captured_at": "2026-07-19T12:35:16.490Z",
+    "evidence_path": "evidence/leaderboard_unfinalized_2026-07-19.json",
+    "claim_scope": "Archived standings display only; the page status is preserved verbatim as unfinalized"
+  },
   "submission_id": 20082703,
   "judgement": "Accepted",
   "tests_passed": 7,
@@ -14,6 +21,10 @@
   "reconstructed_score": 93.83007422510956,
   "input_vertex_counts": [4098, 23201, 35292, 49987, 377084, 1009118],
   "output_vertex_counts": [25, 4340, 2839, 3030, 7400, 16500],
+  "total_input_vertices": 1498780,
+  "total_output_vertices": 34134,
+  "global_retained_percent": 2.2774523278933534,
+  "global_compression_percent": 97.72254767210664,
   "source": {
     "path": "submission/submission_20082703.cpp",
     "bytes": 130973,
@@ -23,11 +34,11 @@
   "article": {
     "pdf": {
       "path": "paper/IMC_Challenge_Round2_NEU_AddictedTribes.pdf",
-      "sha256": "c0e637b712124f7fd7d395a3e4bb0bd0ba8691a17929919591aa0aabaea43827"
+      "sha256": "529295d37de92e81bfa26c75d88eb1b1b6f5b1a3898087940c4f36ca7e98bbb6"
     },
     "docx": {
       "path": "paper/IMC_Challenge_Round2_NEU_AddictedTribes.docx",
-      "sha256": "4f91a9b6fa5a951f943f1deb7f519514a06598cbf7e2900cc05376b38edf50c0"
+      "sha256": "2efd5557f96ba4126d3254cf0d9d5d9199b5244276b35d670fc47b5e952e6894"
     }
   },
   "figures": [
@@ -35,6 +46,7 @@
     "paper/figures/cluster_normal.png",
     "paper/figures/evidence_protocol.png",
     "paper/figures/final_results.png",
+    "paper/figures/qualitative_slender.png",
     "paper/figures/score_progression.png",
     "paper/figures/validation_funnel.png"
   ]

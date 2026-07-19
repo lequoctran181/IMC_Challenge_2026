@@ -262,14 +262,13 @@ def add_bullet(doc, text: str, *, compact=False) -> None:
 
 
 def add_heading(doc, text: str, level: int) -> None:
-    p = doc.add_paragraph()
+    # Use Word's native heading styles so the Navigation pane and exported PDF
+    # outline expose the article hierarchy.  Direct formatting below preserves
+    # the organizer-template appearance.
+    p = doc.add_paragraph(style=f"Heading {level}")
     fmt = p.paragraph_format
     fmt.keep_with_next = True
     fmt.keep_together = True
-    p_pr = p._p.get_or_add_pPr()
-    outline = OxmlElement("w:outlineLvl")
-    outline.set(qn("w:val"), "0" if level <= 2 else "1")
-    p_pr.append(outline)
     if level == 1:
         fmt.alignment = WD_ALIGN_PARAGRAPH.CENTER
         fmt.space_before = Pt(10)
@@ -343,7 +342,12 @@ def add_figure(doc, alt_caption: str, relative_path: str) -> None:
     p.paragraph_format.space_after = Pt(2)
     p.paragraph_format.keep_with_next = True
     run = p.add_run()
-    run.add_picture(str(ROOT / relative_path), width=Inches(5.65))
+    shape = run.add_picture(str(ROOT / relative_path), width=Inches(5.65))
+    # Accessibility metadata survives in the DOCX and is consumed by Word's
+    # accessibility checker.  Keep it descriptive but concise.
+    doc_pr = shape._inline.docPr
+    doc_pr.set("title", alt_caption.split(".", 1)[0])
+    doc_pr.set("descr", alt_caption)
     cap = doc.add_paragraph()
     cap.alignment = WD_ALIGN_PARAGRAPH.CENTER
     cap.paragraph_format.space_after = Pt(6)
@@ -367,16 +371,23 @@ def add_table(doc, rows: list[list[str]]) -> None:
     prescribed = {
         ("Symbol", "Meaning"): [1.70, 3.95],
         ("Case", "Input V", "Final V'", "Retained", "Bottleneck and final strategy"): [0.95, 0.95, 0.80, 0.95, 2.00],
-        ("Case", "Original V", "Final V'", "Retained", "Compression", "Score loss"): [1.00, 1.00, 0.80, 0.85, 1.00, 1.00],
+        ("Case", "Original V", "Final V'", "Retained", "Compression", "Score loss"): [1.10, 0.75, 0.70, 0.90, 1.15, 1.05],
         ("Submission / stage", "Official score", "Key change", "Output-count evidence"): [1.25, 1.00, 1.90, 1.50],
         ("Branch", "Base target / stage", "Normal term", "Additional term", "Offline tail"): [0.90, 1.20, 1.10, 1.20, 1.25],
-        ("Case", "Input vertices", "Final vertices", "Retained", "Dominant bottleneck and final strategy"): [0.95, 0.90, 0.80, 0.85, 2.15],
+        ("Case", "Input vertices", "Final vertices", "Retained", "Dominant bottleneck and final strategy"): [0.80, 0.90, 0.90, 0.75, 2.30],
         ("Case", "Original vertices", "Final vertices", "Retained", "Reduction", "Score loss"): [0.90, 0.85, 0.85, 1.15, 1.00, 0.90],
         ("Submission or stage", "Official score", "Main change", "Output-count evidence"): [1.15, 1.10, 1.95, 1.45],
         ("Branch", "Accepted frontier observation", "Rejected neighboring observation", "Interpretation"): [1.05, 1.35, 1.45, 1.80],
         ("Branch", "Base stage", "Normal term", "Additional mechanism", "Offline tail"): [0.95, 1.10, 1.20, 1.20, 1.20],
         ("Stage", "Time bound", "Additional memory", "Role"): [1.35, 1.35, 1.15, 1.80],
         ("Comparison", "Controlled variable", "Before", "After", "Measured effect and evidence"): [1.05, 1.05, 0.95, 0.95, 1.65],
+        ("Claim", "Mechanism and evidence", "Certified scope", "Explicit non-claim"): [1.05, 1.52, 1.52, 1.56],
+        ("Prior work", "Objective", "Accumulated state", "Renderer role", "Difference here"): [0.95, 1.00, 1.10, 0.90, 1.70],
+        ("Stage", "Generic mechanism", "Case-specific element", "Runtime or offline"): [1.05, 1.70, 1.75, 1.15],
+        ("Observable production quantity", "Value", "Evidence and interpretation"): [1.65, 1.10, 2.90],
+        ("Case / checkpoint", "Topology", "Reference to candidate", "Candidate to reference", "Hausdorff / tolerance"): [1.25, 0.75, 1.15, 1.15, 1.35],
+        ("Case / checkpoint", "Normal SSIM", "Depth SSIM", "Combined SSIM", "Minimum-view combined"): [1.40, 0.95, 0.95, 1.05, 1.30],
+        ("Hypothesis / intervention", "Held constant", "Baseline", "Intervention result", "Inference, evidence, and strength"): [1.15, 1.05, 1.00, 1.00, 1.45],
     }
     widths = prescribed.get(header)
     if widths is None:
@@ -384,7 +395,7 @@ def add_table(doc, rows: list[list[str]]) -> None:
         weights = [min(30, max(6, value)) for value in maxlens]
         total = sum(weights)
         widths = [5.65 * value / total for value in weights]
-    descriptive_headers = {"Meaning", "Bottleneck and final strategy", "Key change", "Output-count evidence", "Base target / stage", "Normal term", "Additional term", "Offline tail", "Role", "Comparison", "Controlled variable", "Before", "After", "Measured effect and evidence"}
+    descriptive_headers = {"Meaning", "Bottleneck and final strategy", "Key change", "Output-count evidence", "Base target / stage", "Normal term", "Additional term", "Offline tail", "Role", "Comparison", "Controlled variable", "Before", "After", "Measured effect and evidence", "Mechanism and evidence", "Certified scope", "Explicit non-claim", "Primary objective", "Global information", "Rendering in the loop", "Difference in this work", "Objective", "Accumulated state", "Renderer role", "Difference here", "Generic mechanism", "Case-specific element", "Runtime or offline", "Evidence and interpretation", "Held constant", "Baseline", "Intervention result", "Inference, evidence, and strength"}
     # Word/LibreOffice honor the table grid before per-cell preferred widths.
     # Update both so wide narrative columns do not collapse into narrow strips.
     grid_cols = table._tbl.tblGrid.gridCol_lst
@@ -416,7 +427,7 @@ def add_table(doc, rows: list[list[str]]) -> None:
                 else WD_ALIGN_PARAGRAPH.CENTER
             )
             text = values[c_idx] if c_idx < len(values) else ""
-            table_font_size = 8.2 if cols >= 6 else 9.0
+            table_font_size = 7.2 if cols >= 7 else (8.0 if cols >= 6 else (8.3 if cols == 5 else 9.0))
             add_inline(p, text, size=table_font_size, color="FFFFFF" if r_idx == 0 else "000000")
             for run in p.runs:
                 if r_idx == 0:
@@ -456,10 +467,17 @@ def build() -> None:
     normal._element.rPr.rFonts.set(qn("w:eastAsia"), "Times New Roman")
     normal.font.size = Pt(10.5)
     BULLET_NUM_ID = create_bullet_numbering(doc)
-    for style_name in ("Heading 1", "Heading 2"):
+    for style_name in ("Heading 1", "Heading 2", "Heading 3"):
         style = doc.styles[style_name]
         style.font.name = "Times New Roman"
         style._element.rPr.rFonts.set(qn("w:eastAsia"), "Times New Roman")
+        # The organizer template attaches multilevel numbering to its Heading
+        # styles.  The manuscript already carries explicit section numbers, so
+        # remove inherited numbering while retaining native outline semantics.
+        style_ppr = style._element.get_or_add_pPr()
+        inherited_num = style_ppr.find(qn("w:numPr"))
+        if inherited_num is not None:
+            style_ppr.remove(inherited_num)
 
     footer = section.footer
     for p in footer.paragraphs:
@@ -467,12 +485,12 @@ def build() -> None:
     add_page_number(footer.add_paragraph())
 
     core = doc.core_properties
-    core.title = "Certified Perceptual Mesh Simplification under a 21-Second and 128-KiB Budget"
-    core.subject = "IMC Challenge Round 2 Article — Problem B"
-    core.author = "NEU.AddictedTribes"
+    core.title = "Perception-Aware Mesh Simplification under a 21-Second and 128-KiB Budget"
+    core.subject = "IMC Challenge Round 2 Article - Problem B"
+    core.author = "Quoc Tran Anh Le; Quang Minh Ha"
     core.last_modified_by = "NEU.AddictedTribes"
     core.keywords = "mesh simplification, QEM, SSIM, renderer-aware optimization, IMC Challenge"
-    core.comments = "Authoritative Round 2 article for Kattis submission 20082703 (93.830074)."
+    core.comments = "Round 2 article documenting Kattis submission 20082703 (Accepted 7/7; displayed score 93.830074)."
 
     lines = MANUSCRIPT.read_text(encoding="utf-8").splitlines()
     i = 0
@@ -483,27 +501,34 @@ def build() -> None:
         "Abstract", "1. Introduction", "2. Related Literature", "3. Methodology",
         "4. Results and Discussions", "5. Conclusion", "References",
     }
-    page_break_sections = {"3. Methodology", "4. Results and Discussions"}
+    page_break_sections: set[str] = set()
 
     while i < len(lines):
-        raw = lines[i]
+        raw = lines[i].translate(str.maketrans({"–": "-", "—": "-", "‑": "-"}))
         line = raw.strip()
         if not line:
             i += 1
             continue
         if line == "<!-- PAGE BREAK -->":
-            doc.add_page_break()
             cover = False
+            i += 1
+            continue
+        if line.startswith("<!--"):
+            # Generated-data sentinels remain in Markdown but are not article
+            # content.
             i += 1
             continue
         if line.startswith("# "):
             title = line[2:].strip()
             p = doc.add_paragraph()
             p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            p.paragraph_format.line_spacing = 1.0
+            if not cover:
+                p.paragraph_format.page_break_before = True
             p.paragraph_format.space_before = Pt(72 if cover else 8)
             p.paragraph_format.space_after = Pt(16 if cover else 6)
             run = p.add_run(title)
-            set_run_font(run, size=28 if cover else 23, bold=True, color=NAVY)
+            set_run_font(run, size=25 if cover else 23, bold=True, color=NAVY)
             if not cover:
                 repeated_title_seen = True
             i += 1
@@ -544,9 +569,25 @@ def build() -> None:
             add_code(doc, code_lines)
             i += 1
             continue
-        if line.startswith("$$") and line.endswith("$$"):
-            add_equation(doc, line[2:-2].strip())
-            i += 1
+        if line.startswith("$$"):
+            if line.endswith("$$") and len(line) > 4:
+                equation = line[2:-2].strip()
+                i += 1
+            else:
+                equation_lines = [line[2:].strip()]
+                i += 1
+                while i < len(lines):
+                    part = lines[i].strip()
+                    if part.endswith("$$"):
+                        equation_lines.append(part[:-2].strip())
+                        i += 1
+                        break
+                    equation_lines.append(part)
+                    i += 1
+                else:
+                    raise ValueError("unterminated display equation")
+                equation = " ".join(filter(None, equation_lines))
+            add_equation(doc, equation)
             continue
         if line.startswith("- "):
             add_bullet(doc, line[2:].strip(), compact=compact_bullets)
@@ -595,6 +636,18 @@ def build() -> None:
             set_run_font(r2, size=18, italic=True)
             i += 1
             continue
+        if cover and line.startswith(("Authors:", "Affiliation:", "Correspondence:")):
+            p = doc.add_paragraph()
+            p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            p.paragraph_format.space_before = Pt(4 if line.startswith("Authors:") else 0)
+            p.paragraph_format.space_after = Pt(2)
+            label, value = line.split(":", 1)
+            r1 = p.add_run(label + ":")
+            set_run_font(r1, size=10.5, bold=True, color=NAVY)
+            r2 = p.add_run(value)
+            set_run_font(r2, size=10.5)
+            i += 1
+            continue
         if cover and line.startswith("GitHub repository:"):
             p = doc.add_paragraph()
             p.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -613,7 +666,7 @@ def build() -> None:
         if line.startswith("*") and line.endswith("*"):
             italic_body = True
             line = line[1:-1]
-        add_body(doc, line, italic=italic_body, first_line=not line.startswith("Authoritative artifact:"))
+        add_body(doc, line, italic=italic_body, first_line=not line.startswith("Release artifact:"))
         i += 1
 
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)

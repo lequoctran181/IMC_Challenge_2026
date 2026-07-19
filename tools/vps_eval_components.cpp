@@ -3,18 +3,83 @@
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>
+#include <string>
 #include <vector>
+#include "strict_mesh_io.hpp"
 using namespace std;
 
-struct V3{double x,y,z;};
-struct F{int a,b,c;};
+using V3=meshio::V3;
+using F=meshio::F;
+using Mesh=meshio::Mesh;
 static inline V3 operator-(V3 a,V3 b){return{a.x-b.x,a.y-b.y,a.z-b.z};}
 static inline V3 crossp(V3 a,V3 b){return{a.y*b.z-a.z*b.y,a.z*b.x-a.x*b.z,a.x*b.y-a.y*b.x};}
 static inline double dotp(V3 a,V3 b){return a.x*b.x+a.y*b.y+a.z*b.z;}
 static inline double norm(V3 a){return sqrt(dotp(a,a));}
 
-struct Mesh{vector<V3> p;vector<F> f;};
 struct R{vector<double>d;vector<V3>n;vector<unsigned char>fg;};
+
+static unsigned char byte_value(double value){
+    return (unsigned char)llround(max(0.0,min(255.0,value)));
+}
+
+static void write_ppm(const string& path,int res,const vector<unsigned char>&rgb){
+    FILE* fp=fopen(path.c_str(),"wb");
+    if(!fp) throw runtime_error("cannot write diagnostic image: "+path);
+    fprintf(fp,"P6\n%d %d\n255\n",res,res);
+    if(fwrite(rgb.data(),1,rgb.size(),fp)!=rgb.size()){
+        fclose(fp);throw runtime_error("short write for diagnostic image: "+path);
+    }
+    fclose(fp);
+}
+
+static void dump_diagnostics(const R&a,const R&b,int res,const string&prefix){
+    const size_t pixels=(size_t)res*res;
+    vector<unsigned char>nr(pixels*3),nc(pixels*3),ne(pixels*3);
+    vector<unsigned char>dr(pixels*3),dc(pixels*3),de(pixels*3);
+    double depth_lo=1e100,depth_hi=-1e100,error_hi=0;
+    for(size_t i=0;i<pixels;++i){
+        if(a.fg[i]){depth_lo=min(depth_lo,a.d[i]);depth_hi=max(depth_hi,a.d[i]);}
+        if(b.fg[i]){depth_lo=min(depth_lo,b.d[i]);depth_hi=max(depth_hi,b.d[i]);}
+        if(a.fg[i]&&b.fg[i]) error_hi=max(error_hi,fabs(a.d[i]-b.d[i]));
+    }
+    if(!(depth_hi>depth_lo)){depth_lo=0;depth_hi=1;}
+    if(!(error_hi>0)) error_hi=1;
+    for(size_t i=0;i<pixels;++i){
+        auto set_normal=[&](vector<unsigned char>&out,const R&r){
+            if(!r.fg[i]){out[3*i]=out[3*i+1]=out[3*i+2]=245;return;}
+            out[3*i]=byte_value((r.n[i].x+1)*127.5);
+            out[3*i+1]=byte_value((r.n[i].y+1)*127.5);
+            out[3*i+2]=byte_value((r.n[i].z+1)*127.5);
+        };
+        auto set_depth=[&](vector<unsigned char>&out,const R&r){
+            if(!r.fg[i]){out[3*i]=out[3*i+1]=out[3*i+2]=245;return;}
+            double value=255*(r.d[i]-depth_lo)/(depth_hi-depth_lo);
+            out[3*i]=out[3*i+1]=out[3*i+2]=byte_value(value);
+        };
+        set_normal(nr,a);set_normal(nc,b);set_depth(dr,a);set_depth(dc,b);
+        if(a.fg[i]&&b.fg[i]){
+            double cosine=max(-1.0,min(1.0,dotp(a.n[i],b.n[i])));
+            double t=acos(cosine)/3.14159265358979323846;
+            ne[3*i]=byte_value(255*min(1.0,3*t));
+            ne[3*i+1]=byte_value(255*(1-min(1.0,3*t)));
+            ne[3*i+2]=40;
+            double d=min(1.0,fabs(a.d[i]-b.d[i])/error_hi);
+            de[3*i]=byte_value(255*d);de[3*i+1]=byte_value(210*(1-d));de[3*i+2]=35;
+        }else if(a.fg[i]||b.fg[i]){
+            ne[3*i]=255;ne[3*i+1]=0;ne[3*i+2]=255;
+            de[3*i]=255;de[3*i+1]=0;de[3*i+2]=255;
+        }else{
+            ne[3*i]=ne[3*i+1]=ne[3*i+2]=245;
+            de[3*i]=de[3*i+1]=de[3*i+2]=245;
+        }
+    }
+    write_ppm(prefix+"_normal_reference.ppm",res,nr);
+    write_ppm(prefix+"_normal_candidate.ppm",res,nc);
+    write_ppm(prefix+"_normal_error.ppm",res,ne);
+    write_ppm(prefix+"_depth_reference.ppm",res,dr);
+    write_ppm(prefix+"_depth_candidate.ppm",res,dc);
+    write_ppm(prefix+"_depth_error.ppm",res,de);
+}
 
 // The hidden Armadillo case is normalized by the contestant before its
 // direct-coordinate payload is emitted.  Keep the standard evaluator
@@ -36,19 +101,6 @@ static void normalize_like_arm_input(Mesh& reference,Mesh& candidate){
         p.z=round((p.z-center.z)/scale*1e9)/1e9;
     }};
     apply(reference);apply(candidate);
-}
-
-static Mesh read_mesh(const char* path){
-    FILE* fp=fopen(path,"rb");
-    if(!fp){perror(path);exit(2);}
-    int n,m;
-    if(fscanf(fp,"%d%d",&n,&m)!=2)exit(3);
-    Mesh x;x.p.resize(n);x.f.resize(m);
-    char ch;
-    for(int i=0;i<n;i++)fscanf(fp," %c%lf%lf%lf",&ch,&x.p[i].x,&x.p[i].y,&x.p[i].z);
-    for(int i=0;i<m;i++){fscanf(fp," %c%d%d%d",&ch,&x.f[i].a,&x.f[i].b,&x.f[i].c);--x.f[i].a;--x.f[i].b;--x.f[i].c;}
-    fclose(fp);
-    return x;
 }
 
 static inline void proj(const V3&p,int view,int res,double&u,double&v,double&z){
@@ -92,11 +144,10 @@ static void tri(R&rm,int res,V3 a,V3 b,V3 c,V3 un,int view){
 static R render(const Mesh&m,int view,int res){
     R r;r.d.assign(res*res,255);r.n.assign(res*res,{0,0,0});r.fg.assign(res*res,0);
     for(auto f:m.f){
-        if(f.a<0||f.b<0||f.c<0||f.a>=(int)m.p.size()||f.b>=(int)m.p.size()||f.c>=(int)m.p.size())continue;
         V3 a=m.p[f.a],b=m.p[f.b],c=m.p[f.c];
         V3 cr=crossp(b-a,c-a);
         double l=norm(cr);
-        if(l<=0)continue;
+        if(!(l>0)){fprintf(stderr,"internal error: validated face became degenerate\n");exit(4);}
         tri(r,res,a,b,c,{cr.x/l,cr.y/l,cr.z/l},view);
     }
     return r;
@@ -177,9 +228,24 @@ static double ssim(const R&a,const R&b,const vector<unsigned char>&fg,int res,G 
 }
 
 int main(int argc,char**argv){
-    if(argc<3){fprintf(stderr,"usage: %s original.obj simplified.obj [res]\\n",argv[0]);return 1;}
-    int res=argc>3?atoi(argv[3]):512;
-    Mesh a=read_mesh(argv[1]),b=read_mesh(argv[2]);
+    if(argc<3||argc>8){fprintf(stderr,"usage: %s original.obj simplified.obj [resolution=1024] [--dump-prefix path --dump-view 0..5]\n",argv[0]);return 1;}
+    try{
+    int res=argc>=4?meshio::parse_resolution_or_throw(argv[3]):1024;
+    string dump_prefix;int dump_view=-1;
+    for(int i=4;i<argc;){
+        string option=argv[i++];
+        if(i>=argc) throw runtime_error("missing value for "+option);
+        if(option=="--dump-prefix") dump_prefix=argv[i++];
+        else if(option=="--dump-view"){
+            char* end=nullptr;long value=strtol(argv[i++],&end,10);
+            if(*end!='\0'||value<0||value>5) throw runtime_error("dump view must be in 0..5");
+            dump_view=(int)value;
+        }
+        else throw runtime_error("unknown option: "+option);
+    }
+    if((dump_prefix.empty())!=(dump_view<0)||dump_view>5) throw runtime_error("dump requires --dump-prefix and --dump-view 0..5");
+    if(res!=1024) fprintf(stderr,"warning: non-1024 resolution is screening-only, not release evidence\n");
+    Mesh a=meshio::read_mesh_or_throw(argv[1]),b=meshio::read_mesh_or_throw(argv[2]);
     if(getenv("NORMALIZE_ARM_RAW"))normalize_like_arm_input(a,b);
     double total=0, normal_total=0, depth_total=0;
     for(int v=0;v<6;v++){
@@ -190,10 +256,12 @@ int main(int argc,char**argv){
         for(int ch=0;ch<3;ch++)ns+=ssim(ra,rb,fg,res,[ch](const R&r,int i){return normal_val(r.n[i],ch);});
         ns/=3;
         double ds=ssim(ra,rb,fg,res,[](const R&r,int i){return r.d[i];});
+        if(v==dump_view) dump_diagnostics(ra,rb,res,dump_prefix);
         fprintf(stderr,"view=%d normal=%.12f depth=%.12f combined=%.12f\n",v,ns,ds,.5*ns+.5*ds);
         normal_total+=ns;
         depth_total+=ds;
         total+=.5*ns+.5*ds;
     }
     printf("normal=%.12f depth=%.12f combined=%.12f\n",normal_total/6,depth_total/6,total/6);
+    }catch(const exception& e){fprintf(stderr,"error: %s\\n",e.what());return 2;}
 }

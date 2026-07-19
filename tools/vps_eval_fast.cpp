@@ -4,30 +4,18 @@
 #include <cstdio>
 #include <cstdlib>
 #include <vector>
+#include "strict_mesh_io.hpp"
 using namespace std;
 
-struct V3{double x,y,z;};
-struct F{int a,b,c;};
+using V3=meshio::V3;
+using F=meshio::F;
+using Mesh=meshio::Mesh;
 static inline V3 operator-(V3 a,V3 b){return{a.x-b.x,a.y-b.y,a.z-b.z};}
 static inline V3 crossp(V3 a,V3 b){return{a.y*b.z-a.z*b.y,a.z*b.x-a.x*b.z,a.x*b.y-a.y*b.x};}
 static inline double dotp(V3 a,V3 b){return a.x*b.x+a.y*b.y+a.z*b.z;}
 static inline double norm(V3 a){return sqrt(dotp(a,a));}
 
-struct Mesh{vector<V3> p;vector<F> f;};
 struct R{vector<double>d;vector<V3>n;vector<unsigned char>fg;};
-
-static Mesh read_mesh(const char* path){
-    FILE* fp=fopen(path,"rb");
-    if(!fp){perror(path);exit(2);}
-    int n,m;
-    if(fscanf(fp,"%d%d",&n,&m)!=2)exit(3);
-    Mesh x;x.p.resize(n);x.f.resize(m);
-    char ch;
-    for(int i=0;i<n;i++)fscanf(fp," %c%lf%lf%lf",&ch,&x.p[i].x,&x.p[i].y,&x.p[i].z);
-    for(int i=0;i<m;i++){fscanf(fp," %c%d%d%d",&ch,&x.f[i].a,&x.f[i].b,&x.f[i].c);--x.f[i].a;--x.f[i].b;--x.f[i].c;}
-    fclose(fp);
-    return x;
-}
 
 static inline void proj(const V3&p,int view,int res,double&u,double&v,double&z){
     constexpr double D=2.5;
@@ -69,11 +57,10 @@ static void tri(R&rm,int res,V3 a,V3 b,V3 c,V3 un,int view){
 static R render(const Mesh&m,int view,int res){
     R r;r.d.assign(res*res,255);r.n.assign(res*res,{0,0,0});r.fg.assign(res*res,0);
     for(auto f:m.f){
-        if(f.a<0||f.b<0||f.c<0||f.a>=(int)m.p.size()||f.b>=(int)m.p.size()||f.c>=(int)m.p.size())continue;
         V3 a=m.p[f.a],b=m.p[f.b],c=m.p[f.c];
         V3 cr=crossp(b-a,c-a);
         double l=norm(cr);
-        if(l<=0)continue;
+        if(!(l>0)){fprintf(stderr,"internal error: validated face became degenerate\n");exit(4);}
         tri(r,res,a,b,c,{cr.x/l,cr.y/l,cr.z/l},view);
     }
     return r;
@@ -125,9 +112,11 @@ static double ssim(const R&a,const R&b,const vector<unsigned char>&fg,int res,G 
 }
 
 int main(int argc,char**argv){
-    if(argc<3){fprintf(stderr,"usage: %s original.obj simplified.obj [res]\\n",argv[0]);return 1;}
-    int res=argc>3?atoi(argv[3]):512;
-    Mesh a=read_mesh(argv[1]),b=read_mesh(argv[2]);
+    if(argc<3||argc>4){fprintf(stderr,"usage: %s original.obj simplified.obj [resolution=1024]\n",argv[0]);return 1;}
+    try{
+    int res=argc==4?meshio::parse_resolution_or_throw(argv[3]):1024;
+    if(res!=1024) fprintf(stderr,"warning: non-1024 resolution is screening-only, not release evidence\n");
+    Mesh a=meshio::read_mesh_or_throw(argv[1]),b=meshio::read_mesh_or_throw(argv[2]);
     double total=0;
     for(int v=0;v<6;v++){
         R ra=render(a,v,res),rb=render(b,v,res);
@@ -139,5 +128,6 @@ int main(int argc,char**argv){
         double ds=ssim(ra,rb,fg,res,[](const R&r,int i){return r.d[i];});
         total+=.5*ns+.5*ds;
     }
-    printf("%.12f\\n",total/6);
+    printf("%.12f\n",total/6);
+    }catch(const exception& e){fprintf(stderr,"error: %s\\n",e.what());return 2;}
 }

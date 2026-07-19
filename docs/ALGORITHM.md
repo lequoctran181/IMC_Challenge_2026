@@ -1,6 +1,6 @@
 # Algorithm and mathematical model
 
-This chapter is the concise, web-readable counterpart of the [full Round 2 article](../paper/IMC_Challenge_Round2_NEU_AddictedTribes.pdf). It separates the general method from the case-specific replay data used by the final submission.
+This chapter is the concise, web-readable counterpart of the [full Round 2 article](../paper/IMC_Challenge_Round2_NEU_AddictedTribes.pdf). It separates the general method from the case-specific replay data used by submission 20082703.
 
 ## 1. Optimization problem
 
@@ -21,7 +21,7 @@ and the test score is the mean of $S_c$ over the six axis-aligned cameras. Among
 
 $$\operatorname{Score}=100\left(1-\frac16\sum_{i=1}^6\frac{|V'_i|}{|V_i|}\right).$$
 
-The objective is discontinuous: topology and visibility changes can modify many image pixels at once, while the final score rewards each removed vertex equally. We therefore use a hierarchy of increasingly expensive models rather than attempting one monolithic optimizer.
+The objective is discontinuous: topology and visibility changes can modify many image pixels at once, while the score rewards each feasible removed vertex according to the case denominator. We therefore use a hierarchy of increasingly expensive models rather than attempting one monolithic optimizer.
 
 ## 2. Guarded QEM core
 
@@ -56,35 +56,36 @@ Pure QEM preserves planes but can rotate face normals in visually important regi
 
 $$E_N(x)=\sum_{f\in\mathcal A(u,v)} A_f^{\mathrm{proj}}\bigl(1-\operatorname{clamp}(n_f\cdot n'_f(x),-1,1)\bigr)^p.$$
 
-$A_f^{\mathrm{proj}}$ approximates the total projected area over the six official cameras. Faces that occupy more evaluated pixels therefore receive more protection than equally sized but hidden or edge-on faces.
+$A_f^{\mathrm{proj}}$ approximates projected importance over the six official cameras. It does not model occlusion, clipping, silhouette ownership, or actual visibility; the local renderer supplies those effects at checkpoints.
 
 The general collapse objective is
 
 $$E(x)=E_Q(x)+\lambda_N E_N(x)+\lambda_C E_C(x)+\lambda_R E_R(x),$$
 
-where $E_C$ is cluster-normal memory and $E_R$ denotes curvature/visibility regularizers enabled only in selected regimes.
+where $E_C$ is cluster-normal memory and $E_R$ denotes curvature or projected-importance regularizers enabled only in selected regimes.
 
 ## 4. Cluster-normal memory
 
-Repeated local normal comparisons gradually forget the original surface. We preserve that history explicitly. Initially, each vertex receives the additive area-weighted normals of its incident original faces:
+Repeated local normal comparisons gradually forget the original surface. Let $F_0$ be the original faces and $a_f=(p_{f,2}-p_{f,1})\times(p_{f,3}-p_{f,1})=2A_fn_f$. Initially, every vertex receives one $a_f$ for every original vertex-face incidence. If live vertex $v$ represents the original-vertex multiset $C(v)$, then
 
-$$C_v=\sum_{f\ni v} A_f n_f.$$
+$$S_v=\sum_{x\in C(v)}\sum_{f\in F_0}\mathbf 1[x\in f]a_f.$$
 
 When $u$ contracts into $v$, the statistic is merged exactly:
 
-$$C_v\leftarrow C_u+C_v.$$
+$$S_v\leftarrow S_u+S_v.$$
 
-For a proposed target $x$, affected triangles yield a proposed aggregate direction $\widehat C'$. The cluster term measures the loss relative to the stored original aggregate direction $\widehat C=(C_u+C_v)/\|C_u+C_v\|$:
+For an affected face $g=(v_1,v_2,v_3)$, the implementation sums the three normalized incidence vectors to form $T_g=\sum_j\widehat S_{v_j}$. In the proposed state, either contracted endpoint is replaced with $\widehat{S_u+S_v}$, producing $T'_g$. With current and proposed face area vectors $b_g,b'_g$, mode 2 uses
 
-$$E_C(x)=W_{uv}\left[\left(1-\widehat C\cdot\widehat C'\right)^q-\left(1-\widehat C\cdot\widehat C_{\mathrm{current}}\right)^q\right].$$
+$$E_C=\sum_g\|b_g\|\left[\phi(b'_g,T'_g)-\phi(b_g,T_g)\right],\quad
+\phi(b,T)=\left(1-\operatorname{clamp}\frac{b\cdot T}{\|b\|\|T\|}\right)^q.$$
 
-The subtraction makes this an incremental loss. The key property is associativity: $C_u+C_v$ is independent of contraction order, so the reference evidence does not drift. This change was decisive on the Bunny-like hidden case and became part of the readable research core in [`src/research/compact_qem_lab.cpp`](../src/research/compact_qem_lab.cpp).
+The subtraction makes this an incremental loss. A zero or near-zero stored/target vector has no defined direction and causes the candidate cluster term to fail closed. Associativity gives merge-tree invariance only when the final original-vertex cluster multiset is the same; different partitions, topology, surviving identities, or geometry can produce different penalties. This change was decisive on the Bunny-like hidden case and became part of the readable research core in [`src/research/compact_qem_lab.cpp`](../src/research/compact_qem_lab.cpp).
 
 ![Original face evidence is accumulated through the collapse tree](../paper/figures/cluster_normal.png)
 
-## 5. Exact renderer as an optimization oracle
+## 5. Specification-matching local renderer as an optimization oracle
 
-The local evaluator mirrors the official specification:
+The local evaluator implements the public specification:
 
 - cameras at the positive/negative Cartesian axes, distance 2.5;
 - 1024×1024 resolution, focal length 800, center $(512,512)$;
@@ -97,7 +98,7 @@ The renderer is too costly to call for every one of millions of collapses. It is
 
 ### 5.1 Edge flips
 
-For two triangles sharing an edge, the alternate diagonal is evaluated if it preserves orientation, manifoldness, and the distance certificate. The flip is kept only when exact six-view SSIM improves.
+For two triangles sharing an edge, the alternate diagonal is evaluated if it preserves orientation, manifoldness, and the distance certificate. The flip is kept only when the local six-view SSIM improves.
 
 ### 5.2 Fan deletion and retriangulation
 
@@ -117,7 +118,7 @@ parse and normalize
   → guarded QEM collapse with versioned priority queue
   → checkpoint at target-count bands
   → fast topology + radius screen
-  → exact Hausdorff and 1024² six-view SSIM
+  → symmetric vertex-set Hausdorff and specification-matching 1024² six-view SSIM
   → renderer-aware flips / fan retriangulation / coordinate fitting
   → canonicalize and bit-pack accepted edits
   → replay from checkpoints in the submitted program
@@ -135,12 +136,12 @@ parse and normalize
 - **Canonical ordering** makes topology scripts stable under internal renumbering.
 - **Bit-packed replay** stores vertex references, operator types, fan choices, and quantized coordinate deltas near their information-theoretic size.
 - **Reference caches** remove redundant rendering work on the largest cases.
-- **Fail-closed control flow** retains the last certified checkpoint whenever time or validation margin becomes uncertain.
+- **Fail-closed control flow** retains the last validated or previously Accepted checkpoint whenever time or validation margin becomes uncertain.
 
 The final accepted source is 130,973 bytes, only 99 bytes below the 131,072-byte limit. Its readability is intentionally secondary to conformance; use the research core and this document to understand the method.
 
 ## 8. Why the hybrid dominates any one component
 
-QEM provides throughput and geometric coherence. Cluster-normal memory stabilizes appearance over long collapse sequences. The exact renderer captures occlusion and SSIM effects that no local metric fully models. Structural edits escape the contraction-only topology family. Certification prevents improvements on a proxy or one view from becoming invalid submissions. Compression and replay convert the expensive offline search into a legal contest program.
+QEM provides throughput and geometric coherence. Cluster-normal memory stabilizes appearance over long collapse sequences. The specification-matching local renderer captures occlusion and SSIM effects that no collapse surrogate fully models. Structural edits escape the contraction-only topology family. Scoped validators reject proxy improvements that violate known constraints, and Kattis remains the hidden-test authority. Compression and replay convert expensive offline search into a contest-conforming program within the published limits.
 
 This division of labor—not one parameter setting—is the central model.

@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import csv
+import json
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -14,6 +15,8 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "figures"
 OUT.mkdir(parents=True, exist_ok=True)
+VECTOR_OUT = OUT / "vector"
+VECTOR_OUT.mkdir(parents=True, exist_ok=True)
 
 BLUE = "#17365D"
 MID = "#366092"
@@ -25,7 +28,15 @@ GRAY = "#666666"
 
 def finish(fig: plt.Figure, name: str) -> None:
     fig.savefig(OUT / f"{name}.png", dpi=300, bbox_inches="tight", facecolor="white")
-    fig.savefig(OUT / f"{name}.pdf", bbox_inches="tight", facecolor="white")
+    svg_path = VECTOR_OUT / f"{name}.svg"
+    fig.savefig(svg_path, bbox_inches="tight", facecolor="white")
+    # Matplotlib writes path data with harmless trailing spaces. Normalize the
+    # editable source so repository whitespace checks remain useful.
+    svg_path.write_text(
+        "\n".join(line.rstrip() for line in svg_path.read_text(encoding="utf-8").splitlines()) + "\n",
+        encoding="utf-8",
+    )
+    fig.savefig(VECTOR_OUT / f"{name}.pdf", bbox_inches="tight", facecolor="white")
     plt.close(fig)
 
 
@@ -51,7 +62,7 @@ def pipeline() -> None:
     fig, ax = plt.subplots(figsize=(10.5, 5.4))
     ax.set_xlim(0, 1); ax.set_ylim(0, 1); ax.axis("off")
     box(ax, .03, .64, .18, .20, "Input mesh", "stream parser\ncase signature", BLUE)
-    box(ax, .28, .64, .20, .20, "Certified QEM", "quadrics + link condition\ncluster-radius bound", BLUE)
+    box(ax, .28, .64, .20, .20, "Guarded QEM", "quadrics + link condition\ncluster-radius bound", BLUE)
     box(ax, .56, .64, .18, .20, "Checkpoint", "deterministic canonical\nmesh state", BLUE)
     box(ax, .81, .64, .16, .20, "Output", "valid 2-manifold\ncompact OBJ", GREEN)
     arrow(ax, (.21, .74), (.28, .74)); arrow(ax, (.48, .74), (.56, .74)); arrow(ax, (.74, .74), (.81, .74))
@@ -66,7 +77,7 @@ def pipeline() -> None:
     ax.text(.5, .94, "Hybrid online simplification and offline renderer-guided replay",
             ha="center", fontsize=14, fontweight="bold", color=BLUE)
     ax.text(.5, .075,
-            "Every specialized branch is transactional: if a structural or visual gate fails, execution falls back to a judge-proven checkpoint.",
+            "Every specialized branch is transactional: if a structural or visual gate fails, execution falls back to an Accepted checkpoint.",
             ha="center", fontsize=8.8, color=GRAY)
     finish(fig, "pipeline")
 
@@ -112,28 +123,29 @@ def evidence_protocol() -> None:
     arrow(ax, (.64, .76), (.69, .76), MID)
 
     box(ax, .10, .25, .22, .20, "Identity evidence", "normalized invariant digits\nproxy-family hypothesis", MID)
-    box(ax, .39, .25, .22, .20, "Acceptance evidence", "isolated pass/fail bracket\njudge-certified frontier", GREEN)
+    box(ax, .39, .25, .22, .20, "Acceptance evidence", "isolated pass/fail bracket\nobserved Kattis frontier", GREEN)
     box(ax, .68, .25, .22, .20, "Local stress test", "licensed proxy rotations\n1024² component checks", ORANGE)
     arrow(ax, (.76, .67), (.25, .45), MID)
     arrow(ax, (.78, .67), (.50, .45), GREEN)
     arrow(ax, (.61, .35), (.68, .35), ORANGE)
     arrow(ax, (.32, .35), (.39, .35), BLUE)
 
-    box(ax, .36, .025, .33, .13, "Fail-closed integration", "commit only judge-proven\nlocally validated transactions", GREEN)
+    box(ax, .36, .025, .33, .13, "Fail-closed integration", "commit only Accepted-parent\nlocally validated transactions", GREEN)
     arrow(ax, (.50, .25), (.50, .145), GREEN)
     arrow(ax, (.79, .25), (.62, .145), ORANGE)
 
     ax.text(.5, .94, "Controlled hidden-constraint evidence protocol",
             ha="center", fontsize=14, fontweight="bold", color=BLUE)
-    ax.text(.5, .885, "green = official / judge-certified     blue = reconstructed or inferred     orange = local proxy",
+    ax.text(.5, .885, "green = Kattis observation     blue = reconstructed or inferred     orange = local proxy",
             ha="center", fontsize=8.5, color=GRAY)
     finish(fig, "evidence_protocol")
 
 
 def final_results() -> None:
-    names = ["Sphere", "Armadillo", "Bunny", "Lucy", "Slender", "Nefertiti"]
-    original = np.array([4098, 23201, 35292, 49987, 377084, 1009118], dtype=float)
-    output = np.array([25, 4340, 2839, 3030, 7400, 16500], dtype=float)
+    release = json.loads((ROOT / "source" / "data" / "release_values.json").read_text(encoding="utf-8"))
+    names = [case["name"].replace("-like sample", "") for case in release["cases"]]
+    original = np.array([case["input_vertices"] for case in release["cases"]], dtype=float)
+    output = np.array([case["output_vertices"] for case in release["cases"]], dtype=float)
     retained = 100 * output / original
     compression = 100 - retained
 
@@ -146,7 +158,7 @@ def final_results() -> None:
     ax1.tick_params(axis="x", rotation=25)
     for bar, value in zip(bars, retained):
         ax1.text(bar.get_x()+bar.get_width()/2, value+.45, f"{value:.2f}%", ha="center", fontsize=8.5)
-    ax1.set_title("Final retained ratio by official case", color=BLUE, fontweight="bold")
+    ax1.set_title("Retained ratio by scored case", color=BLUE, fontweight="bold")
 
     ypos = np.arange(len(names))
     ax2.barh(ypos, compression, color=LIGHT, edgecolor=MID)
@@ -162,7 +174,10 @@ def final_results() -> None:
         else:
             ax2.text(value-.25, y, f"{value:.2f}%  ({count:,})", ha="right", va="center", fontsize=8.4)
     ax2.set_title("Per-case compression", color=BLUE, fontweight="bold")
-    fig.suptitle("Submission 20082703 — reconstructed score 93.8300742251", fontsize=13, color=BLUE, fontweight="bold")
+    fig.suptitle(
+        f"Submission {release['submission_id']} - reconstructed score {release['reconstructed_score']:.10f}",
+        fontsize=13, color=BLUE, fontweight="bold",
+    )
     fig.tight_layout(rect=[0, 0, 1, .92])
     finish(fig, "final_results")
 
@@ -172,7 +187,7 @@ def progression() -> None:
     xs, ys = [], []
     with csv_path.open(encoding="utf-8") as handle:
         for index, row in enumerate(csv.DictReader(handle)):
-            if row["score_reconstructed"] != "nan":
+            if row["score_reconstructed"]:
                 xs.append(index)
                 ys.append(float(row["score"]))
     early_scores = [81.945906, 86.998654, 87.913148, 89.163, 89.875, 90.822]
@@ -186,7 +201,7 @@ def progression() -> None:
         2: "cluster-normal",
         5: "case replay",
         len(early_scores)+18: "renderer-aware jump",
-        len(all_scores)-1: "final 93.830074",
+        len(all_scores)-1: "submission 20082703",
     }
     for i, label in markers.items():
         if i >= len(all_scores):

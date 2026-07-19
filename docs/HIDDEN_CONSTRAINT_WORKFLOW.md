@@ -47,7 +47,7 @@ The method has two safeguards:
 - use the exact official score definition and rounding, not the global compression ratio;
 - require every unchanged branch to come from the same Accepted parent, ideally verified byte-for-byte.
 
-## 3. Carry small diagnostic integers without changing the active surface
+## 3. Carry small diagnostic integers with exact-coordinate duplicates
 
 When the runtime program needed to report a small statistic $h$, a conservative Accepted mesh with $B_k$ vertices was used as the visible surface. The branch then emitted
 
@@ -55,9 +55,9 @@ $$
 |V'_k|=B_k+h,
 $$
 
-where the additional vertices were unreferenced and did not alter any face, normal, depth, or silhouette. The normal manifold surface remained the judge-proven one; only the count changed. The aggregate score then revealed $h$ through the count-decoding equation.
+where every added vertex was unreferenced and had coordinates exactly equal to an already used base vertex. Faces remained byte-identical. Under face-indexed surface semantics, this preserves the triangle surface, normal/depth rasterization, and topology. Exact coordinate duplication also preserves the coordinate set, hence both directed vertex-set Hausdorff distances. An arbitrary unused point would **not** be safe: it could increase the output-to-reference direction. The aggregate score then revealed $h$ through the count-decoding equation.
 
-Payloads were deliberately small and nonnegative. If an integer was too large for the safe count slack, it was split into base-$B$ digits,
+Payloads were deliberately small and nonnegative. Every carrier obeyed five rules: finite exact-duplicate coordinates, no face changes, precomputed count slack, an initial isolated probe establishing parser acceptance, and explicit separation from quality improvements. The submitted program computed only small statistics of the input it legitimately received; it used no network, external file, or side channel, and no hidden geometry was reconstructed or redistributed. If an integer was too large for the safe count slack, it was split into base-$B$ digits,
 
 $$
 H=d_0+B d_1+B^2d_2+\cdots,
@@ -95,7 +95,7 @@ A hash match is never proof by itself. Collisions, preprocessing, and renderer d
 
 ## 5. Reconstruct pass/fail frontiers scientifically
 
-After identifying a useful branch, target counts were bracketed or binary-searched. A pass moved the certified frontier downward; a failure tightened the rejected side. Each probe changed one target or one operator family. The early observations included:
+After identifying a useful branch, target counts were bracketed or binary-searched. A pass moved the Kattis-Accepted frontier downward; a failure tightened the rejected side. Each probe changed one target or one operator family. The early observations included:
 
 | Branch and method | Accepted observation | Rejected neighboring observation | What it established |
 |---|---:|---:|---|
@@ -111,7 +111,7 @@ Near the 21-second limit, an identical source could be resubmitted to distinguis
 
 ## 6. Use public rotations as stress tests, not hidden substitutes
 
-Public proxies were evaluated under multiple rotations because a single pose can hide a silhouette or flat-normal defect. Candidates had to pass manifold, distance, and exact 1024-square render checks across selected rotations with an explicit margin. Some rotations were useful predictors—rotation 04 was especially informative for Lucy and Nefertiti—but none was treated as authoritative.
+Public proxies were evaluated under multiple rotations because a single pose can hide a silhouette or flat-normal defect. Candidates had to pass manifold, distance, and specification-matching 1024-square render checks across selected rotations with an explicit margin. Some rotations were useful predictors - rotation 04 was especially informative for Lucy and Nefertiti - but none was treated as decisive on its own.
 
 This distinction mattered. Public Bunny rotations passed counts that the hidden judge rejected. The correct response was not to claim a contradictory hidden mesh; it was to acknowledge a proxy-to-hidden renderer or geometry gap and let official isolated probes define the accepted frontier.
 
@@ -123,7 +123,7 @@ The final program does not perform exploratory search on the judge. Offline disc
 2. a replay transaction is decoded;
 3. canonical neighborhood and count preconditions are checked;
 4. the transaction commits only if all structural guards pass;
-5. otherwise the program returns the judge-proven checkpoint.
+5. otherwise the program returns the previously Accepted checkpoint.
 
 The fetched-back final source, output counts, result metadata, and checksums are immutable. The release verifier reconstructs the score, checks the 131,072-byte limit, validates article hashes, and compiles the exact C++17 source.
 
@@ -131,11 +131,12 @@ The fetched-back final source, output counts, result metadata, and checksums are
 
 - Treat aggregate feedback as an experimental-design problem: one unknown per probe.
 - Decode exact counts from the published score equation before drawing qualitative conclusions.
-- Use small, harmless, fail-closed diagnostic payloads.
+- Use small, exact-coordinate, fail-closed diagnostic payloads and test both Hausdorff directions.
 - Identify proxy families with several normalized invariants, not filenames or counts alone.
 - Separate identity evidence, local feasibility, and official acceptance.
 - Record both accepted and rejected sides of every frontier.
 - Preserve source hashes and unchanged branch outputs so later integrations remain attributable.
+- Store both Accepted and rejected probes in the fixed-schema evidence ledger.
 - Never redistribute hidden or unlicensed meshes; release algorithms, metadata, and integrity records instead.
 
 The same protocol applies to other fixed-instance optimization challenges whenever the judge publishes an aggregate objective but withholds component measurements. Its value is not in exposing hidden data; it is in making limited external feedback scientifically controlled, reproducible, and honest about uncertainty.

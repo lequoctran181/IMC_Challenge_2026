@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/lequoctran181/IMC_Challenge_2026/blob/main/paper/source/data/evidence_schema.json",
+  "title": "IMC simplifygeometry experiment evidence event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "event_id",
+    "evidence_level",
+    "submission_id",
+    "parent_submission_id",
+    "changed_branch",
+    "intervention",
+    "verdict",
+    "official_score",
+    "output_counts",
+    "source_sha256",
+    "local_metrics",
+    "interpretation"
+  ],
+  "properties": {
+    "event_id": {"type": "string", "minLength": 1},
+    "evidence_level": {
+      "type": "array",
+      "items": {"enum": ["official", "reconstructed", "experimental", "inference"]},
+      "uniqueItems": true
+    },
+    "submission_id": {"type": ["integer", "null"]},
+    "parent_submission_id": {"type": ["integer", "null"]},
+    "changed_branch": {"type": ["string", "null"]},
+    "intervention": {"type": "string"},
+    "verdict": {"enum": ["Accepted", "Rejected", "Partial (6/7)", "TLE", "Diagnostic accepted", "Local only", null]},
+    "official_score": {"type": ["number", "null"]},
+    "output_counts": {
+      "oneOf": [
+        {"type": "null"},
+        {"type": "array", "items": {"type": "integer"}, "minItems": 6, "maxItems": 6}
+      ]
+    },
+    "source_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "local_metrics": {"type": "object"},
+    "interpretation": {"type": "string"}
+  }
+}

@@ -350,9 +350,10 @@ static bool solve3x3(const Quadric& q, Vec3& sol){
     return isfinite(sol.x)&&isfinite(sol.y)&&isfinite(sol.z);
 }
 
-struct PosChoice{ Vec3 p; double cost; double rad; };
+struct PosChoice{ Vec3 p; double cost; double rad; int type; };
 
-static void addChoice(vector<PosChoice>& choices, const Quadric& q, int a, int b, const Vec3& p){
+static void addChoice(vector<PosChoice>& choices, const Quadric& q, int a, int b,
+                      const Vec3& p, int type){
     if(!isfinite(p.x)||!isfinite(p.y)||!isfinite(p.z)) return;
     double ra = radBound[a] + normv(P[a]-p);
     double rb = radBound[b] + normv(P[b]-p);
@@ -361,27 +362,35 @@ static void addChoice(vector<PosChoice>& choices, const Quadric& q, int a, int b
     double c=q.eval(p);
     if(c<0 && c>-1e-12) c=0;
     if(!isfinite(c)) return;
-    c += 1e-30*(r/(tolH+1e-30)) + 1e-32*norm2(P[a]-P[b]);
-    choices.push_back({p,c,r});
+    choices.push_back({p,c,r,type});
+}
+
+static bool choiceLess(const PosChoice& a,const PosChoice& b){
+    if(a.cost!=b.cost) return a.cost<b.cost;
+    if(a.type!=b.type) return a.type<b.type;
+    if(a.p.x!=b.p.x) return a.p.x<b.p.x;
+    if(a.p.y!=b.p.y) return a.p.y<b.p.y;
+    if(a.p.z!=b.p.z) return a.p.z<b.p.z;
+    return a.rad<b.rad;
 }
 
 static bool candidatePosition(int a,int b, PosChoice &best){
     if(!vActive[a]||!vActive[b]||a==b) return false;
     Quadric q=Q[a]; q.add(Q[b]);
     vector<PosChoice> choices; choices.reserve(7);
-    addChoice(choices,q,a,b,P[a]);
-    addChoice(choices,q,a,b,P[b]);
-    addChoice(choices,q,a,b,(P[a]+P[b])*0.5);
+    addChoice(choices,q,a,b,P[a],0);
+    addChoice(choices,q,a,b,P[b],1);
+    addChoice(choices,q,a,b,(P[a]+P[b])*0.5,2);
     int ca=clusterSize[a], cb=clusterSize[b];
-    addChoice(choices,q,a,b,(P[a]*(double)ca + P[b]*(double)cb)/(double)(ca+cb));
+    addChoice(choices,q,a,b,(P[a]*(double)ca + P[b]*(double)cb)/(double)(ca+cb),3);
     Vec3 d=P[b]-P[a];
     double f0=q.eval(P[a]); double f1=q.eval(P[b]); double fm=q.eval((P[a]+P[b])*0.5);
     double m=2.0*(f1+f0-2.0*fm); double l=f1-f0-m;
-    if(fabs(m)>1e-30){ double t=-l/(2.0*m); if(t>0.0 && t<1.0) addChoice(choices,q,a,b,P[a]+d*t); }
+    if(fabs(m)>1e-30){ double t=-l/(2.0*m); if(t>0.0 && t<1.0) addChoice(choices,q,a,b,P[a]+d*t,4); }
     Vec3 opt;
-    if(solve3x3(q,opt)) addChoice(choices,q,a,b,opt);
+    if(solve3x3(q,opt)) addChoice(choices,q,a,b,opt,5);
     if(choices.empty()) return false;
-    int bi=0; for(int i=1;i<(int)choices.size();++i) if(choices[i].cost < choices[bi].cost) bi=i;
+    int bi=0; for(int i=1;i<(int)choices.size();++i) if(choiceLess(choices[i],choices[bi])) bi=i;
     best=choices[bi]; return true;
 }
 
@@ -511,12 +520,14 @@ static double estimateCost(int a,int b){
 }
 
 struct Cand{
-    float cost;
+    double cost;
     int from,to;
     int vf,vt;
 };
 struct CandGreater{
-    bool operator()(const Cand& a,const Cand& b) const { return a.cost > b.cost; }
+    bool operator()(const Cand& a,const Cand& b) const {
+        return tie(a.cost,a.from,a.to,a.vf,a.vt)>tie(b.cost,b.from,b.to,b.vf,b.vt);
+    }
 };
 
 static inline Cand makeCandidate(int u,int v){
@@ -526,7 +537,7 @@ static inline Cand makeCandidate(int u,int v){
     if(clusterSize[from] > clusterSize[to] || (clusterSize[from]==clusterSize[to] && deg0[from] > deg0[to])) swap(from,to);
     double cost=estimateCost(from,to);
     if(cost>=INF_COST/2) return c;
-    c.cost=(float)cost; c.from=from; c.to=to; c.vf=versionV[from]; c.vt=versionV[to];
+    c.cost=cost; c.from=from; c.to=to; c.vf=versionV[from]; c.vt=versionV[to];
     return c;
 }
 
@@ -606,32 +617,35 @@ static bool checkCollapse(int from,int to, CollapseInfo& info){
     if(common!=2) return false;
     Quadric q=Q[from]; q.add(Q[to]);
     vector<PosChoice> choices; choices.reserve(7);
-    addChoice(choices,q,from,to,P[from]);
-    addChoice(choices,q,from,to,P[to]);
-    addChoice(choices,q,from,to,(P[from]+P[to])*0.5);
+    addChoice(choices,q,from,to,P[from],0);
+    addChoice(choices,q,from,to,P[to],1);
+    addChoice(choices,q,from,to,(P[from]+P[to])*0.5,2);
     int ca=clusterSize[from], cb=clusterSize[to];
-    addChoice(choices,q,from,to,(P[from]*(double)ca + P[to]*(double)cb)/(double)(ca+cb));
+    addChoice(choices,q,from,to,(P[from]*(double)ca + P[to]*(double)cb)/(double)(ca+cb),3);
     Vec3 d=P[to]-P[from];
     double f0=q.eval(P[from]); double f1=q.eval(P[to]); double fm=q.eval((P[from]+P[to])*0.5);
     double m=2.0*(f1+f0-2.0*fm); double l=f1-f0-m;
-    if(fabs(m)>1e-30){ double t=-l/(2.0*m); if(t>0.0 && t<1.0) addChoice(choices,q,from,to,P[from]+d*t); }
-    Vec3 opt; if(solve3x3(q,opt)) addChoice(choices,q,from,to,opt);
+    if(fabs(m)>1e-30){ double t=-l/(2.0*m); if(t>0.0 && t<1.0) addChoice(choices,q,from,to,P[from]+d*t,4); }
+    Vec3 opt; if(solve3x3(q,opt)) addChoice(choices,q,from,to,opt,5);
     if(choices.empty()) return false;
-    sort(choices.begin(), choices.end(), [&](const PosChoice&a,const PosChoice&b){
-        if(normalCostWeight<=0.0 && clusterNormalCostWeight<=0.0) return a.cost<b.cost;
-        double ca=a.cost,cb=b.cost;
+    struct RankedChoice{PosChoice choice;double composite;};
+    vector<RankedChoice> ranked;ranked.reserve(choices.size());
+    for(const PosChoice& choice:choices){
+        double composite=choice.cost;
         if(normalCostWeight>0.0){
-            ca+=normalCostWeight*normalPenalty(from,to,a.p,info.fromFaces,info.toFaces);
-            cb+=normalCostWeight*normalPenalty(from,to,b.p,info.fromFaces,info.toFaces);
+            composite+=normalCostWeight*normalPenalty(from,to,choice.p,info.fromFaces,info.toFaces);
         }
         if(clusterNormalCostWeight>0.0){
-            ca+=clusterNormalCostWeight*clusterTargetPenalty(from,to,a.p,info.fromFaces,info.toFaces);
-            cb+=clusterNormalCostWeight*clusterTargetPenalty(from,to,b.p,info.fromFaces,info.toFaces);
+            composite+=clusterNormalCostWeight*clusterTargetPenalty(from,to,choice.p,info.fromFaces,info.toFaces);
         }
-        return ca<cb;
+        ranked.push_back({choice,composite});
+    }
+    sort(ranked.begin(), ranked.end(), [](const RankedChoice&a,const RankedChoice&b){
+        if(a.composite!=b.composite) return a.composite<b.composite;
+        return choiceLess(a.choice,b.choice);
     });
-    for(const auto &pc: choices){
-        if(validChoiceGeometry(from,to,pc,info)){ info.pc=pc; return true; }
+    for(const auto &entry: ranked){
+        if(validChoiceGeometry(from,to,entry.choice,info)){ info.pc=entry.choice; return true; }
     }
     return false;
 }

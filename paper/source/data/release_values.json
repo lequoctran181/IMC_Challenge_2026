@@ -1,0 +1,78 @@
+{
+  "cases": [
+    {
+      "compression_percent": 99.38994631527575,
+      "input_vertices": 4098,
+      "name": "Sphere-like sample",
+      "output_vertices": 25,
+      "retained_percent": 0.6100536847242557,
+      "score_contribution": 16.56499105254596,
+      "score_loss": 0.1016756141207093
+    },
+    {
+      "compression_percent": 81.2939097452696,
+      "input_vertices": 23201,
+      "name": "Armadillo",
+      "output_vertices": 4340,
+      "retained_percent": 18.7060902547304,
+      "score_contribution": 13.548984957544935,
+      "score_loss": 3.1176817091217335
+    },
+    {
+      "compression_percent": 91.95568400770713,
+      "input_vertices": 35292,
+      "name": "Bunny-like",
+      "output_vertices": 2839,
+      "retained_percent": 8.044315992292871,
+      "score_contribution": 15.325947334617856,
+      "score_loss": 1.3407193320488118
+    },
+    {
+      "compression_percent": 93.93842399023747,
+      "input_vertices": 49987,
+      "name": "Lucy",
+      "output_vertices": 3030,
+      "retained_percent": 6.061576009762539,
+      "score_contribution": 15.656403998372912,
+      "score_loss": 1.0102626682937565
+    },
+    {
+      "compression_percent": 98.03757253025852,
+      "input_vertices": 377084,
+      "name": "Slender",
+      "output_vertices": 7400,
+      "retained_percent": 1.96242746974149,
+      "score_contribution": 16.339595421709753,
+      "score_loss": 0.32707124495691503
+    },
+    {
+      "compression_percent": 98.36490876190891,
+      "input_vertices": 1009118,
+      "name": "Nefertiti",
+      "output_vertices": 16500,
+      "retained_percent": 1.6350912380910854,
+      "score_contribution": 16.394151460318152,
+      "score_loss": 0.2725152063485142
+    }
+  ],
+  "global_compression_percent": 97.72254767210664,
+  "global_retained_percent": 2.277452327893353,
+  "judgement": "Accepted",
+  "official_score": 93.830074,
+  "reconstructed_score": 93.83007422510956,
+  "schema_version": 1,
+  "slender_400_vertex_score_delta": 0.017679526754427837,
+  "standings_snapshot": {
+    "captured_at": "2026-07-19T12:35:16.490Z",
+    "claim_scope": "Archived standings display only; the page status is preserved verbatim as unfinalized",
+    "displayed_rank": 2,
+    "displayed_score": 93.83,
+    "evidence_path": "evidence/leaderboard_unfinalized_2026-07-19.json",
+    "status": "unfinalized"
+  },
+  "submission_id": 20082703,
+  "tests_passed": 7,
+  "tests_total": 7,
+  "total_input_vertices": 1498780,
+  "total_output_vertices": 34134
+}
