@@ -54,23 +54,32 @@ def main() -> int:
 
     drawings = document.findall(".//wp:docPr", NS)
     described = [node for node in drawings if node.get("descr", "").strip()]
-    if len(drawings) != 9 or len(described) != 9 or len(media) < 9:
-        errors.append(f"expected 9 described figures; drawings={len(drawings)}, alt={len(described)}, media={len(media)}")
+    if len(drawings) != 10 or len(described) != 10 or len(media) < 10:
+        errors.append(f"expected 10 described figures; drawings={len(drawings)}, alt={len(described)}, media={len(media)}")
 
     fields = ["".join(node.itertext()).strip() for node in document.findall(".//w:instrText", NS)]
     table_sequences = [value for value in fields if value.startswith("SEQ Table")]
     figure_sequences = [value for value in fields if value.startswith("SEQ Figure")]
     references = [value for value in fields if value.startswith("REF ")]
-    if len(table_sequences) != 17 or len(figure_sequences) != 9:
+    if len(table_sequences) != 19 or len(figure_sequences) != 10:
         errors.append(f"caption fields incomplete: tables={len(table_sequences)}, figures={len(figure_sequences)}")
-    if not any(value.startswith("TOC ") for value in fields):
+    toc_instructions = [value for value in fields if value.startswith("TOC ")]
+    if not toc_instructions:
         errors.append("native Word TOC field is missing")
+    toc_begins = [
+        node
+        for node in document.findall(".//w:fldChar", NS)
+        if node.get(f"{{{NS['w']}}}fldCharType") == "begin"
+        and node.get(f"{{{NS['w']}}}fldLock") == "true"
+    ]
+    if not toc_begins:
+        errors.append("native Word TOC field is not locked for cross-renderer pagination stability")
     if len(references) < 2:
         errors.append(f"expected native REF cross-references; found {len(references)}")
 
     tables = document.findall(".//w:tbl", NS)
     repeated_headers = document.findall(".//w:tbl/w:tr[1]/w:trPr/w:tblHeader", NS)
-    if len(tables) != 17 or len(repeated_headers) != len(tables):
+    if len(tables) != 19 or len(repeated_headers) != len(tables):
         errors.append(f"table-header repetition incomplete: tables={len(tables)}, repeated={len(repeated_headers)}")
 
     equations = document.findall(".//m:oMath", NS)

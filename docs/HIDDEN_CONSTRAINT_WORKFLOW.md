@@ -58,10 +58,10 @@ $$
 
 where every added vertex was unreferenced and had coordinates exactly equal to an already used base vertex. Faces remained byte-identical. Under face-indexed surface semantics, this preserves the triangle surface, normal/depth rasterization, and topology. Exact coordinate duplication also preserves the coordinate set, hence both directed vertex-set Hausdorff distances. An arbitrary unused point would **not** be safe: it could increase the output-to-reference direction. The aggregate score then revealed $h$ through the count-decoding equation.
 
-Payloads were deliberately small and nonnegative. Every carrier obeyed five rules: finite exact-duplicate coordinates, no face changes, precomputed count slack, an initial isolated probe establishing parser acceptance, and explicit separation from quality improvements. The submitted program computed only small statistics of the input it legitimately received; it used no network, external file, or side channel, and no hidden geometry was reconstructed or redistributed. If an integer was too large for the safe count slack, it was split into base-$B$ digits,
+Payloads were deliberately small and nonnegative. Every carrier obeyed five rules: finite exact-duplicate coordinates, no face changes, precomputed count slack, an initial isolated probe establishing parser acceptance, and explicit separation from quality improvements. That historical observation is event `unused-duplicate-parser-probe` in the evidence ledger. Its submission identifier and emitted OBJ were not retained, and the ledger records that limitation. It is observed judge semantics, not a claim of organizer endorsement. The submitted program computed only small statistics of the input it legitimately received; it used no network, external file, or side channel, and no hidden geometry was reconstructed or redistributed. If an integer was too large for the safe count slack, it was split into base-$B$ digits,
 
 $$
-H=d_0+B d_1+B^2d_2+\cdots,
+H=d_0+B d_1+\cdots+B^{m-1}d_{m-1},
 $$
 
 and recovered from separate isolated probes. This avoided overflow, ambiguity, and unsafe surface changes. A diagnostic submission could score below the current record without lowering the stored Kattis best.

@@ -27,7 +27,7 @@ Kattis submission **20082703** was **Accepted (7/7)** with displayed score **93.
 The exact count-derived value is
 
 $$
-100\left(1-\frac{1}{6}\sum_{i=1}^{6}\frac{V'_i}{V_i}\right)
+100\left(1-\frac{1}{6}\sum_{i=1}^{6}\frac{M_i}{N_i}\right)
 =93.83007422510956,
 $$
 

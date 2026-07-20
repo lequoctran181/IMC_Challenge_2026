@@ -58,7 +58,11 @@ Pure QEM preserves planes but can rotate face normals in visually important regi
 
 $$E_N(x)=\sum_{f\in\mathcal A(u,v)} A_f^{\mathrm{proj}}\bigl(1-\operatorname{clamp}(n_f\cdot n'_f(x),-1,1)\bigr)^p.$$
 
-$A_f^{\mathrm{proj}}$ approximates projected importance over the six official cameras. It does not model occlusion, clipping, silhouette ownership, or actual visibility; the local renderer supplies those effects at checkpoints.
+For the orthographic no-occlusion approximation, the six-camera total is
+
+$$A_f^{\mathrm{proj}}=2A_f\left(|n_x|+|n_y|+|n_z|\right)=2A_f\|n_f\|_1.$$
+
+Opposite camera pairs have equal magnitudes. The implementation uses three face-oriented projected magnitudes with perspective depth and absorbs the constant factor two into $\lambda_N$. This term does not model occlusion, clipping, silhouette ownership, or actual visibility; the local renderer supplies those effects at checkpoints.
 
 The general collapse objective is
 
@@ -76,12 +80,14 @@ When $u$ contracts into $v$, the statistic is merged exactly:
 
 $$S_v\leftarrow S_u+S_v.$$
 
-For an affected face $g=(v_1,v_2,v_3)$, the implementation sums the three normalized incidence vectors to form $T_g=\sum_j\widehat S_{v_j}$. In the proposed state, either contracted endpoint is replaced with $\widehat{S_u+S_v}$, producing $T'_g$. With current and proposed face area vectors $b_g,b'_g$, mode 2 uses
+For every support vector above the norm threshold, define $u_v=S_v/\|S_v\|$. For an affected face $g=(v_1,v_2,v_3)$, the implementation forms $T_g=\sum_j u_{v_j}$. In the proposed state, either contracted endpoint is replaced with the normalized merged support vector, producing $T'_g$. With current and proposed face area vectors $b_g,b'_g$, mode 2 uses
 
 $$E_C=\sum_g\|b_g\|\left[\phi(b'_g,T'_g)-\phi(b_g,T_g)\right],\quad
 \phi(b,T)=\left(1-\operatorname{clamp}\frac{b\cdot T}{\|b\|\|T\|}\right)^q.$$
 
 The subtraction makes this an incremental loss. A zero or near-zero stored/target vector has no defined direction and causes the candidate cluster term to fail closed. Associativity gives merge-tree invariance only when the final original-vertex cluster multiset is the same; different partitions, topology, surviving identities, or geometry can produce different penalties. This change was decisive on the Bunny-like hidden case and became part of the readable research core in [`src/research/compact_qem_lab.cpp`](../src/research/compact_qem_lab.cpp).
+
+The reported support drift is the active-face, area-weighted mean angle between $b_g$ and $T_g$, sampled initially, every 500 collapses, and at the final target. Undefined targets are excluded and counted. This diagnostic is mechanism-aligned; six-view combined SSIM remains the independent rendered outcome.
 
 ![Original face evidence is accumulated through the collapse tree](../paper/figures/cluster_normal.png)
 

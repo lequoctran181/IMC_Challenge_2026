@@ -8,6 +8,8 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib.colors import LinearSegmentedColormap, Normalize
+from matplotlib.cm import ScalarMappable
 from PIL import Image
 
 
@@ -63,6 +65,13 @@ def main() -> None:
     for bar, count, score in zip(bars, counts, combined):
         axis.text(bar.get_x() + bar.get_width() / 2, count + 120,
                   f"{count:,} V\ncombined {score:.6f}", ha="center", va="bottom", fontsize=8.8)
+    angular_map = LinearSegmentedColormap.from_list("angular", ((0, 1, 40 / 255), (1, 0, 40 / 255)))
+    colorbar = fig.colorbar(
+        ScalarMappable(norm=Normalize(0, 60), cmap=angular_map), ax=axis,
+        orientation="horizontal", fraction=.065, pad=.20, ticks=(0, 5, 15, 30, 60),
+    )
+    colorbar.ax.set_xticklabels(("0°", "5°", "15°", "30°", "≥60°"))
+    colorbar.set_label("Angular-error map scale", fontsize=8.2)
 
     fig.suptitle(
         "Armadillo public proxy: fewer vertices with a higher six-view combined score",
@@ -70,8 +79,8 @@ def main() -> None:
     )
     fig.text(
         .5, -.015,
-        "View 2 is shown because it is the minimum view of the 4,570-vertex checkpoint. "
-        "The comparison is checkpoint-level Pareto evidence, not a one-operator ablation.",
+        "View 2 is the minimum view of the 4,570 checkpoint. Green = 0°, red = ≥60°, magenta = ownership disagreement. "
+        "This is checkpoint-level Pareto evidence, not a one-operator ablation.",
         ha="center", fontsize=8.8, color="#555555",
     )
     args.output.parent.mkdir(parents=True, exist_ok=True)

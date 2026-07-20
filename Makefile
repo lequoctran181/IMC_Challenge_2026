@@ -41,6 +41,8 @@ evaluator-contract: build-all
 article-consistency:
 	$(PYTHON) tools/sync_release_values.py --check
 	$(PYTHON) tools/check_evidence_ledger.py
+	$(PYTHON) tools/check_source_byte_breakdown.py
+	$(PYTHON) tools/check_proxy_metrics.py
 	$(PYTHON) tools/audit_docx.py
 	$(PYTHON) tools/update_manifest.py --check
 

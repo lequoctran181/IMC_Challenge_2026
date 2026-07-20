@@ -2,9 +2,9 @@
 
 **Perception-Aware Mesh Simplification under a 21-Second and 128-KiB Budget**
 
-*Hybrid QEM, cluster-normal memory, renderer-aware topology replay, and fail-closed optimization*
+*Hybrid QEM, cluster-normal memory, renderer-aware topology replay, and fail-closed deployment*
 
-- [`IMC_Challenge_Round2_NEU_AddictedTribes.pdf`](IMC_Challenge_Round2_NEU_AddictedTribes.pdf): submission-ready article, 42 A4 pages.
+- [`IMC_Challenge_Round2_NEU_AddictedTribes.pdf`](IMC_Challenge_Round2_NEU_AddictedTribes.pdf): submission-ready article, 48 A4 pages, exported from Microsoft Word after cross-renderer QA.
 - [`IMC_Challenge_Round2_NEU_AddictedTribes.docx`](IMC_Challenge_Round2_NEU_AddictedTribes.docx): editable organizer-template version with native Word Equation objects.
 - [`figures/`](figures/): publication-resolution diagrams used in the article.
 - [`manuscript.md`](manuscript.md): complete text source.
@@ -17,8 +17,8 @@ All mathematical displays and inline symbols in the released DOCX are editable n
 Artifact integrity:
 
 ```text
-PDF  b2f138efef8f6e869cb5476776c032a3c80e3926ae89144566d7a9d65505f103
-DOCX 51d44f7d3b896169afe62b21af6db9b948bb8c380086abe74bdef9094162f93b
+PDF  ef49f9b666bf0c6661340674b838c220e43645bad67bdd0eb2c29aef985cf5d3
+DOCX 267d8b1898a8df3118576e88ad42b9e61a8c4b6e629c3eb00015cf0288237e59
 ```
 
 The original blank organizer template is not redistributed. The DOCX retains its A4 page system, typography hierarchy, and opaque custom properties while replacing all placeholders with the team's work.

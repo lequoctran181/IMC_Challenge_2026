@@ -24,6 +24,7 @@ REQUIRED = {
     "candidate_output_sha256", "unchanged_output_sha256",
     "geometry_audit_path", "isolation_status", "artifact_limitations",
 }
+OPTIONAL = {"carrier_type", "base_count", "payload"}
 LEVELS = {"Official", "Reconstructed", "Experimental", "Inference"}
 VERDICTS = {"Accepted", "Rejected", "Partial (6/7)", "TLE", "Diagnostic accepted", "Local only", None}
 ISOLATION = {"verified-counts", "not-applicable", "historical-missing-counts", "local-controlled"}
@@ -51,7 +52,7 @@ def main() -> int:
             continue
         events.append((number, event))
         missing = REQUIRED - event.keys()
-        extra = event.keys() - REQUIRED
+        extra = event.keys() - REQUIRED - OPTIONAL
         if missing: errors.append(f"line {number}: missing {sorted(missing)}")
         if extra: errors.append(f"line {number}: unexpected {sorted(extra)}")
         identifier = event.get("event_id")
@@ -70,6 +71,8 @@ def main() -> int:
             errors.append(f"line {number}: invalid evidence_level")
         if event.get("verdict") not in VERDICTS:
             errors.append(f"line {number}: invalid verdict")
+        if event.get("carrier_type") is not None and event.get("verdict") != "Diagnostic accepted":
+            errors.append(f"line {number}: carrier metadata requires a Diagnostic accepted verdict")
         counts = event.get("output_counts")
         if counts is not None and (not isinstance(counts, list) or len(counts) != 6 or
                                    not all(isinstance(value, int) and value > 0 for value in counts)):

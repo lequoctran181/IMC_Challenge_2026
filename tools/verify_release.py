@@ -146,7 +146,7 @@ def main() -> int:
 
     for relative in publication["figures"]:
         checks.require((ROOT / relative).is_file(), f"figure exists: {relative}")
-    checks.require(len(publication["figures"]) == 9, "publication manifest enumerates all nine article figures")
+    checks.require(len(publication["figures"]) == 10, "publication manifest enumerates all ten article figures")
 
     verify_manifest(checks, ROOT / "release" / "final" / "MANIFEST.sha256")
 

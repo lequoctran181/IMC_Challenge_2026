@@ -77,13 +77,13 @@ def markdown_table(data: dict, *, article: bool = False) -> str:
         for case in data["cases"]:
             lines.append(
                 f"| {case['name']} | {case['input_vertices']:,} | {case['output_vertices']:,} | "
-                f"{case['retained_percent']:.6f}% | {case['compression_percent']:.6f}% | "
+                f"{case['retained_percent']:.3f}% | {case['compression_percent']:.4f}% | "
                 f"{case['score_loss']:.6f} |"
             )
         lines.append(
-            f"| **Global count aggregate** | **{data['total_input_vertices']:,}** | "
-            f"**{data['total_output_vertices']:,}** | **{data['global_retained_percent']:.6f}%** | "
-            f"**{data['global_compression_percent']:.6f}%** | **{100-data['reconstructed_score']:.6f}** |"
+            f"| **Aggregate** | **{data['total_input_vertices']:,}** | "
+            f"**{data['total_output_vertices']:,}** | **{data['global_retained_percent']:.3f}%** | "
+            f"**{data['global_compression_percent']:.4f}%** | **{100-data['reconstructed_score']:.6f}** |"
         )
         return "\n".join(lines)
     lines = [

@@ -2,6 +2,11 @@
   "schema_version": 1,
   "scope": "Post-campaign reproducibility protocol for legally obtained public proxies; not the hidden Kattis evaluator.",
   "tool_source_commit": "75d96e05d65a6c865ce279a8171d017b511ae96d",
+  "records": {
+    "measurements": "paper/source/data/local_proxy_metrics.json",
+    "acquisition_and_preprocessing_provenance": "paper/source/data/proxy_provenance.json",
+    "machine_checker": "tools/check_proxy_metrics.py"
+  },
   "evaluator": {
     "profile": "official",
     "resolution": 1024,
@@ -19,6 +24,8 @@
     "distance_command": "./build/vertex_hausdorff <reference.obj> <candidate.obj>",
     "hausdorff_tolerance_ratio": 0.05,
     "combined_threshold": 0.9,
+    "combined_threshold_semantics": "The 0.9 acceptance threshold applies to the arithmetic mean of the six per-view combined scores. A minimum-view score is a diagnostic and is not a universal acceptance constraint.",
+    "branch_specific_diagnostic_margin": "During local search, a branch may use a stricter worst-relevant-view diagnostic margin, but release eligibility still requires the six-view mean rule above.",
     "normal_margin": null,
     "normal_margin_reason": "The public task does not separately threshold normal SSIM.",
     "robust_ablation_margin": 0.001,

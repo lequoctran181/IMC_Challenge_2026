@@ -164,7 +164,8 @@ INLINE_RE = re.compile(
 )
 
 
-def add_field(paragraph, instruction: str, display: str, *, bookmark: str | None = None) -> None:
+def add_field(paragraph, instruction: str, display: str, *, bookmark: str | None = None,
+              locked: bool = False) -> None:
     """Append an editable Word field, optionally wrapped in a bookmark."""
     global BOOKMARK_ID
     if bookmark:
@@ -176,6 +177,9 @@ def add_field(paragraph, instruction: str, display: str, *, bookmark: str | None
     set_run_font(run, size=9.2)
     begin = OxmlElement("w:fldChar")
     begin.set(qn("w:fldCharType"), "begin")
+    if locked:
+        begin.set(qn("w:fldLock"), "true")
+        begin.set(qn("w:dirty"), "false")
     instr = OxmlElement("w:instrText")
     instr.set(qn("xml:space"), "preserve")
     instr.text = f" {instruction} "
@@ -431,7 +435,7 @@ def add_table(doc, rows: list[list[str]]) -> None:
     prescribed = {
         ("Symbol", "Meaning"): [1.70, 3.95],
         ("Case", "Input V", "Final V'", "Retained", "Bottleneck and final strategy"): [0.95, 0.95, 0.80, 0.95, 2.00],
-        ("Case", "Original V", "Final V'", "Retained", "Compression", "Score loss"): [1.10, 0.75, 0.70, 0.90, 1.15, 1.05],
+        ("Case", "Original V", "Final V'", "Retained", "Compression", "Score loss"): [0.90, 0.85, 0.80, 0.95, 1.10, 1.05],
         ("Submission / stage", "Official score", "Key change", "Output-count evidence"): [1.25, 1.00, 1.90, 1.50],
         ("Branch", "Base target / stage", "Normal term", "Additional term", "Offline tail"): [0.90, 1.20, 1.10, 1.20, 1.25],
         ("Case", "Input vertices", "Final vertices", "Retained", "Dominant bottleneck and final strategy"): [0.80, 0.90, 0.90, 0.75, 2.30],
@@ -445,10 +449,13 @@ def add_table(doc, rows: list[list[str]]) -> None:
         ("Prior work", "Objective", "Accumulated state", "Renderer role", "Difference here"): [0.95, 1.00, 1.10, 0.90, 1.70],
         ("Stage", "Generic mechanism", "Case-specific element", "Runtime or offline"): [1.05, 1.70, 1.75, 1.15],
         ("Observable production quantity", "Value", "Evidence and interpretation"): [1.65, 1.10, 2.90],
-        ("Case / checkpoint", "Topology", "Reference to candidate", "Candidate to reference", "Hausdorff / tolerance"): [1.25, 0.75, 1.15, 1.15, 1.35],
+        ("Public-proxy run", "Output vertices", "Wall time", "Peak RSS", "Evidence level"): [1.80, 0.90, 0.85, 1.05, 1.05],
+        ("Proxy", "Upstream / terms", "Canonical reference hash", "Raw archive and conversion status"): [1.10, 1.45, 1.25, 1.85],
+        ("Case / checkpoint", "Topology", "Reference to candidate", "Candidate to reference", "Hausdorff / tolerance"): [1.20, 0.90, 1.10, 1.10, 1.35],
         ("Case / checkpoint", "Normal SSIM", "Depth SSIM", "Combined SSIM", "Minimum-view combined"): [1.40, 0.95, 0.95, 1.05, 1.30],
         ("Hypothesis / intervention", "Held constant", "Baseline", "Intervention result", "Inference, evidence, and strength"): [1.15, 1.05, 1.00, 1.00, 1.45],
-        ("Variant", "Mean combined, 16 rotations", "Minimum combined", "Final support drift", "Wall time"): [1.45, 1.30, 1.15, 1.10, 0.65],
+        ("Variant", "Mean combined, 16 rotations", "Minimum combined", "Final support drift", "Wall time"): [1.35, 1.30, 1.10, 1.05, 0.85],
+        ("Rotation", "Current-face", "Cluster-memory", "Paired delta"): [1.00, 1.55, 1.55, 1.55],
     }
     widths = prescribed.get(header)
     if widths is None:
@@ -512,16 +519,16 @@ def add_toc(doc) -> None:
     add_heading(doc, "Contents", 1)
     p = doc.add_paragraph()
     p.paragraph_format.space_after = Pt(1)
-    add_field(p, 'TOC \\o "1-3" \\h \\z \\u', " ")
+    add_field(p, 'TOC \\o "1-3" \\h \\z \\u', " ", locked=True)
     entries = [
         ("Abstract", 3),
-        ("1. Introduction", 4),
-        ("2. Related Literature", 9),
+        ("1. Introduction", 3),
+        ("2. Related Literature", 8),
         ("3. Methodology", 11),
-        ("4. Results and Discussion", 27),
-        ("5. Conclusion", 37),
-        ("References", 38),
-        ("Appendices", 39),
+        ("4. Results and Discussion", 29),
+        ("5. Conclusion", 40),
+        ("References", 41),
+        ("Appendices", 43),
     ]
     for title, page in entries:
         entry = doc.add_paragraph()
@@ -534,7 +541,7 @@ def add_toc(doc) -> None:
     note = doc.add_paragraph()
     note.alignment = WD_ALIGN_PARAGRAPH.CENTER
     note.paragraph_format.space_before = Pt(12)
-    note_run = note.add_run("The native Word TOC field is retained for refresh; page references above match this released rendering.")
+    note_run = note.add_run("The native Word TOC field is retained in a locked blank state to prevent cross-renderer repagination; the page references above match this released rendering.")
     set_run_font(note_run, size=8.5, italic=True, color=MID_GRAY)
     doc.add_page_break()
 

@@ -14,6 +14,8 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib.colors import LinearSegmentedColormap, Normalize
+from matplotlib.cm import ScalarMappable
 from PIL import Image
 
 
@@ -82,6 +84,13 @@ def main() -> None:
     axis.grid(color="#DDDDDD", linewidth=.7)
     axis.legend(frameon=False, fontsize=8.5)
     axis.spines[["top", "right"]].set_visible(False)
+    angular_map = LinearSegmentedColormap.from_list("angular", ((0, 1, 40 / 255), (1, 0, 40 / 255)))
+    colorbar = fig.colorbar(
+        ScalarMappable(norm=Normalize(0, 60), cmap=angular_map), ax=axis,
+        orientation="horizontal", fraction=.065, pad=.20, ticks=(0, 5, 15, 30, 60),
+    )
+    colorbar.ax.set_xticklabels(("0°", "5°", "15°", "30°", "≥60°"))
+    colorbar.set_label("Angular-error map scale", fontsize=8.2)
 
     fig.suptitle(
         "Bunny public proxy: fixed 5,471-vertex normal-reference ablation, view 1",
@@ -89,7 +98,7 @@ def main() -> None:
     )
     fig.text(
         .5, -.015,
-        "All variants use the same parent, target schedule, candidate-position family, and deterministic tie-breaking. "
+        "Simplification direction: fewer active vertices →.  Angular maps: green 0°, red ≥60°, magenta ownership disagreement. "
         "Across 16 rotations, mean normal SSIM is 0.81730 / 0.81237 / 0.82298 for current / original / cluster.",
         ha="center", fontsize=8.8, color="#555555",
     )

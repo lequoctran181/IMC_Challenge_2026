@@ -57,6 +57,9 @@
     "unchanged_output_sha256": {"type": "object", "additionalProperties": {"type": "string", "pattern": "^[0-9a-f]{64}$"}},
     "geometry_audit_path": {"type": ["string", "null"]},
     "isolation_status": {"enum": ["verified-counts", "not-applicable", "historical-missing-counts", "local-controlled"]},
-    "artifact_limitations": {"type": "string"}
+    "artifact_limitations": {"type": "string"},
+    "carrier_type": {"type": ["string", "null"]},
+    "base_count": {"type": ["integer", "null"]},
+    "payload": {"type": ["integer", "string", "null"]}
   }
 }

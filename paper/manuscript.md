@@ -1,6 +1,6 @@
 # Perception-Aware Mesh Simplification under a 21-Second and 128-KiB Budget
 
-*Hybrid QEM, cluster-normal memory, renderer-aware topology replay, and fail-closed black-box optimization*
+*Hybrid QEM, cluster-normal memory, renderer-aware topology replay, and fail-closed deployment*
 
 Problem name: Perception-Aware Lossless Simplification of Million-Vertex 3D Meshes for Mobile Platforms
 
@@ -18,7 +18,7 @@ GitHub repository: [Public research artifact](https://github.com/lequoctran181/I
 
 # Perception-Aware Mesh Simplification under a 21-Second and 128-KiB Budget
 
-*Hybrid QEM, cluster-normal memory, renderer-aware topology replay, and fail-closed black-box optimization*
+*Hybrid QEM, cluster-normal memory, renderer-aware topology replay, and fail-closed deployment*
 
 <!-- TOC -->
 
@@ -28,7 +28,7 @@ The IMC Challenge problem `simplifygeometry` minimizes retained vertices subject
 
 We combine guarded quadric-error contraction [2,3] with projected-area normal cost and cluster-normal memory, an additive statistic over original vertex-face incidences. A specification-matching 1024 × 1024 evaluator guides offline flips, one-ring deletions, and bounded fitting [1,10]. Successful edits are canonicalized, compressed, and replayed transactionally; any precondition mismatch returns a previously Accepted checkpoint.
 
-Aggregate judge feedback was handled as a controlled black-box experiment. Isolated probes, algebraic count decoding, rotation-invariant fingerprints, hidden-test acceptance boundary estimation, sixteen proxy rotations, and explicit safety margins reduced uncertainty without obtaining or redistributing hidden meshes.
+Aggregate judge feedback was handled as a controlled black-box experiment. Isolated probes, algebraic count decoding, rotation-invariant fingerprints, hidden-test acceptance boundary estimation, multi-rotation proxy stress tests using up to sixteen deterministic orientations, and explicit safety margins reduced uncertainty without obtaining or redistributing hidden meshes.
 
 <!-- BEGIN GENERATED: ARTICLE_ABSTRACT_RESULT -->
 The fetched-back release, Kattis submission 20082703, was Accepted on all 7 tests with displayed score 93.830074. Its six outputs contain 34,134 vertices from 1,498,780 inputs, giving 2.277452% global retention and 97.722548% compression; the official unweighted per-case formula reconstructs 93.83007422510956.
@@ -66,6 +66,24 @@ For each case, the constrained problem can be expressed as
 
 $$\min_{M'} n(M')\quad\text{subject to}\quad\mathcal{T}(M')=1,\quad d_H\leq\tau_H,\quad S_{\mathrm{vis}}\geq0.9,$$
 
+The deployed object is not six independently chosen meshes but one source-limited program \(\mathcal P\) applied to six fixed inputs \(X_i\). At program level the actual optimization is
+
+$$\max_{\mathcal P}\;100\left(1-\frac{1}{6}\sum_{i=1}^{6}\frac{M_i(\mathcal P)}{N_i}\right),$$
+
+subject, for every scored case \(i\), to
+
+$$\mathcal T\!\left(\mathcal P(X_i)\right)=1,$$
+
+$$d_H\!\left(X_i,\mathcal P(X_i)\right)\leq\tau_i,$$
+
+$$S_{\mathrm{vis}}\!\left(X_i,\mathcal P(X_i)\right)\geq0.9,$$
+
+$$T(\mathcal P,X_i)\leq21\ \mathrm{s},\qquad \operatorname{RSS}(\mathcal P,X_i)\leq2\ \mathrm{GiB},$$
+
+$$\left|\operatorname{source}(\mathcal P)\right|\leq131072\ \mathrm{bytes}.$$
+
+This formulation makes deployment coupling explicit: replay payload for one branch consumes bytes unavailable to another, shared parser and QEM code amortize their cost across cases, and an offline-optimal mesh is irrelevant if its decoder, running time, or working set is infeasible.
+
 If all six scored cases are valid, Kattis ranks a submission using the unweighted mean of the six retained-vertex ratios [1]:
 
 $$\operatorname{Score}=100\left(1-\frac{1}{6}\sum_{i=1}^{6}\rho_i\right),\qquad \rho_i=\frac{M_i}{N_i}.$$
@@ -93,8 +111,10 @@ The following assumptions are explicit. The official cameras, focal length, reso
 | \(I^N_c\), \(I^D_c\) | Normal and depth image for view \(c\) |
 | \(S_v\) | Additive cluster-normal summary at vertex \(v\) |
 | \(S_{\mathrm{vis}}\) | Mean six-view normal/depth SSIM |
+| \(D_{\mathrm{support}}\) | Area-weighted cluster-support orientation drift in degrees |
 | \(\rho_i\) | Retained-vertex ratio of scored case \(i\) |
 | \(N_i,M_i\) | Original and output vertex counts of scored case \(i\) |
+| \(\mathcal P\), \(X_i\) | Shared deployed program and its scored input for case \(i\) |
 | \(\lambda_N,\lambda_C,\lambda_{\kappa}\) | Normal, cluster-memory, and curvature weights |
 | \(\gamma,\beta,\eta\) | Calibrated exponents in the corresponding surrogate terms |
 | \(H,H_{\max}\) | Total lazy-heap events and maximum resident heap size |
@@ -158,6 +178,8 @@ Our local projected-area term should not be interpreted as a new universal perce
 
 The method combines ideas from geometry-driven, topology-preserving, and image-driven simplification but adds a contest-specific systems layer. QEM supplies throughput [2]. The link condition and explicit combinatorial checks protect topology [9]. Cluster radius carries a cheap task-specific distance certificate. Cluster-normal memory parallels the additive spirit of appearance quadrics [3,6] but aggregates original face-normal evidence rather than per-vertex attributes. Specification-matching rendering follows the image-driven principle [5,11]. Checkpoints, fingerprint probes, packed replays, and fail-closed integration make the resulting search executable within strict external limits.
 
+Unlike appearance quadrics that aggregate vertex attributes into a quadratic error model, cluster-normal memory stores original face-incidence area vectors as a persistent nonlinear orientation reference for the evolving flat-shaded face field. Its purpose is not attribute interpolation, but preventing the collapse objective from continually redefining its reference on an already degraded mesh.
+
 **Table. Positioning relative to representative mesh-simplification literature.**
 
 | Prior work | Objective | Accumulated state | Renderer role | Difference here |
@@ -199,12 +221,12 @@ The cheapest target is accepted only when every guard passes:
 - **Link condition:** an interior manifold edge has exactly the two common neighbors implied by its incident triangles [9].
 - **Face validity:** every surviving affected triangle has three distinct indices and area above a scale-aware threshold.
 - **Orientation:** a surviving face cannot flip or exceed the configured normal deviation.
-- **Combinatorics:** no self-loop, duplicate triangle, disconnected component, or edge incidence other than two is created.
+- **Combinatorics:** local link, duplicate-triangle, self-loop, and affected edge-incidence conditions pass before contraction.
 - **Distance:** the propagated cluster radius stays below a conservative tolerance.
 
 **Proposition 2 (local manifold preservation under a guarded contraction).** Let \(M\) be a closed orientable triangular two-manifold and let \((u,v)\) be an interior edge. If the link condition holds, all surviving affected faces remain non-degenerate and consistently oriented, and the contraction creates neither a duplicate face nor an edge of incidence other than two, then replacing \((u,v)\) by the contracted vertex preserves the closed two-manifold property in the modified neighborhood [9].
 
-**Proof sketch.** The link condition states that the intersection of the links of \(u\) and \(v\) is exactly the link of edge \((u,v)\). Consequently, identifying the two endpoints removes precisely the two incident triangles and glues the two remaining one-ring arcs without pinching an unrelated sheet. Distinct positive-area surviving faces prevent local dimension loss; consistent orientation preserves the cyclic order of the link; duplicate and incidence guards prevent multi-edges or more than two faces from sharing an edge. Outside the one-ring the complex is unchanged. The implementation additionally checks connectedness globally, making the proposition a local certificate within a fail-closed global test.
+**Proof sketch.** The link condition states that the intersection of the links of \(u\) and \(v\) is exactly the link of edge \((u,v)\). Consequently, identifying the two endpoints removes precisely the two incident triangles and glues the two remaining one-ring arcs without pinching an unrelated sheet. Distinct positive-area surviving faces prevent local dimension loss; consistent orientation preserves the cyclic order of the link; duplicate and incidence guards prevent multi-edges or more than two faces from sharing an edge. Outside the one-ring the complex is unchanged. The contraction path enforces these local link and face conditions. Connectedness, global edge incidence, and every used vertex link are rechecked independently at checkpoint/export validation.
 
 ### 3.3 Cluster-radius distance certificate
 
@@ -250,9 +272,21 @@ For every surviving affected face \(f\), let \(n_f\) and \(n'_f(p)\) be its curr
 
 $$E_N(u,v,p)=\Sigma_{f\in\mathcal A(u,v)}A_f^{\mathrm{proj}}\left[1-\operatorname{clamp}\!\left(n_f\cdot n'_f(p),-1,1\right)\right]^{\gamma}.$$
 
-The six axial cameras make the approximation inexpensive: projected components on the three coordinate planes, with orientation-aware signs and perspective depth, estimate raster influence. Alternative modes use object-space area or absolute projected components. This is not a visibility term: it ignores occlusion, clipping, ownership, and foreground boundaries. Projected mode was most reliable on the Bunny-like case, though the specification-matching renderer still decided final operations.
+Define the idealized six-camera projected area by
 
-Ignoring occlusion, clipping, and perspective, the unsigned axial projection sum is \(A[\operatorname{abs}(n_x)+\operatorname{abs}(n_y)+\operatorname{abs}(n_z)]\), which lies between \(A\) and \(3^{1/2}A\). This elementary bound, derived in Appendix D, motivates a cheap importance surrogate but not an exact pixel count.
+$$A_f^{\mathrm{proj}}=\sum_{c=1}^{6}A_{f,c}^{\mathrm{proj}}.$$
+
+Under an orthographic, no-occlusion approximation, opposite axial cameras contribute the same magnitude, so
+
+$$A_f^{\mathrm{proj}}=2A_f\left(\operatorname{abs}(n_x)+\operatorname{abs}(n_y)+\operatorname{abs}(n_z)\right)=2A_f\lVert n_f\rVert_1.$$
+
+The implementation evaluates three unoriented coordinate-plane magnitudes with the face-oriented camera sign and perspective depth. The constant factor two from opposite camera pairs is absorbed into \(\lambda_N\). Alternative modes use object-space area or absolute projected components. This is not a visibility term: it ignores occlusion, clipping, ownership, and foreground boundaries. Projected mode was most reliable on the Bunny-like case, though the specification-matching renderer still decided final operations.
+
+Ignoring occlusion, clipping, and perspective, the exact axial bounds are
+
+$$2A_f\leq A_f^{\mathrm{proj}}\leq2(3^{1/2})A_f.$$
+
+The implementation absorbs the common factor two into its calibrated weight, so the ratio between the upper and lower bounds remains the square root of three. This elementary bound, derived in Appendix D, motivates a cheap importance surrogate but not an exact pixel count.
 
 #### 3.4.2 Cluster-normal memory
 
@@ -264,16 +298,41 @@ For every original vertex \(x\), initialization adds \(a_f\) once for each incid
 
 $$S_v=\Sigma_{x\in C(v)}\Sigma_{f\in F_0}\mathbf 1[x\in f]a_f.$$
 
-This incidence-weighted definition intentionally counts an original face once for each of its incident original vertices in the cluster. At a contraction, the stored values merge by \(S_{u\cup v}=S_u+S_v\). Define \(\widehat S_v=S_v/\lVert S_v\rVert_2\) only when \(\lVert S_v\rVert_2>\epsilon_C\). For a surviving affected current face \(g=(v_1,v_2,v_3)\), the old and proposed targets used by the code are
+This incidence-weighted definition intentionally counts an original face once for each of its incident original vertices in the cluster. At a contraction, the stored values merge by \(S_{u\cup v}=S_u+S_v\). When \(\lVert S_v\rVert_2>\epsilon_C\), define the normalized support direction
 
-$$T_g=\Sigma_{j=1}^{3}\widehat S_{v_j},\qquad
-T'_g=\Sigma_{j=1}^{3}\widehat S'_{v_j},$$
+$$u_v=\frac{S_v}{\lVert S_v\rVert_2}.$$
 
-where either contracted endpoint is replaced by the normalized merged vector in the proposed state. With \(b_g\) and \(b'_g\) denoting the current and proposed area vectors, and \(\phi(b,T)=[1-\operatorname{clamp}(b\cdot T/(\lVert b\rVert_2\lVert T\rVert_2),-1,1)]^{\beta}\), mode 2 implements
+The direction \(u_v\) is undefined otherwise. For a surviving affected current face \(g=(v_1,v_2,v_3)\), the old and proposed targets used by the code are
+
+$$T_g=\sum_{j=1}^{3}u_{v_j},$$
+
+$$T'_g=\sum_{j=1}^{3}u'_{v_j},$$
+
+where either contracted endpoint is replaced by the normalized merged vector in the proposed state. For portability, define the cosine and penalty separately:
+
+$$c(b,T)=\operatorname{clamp}\!\left(\frac{b^{\mathsf T}T}{\lVert b\rVert_2\lVert T\rVert_2},-1,1\right),$$
+
+$$\phi(b,T)=\left(1-c(b,T)\right)^{\beta}.$$
+
+With \(b_g\) and \(b'_g\) denoting the current and proposed area vectors, mode 2 implements
 
 $$E_C(u,v,p)=\Sigma_{g\in\mathcal A_{\mathrm{surv}}(u,v)}\lVert b_g\rVert_2\left[\phi(b'_g,T'_g)-\phi(b_g,T_g)\right].$$
 
 The subtraction is important: an operation that repairs accumulated drift can receive negative credit. If a stored vector or a three-vertex target cancels to norm at most \(\epsilon_C\), its normalized direction is undefined; the readable implementation rejects that candidate's cluster term rather than manufacturing a direction. On the 35,292-vertex case, the decisive early setting used \(\lambda_N=0.003\), \(\gamma=0.75\), projected area, \(\lambda_C=0.0001\), and \(\beta=0.5\).
+
+The controlled ablation also reports a mechanism-aligned support-drift diagnostic. Reindex the \(m\) active faces with defined targets by \(g=1,\ldots,m\), and let
+
+$$\theta_g=\arccos\!\left(c(b_g,T_g)\right).$$
+
+Define its angular moment and total area-vector weight separately,
+
+$$A_{\theta}=\sum_{g=1}^{m}\lVert b_g\rVert_2\theta_g,\qquad W=\sum_{g=1}^{m}\lVert b_g\rVert_2.$$
+
+Then the area-weighted mean drift in degrees is
+
+$$D_{\mathrm{support}}=\frac{A_{\theta}}{W}\frac{180}{\pi}.$$
+
+Here \(\lVert b_g\rVert_2=2A_g\), and \(T_g\) is the same sum of normalized original-incidence support directions used by the cluster term. Faces whose target norm is at most the implementation threshold are omitted from both sums and counted separately; zero-area faces are rejected by validation and are skipped defensively by the trace code. The Bunny trajectories were sampled initially, after every 500 committed collapses, and at the final target. Their horizontal coordinate is the number of active vertices, so it decreases as simplification proceeds; all three final traces reported zero undefined targets. Support drift is a mechanism-aligned diagnostic derived from the same original-incidence statistic; combined SSIM is the independent rendered outcome.
 
 **Proposition 3 (merge-tree invariance for a fixed cluster partition).** Fix the original incidences and a live cluster multiset \(C\). Any binary merge tree whose leaves are exactly the same elements of \(C\) produces the same stored vector
 
@@ -301,7 +360,7 @@ An edge flip leaves the output vertex set identical, so it leaves vertex count a
 
 #### 3.6.2 One-ring fan deletion and retriangulation
 
-Deleting a vertex removes its incident fan and leaves a polygonal ring. For low valence, all combinatorially valid triangulations can be enumerated through Catalan recursion. For larger rings, restricted fans and dynamic-programming families reduce the search space. Each proposal is screened for orientation, duplicates, manifoldness, and distance before rendering. A deletion is accepted only when the locally measured worst relevant view remains above the chosen margin.
+Deleting a vertex removes its incident fan and leaves a polygonal ring. For low valence, all combinatorially valid triangulations can be enumerated through Catalan recursion. For larger rings, restricted fans and dynamic-programming families reduce the search space. Each proposal is screened for orientation, duplicates, manifoldness, and distance before rendering. A deletion is accepted only when the locally measured worst relevant view remains above its branch-specific diagnostic margin while the six-view mean satisfies the release margin.
 
 #### 3.6.3 Coordinate and tangent fitting
 
@@ -327,7 +386,7 @@ Kattis exposed only an overall verdict and score, not per-case render components
 
 #### 3.7.1 Isolation and count decoding
 
-A useful probe changes exactly one case \(k\), while the other five outputs are byte-identical to a known Accepted parent. If the displayed score is \(S\) and all other output counts are known, the changed count is recovered as
+A useful probe changes exactly one case \(k\), while the other five output counts equal those of a known Accepted parent; byte identity is claimed only when canonical outputs were retained. If the displayed score is \(S\) and all other output counts are known, the changed count is recovered as
 
 $$M_k=\operatorname{round}\!\left(N_k\left[6\left(1-\frac{S}{100}\right)-\Sigma_{i\neq k}\frac{M_i}{N_i}\right]\right).$$
 
@@ -343,19 +402,25 @@ $$M_k=B_k+h.$$
 
 Faces continue to reference only the Accepted base geometry. The added count reduces the diagnostic score but does not endanger Kattis's stored best. After Kattis reports the score, the equation above recovers \(h\). Multi-part fingerprints are emitted as base-\(B\) digits,
 
-$$H=d_0+Bd_1+B^2d_2,$$
+$$H=d_0+Bd_1+\cdots+B^{m-1}d_{m-1},$$
 
 using separate isolated probes when the safe count slack cannot carry the entire integer.
 
-**Lemma 5 (invariance of an unreferenced exact-coordinate duplicate carrier).** Let the base output have declared vertex list \(P\), face list \(F\), and face-referenced coordinate set \(X\). Form \(P^+\) by appending finite vertices, each with coordinates exactly equal to some element of \(X\), while leaving \(F\) byte-identical. Under face-indexed surface semantics, the triangular surface, topology, normal/depth rasterization, and both directed vertex-set Hausdorff distances to the reference are unchanged. Only the declared count, vertex multiplicities, and predicates that inspect unused indices can change.
+For any declared vertex list \(P\), define its coordinate-set operator by
 
-**Proof sketch.** Because \(F\) is unchanged, every indexed triangle and all surface-derived quantities are identical. As coordinate sets, \(\{p:p\in P^+\}=\{p:p\in P\}\); adding a duplicate point changes multiplicity but not the set. Nearest-neighbor minima and maxima in either Hausdorff direction are therefore unchanged. Exact duplication is essential: an arbitrary unused point leaves rasterization unchanged but can increase the output-to-reference directed Hausdorff distance. The repository's synthetic tests exercise both cases.
+$$X(P)=\{p_i:\ p_i\text{ is declared in }P\}.$$
 
-We used the carrier only under five fail-closed rules: coordinates had to be finite and exactly duplicated from a used base vertex; all faces had to remain byte-identical; the payload had to fit a precomputed nonnegative count slack; one isolated probe first established that the official parser permitted unused duplicates; and the diagnostic was never described as a quality improvement. The standalone validator reports unused and duplicate-coordinate vertices separately and offers a stricter `--require-all-used` mode so that the semantic assumption is visible rather than hidden.
+**Lemma 5 (invariance of an unreferenced exact-coordinate duplicate carrier).** Let the base output have declared vertex list \(P\), face list \(F\), and face-referenced coordinate set \(X(P)\). Form \(P_{\mathrm{aug}}\) by appending finite vertices, each with coordinates exactly equal to an element of \(X(P)\), while leaving \(F\) byte-identical. Then
+
+$$X(P_{\mathrm{aug}})=X(P).$$
+
+Under face-indexed surface semantics, the triangular surface, topology, normal/depth rasterization, and both directed vertex-set Hausdorff distances to the reference are unchanged. Only the declared count, vertex multiplicities, and predicates that inspect unused indices can change. The proof is moved to Appendix D; exact duplication is essential, because an arbitrary unused point can increase the output-to-reference directed distance.
+
+We used the carrier only under five fail-closed rules: coordinates had to be finite and exactly duplicated from a used base vertex; all faces had to remain byte-identical; the payload had to fit a precomputed nonnegative count slack; one isolated probe first established that the judge parser permitted unused duplicates; and the diagnostic was never described as a quality improvement. The official observation is surfaced as event `unused-duplicate-parser-probe` in the evidence ledger. Its submission identifier and emitted output were not retained, so the record states that limitation explicitly. This is observed judge semantics, not a claim that the organizer endorsed the carrier technique. The standalone validator reports unused and duplicate-coordinate vertices separately and offers a stricter `--require-all-used` mode so that the semantic assumption is visible rather than hidden.
 
 The evidence boundary was equally strict. Statistics were computed solely by the submitted program from the mesh it was legitimately given; probes changed no external file, used no network or side channel, and attempted to recover only small decision-relevant invariants and counts. We neither reconstructed nor redistributed a hidden mesh. The method is an experimental-design technique for aggregate feedback, not a claim of access to organizer data.
 
-The standard radix restriction \(0\leq d_j<B\) makes \(H=\sum_jd_jB^j\) unique; Appendix D records the modular argument. Separate probes were still necessary to keep every carrier within independently validated count slack.
+The standard radix restriction \(0\leq d_j<B\) makes the displayed base-\(B\) expansion unique; Appendix D records the modular argument. Separate probes were still necessary to keep every carrier within independently validated count slack.
 
 #### 3.7.3 Rotation-invariant fingerprints
 
@@ -413,11 +478,7 @@ Offline search can take hours; the submitted program cannot. We compile discover
 
 Replay is transactional. Before a specialized block, the current mesh is either checkpointed or reconstructible from a previously Accepted prefix. Every deletion, flip, and coordinate edit checks its expected local topology. A block commits only if its final count and structural invariants match; otherwise it rolls back or retains that checkpoint. This behavior makes the final source a compact guarded construction rather than an unchecked precomputed mesh dump.
 
-**Theorem 1 (fail-closed replay safety).** Let \(\mathcal I(M)\) be the conjunction of all structural, count, checksum, and checkpoint invariants required of a replay state. Assume the initial checkpoint \(M_0\) satisfies \(\mathcal I\), and every replay transaction either (i) commits a state \(M_{j+1}\) only after verifying \(\mathcal I(M_{j+1})\), or (ii) restores the preceding validated checkpoint. Then every externally visible checkpoint, including the released output, satisfies \(\mathcal I\).
-
-**Proof sketch.** Induct on the transaction index. The base state satisfies \(\mathcal I\) by assumption. For the inductive step, a successful transaction exposes a state only after its predicate is verified; a failed transaction exposes the previous validated state. Hence the next externally visible checkpoint satisfies \(\mathcal I\) in either case. The conclusion follows for every finite prefix and the final state. This theorem covers only the predicates included in \(\mathcal I\); perceptual acceptance and the complete Hausdorff check remain separate gates.
-
-**Corollary 3 (prefix-safe termination).** If a timeout guard or unexpected local signature terminates specialization by returning the most recent validated checkpoint, the returned mesh still satisfies \(\mathcal I\). It may lose a prospective score improvement, but it cannot expose a partially applied operation block.
+Let \(\mathcal I(M)\) denote the structural, count, checksum, and checkpoint predicates required of a replay state. A transaction exposes a new state only after verifying \(\mathcal I\); otherwise it restores the preceding validated checkpoint. Therefore a timeout guard or unexpected signature returns the most recent validated prefix rather than a partially applied operation block. The elementary induction establishing this fail-closed property is stated in Appendix D. Its scope is deliberately narrow: perceptual acceptance and the complete two-directional distance check remain separate release gates.
 
 ### 3.10 Runtime, memory, and source-budget engineering
 
@@ -445,17 +506,20 @@ The 131,072-byte source limit became a second optimization problem. Replay paylo
 | Observable production quantity | Value | Evidence and interpretation |
 |---|---:|---|
 | Fetched-back source | 130,973 / 131,072 bytes | Official artifact size; 99-byte headroom |
-| Physical source structure | 453 lines; 450 macro definitions; 44 raw-string blocks | Reconstructed lexical counts; reflects minification, not algorithmic modularity |
-| External gzip diagnostic | 92,704 bytes | Reconstructed with gzip level 9; not used by Kattis and not a payload-size claim |
+| Packed replay and coordinate bodies | 74,211 bytes | Exact contents of 44 raw-string payload blocks |
+| Raw-string framing | 308 bytes | Exact opening and closing delimiter bytes |
+| Executable code and declarations | 56,454 bytes | Parser/output, QEM, recognition, decoders, caches, macros, identifiers, and ordinary literals |
 | Kattis tests | 7 / 7 | Official submission result |
 | Kattis runtime field | Not exposed | The available submission endpoint returned an empty field for 20082703 |
 | Kattis peak memory field | Not exposed | The archived manager output contained no value; none is inferred |
+
+The three source components form a disjoint byte-exact partition and sum to 130,973. The partition is machine-checked by `check_source_byte_breakdown.py` against the fetched source and its SHA-256 digest. A finer per-case attribution would be subjective because minified decoders and macro bodies are shared; the artifact therefore reports the exact payload-versus-code boundary rather than presenting unstable lexical counts as a systems result.
 
 Acceptance establishes that the published time and memory limits were met on the organizer's environment, but it does not reveal the hidden per-case timing distribution. The 20082666-to-20082703 pair provides stronger architectural evidence than a fabricated runtime number: the uncached lineage completed six tests, whereas the cached release completed all seven.
 
 For reproducible local context, the public-proxy runs used GCC 14.4 with C++17 `-O3 -DNDEBUG` on an Apple M4 MacBook Pro (10 CPU cores, 16 GiB RAM, macOS 26.5.1). Commands, input/candidate SHA-256 values, the full sixteen-rotation matrices, and the 0.001 robustness margin are archived in `local_proxy_metrics.json` and `proxy_evaluation_protocol.json`.
 
-**Table. Experimental wall time and peak resident memory for archived public-proxy runs.**
+**Table. Experimental solver replay time and peak RSS, excluding post-run validation and rendering.**
 
 | Public-proxy run | Output vertices | Wall time | Peak RSS | Evidence level |
 |---|---:|---:|---:|---|
@@ -466,9 +530,25 @@ For reproducible local context, the public-proxy runs used GCC 14.4 with C++17 `
 | Slender final-branch replay | 7,400 | 10.43 s | 745.42 MiB | Experimental |
 | Nefertiti final-branch replay | 16,500 | 13.76 s | 692.61 MiB | Experimental |
 
+Each timed command includes input parsing, candidate generation or branch replay, output serialization, and file I/O in the solver process. It excludes the separate topology validator, two-directional distance checker, and six-view renderer. Peak RSS is the solver process's maximum resident set as reported by macOS `/usr/bin/time -l`; it is not a whole-workflow working set. The JSON record now stores `generation_command`, `timed_command`, inclusion flags, and working-set scope for every row.
+
+The upstream and preprocessing record is intentionally explicit about missing history. Armadillo, Bunny, and Lucy belong to the Stanford 3D Scanning Repository families [16]; Nefertiti derives from the publicly released Other Nefertiti scan [17]. The exact canonical references used here are bound by hashes, but several original archive hashes and historical conversion commands were not retained.
+
+**Table. Public-proxy acquisition and preprocessing provenance.**
+
+| Proxy | Upstream / terms | Canonical reference hash | Raw archive and conversion status |
+|---|---|---|---|
+| Armadillo | Stanford 3D Scanning Repository; acknowledged non-commercial research use [16] | `092cdf73cd7b...` | Archive hash and PLY conversion command not retained; exact normalization rule retained |
+| Bunny | Stanford 3D Scanning Repository; acknowledged non-commercial research use [16] | `0bded7b71a33...` | Archive hash and exact 35,292-vertex cleaning command not retained |
+| Lucy | Stanford 3D Scanning Repository; acknowledged non-commercial research use [16] | `1a995ca2bae3...` | Archive hash and decimation/conversion command not retained |
+| Slender / Yeah Right | Legally acquired campaign proxy; upstream locator and terms not retained | `176a16d180fe...` | No raw archive or conversion command survives; redistribution withheld |
+| Nefertiti | The Other Nefertiti; CC BY-SA 4.0 [17] | `0e3cb9169bad...` | Original ZIP hash and modified-OBJ conversion command not retained |
+
+`proxy_provenance.json` records the full hashes, source units or scale status, normalization, vertex-order policy, upstream URL, license summary, conversion status, and preprocessing-commit status. Missing values are JSON `null` with an artifact limitation; no command or checksum is reconstructed from memory.
+
 ### 3.11 Fail-closed validation funnel
 
-Candidate validation proceeds from cheapest checks to the strongest external evidence. First, parse and index checks reject malformed meshes. Structural validation checks positive triangle area, duplicate faces, connectedness, oriented edge multiplicity, and the closed two-manifold condition. Next, an independent kd-tree search checks both directions of the stated vertex-Hausdorff distance. Only then does the specification-matching renderer compute normal, depth, per-view, and combined SSIM at an explicitly supplied resolution of 1024. Rotation suites test proxy robustness. Integration compares all untouched outputs byte-for-byte with the Accepted parent. Kattis is the last external gate.
+Candidate validation proceeds from cheapest checks to the strongest external evidence. First, parse and index checks reject malformed meshes. Structural validation checks positive triangle area, duplicate faces, connectedness, oriented edge multiplicity, and the closed two-manifold condition. Next, an independent kd-tree search checks both directions of the stated vertex-Hausdorff distance. Only then does the specification-matching renderer compute normal, depth, per-view, and combined SSIM at an explicitly supplied resolution of 1024. Rotation suites test proxy robustness. Integration compares untouched outputs byte-for-byte with the Accepted parent when canonical outputs were archived; otherwise it verifies unchanged output counts and labels the weaker isolation level in the evidence ledger. Kattis is the last external gate.
 
 ![Figure 4. Fail-closed validation funnel used before an informative Kattis probe.](figures/validation_funnel.png)
 
@@ -487,13 +567,13 @@ Submission 20082703 was reported by Kattis as Accepted, 7/7, score 93.830074. Th
 <!-- BEGIN GENERATED: ARTICLE_RESULT_TABLE -->
 | Case | Original V | Final V' | Retained | Compression | Score loss |
 |---|---:|---:|---:|---:|---:|
-| Sphere-like sample | 4,098 | 25 | 0.610054% | 99.389946% | 0.101676 |
-| Armadillo | 23,201 | 4,340 | 18.706090% | 81.293910% | 3.117682 |
-| Bunny-like | 35,292 | 2,839 | 8.044316% | 91.955684% | 1.340719 |
-| Lucy | 49,987 | 3,030 | 6.061576% | 93.938424% | 1.010263 |
-| Slender | 377,084 | 7,400 | 1.962427% | 98.037573% | 0.327071 |
-| Nefertiti | 1,009,118 | 16,500 | 1.635091% | 98.364909% | 0.272515 |
-| **Global count aggregate** | **1,498,780** | **34,134** | **2.277452%** | **97.722548%** | **6.169926** |
+| Sphere-like sample | 4,098 | 25 | 0.610% | 99.3899% | 0.101676 |
+| Armadillo | 23,201 | 4,340 | 18.706% | 81.2939% | 3.117682 |
+| Bunny-like | 35,292 | 2,839 | 8.044% | 91.9557% | 1.340719 |
+| Lucy | 49,987 | 3,030 | 6.062% | 93.9384% | 1.010263 |
+| Slender | 377,084 | 7,400 | 1.962% | 98.0376% | 0.327071 |
+| Nefertiti | 1,009,118 | 16,500 | 1.635% | 98.3649% | 0.272515 |
+| **Aggregate** | **1,498,780** | **34,134** | **2.277%** | **97.7225%** | **6.169926** |
 <!-- END GENERATED: ARTICLE_RESULT_TABLE -->
 
 Substitution into the official score definition gives
@@ -528,17 +608,19 @@ The Accepted 7/7 verdict establishes that the submitted program passed the organ
 | Slender 7,400 | 0.87761985 | 0.94393324 | 0.91077655 | 0.90460997 |
 | Nefertiti 16,500 | 0.80941117 | 0.99716140 | 0.90328629 | 0.86904042 |
 
+The official 0.9 threshold applies to the six-view mean combined score, not to every individual view. Minimum-view combined is reported as a diagnostic. Branch-specific worst-view margins were used selectively during local search and are not an additional universal acceptance condition.
+
 Every structural row also reports zero bad vertex links under the strengthened validator. The accessible Sphere proxy does not satisfy the final 25-vertex replay precondition, and the accessible Bunny proxy does not satisfy the final 2,839 replay precondition; those two final-branch diagnostics are excluded rather than replaced with incomparable values. These exclusions and the public proxy matching invariant channels are recorded explicitly in the JSON provenance.
 
 ![Figure 5. Retained ratios, compression, and per-case score contribution reconstructed for submission 20082703.](figures/final_results.png)
 
-Figure 6 provides a qualitative counterpart to the scalar tables. It uses the evaluator's own PPM dumps for a low-scoring Slender proxy view: the reference and checkpoint candidate are shown beside angular-normal and depth/silhouette error maps. All six panels share one crop and are generated without retouching. Green denotes low or zero error and magenta/red highlights larger disagreement. This diagnostic is a public-proxy measurement only; its purpose is to reveal where the scalar margin is spent, not to visualize a hidden test.
+Figure 6 provides a qualitative counterpart to the scalar tables. It uses the evaluator's own PPM dumps for a low-scoring Slender proxy view: the reference and checkpoint candidate are shown beside angular-normal and depth/silhouette error maps. All six panels share one crop and are generated without retouching. The angular map is green at 0 degrees and moves toward red by 60 degrees, with 5, 15, and 30 degrees marked on the legend. Shared-foreground depth error is normalized by the maximum absolute depth error in the displayed view pair; green is zero and red is that maximum. Magenta means foreground ownership disagreement in either map, not numerical saturation. This diagnostic is a public-proxy measurement only; its purpose is to reveal where the scalar margin is spent, not to visualize a hidden test.
 
 ![Figure 6. Slender public-proxy normal and depth errors at 1024 × 1024.](figures/qualitative_slender.png)
 
 ### 4.2 Controlled visual evidence on Bunny and Armadillo
 
-The clean Bunny experiment starts from one public-proxy parent, stops at the same 5,471-vertex target, and holds the candidate-position family, validity guards, target schedule, and tie-breaking fixed. It compares current-face normals, a direct original-reference variant, and the cluster-memory intervention. Across sixteen deterministic rotations, cluster memory increases mean combined SSIM from 0.90625420 to 0.90899736 and the minimum from 0.90158924 to 0.90438746. Final support-normal drift falls from 5.8627 degrees to 5.0502 degrees. These are Experimental causal measurements for this proxy and implementation; hidden transfer remains Inference.
+The clean Bunny experiment starts from one public-proxy parent, stops at the same 5,471-vertex target, and holds the candidate-position family, validity guards, target schedule, and tie-breaking fixed. It compares current-face normals, a direct original-reference variant, and the cluster-memory intervention. Across sixteen deterministic rotations, cluster memory increases mean combined SSIM from 0.90625420 to 0.90899736 and the minimum from 0.90158924 to 0.90438746. Final support-normal drift falls from 5.8627 degrees to 5.0502 degrees. The cluster-minus-current paired delta is positive in all sixteen orientations, ranging from 0.00236300 to 0.00332643. These are Experimental causal measurements for this proxy and implementation; hidden transfer remains Inference.
 
 **Table. Controlled Bunny cluster-normal comparison at a common 5,471-vertex target.**
 
@@ -550,9 +632,15 @@ The clean Bunny experiment starts from one public-proxy parent, stops at the sam
 
 ![Figure 7. Controlled Bunny public-proxy comparison: reference and candidate normals, angular error, and support-drift trajectories.](figures/bunny_cluster_ablation.png)
 
+Appendix G publishes all sixteen rotation-level combined scores and paired deltas; the machine-readable arrays are in `local_proxy_metrics.json`. They are a deterministic stress suite, not a random sample from a population, so no sampling confidence interval or p-value is attached.
+
+The angular panels in Figure 7 use the same 0-to-60-degree green-to-red mapping and magenta ownership-disagreement code as Figure 6. The trajectory axis runs from more to fewer active vertices left-to-right, which is marked directly in the figure.
+
 Armadillo supplies a complementary structural comparison. The 4,570-vertex checkpoint uses 566 fewer vertices than the 5,136 checkpoint yet slightly improves combined SSIM from 0.91701399 to 0.91722261. Because the candidates are successive renderer-aware checkpoints rather than a one-operator toggle, this is strong Experimental Pareto evidence, not a clean operator ablation.
 
 ![Figure 8. Armadillo public-proxy structural Pareto comparison between the 5,136- and 4,570-vertex checkpoints.](figures/armadillo_structural_comparison.png)
+
+Figure 8 reuses the same quantitative angular-error legend, allowing the two checkpoint maps to be compared on a common color scale rather than by auto-normalized appearance.
 
 ### 4.3 Hidden-test acceptance boundary estimation
 
@@ -725,6 +813,10 @@ The Accepted 7/7 result at displayed score 93.830074 and the exact count reconst
 
 [15] Kattis, “The Second IMC Challenge standings,” captured July 19, 2026. The archived page displayed rank 2 for NEU.AddictedTribes and the status “Unfinalized.” [Standings page](https://imc2.kattis.com/contests/imc2-2/standings); repository evidence: `evidence/leaderboard_unfinalized_2026-07-19.json`.
 
+[16] Stanford University Computer Graphics Laboratory, “The Stanford 3D Scanning Repository,” model provenance and use terms for Bunny, Armadillo, and Lucy. [Official repository](https://graphics.stanford.edu/data/3Dscanrep/).
+
+[17] N. Al-Badri and J. N. Nelles, “The Other Nefertiti,” public high-resolution scan release, Creative Commons Attribution-ShareAlike 4.0. [Project and download page](https://www.netzquisit.de/).
+
 ### Appendix A. Core simplification pseudocode
 
 ```text
@@ -779,12 +871,13 @@ Parameters were calibrated using specification-matching local rendering and froz
 - Render all six views at 1024 by 1024; do not substitute 512 by 512 for a release decision.
 - Record normal, depth, per-view, and combined SSIM rather than relying on one aggregate number.
 - Archive and checksum each Accepted source; byte-compare unchanged cases with the integration parent.
+- The LibreOffice render and canonical Microsoft Word PDF have been inspected page-by-page, with special attention to every displayed and inline equation.
 
 ### Appendix D. Supporting derivations and proof details
 
 **Marginal score.** Replacing \(M_i\) by \(M_i-1\) changes only \(\rho_i\), by \(-1/N_i\). Substitution into the affine score formula gives \(+100/(6N_i)\). No claim follows if feasibility changes.
 
-**Axial projection bound.** Orthographic projection onto the plane normal to axis \(j\) multiplies triangle area by \(\operatorname{abs}(n_j)\). Summation gives \(A\lVert n\rVert_1\). Since a unit normal has \(\lVert n\rVert_2=1\), the norm inequalities \(1\leq\lVert n\rVert_1\leq3^{1/2}\) give the stated interval. Perspective, clipping, and visibility are intentionally outside this derivation.
+**Axial projection bound.** Orthographic projection onto the plane normal to axis \(j\) multiplies triangle area by \(\operatorname{abs}(n_j)\). Each opposite camera pair has the same magnitude, so the six-camera sum is \(2A\lVert n\rVert_1\). Since a unit normal has \(\lVert n\rVert_2=1\), the norm inequalities \(1\leq\lVert n\rVert_1\leq3^{1/2}\) give \(2A\leq A^{\mathrm{proj}}\leq2(3^{1/2})A\). The implementation absorbs the constant two into the calibrated weight. Perspective, clipping, and visibility are intentionally outside this derivation.
 
 **Rounded-count uniqueness.** Exact scores for adjacent counts form a one-dimensional lattice with spacing \(\Delta_k=100/(6N_k)\). A displayed value with error at most \(\varepsilon\) corresponds to an interval of width \(2\varepsilon\). If that width is smaller than \(\Delta_k\), at most one lattice point lies in the interval.
 
@@ -793,6 +886,10 @@ Parameters were calibrated using specification-matching local rendering and froz
 **Similarity-invariant edge channel.** For \(p'=sRp+t\), an edge difference becomes \(sR(p_u-p_v)\), whose length is \(s\lVert p_u-p_v\rVert_2\). The root-mean-square scale \(L_E\) is multiplied by the same \(s\), so every normalized length is unchanged. Sorting removes enumeration order; deterministic quantization defines the finite stored channel.
 
 **Edge-flip vertex metric.** A pure flip changes only two face triples. The output coordinate set is identical before and after the operation, so its cardinality and both nearest-neighbor vertex-set distances are identical. Face normals, visibility, and manifold orientation are not implied and remain separately checked.
+
+**Duplicate-carrier invariance.** Because the face list \(F\) is unchanged, every indexed triangle and every surface-derived quantity is identical before and after augmentation. Exact-coordinate duplication gives \(X(P_{\mathrm{aug}})=X(P)\), changing multiplicity but not the coordinate set. Nearest-neighbor minima and maxima in either direction are therefore unchanged. An arbitrary unused point does not have this property and can increase the output-to-reference directed distance; the repository's synthetic tests exercise both cases.
+
+**Fail-closed replay induction.** Let \(\mathcal I(M)\) be the conjunction of all structural, count, checksum, and checkpoint invariants required of a replay state. Assume \(M_0\) satisfies \(\mathcal I\), and every transaction either commits \(M_{j+1}\) only after verifying \(\mathcal I(M_{j+1})\), or restores the preceding validated checkpoint. Induction on \(j\) shows that every externally visible checkpoint satisfies \(\mathcal I\): the base state satisfies it by assumption, and each step exposes either a newly verified state or the already verified predecessor. Consequently every finite prefix and the released state satisfy the stated predicates. Perceptual acceptance and the complete Hausdorff check are not included unless invoked as separate gates.
 
 ### Appendix E. Evidence ledger schema
 
@@ -817,3 +914,34 @@ The progression is retained as lineage context rather than main-text ablation ev
 | 20082703 | 93.830074 | Slender 7,400 and reference cache | [25, 4340, 2839, 3030, 7400, 16500] |
 
 ![Figure 9. Selected best-so-far Accepted submission trajectory from the generic plateau to submission 20082703.](figures/score_progression.png)
+
+### Appendix G. Complete paired Bunny rotation suite
+
+For deterministic orientation \(r\), define the paired rendered effect as
+
+$$\Delta_r=S_r^{\mathrm{cluster}}-S_r^{\mathrm{current}}.$$
+
+All values below are six-view mean combined SSIM at the shared 5,471-vertex target. Every paired delta is positive; this is a finite deterministic robustness statement for the sixteen pinned matrices, not a population-level statistical claim.
+
+**Table. Complete Bunny rotation-level combined SSIM and paired effect.**
+
+| Rotation | Current-face | Cluster-memory | Paired delta |
+|---:|---:|---:|---:|
+| 0 | 0.904745235616 | 0.907153528421 | +0.002408292805 |
+| 1 | 0.904868229757 | 0.907756717408 | +0.002888487651 |
+| 2 | 0.908704007840 | 0.911277915128 | +0.002573907288 |
+| 3 | 0.905323554976 | 0.908603123311 | +0.003279568335 |
+| 4 | 0.909467421287 | 0.912152464287 | +0.002685043000 |
+| 5 | 0.905060473378 | 0.907749075777 | +0.002688602399 |
+| 6 | 0.907898971904 | 0.911225404533 | +0.003326432629 |
+| 7 | 0.906133134628 | 0.908639133593 | +0.002505998965 |
+| 8 | 0.901589243525 | 0.904387457540 | +0.002798214015 |
+| 9 | 0.908342913608 | 0.910705913584 | +0.002362999976 |
+| 10 | 0.906848717620 | 0.909546835146 | +0.002698117526 |
+| 11 | 0.905383811947 | 0.908078617817 | +0.002694805870 |
+| 12 | 0.908086883320 | 0.910947771935 | +0.002860888615 |
+| 13 | 0.904009921272 | 0.906934233160 | +0.002924311888 |
+| 14 | 0.906276082262 | 0.908715832087 | +0.002439749825 |
+| 15 | 0.907328556404 | 0.910083690379 | +0.002755133975 |
+
+![Figure 10. Complete deterministic Bunny paired-rotation effects for cluster-normal memory versus the current-face control.](figures/bunny_rotation_deltas.png)

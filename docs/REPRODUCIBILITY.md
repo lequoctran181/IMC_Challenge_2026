@@ -127,7 +127,7 @@ The fail-closed sequence used in the project was:
 7. Require normal, depth, and combined SSIM diagnostics to meet the selected margin.
 8. Re-run the candidate from a clean process and hash its output.
 
-The official threshold is 0.9, but candidates near the threshold were treated as unsafe because proxy mismatch, floating-point ordering, and runtime variance can consume a small apparent margin.
+The official threshold of 0.9 applies to the six-view mean combined score, not separately to every view. Minimum-view combined is a diagnostic; selected branches used their own worst-view release margins during search. Candidates near the mean threshold were treated as unsafe because proxy mismatch, floating-point ordering, and runtime variance can consume a small apparent margin.
 
 The isolation, score-count decoding, invariant fingerprint, and acceptance-boundary search protocol is documented separately in [`HIDDEN_CONSTRAINT_WORKFLOW.md`](HIDDEN_CONSTRAINT_WORKFLOW.md). Its tables preserve the four evidence nouns: Official, Reconstructed, Experimental, and Inference.
 
@@ -142,3 +142,5 @@ The isolation, score-count decoding, invariant fingerprint, and acceptance-bound
 ## 7. Integrity and evidence records
 
 Immutable Kattis metadata lives in [`release/final/submission_record.json`](../release/final/submission_record.json). Mutable article hashes, its figure inventory, and the explicitly unfinalized standings snapshot live in [`release/article-v1.0.0/publication_manifest.json`](../release/article-v1.0.0/publication_manifest.json). Human-readable checksums are in [`release/final/MANIFEST.sha256`](../release/final/MANIFEST.sha256). The curated experiment trace and fixed schema live in [`paper/source/data/evidence_ledger.jsonl`](../paper/source/data/evidence_ledger.jsonl) and [`evidence_schema.json`](../paper/source/data/evidence_schema.json). Never overwrite the record of submission 20082703 with a rebuilt source; create a separately versioned publication manifest for article revisions.
+
+Full per-rotation Bunny scores, timing command scope, and solver-only RSS semantics are in [`local_proxy_metrics.json`](../paper/source/data/local_proxy_metrics.json). Upstream URLs, license summaries, canonical reference hashes, normalization and vertex-order rules, and explicit missing raw/conversion history are in [`proxy_provenance.json`](../paper/source/data/proxy_provenance.json). The exact payload-versus-code partition of the 130,973-byte source is in [`source_byte_breakdown.json`](../paper/source/data/source_byte_breakdown.json) and is checked by `tools/check_source_byte_breakdown.py`.

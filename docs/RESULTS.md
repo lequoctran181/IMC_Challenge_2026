@@ -49,7 +49,7 @@ The competition process contained many intertwined edits, so only interventions 
 
 1. **Cluster-normal memory.** In the same-parent 5,471-vertex Bunny public-proxy experiment, carrying additive original vertex-face-incidence normal evidence increased sixteen-rotation mean combined SSIM from 0.90625420 to 0.90899736 and reduced final support drift from 5.8627 to 5.0502 degrees. This is strong Experimental evidence for that proxy; hidden transfer remains Inference.
 2. **Reference cache on Slender.** Submission 20082666 in the 7,400 lineage completed 6/7, whereas cache-equipped submission 20082703 passed 7/7. Runtime causality remains Inference because the curated artifact does not contain a canonical geometry-equivalence audit for the failed source.
-3. **Structural replay.** The final Slender step reduced 400 vertices while preserving the other five output counts byte-for-byte relative to the selected lineage, isolating a score gain of exactly 0.017679526754 points under the published formula.
+3. **Structural replay.** The final Slender step reduced 400 vertices while leaving the other five output counts unchanged relative to the selected lineage, isolating a score gain of exactly 0.017679526754 points under the published formula.
 
 Important approaches that did **not** survive the validation funnel:
 
@@ -59,7 +59,7 @@ Important approaches that did **not** survive the validation funnel:
 - lowering target counts without structural search: frequent hidden perceptual failures;
 - proxy-only parameter wins: often failed a different rotation or the official hidden mesh.
 
-Negative results are preserved in the worker and orchestration directories instead of being silently removed. They document why the final method is hybrid.
+Negative results are preserved in campaign Git history and selected evidence records instead of being silently removed. They document why the final method is hybrid.
 
 ## Evidence policy
 

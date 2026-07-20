@@ -149,7 +149,10 @@ def final_results() -> None:
     retained = 100 * output / original
     compression = 100 - retained
 
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10.8, 4.4), gridspec_kw={"width_ratios": [1.35, 1]})
+    score_loss = retained / 6.0
+    fig, (ax1, ax2, ax3) = plt.subplots(
+        1, 3, figsize=(12.8, 4.4), gridspec_kw={"width_ratios": [1.25, 1.0, 1.0]}
+    )
     bars = ax1.bar(names, retained, color=[MID, ORANGE, MID, MID, GREEN, GREEN], width=.68)
     ax1.set_ylabel("Retained vertices (%)")
     ax1.set_ylim(0, 21)
@@ -174,6 +177,18 @@ def final_results() -> None:
         else:
             ax2.text(value-.25, y, f"{value:.2f}%  ({count:,})", ha="right", va="center", fontsize=8.4)
     ax2.set_title("Per-case compression", color=BLUE, fontweight="bold")
+
+    score_bars = ax3.barh(ypos, score_loss, color=[MID, ORANGE, MID, MID, GREEN, GREEN])
+    ax3.set_yticks(ypos, names)
+    ax3.invert_yaxis()
+    ax3.set_xlim(0, 3.45)
+    ax3.set_xlabel("Leaderboard score loss")
+    ax3.grid(axis="x", color="#DDDDDD", lw=.7)
+    ax3.spines[["top", "right"]].set_visible(False)
+    for bar, value in zip(score_bars, score_loss):
+        ax3.text(value + .055, bar.get_y() + bar.get_height() / 2, f"{value:.3f}",
+                 ha="left", va="center", fontsize=8.4)
+    ax3.set_title("Equal-weight score contribution", color=BLUE, fontweight="bold")
     fig.suptitle(
         f"Submission {release['submission_id']} - reconstructed score {release['reconstructed_score']:.10f}",
         fontsize=13, color=BLUE, fontweight="bold",

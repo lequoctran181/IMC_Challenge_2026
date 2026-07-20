@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "source_path": "submission/submission_20082703.cpp",
+  "source_sha256": "9195d42a73a6b85c8ae30d731f532175bdcd7c2982d421143d631b4c64b1a92c",
+  "source_bytes": 130973,
+  "source_limit_bytes": 131072,
+  "headroom_bytes": 99,
+  "method": "Exact UTF-8 lexical partition. Every C++ raw-string literal is identified by its delimiter; payload bodies, raw-literal framing, and all remaining source bytes form a disjoint partition.",
+  "components": [
+    {
+      "component": "Packed replay and coordinate payload bodies",
+      "bytes": 74211,
+      "interpretation": "The contents of 44 raw-string blocks used by case-specialized decoders."
+    },
+    {
+      "component": "Raw-string framing",
+      "bytes": 308,
+      "interpretation": "Opening and closing C++ raw-string delimiters, excluding identifiers and declaration syntax."
+    },
+    {
+      "component": "Executable code and declarations",
+      "bytes": 56454,
+      "interpretation": "Parser/output, guarded QEM, case recognition, replay decoders, runtime cache logic, macros, identifiers, and ordinary literals outside raw payload bodies."
+    }
+  ],
+  "raw_string_blocks": 44,
+  "payload_attribution_limitation": "The final source is macro-minified and several decoders share payload blocks, so a byte-exact semantic split among parser, QEM, individual cases, and cache logic would require subjective attribution. The lexical payload-versus-code partition is exact and machine-checked.",
+  "checker": "tools/check_source_byte_breakdown.py"
+}

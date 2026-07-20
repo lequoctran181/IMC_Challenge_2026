@@ -73,11 +73,11 @@ def main() -> None:
     crop = common_crop(images)
 
     panel_w, panel_h = 840, 590
-    gap, outer, title_h, caption_h = 24, 28, 72, 84
+    gap, outer, title_h, caption_h = 24, 28, 72, 175
     canvas = Image.new("RGB", (outer * 2 + 3 * panel_w + 2 * gap, outer * 2 + title_h + 2 * panel_h + gap + caption_h), "white")
     draw = ImageDraw.Draw(canvas)
     navy, gray = "#17365D", "#555555"
-    heading_font, panel_font, note_font = font(34, True), font(24, True), font(22)
+    heading_font, panel_font, note_font, legend_font = font(34, True), font(24, True), font(20), font(17)
 
     title = "Specification-matching diagnostic: Slender public proxy, view 4"
     box = draw.textbbox((0, 0), title, font=heading_font)
@@ -104,9 +104,43 @@ def main() -> None:
         "Public proxy only; not a hidden-test image.  Combined SSIM 0.91029594, "
         "normal 0.87685919, depth 0.94373269; this view is the minimum at 0.90355001."
     )
-    note_y = canvas.height - outer - caption_h + 18
+    note_y = canvas.height - outer - caption_h + 8
     note_box = draw.textbbox((0, 0), note, font=note_font)
     draw.text(((canvas.width - (note_box[2] - note_box[0])) / 2, note_y), note, fill=gray, font=note_font)
+
+    def gradient_bar(x: int, y: int, width: int, height: int, *, depth: bool) -> None:
+        for offset in range(width):
+            t = offset / max(1, width - 1)
+            if depth:
+                color = (round(255 * t), round(210 * (1 - t)), 35)
+            else:
+                color = (round(255 * t), round(255 * (1 - t)), 40)
+            draw.line((x + offset, y, x + offset, y + height), fill=color)
+        draw.rectangle((x, y, x + width, y + height), outline="#777777", width=1)
+
+    legend_y = note_y + 44
+    bar_w, bar_h = 620, 22
+    left_x, right_x = 250, canvas.width // 2 + 115
+    draw.text((left_x, legend_y), "Angular error", fill=navy, font=legend_font)
+    gradient_bar(left_x + 145, legend_y, bar_w, bar_h, depth=False)
+    angular_labels = ((0.0, "0°"), (5 / 60, "5°"), (15 / 60, "15°"), (30 / 60, "30°"), (1.0, "≥60°"))
+    for fraction, label in angular_labels:
+        x = left_x + 145 + round(bar_w * fraction)
+        draw.line((x, legend_y + bar_h, x, legend_y + bar_h + 7), fill="#555555", width=2)
+        box = draw.textbbox((0, 0), label, font=legend_font)
+        draw.text((x - (box[2] - box[0]) / 2, legend_y + bar_h + 8), label, fill=gray, font=legend_font)
+
+    draw.text((right_x, legend_y), "Normalized depth error", fill=navy, font=legend_font)
+    gradient_bar(right_x + 245, legend_y, bar_w, bar_h, depth=True)
+    for fraction, label in ((0.0, "0"), (0.5, "0.5 × view max"), (1.0, "view max")):
+        x = right_x + 245 + round(bar_w * fraction)
+        draw.line((x, legend_y + bar_h, x, legend_y + bar_h + 7), fill="#555555", width=2)
+        box = draw.textbbox((0, 0), label, font=legend_font)
+        draw.text((x - (box[2] - box[0]) / 2, legend_y + bar_h + 8), label, fill=gray, font=legend_font)
+
+    magenta_y = legend_y + 76
+    draw.rectangle((canvas.width // 2 - 260, magenta_y, canvas.width // 2 - 230, magenta_y + 22), fill=(255, 0, 255))
+    draw.text((canvas.width // 2 - 218, magenta_y), "magenta = foreground ownership disagreement", fill=gray, font=legend_font)
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
     canvas.save(args.output, dpi=(300, 300), optimize=True)
